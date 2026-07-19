@@ -373,11 +373,22 @@ export default function Playground({ questions }) {
   const [hasRun, setHasRun] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [expandedTopics, setExpandedTopics] = useState({});
+  const [sidebarTab, setSidebarTab] = useState('problem');
+  const [copiedLang, setCopiedLang] = useState('');
+
+  const handleCopySolution = (langCode, lang) => {
+    navigator.clipboard.writeText(langCode);
+    setCopiedLang(lang);
+    setTimeout(() => {
+      setCopiedLang('');
+    }, 1500);
+  };
 
   const toggleTopic = (cat) => setExpandedTopics(prev => ({ ...prev, [cat]: !prev[cat] }));
   
   const selectQuestion = async (q) => {
     setDrawerOpen(false);
+    setSidebarTab('problem');
     if (q.id === 'custom') {
       setActiveProblem(q);
       return;
@@ -996,6 +1007,59 @@ export default function Playground({ questions }) {
         .schema-details summary:hover {
           color: #f8fafc;
         }
+        /* ── Solutions Panel CSS ── */
+        .solution-details {
+          background: rgba(15, 23, 42, 0.4);
+          border: 1px solid var(--border-glass);
+          border-radius: 8px;
+          margin-bottom: 0.75rem;
+          overflow: hidden;
+        }
+        .solution-details summary {
+          padding: 0.75rem 1rem;
+          font-weight: 600;
+          font-size: 0.85rem;
+          color: #cbd5e1;
+          cursor: pointer;
+          user-select: none;
+          background: rgba(30, 41, 59, 0.3);
+          outline: none;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .solution-details summary::-webkit-details-marker {
+          display: none;
+        }
+        .solution-details[open] summary {
+          border-bottom: 1px solid var(--border-glass);
+          color: #f8fafc;
+        }
+        .solution-content {
+          padding: 1rem;
+          position: relative;
+          background: #080c16;
+        }
+        .copy-solution-btn {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          background: rgba(30, 41, 59, 0.8);
+          border: 1px solid var(--border-glass);
+          border-radius: 4px;
+          color: #94a3b8;
+          font-size: 0.72rem;
+          font-weight: 600;
+          padding: 0.25rem 0.55rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          z-index: 10;
+          outline: none;
+        }
+        .copy-solution-btn:hover {
+          color: #f8fafc;
+          background: var(--primary);
+        }
         .console-panel {
           height: 200px;
           min-height: 160px;
@@ -1105,86 +1169,160 @@ export default function Playground({ questions }) {
           <span className="drawer-toggle-icon">{drawerOpen ? '✕ Close' : '☰ Questions'}</span>
         </button>
 
-        {/* LEFT PANEL: Problem Description */}
+        {/* LEFT PANEL: Problem Description & Solutions */}
         <div className="playground-sidebar">
-          <div className="sidebar-header">
-            <span className="sidebar-header-title">Problem</span>
-            <span className={`diff-badge diff-${(activeProblem.difficulty||'easy').toLowerCase()}`}>
+          <div className="sidebar-header" style={{ padding: '0.5rem 1.25rem', gap: '1rem', borderBottom: '1px solid var(--border-glass)', display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              <button
+                onClick={() => setSidebarTab('problem')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: sidebarTab === 'problem' ? '#f8fafc' : '#94a3b8',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  padding: '0.25rem 0',
+                  cursor: 'pointer',
+                  borderBottom: sidebarTab === 'problem' ? '2px solid var(--primary)' : '2px solid transparent',
+                  outline: 'none',
+                  transition: 'all 0.2s'
+                }}
+              >
+                Problem
+              </button>
+              <button
+                onClick={() => setSidebarTab('solution')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: sidebarTab === 'solution' ? '#f8fafc' : '#94a3b8',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  padding: '0.25rem 0',
+                  cursor: 'pointer',
+                  borderBottom: sidebarTab === 'solution' ? '2px solid var(--primary)' : '2px solid transparent',
+                  outline: 'none',
+                  transition: 'all 0.2s'
+                }}
+              >
+                Solution
+              </button>
+            </div>
+            <span className={`diff-badge diff-${(activeProblem.difficulty||'easy').toLowerCase()}`} style={{ marginLeft: 'auto' }}>
               {activeProblem.difficulty}
             </span>
           </div>
+
           <div className="sidebar-section" style={{ flex: 1, overflowY: 'auto' }}>
-            <h3 className="problem-title">{activeProblem.title}</h3>
-            <p className="problem-desc" dangerouslySetInnerHTML={{ __html: activeProblem.description }} />
+            {sidebarTab === 'problem' ? (
+              <>
+                <h3 className="problem-title">{activeProblem.title}</h3>
+                <p className="problem-desc" dangerouslySetInnerHTML={{ __html: activeProblem.description }} />
 
-            {/* SQL Table Reference Helper */}
-            {isSqlQuestion && (
-              <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
-                <h4 style={{ color: '#0284c7', fontSize: '0.85rem', marginBottom: '0.75rem', fontWeight: 700 }}>RELATIONAL SCHEMA REFERENCE</h4>
-                
-                <details className="schema-details" open>
-                  <summary>Table: employees</summary>
-                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                    <tbody>
-                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                      <tr><td>name</td><td>TEXT</td></tr>
-                      <tr><td>department_id (FK)</td><td>INTEGER</td></tr>
-                      <tr><td>salary</td><td>INTEGER</td></tr>
-                      <tr><td>manager_id</td><td>INTEGER</td></tr>
-                      <tr><td>hire_date</td><td>TEXT</td></tr>
-                    </tbody>
-                  </table>
-                </details>
+                {/* SQL Table Reference Helper */}
+                {isSqlQuestion && (
+                  <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+                    <h4 style={{ color: '#0284c7', fontSize: '0.85rem', marginBottom: '0.75rem', fontWeight: 700 }}>RELATIONAL SCHEMA REFERENCE</h4>
+                    
+                    <details className="schema-details" open>
+                      <summary>Table: employees</summary>
+                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                        <tbody>
+                          <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                          <tr><td>name</td><td>TEXT</td></tr>
+                          <tr><td>department_id (FK)</td><td>INTEGER</td></tr>
+                          <tr><td>salary</td><td>INTEGER</td></tr>
+                          <tr><td>manager_id</td><td>INTEGER</td></tr>
+                          <tr><td>hire_date</td><td>TEXT</td></tr>
+                        </tbody>
+                      </table>
+                    </details>
 
-                <details className="schema-details">
-                  <summary>Table: departments</summary>
-                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                    <tbody>
-                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                      <tr><td>department_name</td><td>TEXT</td></tr>
-                      <tr><td>location</td><td>TEXT</td></tr>
-                    </tbody>
-                  </table>
-                </details>
+                    <details className="schema-details">
+                      <summary>Table: departments</summary>
+                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                        <tbody>
+                          <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                          <tr><td>department_name</td><td>TEXT</td></tr>
+                          <tr><td>location</td><td>TEXT</td></tr>
+                        </tbody>
+                      </table>
+                    </details>
 
-                <details className="schema-details">
-                  <summary>Table: projects</summary>
-                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                    <tbody>
-                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                      <tr><td>project_name</td><td>TEXT</td></tr>
-                      <tr><td>budget</td><td>INTEGER</td></tr>
-                    </tbody>
-                  </table>
-                </details>
+                    <details className="schema-details">
+                      <summary>Table: projects</summary>
+                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                        <tbody>
+                          <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                          <tr><td>project_name</td><td>TEXT</td></tr>
+                          <tr><td>budget</td><td>INTEGER</td></tr>
+                        </tbody>
+                      </table>
+                    </details>
 
-                <details className="schema-details">
-                  <summary>Table: employee_projects</summary>
-                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                    <tbody>
-                      <tr><td>employee_id (PK, FK)</td><td>INTEGER</td></tr>
-                      <tr><td>project_id (PK, FK)</td><td>INTEGER</td></tr>
-                      <tr><td>hours_worked</td><td>INTEGER</td></tr>
-                    </tbody>
-                  </table>
-                </details>
+                    <details className="schema-details">
+                      <summary>Table: employee_projects</summary>
+                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                        <tbody>
+                          <tr><td>employee_id (PK, FK)</td><td>INTEGER</td></tr>
+                          <tr><td>project_id (PK, FK)</td><td>INTEGER</td></tr>
+                          <tr><td>hours_worked</td><td>INTEGER</td></tr>
+                        </tbody>
+                      </table>
+                    </details>
 
-                <details className="schema-details">
-                  <summary>Table: orders</summary>
-                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                    <tbody>
-                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                      <tr><td>customer_id (FK)</td><td>INTEGER</td></tr>
-                      <tr><td>order_date</td><td>TEXT</td></tr>
-                      <tr><td>total_amount</td><td>REAL</td></tr>
-                    </tbody>
-                  </table>
-                </details>
+                    <details className="schema-details">
+                      <summary>Table: orders</summary>
+                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                        <tbody>
+                          <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                          <tr><td>customer_id (FK)</td><td>INTEGER</td></tr>
+                          <tr><td>order_date</td><td>TEXT</td></tr>
+                          <tr><td>total_amount</td><td>REAL</td></tr>
+                        </tbody>
+                      </table>
+                    </details>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="solutions-panel" style={{ padding: '0.5rem 0' }}>
+                <h3 className="problem-title" style={{ marginBottom: '1.25rem', fontSize: '1.1rem' }}>Solutions</h3>
+                {activeProblem.solutions ? (
+                  Object.entries(activeProblem.solutions)
+                    .filter(([lang, code]) => code && code.trim())
+                    .map(([lang, code]) => (
+                      <details className="solution-details" key={lang}>
+                        <summary>
+                          <span style={{ textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
+                            {lang === 'cpp' ? 'C++' : lang === 'python' ? 'Python 3' : lang === 'java' ? 'Java' : lang === 'mysql' ? 'MySQL' : lang === 'postgres' ? 'PostgreSQL' : lang}
+                          </span>
+                        </summary>
+                        <div className="solution-content">
+                          <button 
+                            className="copy-solution-btn"
+                            onClick={() => handleCopySolution(code, lang)}
+                          >
+                            {copiedLang === lang ? '✓ Copied' : '📋 Copy'}
+                          </button>
+                          <pre style={{ margin: 0, padding: 0, overflowX: 'auto', fontSize: '0.8rem', fontFamily: 'Courier New, Courier, monospace', lineHeight: 1.5, color: '#e2e8f0', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+                            <code>{code}</code>
+                          </pre>
+                        </div>
+                      </details>
+                    ))
+                ) : (
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>No solutions pre-generated for this task.</p>
+                )}
               </div>
             )}
           </div>

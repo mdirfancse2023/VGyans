@@ -1440,6 +1440,117 @@ def get_problem_details(title, category):
 
     return make_leetcode_style_html(desc, input_fmt, output_fmt, examples, constraints), default_input, params, ret_type
 
+def get_solutions_dict(title, category, func_name, params, ret_type):
+    t_lower = title.lower()
+    first_param = params[0][0] if params else "nums"
+    java_func = camel_case(func_name)
+    cpp_func = camel_case(func_name)
+    
+    # Defaults
+    py_sol = ""
+    java_sol = ""
+    cpp_sol = ""
+    sql_sol = ""
+    
+    # ── Category-level generic fallbacks ──────────────────────────────────────
+    if category.startswith("SQL"):
+        # SQL Solutions
+        if "department" in t_lower or "dept" in t_lower:
+            sql_sol = "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+        elif "project" in t_lower or "hours" in t_lower or "budget" in t_lower:
+            sql_sol = "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+        elif "manager" in t_lower or "boss" in t_lower:
+            sql_sol = "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+        elif "order" in t_lower or "customer" in t_lower or "price" in t_lower:
+            sql_sol = "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;"
+        elif "salary" in t_lower or "earner" in t_lower or "paid" in t_lower or "earn" in t_lower or "hired" in t_lower or "hire" in t_lower:
+            sql_sol = "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+        else:
+            sql_sol = "SELECT * FROM employees LIMIT 5;"
+            
+    else:
+        # DSA Solutions
+        # 1. Two Sum
+        if "two sum" in t_lower:
+            py_sol = f"def {func_name}(nums, target):\n    seen = {{}}\n    for i, num in enumerate(nums):\n        diff = target - num\n        if diff in seen:\n            return [seen[diff], i]\n        seen[num] = i\n    return []"
+            java_sol = f"public static int[] {java_func}(int[] nums, int target) {{\n        Map<Integer, Integer> map = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {{\n            int complement = target - nums[i];\n            if (map.containsKey(complement)) {{\n                return new int[] {{ map.get(complement), i }};\n            }}\n            map.put(nums[i], i);\n        }}\n        return new int[] {{}};\n    }}"
+            cpp_sol = f"vector<int> {cpp_func}(vector<int>& nums, int target) {{\n    unordered_map<int, int> seen;\n    for (int i = 0; i < nums.size(); i++) {{\n        int diff = target - nums[i];\n        if (seen.count(diff)) {{\n            return {{seen[diff], i}};\n        }}\n        seen[nums[i]] = i;\n    }}\n    return {{}};\n}}"
+        # 2. Contains Duplicate
+        elif "contains duplicate" in t_lower or "duplicate" in t_lower:
+            py_sol = f"def {func_name}(nums):\n    return len(nums) != len(set(nums))"
+            java_sol = f"public static boolean {java_func}(int[] nums) {{\n        Set<Integer> set = new HashSet<>();\n        for (int num : nums) {{\n            if (!set.add(num)) return true;\n        }}\n        return false;\n    }}"
+            cpp_sol = f"bool {cpp_func}(vector<int>& nums) {{\n    unordered_set<int> set;\n    for (int num : nums) {{\n        if (set.count(num)) return true;\n        set.insert(num);\n    }}\n    return false;\n}}"
+        # 3. Anagram
+        elif "anagram" in t_lower:
+            py_sol = f"def {func_name}(s, t):\n    return sorted(s) == sorted(t)"
+            java_sol = f"public static boolean {java_func}(String s, String t) {{\n        char[] sArr = s.toCharArray();\n        char[] tArr = t.toCharArray();\n        Arrays.sort(sArr);\n        Arrays.sort(tArr);\n        return Arrays.equals(sArr, tArr);\n    }}"
+            cpp_sol = f"bool {cpp_func}(string s, string t) {{\n    sort(s.begin(), s.end());\n    sort(t.begin(), t.end());\n    return s == t;\n}}"
+        # 4. Palindrome Check
+        elif "palindrome" in t_lower:
+            py_sol = f"def {func_name}(s):\n    clean = ''.join(c.lower() for c in str(s) if c.isalnum())\n    return clean == clean[::-1]"
+            java_sol = f"public static boolean {java_func}(String s) {{\n        String clean = s.replaceAll(\"[^a-zA-Z0-9]\", \"\").toLowerCase();\n        int l = 0, r = clean.length() - 1;\n        while (l < r) {{\n            if (clean.charAt(l++) != clean.charAt(r--)) return false;\n        }}\n        return true;\n    }}"
+            cpp_sol = f"bool {cpp_func}(string s) {{\n    string clean = \"\";\n    for (char c : s) {{\n        if (isalnum(c)) clean += tolower(c);\n    }}\n    int l = 0, r = clean.length() - 1;\n    while (l < r) {{\n        if (clean[l++] != clean[r--]) return false;\n    }}\n    return true;\n}}"
+        # 5. Reverse String
+        elif "reverse string" in t_lower:
+            py_sol = f"def {func_name}(s):\n    return s[::-1]"
+            java_sol = f"public static String {java_func}(String s) {{\n        return new StringBuilder(s).reverse().toString();\n    }}"
+            cpp_sol = f"string {cpp_func}(string s) {{\n    reverse(s.begin(), s.end());\n    return s;\n}}"
+        # 6. Binary Search
+        elif "binary search" in t_lower or "search in" in t_lower:
+            py_sol = f"def {func_name}(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1"
+            java_sol = f"public static int {java_func}(int[] nums, int target) {{\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {{\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }}\n        return -1;\n    }}"
+            cpp_sol = f"int {cpp_func}(vector<int>& nums, int target) {{\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {{\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }}\n    return -1;\n}}"
+        # 7. Fibonacci Number
+        elif "fibonacci" in t_lower:
+            py_sol = f"def {func_name}(n):\n    if n <= 1: return n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b"
+            java_sol = f"public static int {java_func}(int n) {{\n        if (n <= 1) return n;\n        int a = 0, b = 1;\n        for (int i = 2; i <= n; i++) {{\n            int temp = b;\n            b = a + b;\n            a = temp;\n        }}\n        return b;\n    }}"
+            cpp_sol = f"int {cpp_func}(int n) {{\n    if (n <= 1) return n;\n    int a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {{\n        int temp = b;\n        b = a + b;\n        a = temp;\n    }}\n    return b;\n}}"
+        # 8. Climbing Stairs
+        elif "climbing stairs" in t_lower or "climb stairs" in t_lower:
+            py_sol = f"def {func_name}(n):\n    if n <= 2: return n\n    a, b = 1, 2\n    for _ in range(3, n + 1):\n        a, b = b, a + b\n    return b"
+            java_sol = f"public static int {java_func}(int n) {{\n        if (n <= 2) return n;\n        int a = 1, b = 2;\n        for (int i = 3; i <= n; i++) {{\n            int temp = b;\n            b = a + b;\n            a = temp;\n        }}\n        return b;\n    }}"
+            cpp_sol = f"int {cpp_func}(int n) {{\n    if (n <= 2) return n;\n    int a = 1, b = 2;\n    for (int i = 3; i <= n; i++) {{\n        int temp = b;\n        b = a + b;\n        a = temp;\n    }}\n    return b;\n}}"
+        # 9. Generic Fallbacks by ret_type
+        else:
+            # Python generic
+            if ret_type == "list_int":
+                py_sol = f"def {func_name}({', '.join(p[0] for p in params)}):\n    return sorted({first_param})"
+            elif ret_type == "bool":
+                py_sol = f"def {func_name}({', '.join(p[0] for p in params)}):\n    return True"
+            elif ret_type == "str":
+                py_sol = f"def {func_name}({', '.join(p[0] for p in params)}):\n    return \"success\""
+            else:
+                py_sol = f"def {func_name}({', '.join(p[0] for p in params)}):\n    return len({first_param}) if isinstance({first_param}, (list, str)) else 1"
+                
+            # Java generic
+            jparams_str = ", ".join(f"{'int[]' if p[1]=='list_int' else 'int' if p[1]=='int' else 'String'} {p[0]}" for p in params)
+            if ret_type == "list_int":
+                java_sol = f"public static int[] {java_func}({jparams_str}) {{\n        int[] res = Arrays.copyOf({first_param}, {first_param}.length);\n        Arrays.sort(res);\n        return res;\n    }}"
+            elif ret_type == "bool":
+                java_sol = f"public static boolean {java_func}({jparams_str}) {{\n        return true;\n    }}"
+            elif ret_type == "str":
+                java_sol = f"public static String {java_func}({jparams_str}) {{\n        return \"success\";\n    }}"
+            else:
+                java_sol = f"public static int {java_func}({jparams_str}) {{\n        return 1;\n    }}"
+                
+            # C++ generic
+            cparams_str = ", ".join(f"{'vector<int>&' if p[1]=='list_int' else 'int' if p[1]=='int' else 'string'} {p[0]}" for p in params)
+            if ret_type == "list_int":
+                cpp_sol = f"vector<int> {cpp_func}({cparams_str}) {{\n    vector<int> res = {first_param};\n    sort(res.begin(), res.end());\n    return res;\n}}"
+            elif ret_type == "bool":
+                cpp_sol = f"bool {cpp_func}({cparams_str}) {{\n    return true;\n}}"
+            elif ret_type == "str":
+                cpp_sol = f"string {cpp_func}({cparams_str}) {{\n    return \"success\";\n}}"
+            else:
+                cpp_sol = f"int {cpp_func}({cparams_str}) {{\n    return 1;\n}}"
+                
+    return {
+        "python": py_sol,
+        "java": java_sol,
+        "cpp": cpp_sol,
+        "sql": sql_sol
+    }
+
 # Setup questions lists
 dsa_categories = {
     "Arrays": 30,
@@ -1497,6 +1608,7 @@ for category, count in dsa_categories.items():
             
         func_name = snake_case(title)
         desc_html, default_input, params, ret_type = get_problem_details(title, f"DSA - {category}")
+        sols = get_solutions_dict(title, f"DSA - {category}", func_name, params, ret_type)
 
         questions.append({
             "id": f"dsa-{num_str}",
@@ -1510,7 +1622,8 @@ for category, count in dsa_categories.items():
                 "java": make_java_template(func_name, params, ret_type),
                 "cpp": make_cpp_template(func_name, params, ret_type),
                 "sql": f"-- This challenge is categorized under {category}.\n-- Select C++, Java, or Python to run this algorithm."
-            }
+            },
+            "solutions": sols
         })
         id_counter += 1
 
@@ -1545,6 +1658,7 @@ for category, count in sql_categories.items():
             title = names[idx - 1] if idx <= len(names) else f"Window Function Query {idx}"
 
         desc_html, _, _, _ = get_problem_details(title, f"SQL - {category}")
+        sols = get_solutions_dict(title, f"SQL - {category}", "", [], "")
 
         questions.append({
             "id": f"sql-{num_str}",
@@ -1556,6 +1670,10 @@ for category, count in sql_categories.items():
             "templates": {
                 "mysql": f"-- Write your {category} SQL query here\n-- Use MySQL syntax\n",
                 "postgres": f"-- Write your {category} SQL query here\n-- Use PostgreSQL syntax\n"
+            },
+            "solutions": {
+                "mysql": sols["sql"],
+                "postgres": sols["sql"]
             }
         })
         sql_counter += 1
