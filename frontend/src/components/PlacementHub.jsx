@@ -321,10 +321,15 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
 
   return (
     <div style={{ marginBottom: '3rem' }}>
-      <div className="section-header" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem' }}>
-        <div className="section-info" style={{ flex: '1 1 500px' }}>
-          <h2 className="section-title">Placement Prep <span className="text-gradient">Hub & Resources</span></h2>
-          <p className="section-desc">Study materials, onboarding tracker, and technical flashcards — all in one place.</p>
+      {/* Compact section header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+        <div>
+          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
+            Placement Prep <span className="text-gradient">Hub & Resources</span>
+          </h2>
+          <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', margin: '0.2rem 0 0' }}>
+            Study materials, onboarding tracker, and technical flashcards — all in one place.
+          </p>
         </div>
       </div>
 
@@ -345,49 +350,40 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
 
       {/* ── RESOURCES ── */}
       {activeSection === 'resources' && (
-        <>
-          <div className="filters-wrapper" style={{ marginBottom: '1.5rem' }}>
-            <div className="filter-tabs">
-              {companies.map((comp) => (
-                <button key={comp} className={`filter-tab ${selectedCompany === comp ? 'active' : ''}`} onClick={() => setSelectedCompany(comp)}>
-                  {comp}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="grid-container">
-            {filteredResources.map((res) => {
-              const isBlog = res.downloadUrl && res.downloadUrl.startsWith('/notes/');
-              return (
-                <div key={res.id} className="glass-card resource-card">
-                  <div className="resource-header">
-                    <span className="badge badge-primary">{res.company}</span>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{res.category}</span>
-                  </div>
-                  <h3 className="resource-title">{res.title}</h3>
-                  <p className="resource-desc">{res.description}</p>
-                  <div className="resource-tags">
-                    {res.tags.map((tag) => (
-                      <span key={tag} className="badge badge-secondary" style={{ fontSize: '0.65rem' }}>#{tag}</span>
-                    ))}
-                  </div>
-                  <div className="resource-action">
-                    <button className="btn btn-secondary" style={{ width: '100%', gap: '0.5rem', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); handleAction(res); }}>
-                      {isBlog ? (
-                        <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Read Study Blog</>
-                      ) : (
-                        <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View PDF Resource</>
-                      )}
-                    </button>
-                  </div>
+
+        <div className="grid-container">
+          {resources.map((res) => {
+            const isBlog = res.downloadUrl && res.downloadUrl.startsWith('/notes/');
+            return (
+              <div key={res.id} className="glass-card resource-card">
+                <div className="resource-header">
+                  <span className="badge badge-primary">{res.company}</span>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{res.category}</span>
                 </div>
-              );
-            })}
-          </div>
-        </>
+                <h3 className="resource-title">{res.title}</h3>
+                <p className="resource-desc">{res.description}</p>
+                <div className="resource-tags">
+                  {res.tags.map((tag) => (
+                    <span key={tag} className="badge badge-secondary" style={{ fontSize: '0.65rem' }}>#{tag}</span>
+                  ))}
+                </div>
+                <div className="resource-action">
+                  <button className="btn btn-secondary" style={{ width: '100%', gap: '0.5rem', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); handleAction(res); }}>
+                    {isBlog ? (
+                      <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Read Study Blog</>
+                    ) : (
+                      <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View PDF Resource</>
+                    )}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
 
       {/* ── ONBOARDING TRACKER ── */}
+
       {activeSection === 'tracker' && (
         <div className="glass-panel tracker-container">
           {companyKeys.length === 0 ? (
