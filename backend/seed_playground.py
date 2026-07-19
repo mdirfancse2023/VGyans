@@ -4,8 +4,7 @@ os.environ["GRPC_DNS_RESOLVER"] = "native"
 import re
 
 def camel_case(s):
-    s = re.sub(r'[^a-zA-Z0-9 ]', '', s)
-    words = s.split()
+    words = [w for w in re.split(r'[^a-zA-Z0-9]', s) if w]
     if not words:
         return ''
     return words[0].lower() + ''.join(w.capitalize() for w in words[1:])

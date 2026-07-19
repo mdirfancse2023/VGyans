@@ -348,11 +348,24 @@ const reconstructFullCode = (userEditedCode, originalTemplate) => {
   const { startMarker, endMarker, hiddenContent } = driverInfo;
   
   if (originalTemplate.includes('public class Main')) {
-    const lastBraceIndex = userEditedCode.lastIndexOf('}');
-    if (lastBraceIndex !== -1) {
-      return userEditedCode.substring(0, lastBraceIndex) + 
-             "\n\n  " + startMarker + hiddenContent + endMarker + "\n" + 
-             userEditedCode.substring(lastBraceIndex);
+    // If user edited code already includes public static void main, don't duplicate driver main
+    if (userEditedCode.includes('public static void main(')) {
+      return userEditedCode;
+    }
+    
+    // If user code has public class Main, insert driver code before the last closing brace
+    if (userEditedCode.includes('public class Main')) {
+      const lastBraceIndex = userEditedCode.lastIndexOf('}');
+      if (lastBraceIndex !== -1) {
+        return userEditedCode.substring(0, lastBraceIndex) + 
+               "\n\n  " + startMarker + hiddenContent + endMarker + "\n" + 
+               userEditedCode.substring(lastBraceIndex);
+      }
+    } else {
+      // If user code is just method definition, wrap it cleanly in Main class
+      return "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n  " + 
+             userEditedCode + "\n\n  " + 
+             startMarker + hiddenContent + endMarker + "\n}";
     }
   }
   
@@ -379,6 +392,16 @@ export default function Playground({ questions }) {
   const handleCopySolution = (langCode, lang) => {
     navigator.clipboard.writeText(langCode);
     setCopiedLang(lang);
+    setTimeout(() => {
+      setCopiedLang('');
+    }, 1500);
+  };
+
+  const handleApplySolution = (lang, langCode) => {
+    const targetLang = (lang === 'cpp') ? 'cpp' : (lang === 'java') ? 'java' : (lang === 'mysql' || lang === 'postgres') ? 'sql' : 'python';
+    setActiveLang(targetLang);
+    setCode(langCode);
+    setCopiedLang(`applied_${lang}`);
     setTimeout(() => {
       setCopiedLang('');
     }, 1500);
@@ -1308,12 +1331,22 @@ export default function Playground({ questions }) {
                           </span>
                         </summary>
                         <div className="solution-content">
-                          <button 
-                            className="copy-solution-btn"
-                            onClick={() => handleCopySolution(code, lang)}
-                          >
-                            {copiedLang === lang ? '✓ Copied' : '📋 Copy'}
-                          </button>
+                          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                            <button 
+                              className="copy-solution-btn"
+                              onClick={() => handleCopySolution(code, lang)}
+                              style={{ position: 'static' }}
+                            >
+                              {copiedLang === lang ? '✓ Copied' : '📋 Copy'}
+                            </button>
+                            <button 
+                              className="copy-solution-btn"
+                              onClick={() => handleApplySolution(lang, code)}
+                              style={{ position: 'static', background: 'var(--primary)', color: '#fff', borderColor: 'var(--primary)' }}
+                            >
+                              {copiedLang === `applied_${lang}` ? '✓ Loaded into Editor' : '⚡ Apply to Editor'}
+                            </button>
+                          </div>
                           <pre style={{ margin: 0, padding: 0, overflowX: 'auto', fontSize: '0.8rem', fontFamily: 'Courier New, Courier, monospace', lineHeight: 1.5, color: '#e2e8f0', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
                             <code>{code}</code>
                           </pre>
