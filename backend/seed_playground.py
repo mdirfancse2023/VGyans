@@ -1246,6 +1246,10 @@ for q in questions:
     })
 
 def inject_questions(file_path):
+    dir_name = os.path.dirname(file_path)
+    if dir_name:
+        os.makedirs(dir_name, exist_ok=True)
+        
     if os.path.exists(file_path):
         try:
             with open(file_path, "r", encoding="utf-8") as f:
@@ -1261,7 +1265,7 @@ def inject_questions(file_path):
         json.dump(data, f, indent=2)
     print(f"Injected and saved lightweight questions list to: {file_path}")
 
-inject_questions("backend/data.json")
+inject_questions("backend/data/data.json")
 inject_questions("frontend/public/data.json")
 
 # Upload full details to Firebase Firestore

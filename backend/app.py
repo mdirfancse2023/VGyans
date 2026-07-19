@@ -47,6 +47,7 @@ async def block_ai_agents(request, call_next):
 
 DATA_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
+    "data",
     "data.json"
 )
 

@@ -18,6 +18,7 @@ OUTPUT_PATH = os.path.join(
 )
 BACKEND_OUTPUT_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
+    "data",
     "data.json"
 )
 
@@ -386,7 +387,7 @@ def generate_mock_data():
 
     notes_list = []
     try:
-        local_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
+        local_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "data.json")
         if os.path.exists(local_data_path):
             with open(local_data_path, "r", encoding="utf-8") as f:
                 notes_list = json.load(f).get("notes", [])
@@ -586,7 +587,7 @@ def fetch_youtube_data():
 
         if not notes_list:
             try:
-                local_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
+                local_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "data.json")
                 if os.path.exists(local_data_path):
                     with open(local_data_path, "r", encoding="utf-8") as f:
                         notes_list = json.load(f).get("notes", [])
@@ -595,7 +596,7 @@ def fetch_youtube_data():
 
         if not questions_list:
             try:
-                local_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
+                local_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "data.json")
                 if os.path.exists(local_data_path):
                     with open(local_data_path, "r", encoding="utf-8") as f:
                         questions_list = json.load(f).get("playground_questions", [])
