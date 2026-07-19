@@ -1954,7 +1954,6 @@ export default function Playground({ questions }) {
                     <>
                       {stdout && (
                         <div className="terminal-stdout">
-                          <div style={{ color: '#64748b', fontSize: '0.72rem', marginBottom: '0.3rem', fontFamily: 'sans-serif', fontWeight: 600, textTransform: 'uppercase' }}>STDOUT</div>
                           <pre style={{ margin: 0, padding: '0.4rem 0.6rem', background: 'rgba(0,0,0,0.3)', borderRadius: '4px', color: '#4ade80', fontFamily: 'monospace', fontSize: '0.82rem', whiteSpace: 'pre-wrap' }}>{stdout}</pre>
                         </div>
                       )}
