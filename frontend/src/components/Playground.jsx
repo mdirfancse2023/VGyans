@@ -370,6 +370,7 @@ export default function Playground({ questions }) {
   const [stderr, setStderr] = useState('');
   const [isRunning, setIsRunning] = useState(false);
   const [consoleTab, setConsoleTab] = useState('output');
+  const [hasRun, setHasRun] = useState(false);
 
   const codeAreaRef = useRef(null);
   const preRef = useRef(null);
@@ -389,6 +390,7 @@ export default function Playground({ questions }) {
       setStdin(activeProblem.input || '');
       setStdout('');
       setStderr('');
+      setHasRun(false);
     }
   }, [activeProblem, activeLang]);
 
@@ -470,6 +472,7 @@ export default function Playground({ questions }) {
     setIsRunning(true);
     setStdout('');
     setStderr('');
+    setHasRun(false);
     setConsoleTab('output');
     try {
       const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
@@ -489,11 +492,14 @@ export default function Playground({ questions }) {
       if (response.ok) {
         setStdout(result.stdout || '');
         setStderr(result.stderr || '');
+        setHasRun(true);
       } else {
         setStderr(result.detail || result.error || 'Server error occurred during compilation.');
+        setHasRun(true);
       }
     } catch (err) {
       setStderr(`Network Error: ${err.message}`);
+      setHasRun(true);
     } finally {
       setIsRunning(false);
     }
@@ -723,6 +729,44 @@ export default function Playground({ questions }) {
         .schema-details summary:hover {
           color: #f8fafc;
         }
+        .console-panel {
+          height: 200px;
+          min-height: 160px;
+          display: flex;
+          flex-direction: column;
+          background: #03050a;
+          border-top: 1px solid var(--border-glass);
+        }
+        .console-tabs {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          background: rgba(7, 10, 19, 0.6);
+          border-bottom: 1px solid var(--border-glass);
+          padding: 0 0.5rem;
+          flex-shrink: 0;
+        }
+        .console-tab {
+          padding: 0.45rem 1rem;
+          font-size: 0.78rem;
+          font-weight: 600;
+          color: #475569;
+          background: transparent;
+          border: none;
+          border-bottom: 2px solid transparent;
+          cursor: pointer;
+          transition: color 0.2s, border-color 0.2s;
+          letter-spacing: 0.03em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+        .console-tab:hover {
+          color: #94a3b8;
+        }
+        .console-tab.active {
+          color: #f8fafc;
+          border-bottom-color: #3b82f6;
+        }
       `}</style>
 
       <div className="playground-container">
@@ -754,7 +798,7 @@ export default function Playground({ questions }) {
             <p className="problem-desc" dangerouslySetInnerHTML={{ __html: activeProblem.description }} />
 
             {/* SQL Table Reference Helper */}
-            {activeLang === 'sql' && (
+            {isSqlQuestion && (
               <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
                 <h4 style={{ color: '#0284c7', fontSize: '0.85rem', marginBottom: '0.75rem', fontWeight: 700 }}>RELATIONAL SCHEMA REFERENCE</h4>
                 
@@ -976,8 +1020,11 @@ export default function Playground({ questions }) {
                       {stderr}
                     </div>
                   )}
-                  {!stdout && !stderr && (
+                  {!stdout && !stderr && !isRunning && !hasRun && (
                     <p style={{ color: '#475569', fontSize: '0.9rem', fontStyle: 'italic', margin: 0 }}>Click "Run Code" to compile and execute program output...</p>
+                  )}
+                  {!stdout && !stderr && !isRunning && hasRun && (
+                    <p style={{ color: '#64748b', fontSize: '0.9rem', fontStyle: 'italic', margin: 0 }}>✓ Code ran successfully — no output produced.</p>
                   )}
                 </>
               )}
