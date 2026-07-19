@@ -324,7 +324,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
       {/* Compact section header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
         <div>
-          <h2 className="section-title" style={{ fontSize: '1.75rem', margin: 0 }}>
+          <h2 className="section-title" style={{ margin: 0 }}>
             Placement Prep <span className="text-gradient">Hub &amp; Resources</span>
           </h2>
           <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', margin: '0.3rem 0 0' }}>
