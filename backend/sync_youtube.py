@@ -98,41 +98,48 @@ def fetch_youtube_videos():
     ctx = ssl._create_unverified_context()
     videos = []
     
-    # 1. Try official YouTube Data API v3 Search endpoint
+    # 1. Try official YouTube Data API v3 PlaylistItems (Uploads playlist)
     if YOUTUBE_API_KEY:
         try:
-            print("Fetching videos from YouTube Data API v3...")
-            url = f"https://www.googleapis.com/youtube/v3/search?key={YOUTUBE_API_KEY}&channelId={CHANNEL_ID}&part=snippet,id&order=date&maxResults=50"
-            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=10, context=ctx) as resp:
-                data = json.loads(resp.read().decode('utf-8'))
-                items = data.get("items", [])
-                for item in items:
-                    v_id = item.get("id", {}).get("videoId")
-                    if not v_id:
-                        continue
-                    snip = item.get("snippet", {})
-                    title = snip.get("title", "")
-                    # Unescape HTML entities in title
-                    title = title.replace("&amp;", "&").replace("&quot;", '"').replace("&#39;", "'")
-                    desc = snip.get("description", "")
-                    pub_at = snip.get("publishedAt", "")
-                    thumb = snip.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{v_id}/hqdefault.jpg"
-                    
-                    videos.append({
-                        "id": v_id,
-                        "title": title,
-                        "description": desc or title,
-                        "thumbnailUrl": thumb,
-                        "publishedAt": pub_at,
-                        "category": categorize_video(title, desc),
-                        "videoUrl": f"https://www.youtube.com/watch?v={v_id}",
-                        "views": "N/A",
-                        "duration": "N/A"
-                    })
-                if videos:
-                    print(f"Fetched {len(videos)} videos from YouTube Data API v3.")
-                    return videos
+            print("Fetching all videos from YouTube Data API v3...")
+            uploads_playlist_id = "UU" + CHANNEL_ID[2:] if CHANNEL_ID.startswith("UC") else CHANNEL_ID
+            page_token = ""
+            while True:
+                url = f"https://www.googleapis.com/youtube/v3/playlistItems?key={YOUTUBE_API_KEY}&playlistId={uploads_playlist_id}&part=snippet&maxResults=50"
+                if page_token:
+                    url += f"&pageToken={page_token}"
+                req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                with urllib.request.urlopen(req, timeout=10, context=ctx) as resp:
+                    data = json.loads(resp.read().decode('utf-8'))
+                    items = data.get("items", [])
+                    for item in items:
+                        snip = item.get("snippet", {})
+                        v_id = snip.get("resourceId", {}).get("videoId")
+                        title = snip.get("title", "")
+                        if not v_id or title == "Private video" or title == "Deleted video":
+                            continue
+                        title = title.replace("&amp;", "&").replace("&quot;", '"').replace("&#39;", "'")
+                        desc = snip.get("description", "")
+                        pub_at = snip.get("publishedAt", "")
+                        thumb = snip.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{v_id}/hqdefault.jpg"
+                        
+                        videos.append({
+                            "id": v_id,
+                            "title": title,
+                            "description": desc or title,
+                            "thumbnailUrl": thumb,
+                            "publishedAt": pub_at,
+                            "category": categorize_video(title, desc),
+                            "videoUrl": f"https://www.youtube.com/watch?v={v_id}",
+                            "views": "N/A",
+                            "duration": "N/A"
+                        })
+                    page_token = data.get("nextPageToken")
+                    if not page_token or len(videos) >= 500:
+                        break
+            if videos:
+                print(f"Fetched {len(videos)} videos from YouTube Data API v3.")
+                return videos
         except Exception as e:
             print(f"YouTube Data API video error: {e}. Falling back to RSS feed...")
 
@@ -177,9 +184,14 @@ def sync_all_youtube_data():
     channel_meta = fetch_youtube_channel_metadata()
     new_videos = fetch_youtube_videos()
     
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+    backend_data_dir = os.path.join(BASE_DIR, "data")
+    frontend_data_dir = os.path.join(ROOT_DIR, "frontend", "public", "data")
+
     # Load existing videos to merge
     existing_videos = []
-    existing_video_path = "backend/data/videos.json"
+    existing_video_path = os.path.join(backend_data_dir, "videos.json")
     if os.path.exists(existing_video_path):
         try:
             with open(existing_video_path, "r", encoding="utf-8") as f:
@@ -196,17 +208,17 @@ def sync_all_youtube_data():
     merged_videos.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
     
     # 1. Save to backend/data
-    os.makedirs("backend/data", exist_ok=True)
-    with open("backend/data/channel.json", "w", encoding="utf-8") as f:
+    os.makedirs(backend_data_dir, exist_ok=True)
+    with open(os.path.join(backend_data_dir, "channel.json"), "w", encoding="utf-8") as f:
         json.dump(channel_meta, f, indent=2, ensure_ascii=False)
-    with open("backend/data/videos.json", "w", encoding="utf-8") as f:
+    with open(os.path.join(backend_data_dir, "videos.json"), "w", encoding="utf-8") as f:
         json.dump(merged_videos, f, indent=2, ensure_ascii=False)
         
     # 2. Save to frontend/public/data
-    os.makedirs("frontend/public/data", exist_ok=True)
-    with open("frontend/public/data/channel.json", "w", encoding="utf-8") as f:
+    os.makedirs(frontend_data_dir, exist_ok=True)
+    with open(os.path.join(frontend_data_dir, "channel.json"), "w", encoding="utf-8") as f:
         json.dump(channel_meta, f, indent=2, ensure_ascii=False)
-    with open("frontend/public/data/videos.json", "w", encoding="utf-8") as f:
+    with open(os.path.join(frontend_data_dir, "videos.json"), "w", encoding="utf-8") as f:
         json.dump(merged_videos, f, indent=2, ensure_ascii=False)
         
     print(f"Successfully saved {len(merged_videos)} videos and channel stats locally.")

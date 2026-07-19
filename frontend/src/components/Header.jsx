@@ -18,7 +18,7 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
           <img 
             src="/logo.png" 
             alt="Virtual Gyans Logo" 
-            style={{ width: '22px', height: '22px', objectFit: 'contain' }} 
+            style={{ width: '26px', height: '26px', objectFit: 'contain' }} 
             loading="eager"
             fetchpriority="high"
             decoding="sync"
@@ -46,9 +46,9 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
                 background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 color: 'var(--text-secondary)',
-                borderRadius: '6px',
-                width: '28px',
-                height: '28px',
+                borderRadius: '7px',
+                width: '32px',
+                height: '32px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -59,7 +59,7 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {theme === 'dark' ? (
-                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="5"></circle>
                   <line x1="12" y1="1" x2="12" y2="3"></line>
                   <line x1="12" y1="21" x2="12" y2="23"></line>
