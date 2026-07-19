@@ -4,39 +4,39 @@ const features = [
   {
     icon: '🎥',
     title: 'Tutorial Videos',
-    desc: 'Latest uploads on hiring notifications, career growth & coding.',
-    tab: 'home',
+    desc: 'Latest video uploads on hiring alerts, recruitment prep & tech topics.',
+    tab: 'videos',
     color: '#6366f1',
     glow: 'rgba(99,102,241,0.25)',
   },
   {
     icon: '🧑‍💼',
     title: 'Interview Experiences',
-    desc: 'Crowdsourced interview reports with round-by-round breakdowns.',
-    tab: 'interviews',
+    desc: 'Read authentic round-by-round reports shared by selected candidates.',
+    tab: 'experiences',
     color: '#22d3ee',
     glow: 'rgba(34,211,238,0.2)',
   },
   {
     icon: '🏆',
-    title: 'Placement Prep',
-    desc: 'Resources, onboarding tracker & technical flashcards — all in one.',
+    title: 'Placement Blueprints',
+    desc: 'Step-by-step guides for Cognizant, TCS, Accenture, Wipro & more.',
     tab: 'guides',
     color: '#f59e0b',
     glow: 'rgba(245,158,11,0.2)',
   },
   {
     icon: '📄',
-    title: 'Resume Tools',
-    desc: 'AI-powered resume builder and job-description analyser.',
+    title: 'Resume Builder',
+    desc: 'Create a polished, recruiter-ready resume in minutes with our builder.',
     tab: 'tools',
     color: '#34d399',
     glow: 'rgba(52,211,153,0.2)',
   },
   {
     icon: '💻',
-    title: 'Code Playground',
-    desc: 'Practice Python, Java, C++, MySQL & PostgreSQL in-browser.',
+    title: 'Coding Playground',
+    desc: 'Practice coding questions in Python, C++, and Java directly in-browser.',
     tab: 'playground',
     color: '#f472b6',
     glow: 'rgba(244,114,182,0.2)',
@@ -44,10 +44,42 @@ const features = [
   {
     icon: '🤖',
     title: 'Mock Interviews',
-    desc: 'Sharpen communication with AI-driven interview simulations.',
+    desc: 'Practice technical and behavioral answers using interactive tools.',
     tab: 'tools',
     color: '#a78bfa',
     glow: 'rgba(167,139,250,0.2)',
+  },
+  {
+    icon: '🗺️',
+    title: 'Onboarding Tracker',
+    desc: 'Track and monitor onboarding timelines for major IT companies.',
+    tab: 'guides',
+    color: '#3b82f6',
+    glow: 'rgba(59,130,246,0.2)',
+  },
+  {
+    icon: '🃏',
+    title: 'Technical Flashcards',
+    desc: 'Quickly review core CS concepts, DBMS, and OOP concepts.',
+    tab: 'guides',
+    color: '#10b981',
+    glow: 'rgba(16,185,129,0.2)',
+  },
+  {
+    icon: '🔍',
+    title: 'Resume ATS Analyzer',
+    desc: 'Scan your resume against any job description with AI-driven scores.',
+    tab: 'tools',
+    color: '#ec4899',
+    glow: 'rgba(236,72,153,0.2)',
+  },
+  {
+    icon: '🛢️',
+    title: 'SQL Practice Console',
+    desc: 'Practice MySQL and PostgreSQL queries directly in your browser.',
+    tab: 'playground',
+    color: '#f59e0b',
+    glow: 'rgba(245,158,11,0.2)',
   },
 ];
 
@@ -394,7 +426,7 @@ export default function Hero({ stats, setActiveTab }) {
 
         {/* ── FEATURES GRID ── */}
         <p className="hero2-features-title">Everything You Need to Get Placed</p>
-        <p className="hero2-features-sub">Six powerful tools — one platform, zero confusion.</p>
+        <p className="hero2-features-sub">Ten powerful tools — one platform, zero confusion.</p>
 
         <div className="hero2-grid">
           {features.map((f, i) => (
