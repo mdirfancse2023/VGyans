@@ -414,10 +414,8 @@ for category, count in sql_categories.items():
             "description": desc_html,
             "input": "",
             "templates": {
-                "sql": f"-- Write your {category} SQL query here\n",
-                "python": "# Use SQL language for this database challenge!\nprint('Please select SQL mode.')",
-                "java": "public class Main { public static void main(String[] args) { System.out.println(\"Please select SQL mode.\"); } }",
-                "cpp": "#include <iostream>\nint main() { std::cout << \"Please select SQL mode.\" << std::endl; return 0; }"
+                "mysql": f"-- Write your {category} SQL query here\n-- Use MySQL syntax\n",
+                "postgres": f"-- Write your {category} SQL query here\n-- Use PostgreSQL syntax\n"
             }
         })
         sql_counter += 1

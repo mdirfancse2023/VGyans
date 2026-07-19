@@ -392,12 +392,22 @@ export default function Playground({ questions }) {
     }
   }, [activeProblem, activeLang]);
 
+  // Determine if current question is SQL type (has mysql/postgres templates, not python/java/cpp)
+  const isSqlQuestion = activeProblem &&
+    activeProblem.templates &&
+    (activeProblem.templates.mysql !== undefined || activeProblem.templates.postgres !== undefined) &&
+    activeProblem.templates.python === undefined;
+
   // Auto-switch language interface when active problem changes
   useEffect(() => {
     if (activeProblem) {
-      if (activeProblem.id.startsWith('sql')) {
-        setActiveLang('sql');
-      } else if (activeLang === 'sql') {
+      const isSQL =
+        activeProblem.templates &&
+        (activeProblem.templates.mysql !== undefined || activeProblem.templates.postgres !== undefined) &&
+        activeProblem.templates.python === undefined;
+      if (isSQL) {
+        setActiveLang('mysql');
+      } else if (activeLang === 'mysql' || activeLang === 'postgres') {
         setActiveLang('python');
       }
     }
@@ -863,10 +873,18 @@ export default function Playground({ questions }) {
                 value={activeLang}
                 onChange={(e) => setActiveLang(e.target.value)}
               >
-                <option value="python">Python 3</option>
-                <option value="java">Java (JDK 17)</option>
-                <option value="cpp">C++ (GCC 14)</option>
-                <option value="sql">SQL (Postgres / MySQL / SQLite3)</option>
+                {isSqlQuestion ? (
+                  <>
+                    <option value="mysql">MySQL</option>
+                    <option value="postgres">PostgreSQL</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="python">Python 3</option>
+                    <option value="java">Java (JDK 17)</option>
+                    <option value="cpp">C++ (GCC 14)</option>
+                  </>
+                )}
               </select>
             </div>
 
