@@ -8,7 +8,11 @@ import InteractiveTools from './components/InteractiveTools';
 import Playground from './components/Playground';
 import Footer from './components/Footer';
 
-const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
+const API_URL = import.meta.env.VITE_API_URL || (
+  typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+    ? 'http://localhost:8000' 
+    : 'https://v-gyans.vercel.app'
+);
 
 const cleanChannel = (ch) => ch ? {
   ...ch,
@@ -38,15 +42,14 @@ export default function App() {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
   
-  // Dynamic application state
   const [channelStats, setChannelStats] = useState({
-    subscriberCount: '2050',
-    viewCount: '434958',
-    videoCount: '131',
+    subscriberCount: '2.05K+',
+    viewCount: '435K+',
+    videoCount: '131+',
     avatarUrl: '/youtube-avatar.png',
     bannerUrl: '/youtube-banner.png',
     title: 'Virtual Gyans',
-    description: 'Welcome to Virtual Gyans'
+    description: 'Welcome to Virtual Gyans - Educational & Technical Content.'
   });
   const [playlists, setPlaylists] = useState([]);
   const [videos, setVideos] = useState([]);
@@ -59,21 +62,35 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // 1. Fetch static local segregated JSONs immediately for instant rendering of channel stats & basic info
+      const sortVideosNewestFirst = (vList) => {
+        if (!Array.isArray(vList)) return [];
+        return [...vList].sort((a, b) => {
+          const timeA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+          const timeB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+          return timeB - timeA;
+        });
+      };
+
+      // 1. Fetch static local segregated JSONs immediately
       try {
-        console.log('Fetching segregated static JSON files');
         const fetchJSON = async (file) => {
-          try {
-            const res = await fetch(`./data/${file}.json`);
-            if (res.ok) return await res.json();
-          } catch (e) {
-            console.warn(`Failed to fetch static segregated file: ${file}.json`, e);
+          const relativePaths = [`./data/${file}.json`, `/data/${file}.json`, `data/${file}.json` ];
+          for (const p of relativePaths) {
+            try {
+              const res = await fetch(p);
+              if (res.ok) {
+                const data = await res.json();
+                if (data && (Array.isArray(data) ? data.length > 0 : Object.keys(data).length > 0)) {
+                  return data;
+                }
+              }
+            } catch (e) {}
           }
           return null;
         };
 
         const [
-          channel, playlists, videos, resources, experiences, flashcards, onboardingStages, notes, playgroundQuestions
+          channel, playlistsRes, videosRes, resourcesRes, experiencesRes, flashcardsRes, onboardingStagesRes, notesRes, playgroundQuestionsRes
         ] = await Promise.all([
           fetchJSON('channel'),
           fetchJSON('playlists'),
@@ -86,52 +103,44 @@ export default function App() {
           fetchJSON('playground_questions')
         ]);
 
-        const sortVideosNewestFirst = (vList) => {
-          if (!Array.isArray(vList)) return [];
-          return [...vList].sort((a, b) => {
-            const timeA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
-            const timeB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
-            return timeB - timeA;
-          });
-        };
-
         if (channel) setChannelStats(cleanChannel(channel));
-        if (playlists) setPlaylists(playlists);
-        if (videos) setVideos(sortVideosNewestFirst(videos));
-        if (resources) setResources(resources);
-        if (experiences) setExperiences(experiences);
-        if (flashcards) setFlashcards(flashcards);
-        if (onboardingStages) setOnboardingStages(onboardingStages);
-        if (notes) setNotes(notes);
-        if (playgroundQuestions) setPlaygroundQuestions(playgroundQuestions);
+        if (playlistsRes) setPlaylists(playlistsRes);
+        if (videosRes && Array.isArray(videosRes) && videosRes.length > 0) {
+          setVideos(sortVideosNewestFirst(videosRes));
+        }
+        if (resourcesRes) setResources(resourcesRes);
+        if (experiencesRes) setExperiences(experiencesRes);
+        if (flashcardsRes) setFlashcards(flashcardsRes);
+        if (onboardingStagesRes) setOnboardingStages(onboardingStagesRes);
+        if (notesRes) setNotes(notesRes);
+        if (playgroundQuestionsRes) setPlaygroundQuestions(playgroundQuestionsRes);
       } catch (err) {
-        console.warn('Failed to load local static data fallback:', err);
+        console.warn('Local static data load notice:', err);
       }
-      
-      // Stop loading state so that user sees everything instantly
+
       setLoading(false);
 
-      // 2. Fetch fresh live data from FastAPI in the background
+      // 2. Fetch live data from FastAPI (or Vercel backend)
       try {
-        if (API_URL) {
-          console.log(`Background fetching live data from FastAPI: ${API_URL}/api/all`);
-          const liveRes = await fetch(`${API_URL}/api/all`);
-          if (liveRes.ok) {
-            const liveData = await liveRes.json();
-            if (liveData.channel) setChannelStats(cleanChannel(liveData.channel));
-            if (liveData.playlists) setPlaylists(liveData.playlists);
-            if (liveData.videos) setVideos(sortVideosNewestFirst(liveData.videos));
-            if (liveData.resources) setResources(liveData.resources);
-            if (liveData.experiences) setExperiences(liveData.experiences);
-            if (liveData.flashcards) setFlashcards(liveData.flashcards);
-            if (liveData.onboardingStages) setOnboardingStages(liveData.onboardingStages);
-            if (liveData.notes) setNotes(liveData.notes);
-            if (liveData.playground_questions) setPlaygroundQuestions(liveData.playground_questions);
-            console.log('Background sync with live database complete.');
+        const liveTarget = `${API_URL}/api/all`;
+        console.log(`Fetching live database content from: ${liveTarget}`);
+        const liveRes = await fetch(liveTarget);
+        if (liveRes.ok) {
+          const liveData = await liveRes.json();
+          if (liveData.channel) setChannelStats(cleanChannel(liveData.channel));
+          if (liveData.playlists) setPlaylists(liveData.playlists);
+          if (liveData.videos && Array.isArray(liveData.videos) && liveData.videos.length > 0) {
+            setVideos(sortVideosNewestFirst(liveData.videos));
           }
+          if (liveData.resources) setResources(liveData.resources);
+          if (liveData.experiences) setExperiences(liveData.experiences);
+          if (liveData.flashcards) setFlashcards(liveData.flashcards);
+          if (liveData.onboardingStages) setOnboardingStages(liveData.onboardingStages);
+          if (liveData.notes) setNotes(liveData.notes);
+          if (liveData.playground_questions) setPlaygroundQuestions(liveData.playground_questions);
         }
       } catch (err) {
-        console.error('Background live sync error:', err);
+        console.warn('Live API background fetch skipped:', err);
       }
     };
 
