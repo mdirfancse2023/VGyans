@@ -551,6 +551,18 @@ def run_code(req: RunRequest):
     
     # 1. SQL Execution Logic (sql / mysql / postgres all use SQLite sandbox)
     if lang in ("sql", "mysql", "postgres"):
+        # Transpile MySQL/PostgreSQL → SQLite so full dialect syntax is supported
+        if lang in ("mysql", "postgres"):
+            try:
+                import sqlglot
+                dialect = "mysql" if lang == "mysql" else "postgres"
+                try:
+                    transpiled_parts = sqlglot.transpile(code, read=dialect, write="sqlite")
+                    code = ";\n".join(transpiled_parts)
+                except Exception:
+                    pass  # keep original SQL if transpilation fails
+            except ImportError:
+                pass  # sqlglot not installed; run as-is
 
         conn = sqlite3.connect(":memory:")
         try:
