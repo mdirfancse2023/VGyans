@@ -140,16 +140,33 @@ def read_root():
 def get_all_data():
     if db is not None:
         try:
+            from concurrent.futures import ThreadPoolExecutor
             data = {}
-            stats_doc = db.collection("channel").document("stats").get()
-            data["channel"] = stats_doc.to_dict() if stats_doc.exists else {}
             
-            for coll in ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions"]:
-                docs = db.collection(coll).stream()
-                data[coll] = [doc.to_dict() for doc in docs]
+            def fetch_stats():
+                stats_doc = db.collection("channel").document("stats").get()
+                return stats_doc.to_dict() if stats_doc.exists else {}
                 
-            stages_docs = db.collection("onboardingStages").stream()
-            data["onboardingStages"] = {doc.id: doc.to_dict().get("stages", []) for doc in stages_docs}
+            def fetch_coll(coll):
+                docs = db.collection(coll).stream()
+                return [doc.to_dict() for doc in docs]
+                
+            def fetch_stages():
+                stages_docs = db.collection("onboardingStages").stream()
+                return {doc.id: doc.to_dict().get("stages", []) for doc in stages_docs}
+                
+            collections = ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions"]
+            
+            with ThreadPoolExecutor(max_workers=9) as executor:
+                future_stats = executor.submit(fetch_stats)
+                future_stages = executor.submit(fetch_stages)
+                future_colls = {coll: executor.submit(fetch_coll, coll) for coll in collections}
+                
+                data["channel"] = future_stats.result()
+                data["onboardingStages"] = future_stages.result()
+                for coll, fut in future_colls.items():
+                    data[coll] = fut.result()
+            
             return data
         except Exception as e:
             print(f"Firestore get_all_data error, falling back to static: {e}")
