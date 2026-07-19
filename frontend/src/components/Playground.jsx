@@ -513,12 +513,44 @@ const compareOutputs = (actual, expected) => {
 };
 
 
+const FREE_PLAYGROUND_TEMPLATES = {
+  python: `# Write your custom Python 3 code here
+def main():
+    print("Hello, VGyans Playground!")
+
+if __name__ == "__main__":
+    main()`,
+
+  java: `import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, VGyans Playground!");
+    }
+}`,
+
+  cpp: `#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello, VGyans Playground!" << endl;
+    return 0;
+}`,
+
+  mysql: `-- Write your custom MySQL query here
+SELECT 'Hello, VGyans Playground!' AS message;`,
+
+  postgres: `-- Write your custom PostgreSQL query here
+SELECT 'Hello, VGyans Playground!' AS message;`
+};
+
+
 export default function Playground({ questions }) {
   const activeQuestions = (questions && questions.length > 0) ? questions : PROBLEMS;
-  const [activeProblem, setActiveProblem] = useState(activeQuestions[0]);
+  const [activeProblem, setActiveProblem] = useState(null);
   const [activeLang, setActiveLang] = useState('python');
-  const [code, setCode] = useState(getVisibleCode(activeQuestions[0]?.templates?.python || ''));
-  const [stdin, setStdin] = useState(activeQuestions[0]?.input || '');
+  const [code, setCode] = useState(FREE_PLAYGROUND_TEMPLATES.python);
+  const [stdin, setStdin] = useState('');
   const [stdout, setStdout] = useState('');
   const [stderr, setStderr] = useState('');
   const [isRunning, setIsRunning] = useState(false);
@@ -548,6 +580,11 @@ export default function Playground({ questions }) {
       } else {
         setStdin(activeProblem.input || '');
       }
+    } else {
+      setTestCases([]);
+      setSelectedCaseIdx(0);
+      setTestResults({});
+      setSubmitResult(null);
     }
   }, [activeProblem]);
 
@@ -642,18 +679,6 @@ export default function Playground({ questions }) {
   const codeAreaRef = useRef(null);
   const preRef = useRef(null);
 
-  // Sync active problem when dynamic questions list is loaded
-  useEffect(() => {
-    if (activeQuestions && activeQuestions.length > 0) {
-      const firstProblem = activeQuestions[0];
-      if (firstProblem.id !== 'custom' && (!firstProblem.description || !firstProblem.templates)) {
-        selectQuestion(firstProblem);
-      } else {
-        setActiveProblem(firstProblem);
-      }
-    }
-  }, [questions]);
-
   // Sync template on problem or language change
   useEffect(() => {
     if (activeProblem) {
@@ -661,6 +686,11 @@ export default function Playground({ questions }) {
       const template = templates[activeLang] || '';
       setCode(getVisibleCode(template));
       setStdin(activeProblem.input || '');
+      setStdout('');
+      setStderr('');
+      setHasRun(false);
+    } else {
+      setCode(FREE_PLAYGROUND_TEMPLATES[activeLang] || '');
       setStdout('');
       setStderr('');
       setHasRun(false);
@@ -761,7 +791,7 @@ export default function Playground({ questions }) {
         },
         body: JSON.stringify({
           language: activeLang,
-          code: reconstructFullCode(code, activeProblem.templates[activeLang]),
+          code: reconstructFullCode(code, activeProblem?.templates?.[activeLang]),
           input: activeInput
         })
       });
@@ -1461,7 +1491,7 @@ export default function Playground({ questions }) {
                     {items.map(p => (
                       <button
                         key={p.id}
-                        className={`question-item ${activeProblem.id === p.id ? 'active' : ''}`}
+                        className={`question-item ${activeProblem?.id === p.id ? 'active' : ''}`}
                         onClick={() => selectQuestion(p)}
                       >
                         <span className="question-item-title">{p.title}</span>
@@ -1486,166 +1516,249 @@ export default function Playground({ questions }) {
           <span className="drawer-toggle-icon">{drawerOpen ? '✕ Close' : '☰ Questions'}</span>
         </button>
 
-        {/* LEFT PANEL: Problem Description & Solutions */}
+        {/* LEFT PANEL: Problem Description & Solutions OR Free Playground Hub */}
         <div className="playground-sidebar">
-          <div className="sidebar-header" style={{ padding: '0.5rem 1.25rem', gap: '1rem', borderBottom: '1px solid var(--border-glass)', display: 'flex', alignItems: 'center' }}>
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-              <button
-                onClick={() => setSidebarTab('problem')}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: sidebarTab === 'problem' ? '#f8fafc' : '#94a3b8',
-                  fontSize: '0.78rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  padding: '0.25rem 0',
-                  cursor: 'pointer',
-                  borderBottom: sidebarTab === 'problem' ? '2px solid var(--primary)' : '2px solid transparent',
-                  outline: 'none',
-                  transition: 'all 0.2s'
-                }}
-              >
-                Problem
-              </button>
-              <button
-                onClick={() => setSidebarTab('solution')}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: sidebarTab === 'solution' ? '#f8fafc' : '#94a3b8',
-                  fontSize: '0.78rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  padding: '0.25rem 0',
-                  cursor: 'pointer',
-                  borderBottom: sidebarTab === 'solution' ? '2px solid var(--primary)' : '2px solid transparent',
-                  outline: 'none',
-                  transition: 'all 0.2s'
-                }}
-              >
-                Solution
-              </button>
+          {!activeProblem ? (
+            <div style={{ padding: '1.25rem' }}>
+              <div style={{ marginBottom: '1.25rem' }}>
+                <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#f8fafc', margin: 0, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <span>⚡</span> Code Editor & Playground
+                </h2>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginTop: '0.4rem', lineHeight: 1.5 }}>
+                  Write, test, and execute custom code in <strong>Python 3</strong>, <strong>Java 17</strong>, <strong>C++ 14</strong>, <strong>MySQL</strong>, or <strong>PostgreSQL</strong>.
+                </p>
+              </div>
+
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '10px',
+                padding: '1rem',
+                marginBottom: '1.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.75rem'
+              }}>
+                <div style={{ fontSize: '0.82rem', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  Practice coding freely or pick a structured DSA / SQL problem from the 350+ curated question bank.
+                </div>
+                <button 
+                  className="btn btn-primary"
+                  onClick={() => setDrawerOpen(true)}
+                  style={{ padding: '0.55rem 1rem', width: '100%', justifyContent: 'center', fontSize: '0.82rem', fontWeight: 700 }}
+                >
+                  📚 Browse 350+ Questions
+                </button>
+              </div>
+
+              <div>
+                <h4 style={{ fontSize: '0.78rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+                  Explore Questions by Category
+                </h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                  {Object.entries(groupedProblems).slice(0, 6).map(([cat, items]) => (
+                    <button
+                      key={cat}
+                      onClick={() => selectQuestion(items[0])}
+                      style={{
+                        background: 'rgba(15, 23, 42, 0.6)',
+                        border: '1px solid rgba(255, 255, 255, 0.06)',
+                        borderRadius: '8px',
+                        padding: '0.65rem 0.75rem',
+                        textAlign: 'left',
+                        cursor: 'pointer',
+                        color: '#e2e8f0',
+                        fontSize: '0.78rem',
+                        fontWeight: 600,
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ color: 'var(--primary)', fontSize: '0.7rem', fontWeight: 700 }}>{items.length} Questions</div>
+                      <div style={{ marginTop: '0.15rem' }}>{cat}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
-            <span className={`diff-badge diff-${(activeProblem.difficulty||'easy').toLowerCase()}`} style={{ marginLeft: 'auto' }}>
-              {activeProblem.difficulty}
-            </span>
-          </div>
+          ) : (
+            <>
+              <div className="sidebar-header" style={{ padding: '0.5rem 1.25rem', gap: '0.75rem', borderBottom: '1px solid var(--border-glass)', display: 'flex', alignItems: 'center' }}>
+                <button
+                  onClick={() => setActiveProblem(null)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    color: '#cbd5e1',
+                    padding: '0.25rem 0.55rem',
+                    borderRadius: '5px',
+                    fontSize: '0.72rem',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                  title="Switch to Free Code Editor"
+                >
+                  ← Free Editor
+                </button>
 
-          <div className="sidebar-section" style={{ flex: 1, overflowY: 'auto' }}>
-            {sidebarTab === 'problem' ? (
-              <>
-                <h3 className="problem-title">{activeProblem.title}</h3>
-                <p className="problem-desc" dangerouslySetInnerHTML={{ __html: activeProblem.description }} />
+                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                  <button
+                    onClick={() => setSidebarTab('problem')}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: sidebarTab === 'problem' ? '#f8fafc' : '#94a3b8',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      padding: '0.25rem 0',
+                      cursor: 'pointer',
+                      borderBottom: sidebarTab === 'problem' ? '2px solid var(--primary)' : '2px solid transparent',
+                      outline: 'none',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    Problem
+                  </button>
+                  <button
+                    onClick={() => setSidebarTab('solution')}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: sidebarTab === 'solution' ? '#f8fafc' : '#94a3b8',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      padding: '0.25rem 0',
+                      cursor: 'pointer',
+                      borderBottom: sidebarTab === 'solution' ? '2px solid var(--primary)' : '2px solid transparent',
+                      outline: 'none',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    Solution
+                  </button>
+                </div>
+                <span className={`diff-badge diff-${(activeProblem.difficulty||'easy').toLowerCase()}`} style={{ marginLeft: 'auto' }}>
+                  {activeProblem.difficulty}
+                </span>
+              </div>
 
-                {/* SQL Table Reference Helper */}
-                {isSqlQuestion && (
-                  <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
-                    <h4 style={{ color: '#0284c7', fontSize: '0.85rem', marginBottom: '0.75rem', fontWeight: 700 }}>RELATIONAL SCHEMA REFERENCE</h4>
-                    
-                    <details className="schema-details" open>
-                      <summary>Table: employees</summary>
-                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                        <tbody>
-                          <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                          <tr><td>name</td><td>TEXT</td></tr>
-                          <tr><td>department_id (FK)</td><td>INTEGER</td></tr>
-                          <tr><td>salary</td><td>INTEGER</td></tr>
-                          <tr><td>manager_id</td><td>INTEGER</td></tr>
-                          <tr><td>hire_date</td><td>TEXT</td></tr>
-                        </tbody>
-                      </table>
-                    </details>
+              <div className="sidebar-section" style={{ flex: 1, overflowY: 'auto' }}>
+                {sidebarTab === 'problem' ? (
+                  <>
+                    <h3 className="problem-title">{activeProblem.title}</h3>
+                    <p className="problem-desc" dangerouslySetInnerHTML={{ __html: activeProblem.description }} />
 
-                    <details className="schema-details">
-                      <summary>Table: departments</summary>
-                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                        <tbody>
-                          <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                          <tr><td>department_name</td><td>TEXT</td></tr>
-                          <tr><td>location</td><td>TEXT</td></tr>
-                        </tbody>
-                      </table>
-                    </details>
+                    {/* SQL Table Reference Helper */}
+                    {isSqlQuestion && (
+                      <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+                        <h4 style={{ color: '#0284c7', fontSize: '0.85rem', marginBottom: '0.75rem', fontWeight: 700 }}>RELATIONAL SCHEMA REFERENCE</h4>
+                        
+                        <details className="schema-details" open>
+                          <summary>Table: employees</summary>
+                          <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                            <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                            <tbody>
+                              <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                              <tr><td>name</td><td>TEXT</td></tr>
+                              <tr><td>department_id (FK)</td><td>INTEGER</td></tr>
+                              <tr><td>salary</td><td>INTEGER</td></tr>
+                              <tr><td>manager_id</td><td>INTEGER</td></tr>
+                              <tr><td>hire_date</td><td>TEXT</td></tr>
+                            </tbody>
+                          </table>
+                        </details>
 
-                    <details className="schema-details">
-                      <summary>Table: projects</summary>
-                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                        <tbody>
-                          <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                          <tr><td>project_name</td><td>TEXT</td></tr>
-                          <tr><td>budget</td><td>INTEGER</td></tr>
-                        </tbody>
-                      </table>
-                    </details>
+                        <details className="schema-details">
+                          <summary>Table: departments</summary>
+                          <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                            <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                            <tbody>
+                              <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                              <tr><td>department_name</td><td>TEXT</td></tr>
+                              <tr><td>location</td><td>TEXT</td></tr>
+                            </tbody>
+                          </table>
+                        </details>
 
-                    <details className="schema-details">
-                      <summary>Table: employee_projects</summary>
-                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                        <tbody>
-                          <tr><td>employee_id (PK, FK)</td><td>INTEGER</td></tr>
-                          <tr><td>project_id (PK, FK)</td><td>INTEGER</td></tr>
-                          <tr><td>hours_worked</td><td>INTEGER</td></tr>
-                        </tbody>
-                      </table>
-                    </details>
+                        <details className="schema-details">
+                          <summary>Table: projects</summary>
+                          <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                            <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                            <tbody>
+                              <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                              <tr><td>project_name</td><td>TEXT</td></tr>
+                              <tr><td>budget</td><td>INTEGER</td></tr>
+                            </tbody>
+                          </table>
+                        </details>
 
-                    <details className="schema-details">
-                      <summary>Table: orders</summary>
-                      <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                        <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                        <tbody>
-                          <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                          <tr><td>customer_id (FK)</td><td>INTEGER</td></tr>
-                          <tr><td>order_date</td><td>TEXT</td></tr>
-                          <tr><td>total_amount</td><td>REAL</td></tr>
-                        </tbody>
-                      </table>
-                    </details>
+                        <details className="schema-details">
+                          <summary>Table: employee_projects</summary>
+                          <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                            <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                            <tbody>
+                              <tr><td>employee_id (PK, FK)</td><td>INTEGER</td></tr>
+                              <tr><td>project_id (PK, FK)</td><td>INTEGER</td></tr>
+                              <tr><td>hours_worked</td><td>INTEGER</td></tr>
+                            </tbody>
+                          </table>
+                        </details>
+
+                        <details className="schema-details">
+                          <summary>Table: orders</summary>
+                          <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                            <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                            <tbody>
+                              <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                              <tr><td>customer_id (FK)</td><td>INTEGER</td></tr>
+                              <tr><td>order_date</td><td>TEXT</td></tr>
+                              <tr><td>total_amount</td><td>REAL</td></tr>
+                            </tbody>
+                          </table>
+                        </details>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="solutions-panel" style={{ padding: '0.5rem 0' }}>
+                    <h3 className="problem-title" style={{ marginBottom: '1.25rem', fontSize: '1.1rem' }}>Solutions</h3>
+                    {activeProblem.solutions ? (
+                      Object.entries(activeProblem.solutions)
+                        .filter(([lang, code]) => code && code.trim())
+                        .map(([lang, code]) => (
+                          <details className="solution-details" key={lang}>
+                            <summary>
+                              <span style={{ textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
+                                {lang === 'cpp' ? 'C++' : lang === 'python' ? 'Python 3' : lang === 'java' ? 'Java' : lang === 'mysql' ? 'MySQL' : lang === 'postgres' ? 'PostgreSQL' : lang}
+                              </span>
+                            </summary>
+                            <div className="solution-content">
+                              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                                <button 
+                                  className="copy-solution-btn"
+                                  onClick={() => handleApplySolution(lang, code)}
+                                  style={{ position: 'static', background: 'var(--primary)', color: '#fff', borderColor: 'var(--primary)' }}
+                                >
+                                  {copiedLang === `applied_${lang}` ? '✓ Loaded into Editor' : '⚡ Apply to Editor'}
+                                </button>
+                              </div>
+                              <pre style={{ margin: 0, padding: 0, overflowX: 'auto', fontSize: '0.8rem', fontFamily: 'Courier New, Courier, monospace', lineHeight: 1.5, color: '#e2e8f0', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+                                <code>{formatSolutionCode(lang, code)}</code>
+                              </pre>
+                            </div>
+                          </details>
+                        ))
+                    ) : (
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>No solutions pre-generated for this task.</p>
+                    )}
                   </div>
                 )}
-              </>
-            ) : (
-              <div className="solutions-panel" style={{ padding: '0.5rem 0' }}>
-                <h3 className="problem-title" style={{ marginBottom: '1.25rem', fontSize: '1.1rem' }}>Solutions</h3>
-                {activeProblem.solutions ? (
-                  Object.entries(activeProblem.solutions)
-                    .filter(([lang, code]) => code && code.trim())
-                    .map(([lang, code]) => (
-                      <details className="solution-details" key={lang}>
-                        <summary>
-                          <span style={{ textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
-                            {lang === 'cpp' ? 'C++' : lang === 'python' ? 'Python 3' : lang === 'java' ? 'Java' : lang === 'mysql' ? 'MySQL' : lang === 'postgres' ? 'PostgreSQL' : lang}
-                          </span>
-                        </summary>
-                        <div className="solution-content">
-                          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                            <button 
-                              className="copy-solution-btn"
-                              onClick={() => handleApplySolution(lang, code)}
-                              style={{ position: 'static', background: 'var(--primary)', color: '#fff', borderColor: 'var(--primary)' }}
-                            >
-                              {copiedLang === `applied_${lang}` ? '✓ Loaded into Editor' : '⚡ Apply to Editor'}
-                            </button>
-                          </div>
-                          <pre style={{ margin: 0, padding: 0, overflowX: 'auto', fontSize: '0.8rem', fontFamily: 'Courier New, Courier, monospace', lineHeight: 1.5, color: '#e2e8f0', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
-                            <code>{formatSolutionCode(lang, code)}</code>
-                          </pre>
-                        </div>
-                      </details>
-                    ))
-                ) : (
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>No solutions pre-generated for this task.</p>
-                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
 
         <div className="playground-ide">
@@ -1667,6 +1780,12 @@ export default function Playground({ questions }) {
                     <option value="python">Python 3</option>
                     <option value="java">Java (JDK 17)</option>
                     <option value="cpp">C++ (GCC 14)</option>
+                    {!activeProblem && (
+                      <>
+                        <option value="mysql">MySQL</option>
+                        <option value="postgres">PostgreSQL</option>
+                      </>
+                    )}
                   </>
                 )}
               </select>
@@ -1690,23 +1809,25 @@ export default function Playground({ questions }) {
                   </>
                 )}
               </button>
-              <button 
-                className="btn btn-primary"
-                style={{ padding: '0.45rem 1.1rem', gap: '0.4rem', cursor: 'pointer', background: 'linear-gradient(135deg, #10b981, #059669)', border: 'none', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700 }}
-                onClick={handleSubmitAll}
-                disabled={isRunning || isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>Submitting...</>
-                ) : (
-                  <>
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                      <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                    </svg>
-                    Submit
-                  </>
-                )}
-              </button>
+              {activeProblem && (
+                <button 
+                  className="btn btn-primary"
+                  style={{ padding: '0.45rem 1.1rem', gap: '0.4rem', cursor: 'pointer', background: 'linear-gradient(135deg, #10b981, #059669)', border: 'none', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700 }}
+                  onClick={handleSubmitAll}
+                  disabled={isRunning || isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>Submitting...</>
+                  ) : (
+                    <>
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                      </svg>
+                      Submit
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </div>
 
