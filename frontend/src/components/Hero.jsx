@@ -84,12 +84,12 @@ const features = [
 ];
 
 const floatingBadges = [
-  { text: 'Interview Qs',         icon: '💬', delay: '0s',   top: '5%',   left: '-28%' },
-  { text: 'Interview Experiences', icon: '🧑‍💼', delay: '0.4s', top: '38%',  left: '-34%' },
-  { text: '350+ Practice Qs',     icon: '🧩', delay: '0.8s', top: '70%',  left: '-25%' },
-  { text: 'AI Resume Builder',     icon: '✨', delay: '1.2s', top: '10%',  right: '-28%' },
-  { text: 'Live Playground',      icon: '💻', delay: '1.6s', top: '42%',  right: '-34%' },
-  { text: 'Company Guides',       icon: '📚', delay: '2s',   top: '72%',  right: '-25%' },
+  { text: 'Interview Qs',  icon: '💬', delay: '0s',   top: '5%',   left: '-20%' },
+  { text: 'Interview Exp', icon: '🧑‍💼', delay: '0.4s', top: '38%',  left: '-26%' },
+  { text: '350+ Qns',      icon: '🧩', delay: '0.8s', top: '70%',  left: '-18%' },
+  { text: 'AI Resume',     icon: '✨', delay: '1.2s', top: '10%',  right: '-20%' },
+  { text: 'Live Code',     icon: '💻', delay: '1.6s', top: '42%',  right: '-26%' },
+  { text: 'MNC Guides',    icon: '📚', delay: '2s',   top: '72%',  right: '-18%' },
 ];
 
 export default function Hero({ stats, setActiveTab }) {
@@ -233,13 +233,13 @@ export default function Hero({ stats, setActiveTab }) {
         /* floating badges */
         .float-badge {
           position: absolute;
-          display: flex; align-items: center; gap: 0.4rem;
+          display: flex; align-items: center; gap: 0.25rem;
           background: rgba(15,22,42,0.88);
           backdrop-filter: blur(12px);
           border: 1px solid rgba(255,255,255,0.1);
           border-radius: 100px;
-          padding: 0.35rem 0.8rem;
-          font-size: 0.72rem; font-weight: 600;
+          padding: 0.25rem 0.55rem;
+          font-size: 0.65rem; font-weight: 600;
           color: var(--text-primary);
           white-space: nowrap; z-index: 5;
           animation: floatUpDown 3.5s ease-in-out infinite;
