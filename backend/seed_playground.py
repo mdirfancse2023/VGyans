@@ -236,7 +236,40 @@ def get_sql_problem_details(title, category):
         "Window Functions":    (["employees","departments","orders"], "Result rows with an extra window-computed column.", "SELECT name, salary, RANK() OVER (ORDER BY salary DESC) AS rnk FROM employees;", []),
     }
 
-    tables_used, out_fmt, eq, erows = cat_defaults.get(sub, (["employees"], "A result set.", "", []))
+    t_lower = title.lower()
+    tables_used = ["employees"]
+    out_fmt = "A result set."
+    eq = ""
+    erows = []
+    
+    if "department" in t_lower or "dept" in t_lower:
+        tables_used = ["employees", "departments"]
+        out_fmt = "department_name and calculated count / average columns."
+        eq = f"SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+        erows = [{"department_name": "Engineering", "avg_salary": 101250}, {"department_name": "Product", "avg_salary": 97500}]
+    elif "project" in t_lower or "hours" in t_lower or "budget" in t_lower:
+        tables_used = ["projects", "employees", "employee_projects"]
+        out_fmt = "project_name, budget, or total hours worked."
+        eq = f"SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+        erows = [{"project_name": "Alpha", "total_hours": 120}, {"project_name": "Beta", "total_hours": 85}]
+    elif "manager" in t_lower or "boss" in t_lower:
+        tables_used = ["employees"]
+        out_fmt = "employee name and manager name."
+        eq = f"SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+        erows = [{"employee": "Rahul Sharma", "manager": "Md Irfan"}]
+    elif "order" in t_lower or "customer" in t_lower or "price" in t_lower:
+        tables_used = ["orders"]
+        out_fmt = "customer_id and summary calculations."
+        eq = f"SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;"
+        erows = [{"customer_id": 101, "total_spend": 1500}, {"customer_id": 102, "total_spend": 750}]
+    elif "salary" in t_lower or "earner" in t_lower or "paid" in t_lower or "earn" in t_lower or "hired" in t_lower or "hire" in t_lower:
+        tables_used = ["employees"]
+        out_fmt = "name and salary/hire details."
+        eq = f"SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+        erows = [{"name": "Md Irfan", "salary": 120000}, {"name": "Rahul Sharma", "salary": 95000}]
+    else:
+        tables_used, out_fmt, eq, erows = cat_defaults.get(sub, (["employees"], "A result set.", "", []))
+        
     task_desc = f"Write a <strong>{sub}</strong> SQL query to solve: <em>{title}</em>."
     return make_sql_desc_html(task_desc, tables_used, out_fmt, eq, erows)
 
@@ -1045,6 +1078,7 @@ def get_problem_details(title, category):
             
     if not matched:
         desc = get_dsa_description(title, category)
+        
         # Determine defaults based on category
         if "string" in category.lower():
             input_fmt = "Line 1: A string wrapped in double quotes."
@@ -1054,14 +1088,38 @@ def get_problem_details(title, category):
             default_input = "\"helloworld\""
             params = [("s", "str")]
             ret_type = "int" if ("length" in t_lower or "count" in t_lower or "depth" in t_lower or "match" in t_lower) else "str"
+            
+            if "anagram" in t_lower or "strstr" in t_lower or "compare" in t_lower or "multiply" in t_lower:
+                params = [("s", "str"), ("t", "str")]
+                default_input = "\"anagram\"\n\"nagaram\"" if "anagram" in t_lower else "\"haystack\"\n\"needle\""
+                examples = [{"input": default_input, "output": "true" if "anagram" in t_lower else "0"}]
+                ret_type = "bool" if "anagram" in t_lower else "int" if "strstr" in t_lower else "str"
+            elif "palindrome" in t_lower or "pangram" in t_lower or "subsequence" in t_lower or "valid" in t_lower:
+                ret_type = "bool"
+                examples = [{"input": "\"racecar\"", "output": "true"}]
+                
         elif "linked list" in category.lower():
             input_fmt = "Line 1: A JSON-formatted array representing nodes of the list."
             output_fmt = "A JSON array showing the modified list node values."
-            examples = [{"input": "[1, 2, 3, 4]", "output": "[1, 2, 3, 4]"}]
+            examples = [{"input": "[1, 2, 3, 4]", "output": "[4, 3, 2, 1]" if "reverse" in t_lower else "[1, 2, 3, 4]"}]
             constraints = ["The number of nodes in the list is in the range [0, 5000].", "-100 <= Node.val <= 100"]
             default_input = "[1, 2, 3, 4]"
             params = [("head", "list_int")]
             ret_type = "list_int"
+            
+            if "two" in t_lower or "merge" in t_lower or "add" in t_lower:
+                params = [("list1", "list_int"), ("list2", "list_int")]
+                default_input = "[1, 2, 4]\n[1, 3, 4]"
+                examples = [{"input": "[1, 2, 4]\n[1, 3, 4]", "output": "[1, 1, 2, 3, 4, 4]"}]
+            elif "cycle" in t_lower or "palindrome" in t_lower:
+                ret_type = "bool"
+                examples = [{"input": "[1, 2, 2, 1]", "output": "true"}]
+            elif "remove" in t_lower or "delete" in t_lower:
+                if "nth" in t_lower:
+                    params = [("head", "list_int"), ("n", "int")]
+                    default_input = "[1, 2, 3, 4, 5]\n2"
+                    examples = [{"input": "[1, 2, 3, 4, 5]\n2", "output": "[1, 2, 3, 5]"}]
+                    
         elif "tree" in category.lower():
             input_fmt = "Line 1: A level-order traversal array of the tree."
             output_fmt = "The computed traversal list, boolean, or integer result."
@@ -1070,6 +1128,28 @@ def get_problem_details(title, category):
             default_input = "[1, null, 2, 3]"
             params = [("root", "list_int")]
             ret_type = "int" if ("depth" in t_lower or "sum" in t_lower or "diameter" in t_lower or "kth" in t_lower) else "list_int"
+            
+            if "depth" in t_lower or "height" in t_lower or "sum" in t_lower or "diameter" in t_lower or "kth" in t_lower or "count" in t_lower:
+                ret_type = "int"
+                default_input = "[3, 9, 20, null, null, 15, 7]"
+                examples = [{"input": "[3, 9, 20, null, null, 15, 7]", "output": "3"}]
+                if "path sum" in t_lower:
+                    params = [("root", "list_int"), ("target_sum", "int")]
+                    default_input = "[5, 4, 8, 11, null, 13, 4]\n22"
+                    examples = [{"input": "[5, 4, 8, 11, null, 13, 4]\n22", "output": "true"}]
+                    ret_type = "bool"
+            elif "validate" in t_lower or "same" in t_lower or "symmetric" in t_lower or "balanced" in t_lower:
+                ret_type = "bool"
+                if "same" in t_lower:
+                    params = [("p", "list_int"), ("q", "list_int")]
+                    default_input = "[1, 2]\n[1, 2]"
+                    examples = [{"input": "[1, 2]\n[1, 2]", "output": "true"}]
+            elif "insert" in t_lower:
+                params = [("root", "list_int"), ("val", "int")]
+                default_input = "[4, 2, 7]\n5"
+                examples = [{"input": "[4, 2, 7]\n5", "output": "[4, 2, 7, null, null, 5]"}]
+                ret_type = "list_int"
+                
         elif "graph" in category.lower():
             input_fmt = "Line 1: A JSON-formatted list of edges or adjacency list."
             output_fmt = "The traversal paths, integer values, or boolean result."
@@ -1078,6 +1158,18 @@ def get_problem_details(title, category):
             default_input = "[[0, 1], [1, 2], [2, 0]]"
             params = [("edges", "list_int")]
             ret_type = "bool" if ("cycle" in t_lower or "schedule" in t_lower or "bipartite" in t_lower) else "int"
+            
+            if "island" in t_lower or "orange" in t_lower or "matrix" in t_lower:
+                params = [("grid", "list_int")]  # stick to list_int for compiler safety
+                default_input = "[1, 1, 0, 1, 1, 0, 0, 0, 1]"
+                examples = [{"input": "[1, 1, 0, 1, 1, 0, 0, 0, 1]", "output": "2"}]
+                ret_type = "int"
+            elif "course" in t_lower:
+                params = [("num_courses", "int"), ("prerequisites", "list_int")]
+                default_input = "2\n[1, 0]"
+                examples = [{"input": "2\n[1, 0]", "output": "true"}]
+                ret_type = "bool"
+                
         elif "sorting" in category.lower() or "searching" in category.lower():
             input_fmt = "Line 1: A JSON array of integers."
             output_fmt = "The sorted array, element value, or index."
@@ -1086,6 +1178,13 @@ def get_problem_details(title, category):
             default_input = "[4, 2, 1, 3]"
             params = [("nums", "list_int")]
             ret_type = "list_int" if "sort" in t_lower else "int"
+            
+            if "search" in t_lower or "find" in t_lower or "kth" in t_lower or "position" in t_lower:
+                params = [("nums", "list_int"), ("target", "int")]
+                default_input = "[5, 7, 7, 8, 8, 10]\n8"
+                examples = [{"input": "[5, 7, 7, 8, 8, 10]\n8", "output": "3"}]
+                ret_type = "int"
+                
         elif "stack" in category.lower() or "queue" in category.lower():
             input_fmt = "Line 1: A JSON array of operations or elements."
             output_fmt = "The computed evaluation result."
@@ -1094,7 +1193,14 @@ def get_problem_details(title, category):
             default_input = "[1, 2, 3]"
             params = [("nums", "list_int")]
             ret_type = "int"
-        elif "dynamic" in category.lower() or "dp" in category.lower():
+            
+            if "parentheses" in t_lower or "path" in t_lower or "calculator" in t_lower:
+                params = [("s", "str")]
+                default_input = "\"()[]{}\""
+                examples = [{"input": "\"()[]{}\"", "output": "true"}]
+                ret_type = "bool" if "parentheses" in t_lower else "str" if "path" in t_lower else "int"
+                
+        elif "dynamic" in category.lower() or "dp" in category.lower() or "recursion" in category.lower() or "backtracking" in category.lower():
             input_fmt = "Line 1: A JSON list of values or single integer."
             output_fmt = "The optimized maximum profit, minimum path, or count value."
             examples = [{"input": "[10, 15, 20]", "output": "15"}]
@@ -1102,6 +1208,18 @@ def get_problem_details(title, category):
             default_input = "[10, 15, 20]"
             params = [("nums", "list_int")]
             ret_type = "int"
+            
+            if "stair" in t_lower or "fibonacci" in t_lower or "power" in t_lower or "hanoi" in t_lower or "josephus" in t_lower:
+                params = [("n", "int")]
+                default_input = "5"
+                examples = [{"input": "5", "output": "8"}]
+                ret_type = "int"
+            elif "paths" in t_lower or "queen" in t_lower:
+                params = [("m", "int"), ("n", "int")]
+                default_input = "3\n3"
+                examples = [{"input": "3\n3", "output": "6"}]
+                ret_type = "int"
+                
         else:
             input_fmt = "Line 1: A JSON-formatted list of inputs."
             output_fmt = "Return the core result value."
@@ -1250,23 +1368,19 @@ def inject_questions(file_path):
     if dir_name:
         os.makedirs(dir_name, exist_ok=True)
         
-    if os.path.exists(file_path):
-        try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-        except Exception:
-            data = {}
-    else:
-        data = {}
-        
-    data["playground_questions"] = lightweight_questions
-    
     with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
-    print(f"Injected and saved lightweight questions list to: {file_path}")
+        json.dump(lightweight_questions, f, indent=2, ensure_ascii=False)
+    print(f"Saved lightweight questions list to: {file_path}")
 
-inject_questions("backend/data/data.json")
-inject_questions("frontend/public/data.json")
+inject_questions("backend/data/playground_questions.json")
+inject_questions("frontend/public/data/playground_questions.json")
+
+# Save full detailed questions to the backup directory
+backup_path = "backend/data/backup/playground_questions.json"
+os.makedirs(os.path.dirname(backup_path), exist_ok=True)
+with open(backup_path, "w", encoding="utf-8") as f:
+    json.dump(questions, f, indent=2, ensure_ascii=False)
+print(f"Saved {len(questions)} detailed questions backup to: {backup_path}")
 
 # Upload full details to Firebase Firestore
 print("Attempting to upload question details to Firebase Firestore...")

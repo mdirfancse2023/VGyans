@@ -27,3 +27,5 @@ Thumbs.db
 # Firebase Credentials
 backend/serviceAccountKey.json
 
+.vercel
+.env*
