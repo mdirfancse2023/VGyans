@@ -173,8 +173,78 @@ def make_leetcode_style_html(desc, input_fmt, output_fmt, examples, constraints)
     html += "</div>"
     return html
 
+def make_sql_desc_html(task_desc, tables_used, output_fmt_desc, example_query, example_output_rows):
+    """Generate a SQL-style question description showing task, tables, and expected output."""
+    html = "<div class='leetcode-desc'>"
+    html += f"<p style='margin-bottom:1rem;'>{task_desc}</p>"
+
+    html += "<h4 style='color:#0284c7;font-size:0.85rem;margin-top:1rem;margin-bottom:0.4rem;font-weight:700;'>Tables Available</h4>"
+    html += f"<p style='font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.75rem;'>Use the following tables: <code>{'</code>, <code>'.join(tables_used)}</code>. The schema is shown in the <strong>Relational Schema Reference</strong> panel below.</p>"
+
+    html += "<h4 style='color:#0284c7;font-size:0.85rem;margin-top:1rem;margin-bottom:0.4rem;font-weight:700;'>Output Format</h4>"
+    html += f"<p style='font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem;'>{output_fmt_desc}</p>"
+
+    if example_query:
+        html += "<h4 style='color:#e2e8f0;font-size:0.8rem;margin-top:0.8rem;margin-bottom:0.3rem;font-weight:600;'>Example Query</h4>"
+        html += f"<pre style='background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:0.5rem 0.75rem;font-family:monospace;font-size:0.78rem;color:#93c5fd;margin-bottom:0.8rem;white-space:pre-wrap;line-height:1.4;'>{example_query}</pre>"
+
+    if example_output_rows:
+        html += "<h4 style='color:#e2e8f0;font-size:0.8rem;margin-top:0.8rem;margin-bottom:0.3rem;font-weight:600;'>Expected Output</h4>"
+        html += "<div style='overflow-x:auto;margin-bottom:0.8rem;'>"
+        html += "<table style='border-collapse:collapse;font-size:0.78rem;font-family:monospace;'>"
+        headers = list(example_output_rows[0].keys())
+        html += "<thead><tr>"
+        for h in headers:
+            html += f"<th style='border:1px solid rgba(255,255,255,0.12);padding:0.3rem 0.6rem;color:#38bdf8;background:rgba(0,0,0,0.3);text-align:left;'>{h}</th>"
+        html += "</tr></thead><tbody>"
+        for row in example_output_rows:
+            html += "<tr>"
+            for h in headers:
+                html += f"<td style='border:1px solid rgba(255,255,255,0.08);padding:0.3rem 0.6rem;color:#cbd5e1;'>{row.get(h,'')}</td>"
+            html += "</tr>"
+        html += "</tbody></table></div>"
+
+    html += "</div>"
+    return html
+
+def get_sql_problem_details(title, category):
+    """Return proper SQL-style description HTML for a SQL question."""
+    sub = category.replace("SQL - ", "")
+
+    # ── Per-question overrides ──────────────────────────────────────────────
+    overrides = {
+        "All Employees":          ("Write a query to retrieve <strong>all columns</strong> from the <code>employees</code> table.", ["employees"], "All rows and columns from the employees table.", "SELECT * FROM employees;", [{"id":1,"name":"Md Irfan","department_id":1,"salary":120000,"manager_id":"NULL","hire_date":"2020-01-15"},{"id":2,"name":"Rahul Sharma","department_id":1,"salary":95000,"manager_id":1,"hire_date":"2021-03-22"}]),
+        "High Earners":           ("Find all employees whose <strong>salary is greater than 90,000</strong>.", ["employees"], "name and salary of qualifying employees.", "SELECT name, salary FROM employees WHERE salary > 90000;", [{"name":"Md Irfan","salary":120000},{"name":"Vikram Malhotra","salary":110000}]),
+        "Department Names list":  ("List the <strong>names of all departments</strong> in the company.", ["departments"], "A single column: department_name.", "SELECT department_name FROM departments;", [{"department_name":"Engineering"},{"department_name":"Product"},{"department_name":"Marketing"},{"department_name":"HR"}]),
+        "Average Salary per Department": ("Calculate the <strong>average salary</strong> for each department.", ["employees","departments"], "department_name and avg_salary, ordered by avg_salary DESC.", "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name\nORDER BY avg_salary DESC;", [{"department_name":"Engineering","avg_salary":101250.0},{"department_name":"Product","avg_salary":97500.0}]),
+        "Second Highest Salary":  ("Find the <strong>second highest salary</strong> from the employees table. Return NULL if it doesn't exist.", ["employees"], "SecondHighestSalary — a single value.", "SELECT MAX(salary) AS SecondHighestSalary\nFROM employees\nWHERE salary < (SELECT MAX(salary) FROM employees);", [{"SecondHighestSalary":110000}]),
+        "Rank Employees by Salary": ("Rank all employees by their salary using the <strong>RANK()</strong> window function, highest first.", ["employees"], "name, salary, and salary_rank columns.", "SELECT name, salary, RANK() OVER (ORDER BY salary DESC) AS salary_rank\nFROM employees;", [{"name":"Md Irfan","salary":120000,"salary_rank":1},{"name":"Vikram Malhotra","salary":110000,"salary_rank":2}]),
+        "Employee Department Names": ("Write a JOIN query to display each employee's <strong>name alongside their department name</strong>.", ["employees","departments"], "employee_name and department_name.", "SELECT e.name AS employee_name, d.department_name\nFROM employees e\nJOIN departments d ON e.department_id = d.id;", [{"employee_name":"Md Irfan","department_name":"Engineering"},{"employee_name":"Rahul Sharma","department_name":"Engineering"}]),
+    }
+
+    if title in overrides:
+        task_desc, tables_used, out_fmt, eq, erows = overrides[title]
+        return make_sql_desc_html(task_desc, tables_used, out_fmt, eq, erows)
+
+    # ── Category-level defaults ─────────────────────────────────────────────
+    cat_defaults = {
+        "Basic Select":        (["employees","departments"], "The queried columns as a result set.", "SELECT ... FROM employees WHERE ...;", []),
+        "Joins":               (["employees","departments","projects","employee_projects"], "Columns from joined tables as a result set.", "SELECT e.name, d.department_name FROM employees e JOIN departments d ON e.department_id=d.id;", []),
+        "Aggregations":        (["employees","departments","projects"], "Aggregated values (e.g. COUNT, SUM, AVG) per group.", "SELECT department_id, COUNT(*) AS total FROM employees GROUP BY department_id;", []),
+        "Subqueries & CTEs":   (["employees","departments"], "Result rows using a subquery or CTE expression.", "WITH dept_avg AS (SELECT department_id, AVG(salary) AS avg FROM employees GROUP BY department_id)\nSELECT name FROM employees WHERE salary > (SELECT avg FROM dept_avg WHERE department_id=1);", []),
+        "Window Functions":    (["employees","departments","orders"], "Result rows with an extra window-computed column.", "SELECT name, salary, RANK() OVER (ORDER BY salary DESC) AS rnk FROM employees;", []),
+    }
+
+    tables_used, out_fmt, eq, erows = cat_defaults.get(sub, (["employees"], "A result set.", "", []))
+    task_desc = f"Write a <strong>{sub}</strong> SQL query to solve: <em>{title}</em>."
+    return make_sql_desc_html(task_desc, tables_used, out_fmt, eq, erows)
+
 def get_problem_details(title, category):
-    # Default Fallback values
+    # ── SQL questions get their own style ──────────────────────────────────────
+    if category.startswith("SQL"):
+        return get_sql_problem_details(title, category), ""
+
+    # Default Fallback values for DSA
     desc = f"Write an algorithm to solve the <strong>{title}</strong> challenge."
     input_fmt = "Line 1: A JSON-formatted list of inputs."
     output_fmt = "Return the core result value."
