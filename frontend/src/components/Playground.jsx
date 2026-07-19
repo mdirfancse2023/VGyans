@@ -447,6 +447,66 @@ const formatSolutionCode = (lang, langCode) => {
   return langCode;
 };
 
+const parseTestCasesFromProblem = (problem) => {
+  if (!problem) return [];
+  const desc = problem.description || '';
+  const testCases = [];
+
+  const regex = /<strong>Input:<\/strong>\s*([\s\S]*?)<strong>Output:<\/strong>\s*([\s\S]*?)(?=<strong>Explanation:<\/strong>|<\/pre>|<h4|$)/gi;
+  let match;
+  let count = 1;
+
+  while ((match = regex.exec(desc)) !== null) {
+    let rawInput = match[1].replace(/<[^>]+>/g, '').trim();
+    let rawOutput = match[2].replace(/<[^>]+>/g, '').trim();
+    
+    rawInput = rawInput.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+    rawOutput = rawOutput.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+
+    if (rawInput || rawOutput) {
+      testCases.push({
+        id: count,
+        label: `Case ${count}`,
+        input: rawInput,
+        expectedOutput: rawOutput
+      });
+      count++;
+    }
+  }
+
+  if (testCases.length === 0 && problem.input) {
+    testCases.push({
+      id: 1,
+      label: 'Case 1',
+      input: problem.input.trim(),
+      expectedOutput: ''
+    });
+  }
+
+  return testCases;
+};
+
+const compareOutputs = (actual, expected) => {
+  if (!expected) return null;
+  const act = (actual || '').trim();
+  const exp = (expected || '').trim();
+
+  if (act === exp) return true;
+
+  const normalize = (s) => (s || '').replace(/[\r\n\s]+/g, '').replace(/,/g, ', ').toLowerCase().trim();
+  if (normalize(act) === normalize(exp)) return true;
+
+  try {
+    const actJson = JSON.parse(act);
+    const expJson = JSON.parse(exp);
+    return JSON.stringify(actJson) === JSON.stringify(expJson);
+  } catch (e) {
+    // Not JSON
+  }
+
+  return false;
+};
+
 
 export default function Playground({ questions }) {
   const activeQuestions = (questions && questions.length > 0) ? questions : PROBLEMS;
@@ -463,6 +523,28 @@ export default function Playground({ questions }) {
   const [expandedTopics, setExpandedTopics] = useState({});
   const [sidebarTab, setSidebarTab] = useState('problem');
   const [copiedLang, setCopiedLang] = useState('');
+
+  // LeetCode Test Cases & Submissions State
+  const [testCases, setTestCases] = useState([]);
+  const [selectedCaseIdx, setSelectedCaseIdx] = useState(0);
+  const [testResults, setTestResults] = useState({});
+  const [submitResult, setSubmitResult] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (activeProblem) {
+      const parsedCases = parseTestCasesFromProblem(activeProblem);
+      setTestCases(parsedCases);
+      setSelectedCaseIdx(0);
+      setTestResults({});
+      setSubmitResult(null);
+      if (parsedCases.length > 0) {
+        setStdin(parsedCases[0].input || '');
+      } else {
+        setStdin(activeProblem.input || '');
+      }
+    }
+  }, [activeProblem]);
 
   const handleCopySolution = (langCode, lang) => {
     const fullSolution = formatSolutionCode(lang, langCode);
@@ -659,7 +741,12 @@ export default function Playground({ questions }) {
     setStdout('');
     setStderr('');
     setHasRun(false);
+    setSubmitResult(null);
     setConsoleTab('output');
+
+    const activeInput = stdin;
+    const activeCase = (selectedCaseIdx >= 0 && testCases[selectedCaseIdx]) ? testCases[selectedCaseIdx] : null;
+
     try {
       const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
       const response = await fetch(`${API_URL}/api/run`, {
@@ -670,15 +757,31 @@ export default function Playground({ questions }) {
         body: JSON.stringify({
           language: activeLang,
           code: reconstructFullCode(code, activeProblem.templates[activeLang]),
-          input: stdin
+          input: activeInput
         })
       });
 
       const result = await response.json();
       if (response.ok) {
-        setStdout(result.stdout || '');
-        setStderr(result.stderr || '');
+        const out = result.stdout || '';
+        const err = result.stderr || '';
+        setStdout(out);
+        setStderr(err);
         setHasRun(true);
+
+        if (activeCase && activeCase.expectedOutput) {
+          const isPassed = compareOutputs(out, activeCase.expectedOutput);
+          setTestResults(prev => ({
+            ...prev,
+            [selectedCaseIdx]: {
+              passed: isPassed,
+              stdout: out,
+              stderr: err,
+              expected: activeCase.expectedOutput,
+              input: activeInput
+            }
+          }));
+        }
       } else {
         setStderr(result.detail || result.error || 'Server error occurred during compilation.');
         setHasRun(true);
@@ -688,6 +791,94 @@ export default function Playground({ questions }) {
       setHasRun(true);
     } finally {
       setIsRunning(false);
+    }
+  };
+
+  const handleSubmitAll = async () => {
+    if (testCases.length === 0) {
+      handleRunCode();
+      return;
+    }
+
+    setIsSubmitting(true);
+    setStdout('');
+    setStderr('');
+    setHasRun(false);
+    setSubmitResult(null);
+    setConsoleTab('output');
+
+    let passedCount = 0;
+    const newResults = {};
+    let firstFailedCase = null;
+
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
+      const fullCode = reconstructFullCode(code, activeProblem.templates[activeLang]);
+
+      for (let i = 0; i < testCases.length; i++) {
+        const tc = testCases[i];
+        const response = await fetch(`${API_URL}/api/run`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            language: activeLang,
+            code: fullCode,
+            input: tc.input
+          })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          const out = result.stdout || '';
+          const err = result.stderr || '';
+          const isPassed = compareOutputs(out, tc.expectedOutput);
+          newResults[i] = {
+            passed: isPassed,
+            stdout: out,
+            stderr: err,
+            expected: tc.expectedOutput,
+            input: tc.input
+          };
+
+          if (isPassed) {
+            passedCount++;
+          } else if (!firstFailedCase) {
+            firstFailedCase = { index: i, tc, stdout: out, stderr: err };
+          }
+        } else {
+          newResults[i] = {
+            passed: false,
+            stdout: '',
+            stderr: result.detail || result.error || 'Execution Error',
+            expected: tc.expectedOutput,
+            input: tc.input
+          };
+          if (!firstFailedCase) {
+            firstFailedCase = { index: i, tc, stdout: '', stderr: result.detail || result.error };
+          }
+        }
+      }
+
+      setTestResults(newResults);
+      const allPassed = passedCount === testCases.length;
+
+      setSubmitResult({
+        status: allPassed ? 'ACCEPTED' : 'WRONG_ANSWER',
+        passedCount,
+        totalCount: testCases.length,
+        failedCase: firstFailedCase
+      });
+
+      if (firstFailedCase) {
+        setSelectedCaseIdx(firstFailedCase.index);
+        setStdin(firstFailedCase.tc.input);
+      }
+      setHasRun(true);
+    } catch (err) {
+      setStderr(`Network Error: ${err.message}`);
+      setHasRun(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -1473,29 +1664,42 @@ export default function Playground({ questions }) {
               </select>
             </div>
 
-            <button 
-              className="btn btn-primary"
-              style={{ padding: '0.5rem 1.25rem', gap: '0.5rem', cursor: 'pointer' }}
-              onClick={handleRunCode}
-              disabled={isRunning}
-            >
-              {isRunning ? (
-                <>
-                  <svg className="animate-spin" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10" opacity="0.25"></circle>
-                    <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" opacity="0.75"></path>
-                  </svg>
-                  Running...
-                </>
-              ) : (
-                <>
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                  Run Code
-                </>
-              )}
-            </button>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button 
+                className="btn btn-secondary"
+                style={{ padding: '0.45rem 1rem', gap: '0.4rem', cursor: 'pointer', background: 'rgba(255,255,255,0.06)', color: '#cbd5e1', border: '1px solid var(--border-glass)', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 600 }}
+                onClick={handleRunCode}
+                disabled={isRunning || isSubmitting}
+              >
+                {isRunning ? (
+                  <>Running...</>
+                ) : (
+                  <>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    Run Code
+                  </>
+                )}
+              </button>
+              <button 
+                className="btn btn-primary"
+                style={{ padding: '0.45rem 1.1rem', gap: '0.4rem', cursor: 'pointer', background: 'linear-gradient(135deg, #10b981, #059669)', border: 'none', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700 }}
+                onClick={handleSubmitAll}
+                disabled={isRunning || isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>Submitting...</>
+                ) : (
+                  <>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                      <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                    Submit / Test All
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className="editor-wrapper">
@@ -1523,23 +1727,50 @@ export default function Playground({ questions }) {
           </div>
 
           {/* BOTTOM TERMINAL PANEL */}
-          <div className="console-panel">
-            <div className="console-tabs">
+          <div className="console-panel" style={{ height: '230px', minHeight: '180px' }}>
+            <div className="console-tabs" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', overflowX: 'auto' }}>
+              {testCases.map((tc, idx) => {
+                const res = testResults[idx];
+                return (
+                  <button
+                    key={idx}
+                    className={`console-tab ${selectedCaseIdx === idx ? 'active' : ''}`}
+                    onClick={() => {
+                      setSelectedCaseIdx(idx);
+                      setStdin(tc.input);
+                      setConsoleTab('output');
+                    }}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
+                  >
+                    <span>{tc.label}</span>
+                    {res && (
+                      <span style={{
+                        fontSize: '0.65rem',
+                        padding: '0.08rem 0.3rem',
+                        borderRadius: '4px',
+                        background: res.passed ? 'rgba(34,197,94,0.25)' : 'rgba(239,68,68,0.25)',
+                        color: res.passed ? '#4ade80' : '#f87171',
+                        fontWeight: 800
+                      }}>
+                        {res.passed ? '✓' : '✗'}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+
               <button 
-                className={`console-tab ${consoleTab === 'output' ? 'active' : ''}`}
-                onClick={() => setConsoleTab('output')}
-              >
-                Console Output
-              </button>
-              <button 
-                className={`console-tab ${consoleTab === 'input' ? 'active' : ''}`}
-                onClick={() => setConsoleTab('input')}
+                className={`console-tab ${selectedCaseIdx === -1 ? 'active' : ''}`}
+                onClick={() => {
+                  setSelectedCaseIdx(-1);
+                  setConsoleTab('input');
+                }}
               >
                 Custom Input (stdin)
               </button>
             </div>
 
-            <div className="console-body">
+            <div className="console-body" style={{ overflowY: 'auto' }}>
               {consoleTab === 'input' ? (
                 <textarea
                   className="stdin-textarea"
@@ -1548,26 +1779,98 @@ export default function Playground({ questions }) {
                   placeholder="Enter inputs for standard input stream..."
                 />
               ) : (
-                <>
-                  {stdout && (
-                    <div className="terminal-stdout">
-                      <div style={{ color: '#64748b', fontSize: '0.75rem', marginBottom: '0.4rem', fontFamily: 'sans-serif', fontWeight: 600 }}>STDOUT:</div>
-                      {stdout}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {/* Global Submission Result Banner */}
+                  {submitResult && (
+                    <div style={{
+                      padding: '0.7rem 1rem',
+                      borderRadius: '8px',
+                      background: submitResult.status === 'ACCEPTED' ? 'rgba(22, 101, 52, 0.4)' : 'rgba(153, 27, 27, 0.4)',
+                      border: `1px solid ${submitResult.status === 'ACCEPTED' ? '#22c55e' : '#ef4444'}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem'
+                    }}>
+                      <span style={{ fontSize: '1.2rem' }}>
+                        {submitResult.status === 'ACCEPTED' ? '🎉' : '❌'}
+                      </span>
+                      <div>
+                        <div style={{
+                          fontWeight: 800,
+                          fontSize: '0.95rem',
+                          color: submitResult.status === 'ACCEPTED' ? '#4ade80' : '#f87171'
+                        }}>
+                          {submitResult.status === 'ACCEPTED' ? 'Accepted — All Test Cases Passed!' : 'Wrong Answer — Tests Failed'}
+                        </div>
+                        <div style={{ fontSize: '0.78rem', color: '#cbd5e1', marginTop: '0.15rem' }}>
+                          {submitResult.passedCount} / {submitResult.totalCount} Test Cases Passed
+                        </div>
+                      </div>
                     </div>
                   )}
+
+                  {/* Active Test Case Execution & Comparison Details */}
+                  {selectedCaseIdx >= 0 && testCases[selectedCaseIdx] && (
+                    <div style={{ background: 'rgba(15, 23, 42, 0.4)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '0.75rem 0.85rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                        <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
+                          {testCases[selectedCaseIdx].label} Verification
+                        </span>
+                        {testResults[selectedCaseIdx] && (
+                          <span style={{
+                            fontSize: '0.75rem',
+                            fontWeight: 800,
+                            padding: '0.2rem 0.6rem',
+                            borderRadius: '99px',
+                            background: testResults[selectedCaseIdx].passed ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)',
+                            color: testResults[selectedCaseIdx].passed ? '#4ade80' : '#f87171',
+                            border: `1px solid ${testResults[selectedCaseIdx].passed ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'}`
+                          }}>
+                            {testResults[selectedCaseIdx].passed ? '✓ Passed' : '✗ Wrong Answer'}
+                          </span>
+                        )}
+                      </div>
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.8rem', fontFamily: 'monospace' }}>
+                        <div>
+                          <div style={{ color: '#64748b', fontSize: '0.7rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.2rem' }}>Input</div>
+                          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.4rem 0.6rem', borderRadius: '4px', color: '#e2e8f0', whiteSpace: 'pre-wrap' }}>
+                            {testCases[selectedCaseIdx].input}
+                          </div>
+                        </div>
+
+                        {stdout && (
+                          <div>
+                            <div style={{ color: '#64748b', fontSize: '0.7rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.2rem' }}>Your Output</div>
+                            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.4rem 0.6rem', borderRadius: '4px', color: testResults[selectedCaseIdx]?.passed === false ? '#f87171' : '#4ade80', whiteSpace: 'pre-wrap' }}>
+                              {stdout}
+                            </div>
+                          </div>
+                        )}
+
+                        {testCases[selectedCaseIdx].expectedOutput && (
+                          <div>
+                            <div style={{ color: '#64748b', fontSize: '0.7rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.2rem' }}>Expected Output</div>
+                            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.4rem 0.6rem', borderRadius: '4px', color: '#38bdf8', whiteSpace: 'pre-wrap' }}>
+                              {testCases[selectedCaseIdx].expectedOutput}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
                   {stderr && (
                     <div className="terminal-stderr">
-                      <div style={{ color: '#64748b', fontSize: '0.75rem', marginBottom: '0.4rem', fontFamily: 'sans-serif', fontWeight: 600 }}>STDERR:</div>
+                      <div style={{ color: '#64748b', fontSize: '0.75rem', marginBottom: '0.4rem', fontFamily: 'sans-serif', fontWeight: 600 }}>STDERR / COMPILE ERROR:</div>
                       {stderr}
                     </div>
                   )}
-                  {!stdout && !stderr && !isRunning && !hasRun && (
-                    <p style={{ color: '#475569', fontSize: '0.9rem', fontStyle: 'italic', margin: 0 }}>Click "Run Code" to compile and execute program output...</p>
+
+                  {!stdout && !stderr && !isRunning && !isSubmitting && !hasRun && (
+                    <p style={{ color: '#475569', fontSize: '0.85rem', fontStyle: 'italic', margin: 0 }}>Click "Run Code" or "Submit / Test All" to run against LeetCode test cases...</p>
                   )}
-                  {!stdout && !stderr && !isRunning && hasRun && (
-                    <p style={{ color: '#64748b', fontSize: '0.9rem', fontStyle: 'italic', margin: 0 }}>✓ Code ran successfully — no output produced.</p>
-                  )}
-                </>
+                </div>
               )}
             </div>
           </div>
