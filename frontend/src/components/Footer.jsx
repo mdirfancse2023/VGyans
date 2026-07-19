@@ -20,7 +20,6 @@ export default function Footer({ setActiveTab }) {
 
         <div className="footer-right">
           <a href="https://www.youtube.com/c/virtualgyans" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://t.me/virtualgyans" target="_blank" rel="noopener noreferrer">Telegram</a>
           <a href="mailto:virtualgyans@gmail.com">Contact</a>
         </div>
       </div>
