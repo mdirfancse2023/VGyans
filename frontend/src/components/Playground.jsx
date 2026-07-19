@@ -342,34 +342,95 @@ const getHiddenDriverCode = (originalTemplate) => {
 };
 
 const reconstructFullCode = (userEditedCode, originalTemplate) => {
-  const driverInfo = getHiddenDriverCode(originalTemplate);
-  if (!driverInfo) return userEditedCode;
+  if (!userEditedCode || !userEditedCode.trim()) return userEditedCode;
+
+  const driverInfo = getHiddenDriverCode(originalTemplate || '');
+
+  // 1. If originalTemplate has driver tags, use them cleanly
+  if (driverInfo) {
+    const { startMarker, endMarker, hiddenContent } = driverInfo;
+    
+    if (originalTemplate.includes('public class Main')) {
+      if (userEditedCode.includes('public static void main(')) {
+        return userEditedCode;
+      }
+      if (userEditedCode.includes('public class Main')) {
+        const lastBraceIndex = userEditedCode.lastIndexOf('}');
+        if (lastBraceIndex !== -1) {
+          return userEditedCode.substring(0, lastBraceIndex) + 
+                 "\n\n  " + startMarker + hiddenContent + endMarker + "\n" + 
+                 userEditedCode.substring(lastBraceIndex);
+        }
+      } else {
+        return "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n  " + 
+               userEditedCode + "\n\n  " + 
+               startMarker + hiddenContent + endMarker + "\n}";
+      }
+    }
+    return userEditedCode + "\n\n" + startMarker + hiddenContent + endMarker;
+  }
+
+  // 2. Fallback: If originalTemplate has no driver tags or is missing, dynamically generate driver code!
   
-  const { startMarker, endMarker, hiddenContent } = driverInfo;
-  
-  if (originalTemplate.includes('public class Main')) {
-    // If user edited code already includes public static void main, don't duplicate driver main
+  // Java Dynamic Driver Fallback
+  if (userEditedCode.includes('public static') || userEditedCode.includes('class Main') || userEditedCode.includes('int ') || userEditedCode.includes('boolean ') || userEditedCode.includes('void ')) {
     if (userEditedCode.includes('public static void main(')) {
       return userEditedCode;
     }
     
-    // If user code has public class Main, insert driver code before the last closing brace
+    // Extract method name
+    const match = userEditedCode.match(/public\s+static\s+[\w\[\]<>]+\s+(\w+)\s*\(/) || userEditedCode.match(/static\s+[\w\[\]<>]+\s+(\w+)\s*\(/) || userEditedCode.match(/[\w\[\]<>]+\s+(\w+)\s*\(/);
+    const funcName = match ? match[1] : 'maxSubarrayKadane';
+    
+    const javaDriver = `
+    public static void main(String[] args) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String line0 = reader.readLine();
+        if (line0 == null) return;
+        String line1 = reader.readLine();
+        
+        String clean0 = line0.replace("[", "").replace("]", "").trim();
+        String[] tokens0 = clean0.isEmpty() ? new String[0] : clean0.split(",");
+        int[] nums = new int[tokens0.length];
+        for (int i = 0; i < tokens0.length; i++) {
+            try { nums[i] = Integer.parseInt(tokens0[i].trim()); } catch (Exception e) {}
+        }
+        
+        if (line1 != null && !line1.trim().isEmpty()) {
+            try {
+                int target = Integer.parseInt(line1.trim());
+                Object res = ${funcName}(nums, target);
+                if (res instanceof int[]) System.out.println(Arrays.toString((int[])res));
+                else System.out.println(res);
+                return;
+            } catch (Exception e) {}
+        }
+        
+        Object res = ${funcName}(nums);
+        if (res instanceof int[]) System.out.println(Arrays.toString((int[])res));
+        else System.out.println(res);
+    }`;
+
     if (userEditedCode.includes('public class Main')) {
       const lastBraceIndex = userEditedCode.lastIndexOf('}');
       if (lastBraceIndex !== -1) {
-        return userEditedCode.substring(0, lastBraceIndex) + 
-               "\n\n  " + startMarker + hiddenContent + endMarker + "\n" + 
-               userEditedCode.substring(lastBraceIndex);
+        return userEditedCode.substring(0, lastBraceIndex) + "\n\n  " + javaDriver + "\n" + userEditedCode.substring(lastBraceIndex);
       }
-    } else {
-      // If user code is just method definition, wrap it cleanly in Main class
-      return "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n  " + 
-             userEditedCode + "\n\n  " + 
-             startMarker + hiddenContent + endMarker + "\n}";
+    }
+    return "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n  " + userEditedCode + "\n\n  " + javaDriver + "\n}";
+  }
+
+  // Python Dynamic Driver Fallback
+  if (userEditedCode.includes('def ')) {
+    const match = userEditedCode.match(/def\s+(\w+)\s*\(/);
+    if (match) {
+      const funcName = match[1];
+      const pyDriver = `\n\nimport sys, json\nlines = sys.stdin.read().split('\\n')\nif lines and lines[0].strip():\n    try:\n        arg1 = json.loads(lines[0].strip())\n        if len(lines) > 1 and lines[1].strip():\n            try:\n                arg2 = int(lines[1].strip())\n                print(${funcName}(arg1, arg2))\n            except Exception:\n                print(${funcName}(arg1))\n        else:\n            print(${funcName}(arg1))\n    except Exception:\n        print(${funcName}(lines[0].strip()))`;
+      return userEditedCode + pyDriver;
     }
   }
-  
-  return userEditedCode + "\n\n" + startMarker + hiddenContent + endMarker;
+
+  return userEditedCode;
 };
 
 
