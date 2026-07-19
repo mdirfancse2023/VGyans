@@ -5,7 +5,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 def main():
-    data_path = "backend/data/data.json"
+    data_path = "backend/data/data_full_backup.json"
     if not os.path.exists(data_path):
         print(f"Error: {data_path} not found.")
         return
