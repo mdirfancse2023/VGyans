@@ -53,10 +53,32 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let loadedFromLive = false;
+      // 1. Fetch static local data.json immediately for instant rendering of channel stats & basic info
+      try {
+        console.log('Fetching local static data.json');
+        const localRes = await fetch('./data.json');
+        if (localRes.ok) {
+          const localData = await localRes.json();
+          if (localData.channel) setChannelStats(localData.channel);
+          if (localData.playlists) setPlaylists(localData.playlists);
+          if (localData.videos) setVideos(localData.videos);
+          if (localData.resources) setResources(localData.resources);
+          if (localData.experiences) setExperiences(localData.experiences);
+          if (localData.flashcards) setFlashcards(localData.flashcards);
+          if (localData.onboardingStages) setOnboardingStages(localData.onboardingStages);
+          if (localData.notes) setNotes(localData.notes);
+        }
+      } catch (err) {
+        console.warn('Failed to load local static data fallback:', err);
+      }
+      
+      // Stop loading state so that user sees everything instantly
+      setLoading(false);
+
+      // 2. Fetch fresh live data from FastAPI in the background
       try {
         if (API_URL) {
-          console.log(`Fetching live data from FastAPI database: ${API_URL}/api/all`);
+          console.log(`Background fetching live data from FastAPI: ${API_URL}/api/all`);
           const liveRes = await fetch(`${API_URL}/api/all`);
           if (liveRes.ok) {
             const liveData = await liveRes.json();
@@ -69,37 +91,12 @@ export default function App() {
             if (liveData.onboardingStages) setOnboardingStages(liveData.onboardingStages);
             if (liveData.notes) setNotes(liveData.notes);
             if (liveData.playground_questions) setPlaygroundQuestions(liveData.playground_questions);
-            console.log('Database load complete.');
-            loadedFromLive = true;
+            console.log('Background sync with live database complete.');
           }
         }
       } catch (err) {
-        console.warn('FastAPI database fetch failed, trying local fallback:', err);
+        console.error('Background live sync error:', err);
       }
-
-      if (!loadedFromLive) {
-        try {
-          console.log('Fetching local static data.json fallback');
-          const localRes = await fetch('./data.json');
-          if (localRes.ok) {
-            const localData = await localRes.json();
-            if (localData.channel) setChannelStats(localData.channel);
-            if (localData.playlists) setPlaylists(localData.playlists);
-            if (localData.videos) setVideos(localData.videos);
-            if (localData.resources) setResources(localData.resources);
-            if (localData.experiences) setExperiences(localData.experiences);
-            if (localData.flashcards) setFlashcards(localData.flashcards);
-            if (localData.onboardingStages) setOnboardingStages(localData.onboardingStages);
-            if (localData.notes) setNotes(localData.notes);
-            if (localData.playground_questions) setPlaygroundQuestions(localData.playground_questions);
-          }
-        } catch (localErr) {
-          console.error('Static data load error:', localErr);
-          setError(localErr.message);
-        }
-      }
-      setLoading(false);
-      setError(null);
     };
 
     fetchData();
