@@ -1519,65 +1519,42 @@ export default function Playground({ questions }) {
         {/* LEFT PANEL: Problem Description & Solutions OR Free Playground Hub */}
         <div className="playground-sidebar">
           {!activeProblem ? (
-            <div style={{ padding: '1.25rem' }}>
-              <div style={{ marginBottom: '1.25rem' }}>
-                <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#f8fafc', margin: 0, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <span>⚡</span> Code Editor & Playground
-                </h2>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginTop: '0.4rem', lineHeight: 1.5 }}>
-                  Write, test, and execute custom code in <strong>Python 3</strong>, <strong>Java 17</strong>, <strong>C++ 14</strong>, <strong>MySQL</strong>, or <strong>PostgreSQL</strong>.
-                </p>
-              </div>
-
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '10px',
-                padding: '1rem',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.75rem'
-              }}>
-                <div style={{ fontSize: '0.82rem', color: '#cbd5e1', lineHeight: 1.5 }}>
-                  Practice coding freely or pick a structured DSA / SQL problem from the 350+ curated question bank.
-                </div>
-                <button 
-                  className="btn btn-primary"
-                  onClick={() => setDrawerOpen(true)}
-                  style={{ padding: '0.55rem 1rem', width: '100%', justifyContent: 'center', fontSize: '0.82rem', fontWeight: 700 }}
-                >
-                  📚 Browse 350+ Questions
-                </button>
-              </div>
-
-              <div>
-                <h4 style={{ fontSize: '0.78rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
-                  Explore Questions by Category
-                </h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                  {Object.entries(groupedProblems).map(([cat, items]) => (
-                    <button
-                      key={cat}
-                      onClick={() => selectQuestion(items[0])}
-                      style={{
-                        background: 'rgba(15, 23, 42, 0.6)',
-                        border: '1px solid rgba(255, 255, 255, 0.06)',
-                        borderRadius: '8px',
-                        padding: '0.65rem 0.75rem',
-                        textAlign: 'left',
-                        cursor: 'pointer',
-                        color: '#e2e8f0',
-                        fontSize: '0.78rem',
-                        fontWeight: 600,
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      <div style={{ color: 'var(--primary)', fontSize: '0.7rem', fontWeight: 700 }}>{items.length} Questions</div>
-                      <div style={{ marginTop: '0.15rem' }}>{cat}</div>
-                    </button>
-                  ))}
-                </div>
+            <div style={{ padding: '0.85rem 1rem', flex: 1, overflowY: 'auto' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                {Object.entries(groupedProblems).map(([cat, items]) => (
+                  <button
+                    key={cat}
+                    onClick={() => selectQuestion(items[0])}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.025)',
+                      border: '1px solid rgba(255, 255, 255, 0.06)',
+                      borderRadius: '8px',
+                      padding: '0.65rem 0.85rem',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      color: '#e2e8f0',
+                      fontSize: '0.83rem',
+                      fontWeight: 600,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <span>{cat}</span>
+                    <span style={{
+                      color: '#38bdf8',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      background: 'rgba(56, 189, 248, 0.1)',
+                      border: '1px solid rgba(56, 189, 248, 0.2)',
+                      padding: '0.15rem 0.55rem',
+                      borderRadius: '99px'
+                    }}>
+                      {items.length}Q
+                    </span>
+                  </button>
+                ))}
               </div>
             </div>
           ) : (
