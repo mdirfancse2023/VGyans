@@ -385,7 +385,7 @@ export default function Hero({ stats, setActiveTab }) {
 
           <div className="hero2-right">
             <img
-              src={stats.avatarUrl || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&h=200&fit=crop'}
+              src={stats.avatarUrl || '/youtube-avatar.png'}
               alt="Md Irfan — Virtual Gyans"
               className="hero2-avatar-img"
             />

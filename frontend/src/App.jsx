@@ -37,8 +37,8 @@ export default function App() {
     subscriberCount: '120000',
     viewCount: '9500000',
     videoCount: '400',
-    avatarUrl: '',
-    bannerUrl: '',
+    avatarUrl: '/youtube-avatar.png',
+    bannerUrl: '/youtube-banner.png',
     title: 'Virtual Gyans',
     description: ''
   });
