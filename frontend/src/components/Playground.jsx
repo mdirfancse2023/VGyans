@@ -1700,7 +1700,7 @@ export default function Playground({ questions }) {
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
                       <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                     </svg>
-                    Submit / Test All
+                    Submit
                   </>
                 )}
               </button>
