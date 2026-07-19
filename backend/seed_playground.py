@@ -2,9 +2,6 @@ import json
 import os
 import re
 
-# Categories for DSA (250 questions)
-# Categories for SQL (100 questions)
-
 def camel_case(s):
     s = re.sub(r'[^a-zA-Z0-9 ]', '', s)
     words = s.split()
@@ -15,10 +12,6 @@ def camel_case(s):
 def snake_case(s):
     s = re.sub(r'[^a-zA-Z0-9 ]', '', s)
     return '_'.join(s.lower().split())
-
-def pascal_case(s):
-    s = re.sub(r'[^a-zA-Z0-9 ]', '', s)
-    return ''.join(w.capitalize() for w in s.split())
 
 def make_python_template(func_name, params, ret_type):
     param_str = ", ".join(f"{name}" for name, _ in params)
@@ -135,6 +128,170 @@ def make_cpp_template(func_name, params, ret_type):
     
     return f"#include <iostream>\n#include <vector>\n#include <string>\n#include <sstream>\n#include <algorithm>\n\nusing namespace std;\n\n{cpp_ret} {cpp_func}({', '.join(cpp_params)}) {{\n{body}\n}}\n\n// -- HIDE DRIVER CODE START --\n" + "\n".join(driver) + "\n// -- HIDE DRIVER CODE END --"
 
+def make_leetcode_style_html(desc, input_fmt, output_fmt, examples, constraints):
+    html = "<div class='leetcode-desc'>"
+    html += f"<p style='margin-bottom: 1rem;'>{desc}</p>"
+    
+    html += "<h4 style='color: #0284c7; font-size: 0.85rem; margin-top: 1rem; margin-bottom: 0.3rem; font-weight: 700;'>Input Format</h4>"
+    html += f"<p style='font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;'>{input_fmt}</p>"
+    
+    html += "<h4 style='color: #0284c7; font-size: 0.85rem; margin-top: 1rem; margin-bottom: 0.3rem; font-weight: 700;'>Output Format</h4>"
+    html += f"<p style='font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;'>{output_fmt}</p>"
+    
+    for i, ex in enumerate(examples, 1):
+        html += f"<h4 style='color: #e2e8f0; font-size: 0.8rem; margin-top: 0.8rem; margin-bottom: 0.3rem; font-weight: 600;'>Example {i}</h4>"
+        html += "<pre style='background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 0.5rem 0.75rem; font-family: monospace; font-size: 0.78rem; color: #cbd5e1; margin-bottom: 0.8rem; white-space: pre-wrap; line-height: 1.4;'>"
+        html += f"<strong>Input:</strong> {ex['input']}\n"
+        html += f"<strong>Output:</strong> {ex['output']}\n"
+        if ex.get('explanation'):
+            html += f"<strong>Explanation:</strong> {ex['explanation']}"
+        html += "</pre>"
+        
+    html += "<h4 style='color: #0284c7; font-size: 0.85rem; margin-top: 1rem; margin-bottom: 0.4rem; font-weight: 700;'>Constraints</h4>"
+    html += "<ul style='font-size: 0.8rem; color: var(--text-secondary); padding-left: 1.2rem; margin-bottom: 1rem;'>"
+    for c in constraints:
+        html += f"<li style='margin-bottom: 0.2rem;'>{c}</li>"
+    html += "</ul>"
+    
+    html += "</div>"
+    return html
+
+def get_problem_details(title, category):
+    # Default Fallback values
+    desc = f"Write an algorithm to solve the <strong>{title}</strong> challenge."
+    input_fmt = "Line 1: A JSON-formatted list of inputs."
+    output_fmt = "Return the core result value."
+    examples = [
+        {"input": "[1, 2, 3]\n5", "output": "8"},
+        {"input": "[10, -5, 20]\n10", "output": "30"}
+    ]
+    constraints = ["1 <= inputs.length <= 10^4", "-10^5 <= value <= 10^5"]
+    default_input = "[1, 2, 3]\n5"
+    
+    # Specific Mapping for standard DSA questions
+    if "Two Sum" in title:
+        desc = "Given an array of integers <code>nums</code> and an integer <code>target</code>, return indices of the two numbers such that they add up to <code>target</code>."
+        input_fmt = "Line 1: A JSON-formatted array of integers (e.g. <code>[2,7,11,15]</code>)<br/>Line 2: An integer target (e.g. <code>9</code>)"
+        output_fmt = "A JSON array of two indices (e.g. <code>[0, 1]</code>)."
+        examples = [
+            {"input": "[2, 7, 11, 15]\n9", "output": "[0, 1]", "explanation": "Because nums[0] + nums[1] == 9, we return [0, 1]."},
+            {"input": "[3, 2, 4]\n6", "output": "[1, 2]", "explanation": "Because nums[1] + nums[2] == 6, we return [1, 2]."}
+        ]
+        constraints = ["2 <= nums.length <= 10^4", "-10^9 <= nums[i] <= 10^9", "-10^9 <= target <= 10^9", "Only one valid answer exists."]
+        default_input = "[2, 7, 11, 15]\n9"
+    elif "Kadane" in title or "Max Subarray" in title:
+        desc = "Given an integer array <code>nums</code>, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum."
+        input_fmt = "Line 1: A JSON-formatted array of integers (e.g. <code>[-2,1,-3,4,-1,2,1,-5,4]</code>)"
+        output_fmt = "An integer representing the maximum sum."
+        examples = [
+            {"input": "[-2, 1, -3, 4, -1, 2, 1, -5, 4]", "output": "6", "explanation": "[4,-1,2,1] has the largest sum = 6."},
+            {"input": "[5, 4, -1, 7, 8]", "output": "23", "explanation": "[5,4,-1,7,8] has the largest sum = 23."}
+        ]
+        constraints = ["1 <= nums.length <= 10^5", "-10^4 <= nums[i] <= 10^4"]
+        default_input = "[-2, 1, -3, 4, -1, 2, 1, -5, 4]"
+    elif "Container With Most Water" in title:
+        desc = "Given <code>n</code> non-negative integers representing an elevation map where the width of each bar is 1, find two lines that together with the x-axis form a container, such that the container contains the most water."
+        input_fmt = "Line 1: A JSON list of integer heights (e.g. <code>[1,8,6,2,5,4,8,3,7]</code>)"
+        output_fmt = "An integer representing the maximum volume of water."
+        examples = [
+            {"input": "[1, 8, 6, 2, 5, 4, 8, 3, 7]", "output": "49", "explanation": "The max area of water is formed between index 1 and index 8 with height 7. Volume = 7 * 7 = 49."},
+            {"input": "[1, 1]", "output": "1"}
+        ]
+        constraints = ["n == height.length", "2 <= n <= 10^5", "0 <= height[i] <= 10^4"]
+        default_input = "[1, 8, 6, 2, 5, 4, 8, 3, 7]"
+    elif "Reverse String" in title:
+        desc = "Write a function that reverses a string. The input string is given as a string of characters."
+        input_fmt = "Line 1: The input string wrapped in quotes (e.g. <code>\"hello\"</code>)"
+        output_fmt = "The reversed string."
+        examples = [
+            {"input": "\"hello\"", "output": "olleh"},
+            {"input": "\"Hannah\"", "output": "hannaH"}
+        ]
+        constraints = ["1 <= s.length <= 10^5", "s consists of printable ASCII characters."]
+        default_input = "\"hello\""
+    elif "Valid Anagram" in title:
+        desc = "Given two strings <code>s</code> and <code>t</code>, return <code>true</code> if <code>t</code> is an anagram of <code>s</code>, and <code>false</code> otherwise."
+        input_fmt = "Line 1: First string <code>s</code><br/>Line 2: Second string <code>t</code>"
+        output_fmt = "Boolean (<code>true</code> or <code>false</code>)."
+        examples = [
+            {"input": "\"anagram\"\n\"nagaram\"", "output": "true"},
+            {"input": "\"rat\"\n\"car\"", "output": "false"}
+        ]
+        constraints = ["1 <= s.length, t.length <= 5 * 10^4", "s and t consist of lowercase English letters."]
+        default_input = "\"anagram\"\n\"nagaram\""
+    elif "Valid Palindrome" in title:
+        desc = "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Return <code>true</code> if it is a palindrome, or <code>false</code> otherwise."
+        input_fmt = "Line 1: A string wrapped in quotes."
+        output_fmt = "Boolean (<code>true</code> or <code>false</code>)."
+        examples = [
+            {"input": "\"A man, a plan, a canal: Panama\"", "output": "true", "explanation": "\u0022amanaplanacanalpanama\u0022 is a palindrome."},
+            {"input": "\"race a car\"", "output": "false"}
+        ]
+        constraints = ["1 <= s.length <= 2 * 10^5", "s consists only of printable ASCII characters."]
+        default_input = "\"A man, a plan, a canal: Panama\""
+    elif "Climbing Stairs" in title:
+        desc = "You are climbing a staircase. It takes <code>n</code> steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?"
+        input_fmt = "Line 1: Integer steps <code>n</code>."
+        output_fmt = "Integer representing total unique combinations."
+        examples = [
+            {"input": "2", "output": "2", "explanation": "There are two ways to climb to the top:\n1. 1 step + 1 step\n2. 2 steps"},
+            {"input": "3", "output": "3", "explanation": "There are three ways:\n1. 1 step + 1 step + 1 step\n2. 1 step + 2 steps\n3. 2 steps + 1 step"}
+        ]
+        constraints = ["1 <= n <= 45"]
+        default_input = "3"
+    elif "Binary Search" in title:
+        desc = "Given an array of integers <code>nums</code> which is sorted in ascending order, and an integer <code>target</code>, write a function to search <code>target</code> in <code>nums</code>. If <code>target</code> exists, then return its index. Otherwise, return <code>-1</code>."
+        input_fmt = "Line 1: JSON array of sorted integers.<br/>Line 2: Target integer."
+        output_fmt = "Integer index of target or -1."
+        examples = [
+            {"input": "[-1, 0, 3, 5, 9, 12]\n9", "output": "4", "explanation": "9 exists in nums and its index is 4."},
+            {"input": "[-1, 0, 3, 5, 9, 12]\n2", "output": "-1", "explanation": "2 does not exist in nums so return -1."}
+        ]
+        constraints = ["1 <= nums.length <= 10^4", "-10^4 < nums[i], target < 10^4", "All the integers in nums are unique.", "nums is sorted in ascending order."]
+        default_input = "[-1, 0, 3, 5, 9, 12]\n9"
+        
+    # Standard SQL Descriptions
+    elif "SQL" in title:
+        if "All Employees" in title:
+            desc = "Write a query to select all records and columns from the <code>employees</code> table."
+            examples = [
+                {"input": "SELECT * FROM employees;", "output": "id | name         | department_id | salary | manager_id | hire_date\n---+--------------+---------------+--------+------------+----------\n1  | Md Irfan     | 1             | 120000 | NULL       | 2020-01-15\n..."}
+            ]
+            constraints = ["Return columns in the order: id, name, department_id, salary, manager_id, hire_date."]
+        elif "High Earners" in title:
+            desc = "Write a query to find all employees earning a salary strictly greater than <code>90,000</code>."
+            examples = [
+                {"input": "SELECT name, salary FROM employees WHERE salary > 90000;", "output": "name            | salary\n----------------+-------\nMd Irfan        | 120000\nPriya Patel     | 105000\nVikram Malhotra | 110000"}
+            ]
+            constraints = ["Filter rows where salary > 90000."]
+        elif "Employee Department Names" in title:
+            desc = "Write a query to retrieve each employee's <code>name</code> along with their corresponding <code>department_name</code> using an <code>INNER JOIN</code>."
+            examples = [
+                {"input": "SELECT e.name, d.department_name FROM employees e JOIN departments d ON e.department_id = d.id;", "output": "name        | department_name\n------------+----------------\nMd Irfan    | Engineering\nPriya Patel | Product\n..."}
+            ]
+            constraints = ["Link employees to departments by department_id."]
+        elif "Second Highest Salary" in title:
+            desc = "Write a SQL query to get the second highest salary from the <code>employees</code> table. If there is no second highest salary, the query should return <code>NULL</code>."
+            examples = [
+                {"input": "SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;", "output": "salary\n------\n110000"}
+            ]
+            constraints = ["Must handle duplicate salaries correctly."]
+        elif "Rank Employees" in title:
+            desc = "Write a query to rank all employees by salary in descending order using the <code>DENSE_RANK()</code> window function."
+            examples = [
+                {"input": "SELECT name, salary, DENSE_RANK() OVER(ORDER BY salary DESC) as rnk FROM employees;", "output": "name            | salary | rnk\n----------------+--------+----\nMd Irfan        | 120000 | 1\nVikram Malhotra | 110000 | 2\n..."}
+            ]
+            constraints = ["Rank must be dense (no gaps in rank ordering)."]
+        else:
+            desc = f"Write a SQL query to solve the database problem: <strong>{title}</strong>."
+            examples = [
+                {"input": f"-- Select query for {title}", "output": "Table records showing compiled result set."}
+            ]
+            constraints = ["Observe table schemas in the sidebar to write compatible joins and aggregates."]
+
+    return make_leetcode_style_html(desc, input_fmt, output_fmt, examples, constraints), default_input
+
+# Setup questions lists
 dsa_categories = {
     "Arrays": 30,
     "Strings": 30,
@@ -189,12 +346,6 @@ for category, count in dsa_categories.items():
         elif idx % 2 == 0:
             difficulty = "Medium"
             
-        inp = "[1, 2, 3, 4]\n5"
-        if "Palindrome" in title or "String" in title:
-            inp = '"racecar"'
-        elif "Sum" in title:
-            inp = "[2, 7, 11, 15]\n9"
-            
         params = [("nums", "list_int"), ("target", "int")]
         ret_type = "int"
         
@@ -205,15 +356,15 @@ for category, count in dsa_categories.items():
             params = [("s", "str")]
             
         func_name = snake_case(title)
-        desc = f"Given the parameters, implement the core algorithm to solve **{title}**.<br/><br/><strong>Input format:</strong><br/>Line 1: Stdin argument.<br/>Line 2: Stdin target integer (if applicable).<br/><br/><strong>Output format:</strong> Return the correct result as defined by the standard problem signature."
+        desc_html, default_input = get_problem_details(title, f"DSA - {category}")
 
         questions.append({
             "id": f"dsa-{num_str}",
             "title": f"{id_counter}. {title}",
             "difficulty": difficulty,
             "category": f"DSA - {category}",
-            "description": desc,
-            "input": inp,
+            "description": desc_html,
+            "input": default_input,
             "templates": {
                 "python": make_python_template(func_name, params, ret_type),
                 "java": make_java_template(func_name, params, ret_type),
@@ -236,35 +387,31 @@ for category, count in sql_categories.items():
     for idx in range(1, count + 1):
         num_str = f"{sql_counter:03d}"
         title = f"SQL {category} Query {idx}"
-        desc = ""
         
         if category == "Basic Select":
             names = ["All Employees", "High Earners", "IT Department Staff", "Employees Hired in 2023", "Unique Employee Names", "Employees with No Manager", "Sort Employees by Salary", "Select Top 5 Budgets", "Find Specific Project", "Custom Columns Employees", "Salary Greater than 80000", "Employees under Manager 3", "Project Budget Range", "Location of Departments", "Employees starting with A", "Employees with High ID", "Project Budgets Descending", "Department Names list", "Distinct Job Locations", "Hired After Jan 2021"]
             title = names[idx - 1] if idx <= len(names) else f"Basic Query {idx}"
-            desc = f"Write a SQL query to solve: <strong>{title}</strong> against the database tables."
         elif category == "Joins":
             names = ["Employee Department Names", "Department Managers", "Employees on Projects", "Department Spending Joins", "Unassigned Projects", "Employees without Departments", "All Managers and Subordinates", "Project Hours per Employee", "High Budget Project Assignments", "Department Cities List", "Cross Join Teams", "Join Multi-Tables", "Self Join Bosses", "Department Budget Allotment", "Employees working > 40 Hours", "Subcontractor Project Hours", "Employees and Project Budgets", "Missing Department Logs", "Project and Departments Joined", "Location Wise Employees List"]
             title = names[idx - 1] if idx <= len(names) else f"Join Query {idx}"
-            desc = f"Write a SQL query using JOINs to solve: <strong>{title}</strong>."
         elif category == "Aggregations":
             names = ["Average Salary per Department", "Total Budget of All Projects", "Count of Employees in IT", "Maximum Salary in Company", "Total Hours Spent on Project 1", "Average Project Budget", "Total Salary Expense", "Count Departments in USA", "Min Max Salary per Dept", "Department Headcount", "Average Hours Worked", "Sum Hours Worked per Project", "Salary Stats overall", "Employee Count per Location", "Projects Count per Budget", "Average Department Salaries > 50000", "Maximum Project Hours Worked", "Count Employees under Manager 1", "Sum Budgets > 1000000", "Count Distinct Project Members"]
             title = names[idx - 1] if idx <= len(names) else f"Aggregation Query {idx}"
-            desc = f"Write a SQL query utilizing GROUP BY and aggregate functions to find: <strong>{title}</strong>."
         elif category == "Subqueries & CTEs":
             names = ["Second Highest Salary", "Employees with Above Average Salary", "Highest Paid in Department", "Departments with No Employees Subquery", "CTE Department Headcount", "CTE Project Budget Ranking", "Subquery Manager Details", "Find Employees Hired Before Manager", "CTEs for Project Hour Sums", "CTE Employee Projects Info", "Subquery High Hours Worked", "Departments with Sum Salary > Average", "Project Budgets > Department Salaries", "Manager Salary Greater than Employee", "Double Nested Salary Subquery", "Department Name of Max Salary Employee", "CTE Highest Budget Projects Only", "Subquery Hired After Boss", "Employees not in Project 1", "Department Managers Average Salary"]
             title = names[idx - 1] if idx <= len(names) else f"Subquery/CTE Query {idx}"
-            desc = f"Write a SQL query utilizing subqueries or Common Table Expressions (CTEs) to find: <strong>{title}</strong>."
         elif category == "Window Functions":
             names = ["Rank Employees by Salary", "Department Wise Salary Rank", "Dense Rank Project Budgets", "Row Number per Department Hired", "Lead Lag Salaries Comparison", "Moving Average Employee Salaries", "Running Total of Project Hours", "Percent Rank Salaries", "NTILE Salary Quartiles", "First Value Hire Date per Dept", "Last Value Budgets", "Lag Project Budget Differences", "Rank Projects by Hours Worked", "Window Sum Salaries per Location", "Row Number for Orders", "Running Total Order Amounts", "Order Item Counts Windowed", "Customer Order Frequency Rank", "Average Order Value Windowed", "Product Price Rank in Categories"]
             title = names[idx - 1] if idx <= len(names) else f"Window Function Query {idx}"
-            desc = f"Write a SQL query using window functions (e.g. <code>RANK()</code>, <code>ROW_NUMBER()</code>, <code>LEAD()</code>) to solve: <strong>{title}</strong>."
+
+        desc_html, _ = get_problem_details(title, f"SQL - {category}")
 
         questions.append({
             "id": f"sql-{num_str}",
             "title": f"{sql_counter}. SQL: {title}",
             "difficulty": "Easy" if idx <= 7 else "Medium" if idx <= 15 else "Hard",
             "category": f"SQL - {category}",
-            "description": f"{desc}<br/><br/>Refer to the database schema helper inside the sidebar to see structural tables.",
+            "description": desc_html,
             "input": "",
             "templates": {
                 "sql": f"-- Write your {category} SQL query here\n",

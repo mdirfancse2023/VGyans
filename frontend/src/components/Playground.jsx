@@ -540,6 +540,21 @@ export default function Playground({ questions }) {
         .problem-desc strong {
           color: #f8fafc;
         }
+        .problem-desc code {
+          background: rgba(255, 255, 255, 0.05);
+          padding: 0.15rem 0.3rem;
+          border-radius: 4px;
+          font-family: monospace;
+          font-size: 0.8rem;
+          color: #f43f5e;
+        }
+        body.light-theme .problem-desc code {
+          background: rgba(15, 23, 42, 0.05);
+          color: #be123c;
+        }
+        body.light-theme .problem-desc strong {
+          color: #0f172a !important;
+        }
         .playground-ide {
           flex: 1;
           display: flex;
