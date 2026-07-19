@@ -135,6 +135,34 @@ class InterviewExperienceCreate(BaseModel):
     rounds: List[RoundDetail]
     tips: str = Field(..., example="Revise OOPs and practice SQL Joins.")
 
+class FeedbackCreate(BaseModel):
+    category: str = Field(..., example="improve")
+    categoryLabel: str = Field(..., example="🔧 What to Improve")
+    message: str = Field(..., example="The code editor needs dark mode.")
+    rating: Optional[int] = Field(None, example=4)
+    page: Optional[str] = Field(None, example="https://virtualgyans.com")
+
+@app.post("/api/feedback")
+def submit_feedback(fb: FeedbackCreate):
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database unavailable")
+    try:
+        doc_ref = db.collection("feedback").document()
+        doc_ref.set({
+            "category": fb.category,
+            "categoryLabel": fb.categoryLabel,
+            "message": fb.message,
+            "rating": fb.rating,
+            "page": fb.page or "",
+            "createdAt": datetime.datetime.utcnow().isoformat() + "Z",
+        })
+        return {"success": True, "id": doc_ref.id}
+    except Exception as e:
+        print(f"Feedback write error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to save feedback: {str(e)}")
+
+
+
 @app.get("/")
 def read_root():
     return {

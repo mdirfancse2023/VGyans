@@ -7,6 +7,7 @@ import InterviewExperiences from './components/InterviewExperiences';
 import InteractiveTools from './components/InteractiveTools';
 import Playground from './components/Playground';
 import Footer from './components/Footer';
+import FeedbackButton from './components/FeedbackButton';
 
 const API_URL = import.meta.env.VITE_API_URL || (
   typeof window !== 'undefined' && window.location.hostname === 'localhost' 
@@ -329,6 +330,7 @@ export default function App() {
       </main>
 
       {activeTab !== 'playground' && <Footer setActiveTab={setActiveTab} />}
+      <FeedbackButton />
     </div>
   );
 }
