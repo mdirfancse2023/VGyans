@@ -1429,13 +1429,6 @@ export default function Playground({ questions }) {
                           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
                             <button 
                               className="copy-solution-btn"
-                              onClick={() => handleCopySolution(code, lang)}
-                              style={{ position: 'static' }}
-                            >
-                              {copiedLang === lang ? '✓ Copied' : '📋 Copy'}
-                            </button>
-                            <button 
-                              className="copy-solution-btn"
                               onClick={() => handleApplySolution(lang, code)}
                               style={{ position: 'static', background: 'var(--primary)', color: '#fff', borderColor: 'var(--primary)' }}
                             >

@@ -1,86 +1,86 @@
 [
   {
     "description": "Step-by-step preparation guide for Accenture's cognitive assessment, technical assessment, and coding round.",
+    "title": "Accenture Cognitive and Coding Test Guide",
+    "id": "accenture-cognitive-prep",
+    "company": "Accenture",
+    "category": "Placement Prep",
     "tags": [
       "Accenture",
       "Cognitive",
       "Coding",
       "Aptitude"
     ],
-    "category": "Placement Prep",
-    "downloadUrl": "#",
-    "company": "Accenture",
-    "id": "accenture-cognitive-prep",
-    "title": "Accenture Cognitive and Coding Test Guide"
+    "downloadUrl": "#"
   },
   {
     "description": "Comprehensive guide to clearing the Cognizant technical interview, training assessment, and skill matrix test.",
+    "title": "Cognizant GenC / Elevate Preparation Guide",
+    "id": "cog-prep-guide",
+    "company": "Cognizant",
+    "category": "Placement Prep",
     "tags": [
       "Cognizant",
       "GenC",
       "Training",
       "Interview"
     ],
-    "category": "Placement Prep",
-    "downloadUrl": "#",
-    "company": "Cognizant",
-    "id": "cog-prep-guide",
-    "title": "Cognizant GenC / Elevate Preparation Guide"
+    "downloadUrl": "#"
   },
   {
     "description": "Learn the patterns behind coding interview questions: Slidng Window, Two Pointers, Fast & Slow Pointers, etc.",
+    "title": "Top 15 DSA Patterns for Tech Interviews",
+    "id": "dsa-interview-patterns",
+    "company": "All",
+    "category": "Technical",
     "tags": [
       "DSA",
       "Algorithms",
       "C++",
       "Java"
     ],
-    "category": "Technical",
-    "downloadUrl": "#",
-    "company": "All",
-    "id": "dsa-interview-patterns",
-    "title": "Top 15 DSA Patterns for Tech Interviews"
+    "downloadUrl": "#"
   },
   {
     "description": "Professional resume of Md Irfan, Software Developer (3+ Years Experience).",
+    "title": "Md Irfan's Resume",
+    "id": "irfan-resume",
+    "company": "All",
+    "category": "Resume",
     "tags": [
       "Resume",
       "Developer",
       "Java",
       "React"
     ],
-    "category": "Resume",
-    "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
-    "company": "All",
-    "id": "irfan-resume",
-    "title": "Md Irfan's Resume"
+    "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE"
   },
   {
     "description": "Quick revision notes on Core Java, OOPs concepts, Exception Handling, Collections Framework, and Multithreading.",
+    "title": "Java & OOPs Interview Cheat Sheet",
+    "id": "java-oop-cheatsheet",
+    "company": "All",
+    "category": "Technical",
     "tags": [
       "Java",
       "OOPs",
       "Coding",
       "Interview"
     ],
-    "category": "Technical",
-    "downloadUrl": "#",
-    "company": "All",
-    "id": "java-oop-cheatsheet",
-    "title": "Java & OOPs Interview Cheat Sheet"
+    "downloadUrl": "#"
   },
   {
     "description": "Detailed syllabus, recommended resources, and mock questions for TCS National Qualifier Test (NQT).",
+    "title": "TCS NQT Preparation Roadmap & Syllabus",
+    "id": "tcs-nqt-roadmap",
+    "company": "TCS",
+    "category": "Placement Prep",
     "tags": [
       "TCS",
       "NQT",
       "Aptitude",
       "Coding"
     ],
-    "category": "Placement Prep",
-    "downloadUrl": "#",
-    "company": "TCS",
-    "id": "tcs-nqt-roadmap",
-    "title": "TCS NQT Preparation Roadmap & Syllabus"
+    "downloadUrl": "#"
   }
 ]

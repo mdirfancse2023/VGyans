@@ -1,15 +1,5 @@
 [
   {
-    "description": "Essential syntax, pointer concepts, structures, dynamic memory allocation, and key interview snippets.",
-    "tags": [
-      "C",
-      "Syntax",
-      "Pointers",
-      "Core"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/c-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -56,20 +46,20 @@
         "text": "struct Employee {\n    int id;          // 4 bytes\n    char grade;      // 1 byte\n    double salary;   // 8 bytes\n}; // Total memory: ~16 bytes due to padding\n\nunion Cache {\n    int val;         // 4 bytes\n    char code;       // 1 byte\n}; // Total memory: 4 bytes (shared)"
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "C",
+      "Syntax",
+      "Pointers",
+      "Core"
+    ],
+    "downloadUrl": "/notes/c-study-notes",
+    "description": "Essential syntax, pointer concepts, structures, dynamic memory allocation, and key interview snippets.",
+    "title": "C Programming Quick Notes",
     "id": "c-study-notes",
-    "title": "C Programming Quick Notes"
+    "company": "All"
   },
   {
-    "description": "Object-oriented concepts, virtual functions, templates, STL (Standard Template Library), and C++ reference.",
-    "tags": [
-      "C++",
-      "OOPs",
-      "STL",
-      "Polymorphism"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/cpp-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -100,20 +90,20 @@
         "text": "C++ STL provides built-in data structures:<br/>- <b>Vector:</b> Dynamic contiguous array. Fast inserts/deletions at the end.<br/>- <b>Map:</b> Key-value lookup implemented as self-balancing Red-Black trees. Key operations are O(log n).<br/>- <b>Unordered Map:</b> Key-value lookup using hash tables. Average O(1) time complexity."
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "C++",
+      "OOPs",
+      "STL",
+      "Polymorphism"
+    ],
+    "downloadUrl": "/notes/cpp-study-notes",
+    "description": "Object-oriented concepts, virtual functions, templates, STL (Standard Template Library), and C++ reference.",
+    "title": "C++ & OOPs Revision Notes",
     "id": "cpp-study-notes",
-    "title": "C++ & OOPs Revision Notes"
+    "company": "All"
   },
   {
-    "description": "Overview of major data structures, sorting/searching algorithms, complexity analysis, and coding patterns.",
-    "tags": [
-      "DSA",
-      "Data Structures",
-      "Algorithms",
-      "Binary Search"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/dsa-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -144,20 +134,20 @@
         "text": "<b>Breadth-First Search (BFS):</b> Explores vertices level-by-level using a Queue. Ideal for finding the shortest path in unweighted graphs.<br/><b>Depth-First Search (DFS):</b> Explores nodes as deep as possible before backtracking using a Stack or recursion. Ideal for topology sorting and path checking."
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "DSA",
+      "Data Structures",
+      "Algorithms",
+      "Binary Search"
+    ],
+    "downloadUrl": "/notes/dsa-study-notes",
+    "description": "Overview of major data structures, sorting/searching algorithms, complexity analysis, and coding patterns.",
+    "title": "DSA Essential Hand Book",
     "id": "dsa-study-notes",
-    "title": "DSA Essential Hand Book"
+    "company": "All"
   },
   {
-    "description": "Hand-picked high-frequency technical and behavioral interview questions with standard answers.",
-    "tags": [
-      "Interview",
-      "Questions",
-      "Aptitude",
-      "HR"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/interview-questions-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -192,20 +182,20 @@
         "text": "<b>Situation:</b> In our final year project, we had to choose between SQL and MongoDB. Two members clashed heavily.<br/><b>Task:</b> As the project coordinator, I had to resolve the conflict without affecting the timeline.<br/><b>Action:</b> I scheduled a meeting, listened to both ideas, listed the pros and cons of SQL vs NoSQL relative to our specific requirements, and proposed a vote based on technical fit.<br/><b>Result:</b> We chose SQL, completed the project 1 week early, and maintained great team relationships."
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "Interview",
+      "Questions",
+      "Aptitude",
+      "HR"
+    ],
+    "downloadUrl": "/notes/interview-questions-study-notes",
+    "description": "Hand-picked high-frequency technical and behavioral interview questions with standard answers.",
+    "title": "Top 50 Technical Interview Questions",
     "id": "interview-questions-study-notes",
-    "title": "Top 50 Technical Interview Questions"
+    "company": "All"
   },
   {
-    "description": "Core Java, JVM architecture, multithreading, collections framework, Java 8 features (lambdas/streams).",
-    "tags": [
-      "Java",
-      "OOPs",
-      "JVM",
-      "Streams"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/java-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -232,20 +222,20 @@
         "text": "import java.util.*;\nimport java.util.stream.*;\n\npublic class StreamDemo {\n    public static void main(String[] args) {\n        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);\n        \n        // Compute sum of squares of all even numbers\n        int sumOfSquares = numbers.stream()\n            .filter(n -> n % 2 == 0) // Filter evens\n            .map(n -> n * n)         // Square them\n            .reduce(0, Integer::sum);\n            \n        System.out.println(\"Result: \" + sumOfSquares); // Outputs 220\n    }\n}"
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "Java",
+      "OOPs",
+      "JVM",
+      "Streams"
+    ],
+    "downloadUrl": "/notes/java-study-notes",
+    "description": "Core Java, JVM architecture, multithreading, collections framework, Java 8 features (lambdas/streams).",
+    "title": "Java Programming Master Notes",
     "id": "java-study-notes",
-    "title": "Java Programming Master Notes"
+    "company": "All"
   },
   {
-    "description": "Discovery services (Eureka), API Gateway, Circuit Breaker patterns, configuration server, and Kafka integration.",
-    "tags": [
-      "Microservices",
-      "API Gateway",
-      "Eureka",
-      "Kafka"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/microservices-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -268,20 +258,20 @@
         "text": "// Kafka consumer code inside consumer microservice\n@Service\npublic class OrderConsumer {\n    \n    @KafkaListener(topics = \"order-topic\", groupId = \"inventory-group\")\n    public void consumeOrderEvent(String eventJson) {\n        System.out.println(\"Processing inventory decrease for order: \" + eventJson);\n        // Process local database operations here\n    }\n}"
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "Microservices",
+      "API Gateway",
+      "Eureka",
+      "Kafka"
+    ],
+    "downloadUrl": "/notes/microservices-study-notes",
+    "description": "Discovery services (Eureka), API Gateway, Circuit Breaker patterns, configuration server, and Kafka integration.",
+    "title": "Microservices Architecture Blueprints",
     "id": "microservices-study-notes",
-    "title": "Microservices Architecture Blueprints"
+    "company": "All"
   },
   {
-    "description": "Core concepts, list comprehensions, decorators, generators, OOPs in Python, and common libraries.",
-    "tags": [
-      "Python",
-      "Syntax",
-      "Decorators",
-      "OOPs"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/python-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -316,20 +306,20 @@
         "text": "# Generator function yielding values lazily\ndef fibonacci(limit):\n    a, b = 0, 1\n    while a < limit:\n        yield a\n        a, b = b, a + b\n\nfor num in fibonacci(50):\n    print(num, end=\" \") # O(1) memory complexity"
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "Python",
+      "Syntax",
+      "Decorators",
+      "OOPs"
+    ],
+    "downloadUrl": "/notes/python-study-notes",
+    "description": "Core concepts, list comprehensions, decorators, generators, OOPs in Python, and common libraries.",
+    "title": "Python Cheat Sheet & Reference",
     "id": "python-study-notes",
-    "title": "Python Cheat Sheet & Reference"
+    "company": "All"
   },
   {
-    "description": "Spring framework core, IoC, Dependency Injection, REST APIs, annotations reference, and Spring Data JPA.",
-    "tags": [
-      "Spring Boot",
-      "Java",
-      "REST API",
-      "MVC"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/spring-boot-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -356,20 +346,20 @@
         "text": "@RestController\n@RequestMapping(\"/api/v1/products\")\npublic class ProductController {\n\n    @Autowired\n    private ProductService productService;\n\n    @GetMapping(\"/{id}\")\n    public ResponseEntity<Product> getProduct(@PathVariable Long id) {\n        Product prod = productService.findById(id);\n        if (prod == null) {\n            return ResponseEntity.notFound().build();\n        }\n        return ResponseEntity.ok(prod);\n    }\n}"
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "Spring Boot",
+      "Java",
+      "REST API",
+      "MVC"
+    ],
+    "downloadUrl": "/notes/spring-boot-study-notes",
+    "description": "Spring framework core, IoC, Dependency Injection, REST APIs, annotations reference, and Spring Data JPA.",
+    "title": "Spring Boot Core Concepts",
     "id": "spring-boot-study-notes",
-    "title": "Spring Boot Core Concepts"
+    "company": "All"
   },
   {
-    "description": "SQL DDL/DML, Joins, grouping and aggregations, window functions, indexing strategies, and ACID properties.",
-    "tags": [
-      "SQL",
-      "Databases",
-      "Joins",
-      "Queries"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/sql-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -404,20 +394,20 @@
         "text": "-- Rank employee salaries in their departments\nSELECT name, dept_id, salary,\n       DENSE_RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) as rank\nFROM employees;"
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "SQL",
+      "Databases",
+      "Joins",
+      "Queries"
+    ],
+    "downloadUrl": "/notes/sql-study-notes",
+    "description": "SQL DDL/DML, Joins, grouping and aggregations, window functions, indexing strategies, and ACID properties.",
+    "title": "SQL & Relational Databases Quick Guide",
     "id": "sql-study-notes",
-    "title": "SQL & Relational Databases Quick Guide"
+    "company": "All"
   },
   {
-    "description": "High-level architecture, scalability, load balancers, caching, databases (SQL vs NoSQL), and CAP theorem.",
-    "tags": [
-      "System Design",
-      "Scalability",
-      "Architecture",
-      "Microservices"
-    ],
-    "category": "Technical",
-    "downloadUrl": "/notes/system-design-study-notes",
-    "company": "All",
     "content": [
       {
         "type": "h1",
@@ -452,7 +442,17 @@
         "text": "- <b>SQL (Relational):</b> Schema-enforced, structured tables, supports ACID transactions. Scaled vertically. Ideal for payments and billing.<br/>- <b>NoSQL (Non-Relational):</b> Flexible schema, Key-Value (Redis), Document (MongoDB), Column (Cassandra), Graph (Neo4j). Scaled horizontally. Ideal for social feeds, chat logs."
       }
     ],
+    "category": "Technical",
+    "tags": [
+      "System Design",
+      "Scalability",
+      "Architecture",
+      "Microservices"
+    ],
+    "downloadUrl": "/notes/system-design-study-notes",
+    "description": "High-level architecture, scalability, load balancers, caching, databases (SQL vs NoSQL), and CAP theorem.",
+    "title": "System Design Fundamentals",
     "id": "system-design-study-notes",
-    "title": "System Design Fundamentals"
+    "company": "All"
   }
 ]
