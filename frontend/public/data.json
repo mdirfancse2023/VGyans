@@ -284,142 +284,93 @@
   ],
   "resources": [
     {
-      "id": "cog-prep-guide",
-      "title": "Cognizant GenC / Elevate Preparation Guide",
-      "category": "Placement Prep",
-      "company": "Cognizant",
-      "description": "Comprehensive guide to clearing the Cognizant technical interview, training assessment, and skill matrix test.",
-      "downloadUrl": "#",
-      "tags": [
-        "Cognizant",
-        "GenC",
-        "Training",
-        "Interview"
-      ]
-    },
-    {
-      "id": "tcs-nqt-roadmap",
-      "title": "TCS NQT Preparation Roadmap & Syllabus",
-      "category": "Placement Prep",
-      "company": "TCS",
-      "description": "Detailed syllabus, recommended resources, and mock questions for TCS National Qualifier Test (NQT).",
-      "downloadUrl": "#",
-      "tags": [
-        "TCS",
-        "NQT",
-        "Aptitude",
-        "Coding"
-      ]
-    },
-    {
-      "id": "java-oop-cheatsheet",
-      "title": "Java & OOPs Interview Cheat Sheet",
-      "category": "Technical",
-      "company": "All",
-      "description": "Quick revision notes on Core Java, OOPs concepts, Exception Handling, Collections Framework, and Multithreading.",
-      "downloadUrl": "#",
-      "tags": [
-        "Java",
-        "OOPs",
-        "Coding",
-        "Interview"
-      ]
-    },
-    {
-      "id": "dsa-interview-patterns",
-      "title": "Top 15 DSA Patterns for Tech Interviews",
-      "category": "Technical",
-      "company": "All",
-      "description": "Learn the patterns behind coding interview questions: Slidng Window, Two Pointers, Fast & Slow Pointers, etc.",
-      "downloadUrl": "#",
-      "tags": [
-        "DSA",
-        "Algorithms",
-        "C++",
-        "Java"
-      ]
-    },
-    {
       "id": "accenture-cognitive-prep",
-      "title": "Accenture Cognitive and Coding Test Guide",
-      "category": "Placement Prep",
-      "company": "Accenture",
-      "description": "Step-by-step preparation guide for Accenture's cognitive assessment, technical assessment, and coding round.",
-      "downloadUrl": "#",
       "tags": [
         "Accenture",
         "Cognitive",
         "Coding",
         "Aptitude"
-      ]
+      ],
+      "title": "Accenture Cognitive and Coding Test Guide",
+      "description": "Step-by-step preparation guide for Accenture's cognitive assessment, technical assessment, and coding round.",
+      "category": "Placement Prep",
+      "downloadUrl": "#",
+      "company": "Accenture"
+    },
+    {
+      "id": "cog-prep-guide",
+      "tags": [
+        "Cognizant",
+        "GenC",
+        "Training",
+        "Interview"
+      ],
+      "title": "Cognizant GenC / Elevate Preparation Guide",
+      "description": "Comprehensive guide to clearing the Cognizant technical interview, training assessment, and skill matrix test.",
+      "category": "Placement Prep",
+      "downloadUrl": "#",
+      "company": "Cognizant"
+    },
+    {
+      "id": "dsa-interview-patterns",
+      "tags": [
+        "DSA",
+        "Algorithms",
+        "C++",
+        "Java"
+      ],
+      "title": "Top 15 DSA Patterns for Tech Interviews",
+      "description": "Learn the patterns behind coding interview questions: Slidng Window, Two Pointers, Fast & Slow Pointers, etc.",
+      "category": "Technical",
+      "downloadUrl": "#",
+      "company": "All"
     },
     {
       "id": "irfan-resume",
-      "title": "Md Irfan's Resume",
-      "category": "Resume",
-      "company": "All",
-      "description": "Professional resume of Md Irfan, Software Developer (3+ Years Experience).",
-      "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
       "tags": [
         "Resume",
         "Developer",
         "Java",
         "React"
-      ]
+      ],
+      "title": "Md Irfan's Resume",
+      "description": "Professional resume of Md Irfan, Software Developer (3+ Years Experience).",
+      "category": "Resume",
+      "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
+      "company": "All"
+    },
+    {
+      "id": "java-oop-cheatsheet",
+      "tags": [
+        "Java",
+        "OOPs",
+        "Coding",
+        "Interview"
+      ],
+      "title": "Java & OOPs Interview Cheat Sheet",
+      "description": "Quick revision notes on Core Java, OOPs concepts, Exception Handling, Collections Framework, and Multithreading.",
+      "category": "Technical",
+      "downloadUrl": "#",
+      "company": "All"
+    },
+    {
+      "id": "tcs-nqt-roadmap",
+      "tags": [
+        "TCS",
+        "NQT",
+        "Aptitude",
+        "Coding"
+      ],
+      "title": "TCS NQT Preparation Roadmap & Syllabus",
+      "description": "Detailed syllabus, recommended resources, and mock questions for TCS National Qualifier Test (NQT).",
+      "category": "Placement Prep",
+      "downloadUrl": "#",
+      "company": "TCS"
     }
   ],
   "experiences": [
     {
-      "id": "exp-1",
-      "candidate": "Rahul Sharma",
-      "role": "Cognizant GenC Developer",
-      "company": "Cognizant",
-      "date": "June 2026",
-      "verdict": "Selected",
-      "difficulty": "Medium",
-      "rounds": [
-        {
-          "name": "Online Assessment",
-          "summary": "Aptitude, logical reasoning, and 2 basic coding questions (Array-based and String-based)."
-        },
-        {
-          "name": "Technical Interview",
-          "summary": "Questions on Java (Inheritance vs Polymorphism, Abstract classes, Interface, memory management), SQL queries (Joins, Group By, 2nd highest salary), and my final year project details."
-        },
-        {
-          "name": "HR Interview",
-          "summary": "Basic behavioral questions: relocation willingness, night shift comfort, and background verification overview."
-        }
-      ],
-      "tips": "Revise OOPs concepts thoroughly and practice basic SQL queries. Knowing your project inside out is critical."
-    },
-    {
-      "id": "exp-2",
-      "candidate": "Priya Patel",
-      "role": "TCS Ninja Developer",
-      "company": "TCS",
-      "date": "July 2026",
-      "verdict": "Selected",
-      "difficulty": "Easy-Medium",
-      "rounds": [
-        {
-          "name": "TCS NQT",
-          "summary": "Numerical ability, verbal reasoning, and 2 coding questions (Matrix manipulation and string reversal)."
-        },
-        {
-          "name": "TR/MR/HR Combined Interview",
-          "summary": "Single panel interview. Asked about my favorite programming language (Python), explanation of lists vs tuples, basic database normalization, and situational questions like 'how do you handle conflicts in a team?'"
-        }
-      ],
-      "tips": "Focus on verbal and aptitude speed during NQT. For the interview, show confidence and have basic knowledge of DBMS and SDLC."
-    },
-    {
-      "id": "exp-3",
-      "candidate": "Aniket Verma",
-      "role": "Accenture ASE (Associate Software Engineer)",
-      "company": "Accenture",
-      "date": "May 2026",
-      "verdict": "Selected",
+      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Accenture's cognitive test has strict timing.",
       "difficulty": "Medium",
       "rounds": [
         {
@@ -435,123 +386,172 @@
           "summary": "Discussion about project structure, Git commands used, team conflicts resolved, and goals for the next 2 years."
         }
       ],
-      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Accenture's cognitive test has strict timing."
+      "verdict": "Selected",
+      "company": "Accenture",
+      "id": "exp-3",
+      "role": "Accenture ASE (Associate Software Engineer)",
+      "candidate": "Aniket Verma",
+      "date": "May 2026"
+    },
+    {
+      "tips": "Focus on verbal and aptitude speed during NQT. For the interview, show confidence and have basic knowledge of DBMS and SDLC.",
+      "difficulty": "Easy-Medium",
+      "rounds": [
+        {
+          "name": "TCS NQT",
+          "summary": "Numerical ability, verbal reasoning, and 2 coding questions (Matrix manipulation and string reversal)."
+        },
+        {
+          "name": "TR/MR/HR Combined Interview",
+          "summary": "Single panel interview. Asked about my favorite programming language (Python), explanation of lists vs tuples, basic database normalization, and situational questions like 'how do you handle conflicts in a team?'"
+        }
+      ],
+      "verdict": "Selected",
+      "company": "TCS",
+      "id": "exp-2",
+      "role": "TCS Ninja Developer",
+      "candidate": "Priya Patel",
+      "date": "July 2026"
+    },
+    {
+      "tips": "Revise OOPs concepts thoroughly and practice basic SQL queries. Knowing your project inside out is critical.",
+      "difficulty": "Medium",
+      "rounds": [
+        {
+          "name": "Online Assessment",
+          "summary": "Aptitude, logical reasoning, and 2 basic coding questions (Array-based and String-based)."
+        },
+        {
+          "name": "Technical Interview",
+          "summary": "Questions on Java (Inheritance vs Polymorphism, Abstract classes, Interface, memory management), SQL queries (Joins, Group By, 2nd highest salary), and my final year project details."
+        },
+        {
+          "name": "HR Interview",
+          "summary": "Basic behavioral questions: relocation willingness, night shift comfort, and background verification overview."
+        }
+      ],
+      "verdict": "Selected",
+      "company": "Cognizant",
+      "id": "exp-1",
+      "role": "Cognizant GenC Developer",
+      "candidate": "Rahul Sharma",
+      "date": "June 2026"
     }
   ],
   "flashcards": [
     {
       "id": "fc-1",
-      "question": "What is the difference between an Abstract Class and an Interface in Java?",
       "answer": "An Abstract Class can have both abstract and concrete methods, can have state (instance variables), and supports single inheritance. An Interface can only have abstract methods (prior to Java 8), static/default methods (Java 8+), cannot have instance variables (only static final constants), and supports multiple inheritance.",
-      "category": "Java"
+      "category": "Java",
+      "question": "What is the difference between an Abstract Class and an Interface in Java?"
     },
     {
       "id": "fc-2",
-      "question": "What is Method Overriding vs Method Overloading?",
       "answer": "Overloading happens in the same class when two methods have the same name but different signatures (compile-time polymorphism). Overriding happens in child classes when a subclass redefines a parent class method with the identical signature (run-time polymorphism).",
-      "category": "Java"
+      "category": "Java",
+      "question": "What is Method Overriding vs Method Overloading?"
     },
     {
       "id": "fc-3",
-      "question": "How do you find the second highest salary in SQL?",
       "answer": "Using subqueries: `SELECT MAX(Salary) FROM Employee WHERE Salary < (SELECT MAX(Salary) FROM Employee);` or using LIMIT/OFFSET: `SELECT Salary FROM Employee ORDER BY Salary DESC LIMIT 1 OFFSET 1;`.",
-      "category": "SQL"
+      "category": "SQL",
+      "question": "How do you find the second highest salary in SQL?"
     },
     {
       "id": "fc-4",
-      "question": "What is the difference between a Singly Linked List and a Doubly Linked List?",
       "answer": "A Singly Linked List node contains data and a pointer to the next node (unidirectional traversal). A Doubly Linked List node contains data, a pointer to the next node, and a pointer to the previous node (bidirectional traversal, but consumes more memory per node).",
-      "category": "DSA"
+      "category": "DSA",
+      "question": "What is the difference between a Singly Linked List and a Doubly Linked List?"
     },
     {
       "id": "fc-5",
-      "question": "Explain the concept of Garbage Collection in Java.",
       "answer": "Garbage Collection is an automatic process by the JVM that identifies and destroys objects that are no longer referenced in the heap memory, freeing up system resources. System.gc() can suggest execution, but doesn't guarantee immediate GC.",
-      "category": "Java"
+      "category": "Java",
+      "question": "Explain the concept of Garbage Collection in Java."
     }
   ],
   "onboardingStages": {
+    "Accenture": [
+      {
+        "desc": "Selection notification followed by access to the Workday onboarding portal for tasks.",
+        "duration": "1 - 2 Weeks",
+        "stage": "1. Selection Mail & Task Allocation"
+      },
+      {
+        "desc": "Intense review of educational records. Once verified, you get a 'Green Status' mail.",
+        "duration": "2 - 4 Weeks",
+        "stage": "2. Document Uploads & Green Audit"
+      },
+      {
+        "desc": "Self-learning modules on software engineering fundamentals. Followed by a primer assessment.",
+        "duration": "1 Month",
+        "stage": "3. Warm-up Learning & Primers"
+      },
+      {
+        "desc": "Official joining date confirmation based on business demand and location selection.",
+        "duration": "2 - 4 Weeks before joining",
+        "stage": "4. Date of Joining (DOJ) Confirmation"
+      },
+      {
+        "desc": "Onboarding induction at the office, asset issuance, and project tagging setup.",
+        "duration": "Day 1",
+        "stage": "5. Day 1 Induction"
+      }
+    ],
     "Cognizant": [
       {
-        "stage": "1. Letter of Intent (LOI)",
+        "desc": "Received after clearing the interview rounds. Acceptance is required within 3-7 days.",
         "duration": "Immediate",
-        "desc": "Received after clearing the interview rounds. Acceptance is required within 3-7 days."
+        "stage": "1. Letter of Intent (LOI)"
       },
       {
-        "stage": "2. Pre-onboarding Training",
+        "desc": "Mandatory enablement training on tech stacks (Java, C#, Python, QA, etc.) via platforms like Udemy/Internal portals.",
         "duration": "1 - 2 Months",
-        "desc": "Mandatory enablement training on tech stacks (Java, C#, Python, QA, etc.) via platforms like Udemy/Internal portals."
+        "stage": "2. Pre-onboarding Training"
       },
       {
-        "stage": "3. Offer Letter (OL)",
+        "desc": "Formal employment offer containing compensation breakdown and tentative joining date.",
         "duration": "2 - 4 Weeks after LOI/Training",
-        "desc": "Formal employment offer containing compensation breakdown and tentative joining date."
+        "stage": "3. Offer Letter (OL)"
       },
       {
-        "stage": "4. Document Verification",
+        "desc": "Upload degree certificates, PAN, Aadhaar, and background check authorization on the onboarding portal.",
         "duration": "1 - 2 Weeks",
-        "desc": "Upload degree certificates, PAN, Aadhaar, and background check authorization on the onboarding portal."
+        "stage": "4. Document Verification"
       },
       {
-        "stage": "5. Onboarding & Induction",
+        "desc": "Physical or virtual induction, asset allocation (laptop setup), and assignment of employee ID.",
         "duration": "Day 1",
-        "desc": "Physical or virtual induction, asset allocation (laptop setup), and assignment of employee ID."
+        "stage": "5. Onboarding & Induction"
       }
     ],
     "TCS": [
       {
-        "stage": "1. Exam & Interview Results",
+        "desc": "Receipt of NQT scorecard and interview completion mail.",
         "duration": "Immediate",
-        "desc": "Receipt of NQT scorecard and interview completion mail."
+        "stage": "1. Exam & Interview Results"
       },
       {
-        "stage": "2. Offer Letter on NextStep Portal",
+        "desc": "Generated on the TCS NextStep portal. Must download, sign, and upload acceptance.",
         "duration": "2 - 4 Weeks",
-        "desc": "Generated on the TCS NextStep portal. Must download, sign, and upload acceptance."
+        "stage": "2. Offer Letter on NextStep Portal"
       },
       {
-        "stage": "3. ILP (Initial Learning Program) Scheduling",
+        "desc": "Assigned batch for digital or physical learning at a TCS center. Covers coding, Agile, and soft skills.",
         "duration": "1 - 3 Months",
-        "desc": "Assigned batch for digital or physical learning at a TCS center. Covers coding, Agile, and soft skills."
+        "stage": "3. ILP (Initial Learning Program) Scheduling"
       },
       {
-        "stage": "4. Joining Letter (JL)",
+        "desc": "Final date and location of joining, including ILP center details.",
         "duration": "3 - 6 Weeks before onboarding",
-        "desc": "Final date and location of joining, including ILP center details."
+        "stage": "4. Joining Letter (JL)"
       },
       {
-        "stage": "5. BGC (Background Check)",
+        "desc": "Service Agreement uploading (usually requires stamp papers and guarantor signature) and medical certificate submissions.",
         "duration": "1 - 2 Weeks",
-        "desc": "Service Agreement uploading (usually requires stamp papers and guarantor signature) and medical certificate submissions."
-      }
-    ],
-    "Accenture": [
-      {
-        "stage": "1. Selection Mail & Task Allocation",
-        "duration": "1 - 2 Weeks",
-        "desc": "Selection notification followed by access to the Workday onboarding portal for tasks."
-      },
-      {
-        "stage": "2. Document Uploads & Green Audit",
-        "duration": "2 - 4 Weeks",
-        "desc": "Intense review of educational records. Once verified, you get a 'Green Status' mail."
-      },
-      {
-        "stage": "3. Warm-up Learning & Primers",
-        "duration": "1 Month",
-        "desc": "Self-learning modules on software engineering fundamentals. Followed by a primer assessment."
-      },
-      {
-        "stage": "4. Date of Joining (DOJ) Confirmation",
-        "duration": "2 - 4 Weeks before joining",
-        "desc": "Official joining date confirmation based on business demand and location selection."
-      },
-      {
-        "stage": "5. Day 1 Induction",
-        "duration": "Day 1",
-        "desc": "Onboarding induction at the office, asset issuance, and project tagging setup."
+        "stage": "5. BGC (Background Check)"
       }
     ]
   },
-  "lastUpdated": "2026-07-19T08:15:08.009859Z"
+  "lastUpdated": "2026-07-19T08:35:11.899701Z"
 }
