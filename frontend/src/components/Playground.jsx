@@ -325,13 +325,12 @@ export default function Playground() {
   const lineNumbers = Array.from({ length: lineCount }, (_, i) => i + 1);
 
   return (
-    <div style={{ marginBottom: '3rem' }}>
+    <div style={{ marginBottom: '1rem' }}>
       <style>{`
         .playground-container {
           display: grid;
-          grid-template-columns: 350px 1fr;
-          gap: 1.5rem;
-          min-height: 70vh;
+          grid-template-columns: 320px 1fr;
+          height: calc(100vh - 120px);
           background: rgba(15, 23, 42, 0.4);
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 16px;
@@ -341,6 +340,8 @@ export default function Playground() {
         @media (max-width: 968px) {
           .playground-container {
             grid-template-columns: 1fr;
+            height: auto;
+            max-height: none;
           }
         }
         .playground-sidebar {
@@ -349,9 +350,10 @@ export default function Playground() {
           display: flex;
           flex-direction: column;
           overflow: hidden;
+          height: 100%;
         }
         .sidebar-section {
-          padding: 1.5rem;
+          padding: 1.25rem;
         }
         .sidebar-section:not(:last-child) {
           border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -361,39 +363,40 @@ export default function Playground() {
           background: rgba(15, 23, 42, 0.6);
           border: 1px solid rgba(255, 255, 255, 0.1);
           color: #f8fafc;
-          padding: 0.6rem 1rem;
+          padding: 0.5rem 0.75rem;
           border-radius: 8px;
           outline: none;
           cursor: pointer;
           font-weight: 600;
+          font-size: 0.85rem;
         }
         .problem-title {
-          font-size: 1.25rem;
+          font-size: 1.15rem;
           font-weight: 700;
           color: #f8fafc;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.4rem;
         }
         .problem-desc {
-          font-size: 0.95rem;
-          line-height: 1.6;
+          font-size: 0.9rem;
+          line-height: 1.5;
           color: #94a3b8;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1.25rem;
         }
         .playground-ide {
           display: flex;
           flex-direction: column;
           background: rgba(15, 23, 42, 0.2);
           overflow: hidden;
+          height: 100%;
         }
         .ide-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 1rem 1.5rem;
+          padding: 0.75rem 1.25rem;
           background: rgba(30, 41, 59, 0.4);
           border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          flex-wrap: wrap;
-          gap: 1rem;
+          flex-shrink: 0;
         }
         .ide-controls {
           display: flex;
@@ -404,11 +407,11 @@ export default function Playground() {
           background: rgba(15, 23, 42, 0.6);
           border: 1px solid rgba(255, 255, 255, 0.1);
           color: #f8fafc;
-          padding: 0.4rem 0.8rem;
+          padding: 0.35rem 0.75rem;
           border-radius: 6px;
           outline: none;
           cursor: pointer;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
         }
         .editor-wrapper {
           flex: 1;
@@ -416,7 +419,7 @@ export default function Playground() {
           position: relative;
           background: #0f172a;
           border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          min-height: 350px;
+          overflow: hidden;
         }
         .line-numbers {
           padding: 1rem 0.5rem;
@@ -448,20 +451,22 @@ export default function Playground() {
           background: rgba(15, 23, 42, 0.8);
           display: flex;
           flex-direction: column;
-          min-height: 200px;
-          max-height: 350px;
+          height: 200px;
+          flex-shrink: 0;
+          overflow: hidden;
         }
         .console-tabs {
           display: flex;
           background: rgba(30, 41, 59, 0.3);
           border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          flex-shrink: 0;
         }
         .console-tab {
-          padding: 0.6rem 1.2rem;
+          padding: 0.5rem 1rem;
           border: none;
           background: transparent;
           color: #64748b;
-          font-size: 0.85rem;
+          font-size: 0.8rem;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.2s ease;
@@ -473,45 +478,45 @@ export default function Playground() {
         }
         .console-body {
           flex: 1;
-          padding: 1rem 1.5rem;
+          padding: 0.75rem 1.25rem;
           overflow-y: auto;
         }
         .terminal-stdout {
           font-family: 'Courier New', Courier, monospace;
           color: #10b981;
           white-space: pre-wrap;
-          font-size: 0.85rem;
-          line-height: 1.5;
+          font-size: 0.8rem;
+          line-height: 1.4;
         }
         .terminal-stderr {
           font-family: 'Courier New', Courier, monospace;
           color: #ef4444;
           white-space: pre-wrap;
-          font-size: 0.85rem;
-          line-height: 1.5;
+          font-size: 0.8rem;
+          line-height: 1.4;
         }
         .stdin-textarea {
           width: 100%;
           height: 100%;
-          min-height: 100px;
           background: rgba(15, 23, 42, 0.5);
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 8px;
           color: #f8fafc;
           font-family: monospace;
-          padding: 0.75rem;
+          padding: 0.5rem;
           outline: none;
-          resize: vertical;
+          resize: none;
+          font-size: 0.8rem;
         }
         .schema-table {
           width: 100%;
           border-collapse: collapse;
-          font-size: 0.8rem;
-          margin-bottom: 1rem;
+          font-size: 0.75rem;
+          margin-bottom: 0.75rem;
         }
         .schema-table th, .schema-table td {
           border: 1px solid rgba(255, 255, 255, 0.05);
-          padding: 0.4rem 0.6rem;
+          padding: 0.3rem 0.5rem;
           text-align: left;
         }
         .schema-table th {
@@ -522,13 +527,6 @@ export default function Playground() {
           color: #cbd5e1;
         }
       `}</style>
-
-      <div className="section-header" style={{ marginBottom: '2rem' }}>
-        <div className="section-info">
-          <h2 className="section-title">Interactive <span className="text-gradient">Coding Playground</span></h2>
-          <p className="section-desc">Practice and test code directly in your browser. Choose programming tasks or run SQL queries against mock schemas.</p>
-        </div>
-      </div>
 
       <div className="playground-container">
         {/* SIDEBAR: Problems and Details */}
