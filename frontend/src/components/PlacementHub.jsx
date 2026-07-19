@@ -322,12 +322,12 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
   return (
     <div style={{ marginBottom: '3rem' }}>
       {/* Compact section header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-        <div>
-          <h2 className="section-title" style={{ margin: 0 }}>
+      <div className="section-header">
+        <div className="section-info">
+          <h2 className="section-title">
             Placement Prep <span className="text-gradient">Hub &amp; Resources</span>
           </h2>
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', margin: '0.3rem 0 0' }}>
+          <p className="section-desc">
             Study materials, onboarding tracker, and technical flashcards — all in one place.
           </p>
         </div>
