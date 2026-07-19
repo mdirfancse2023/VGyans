@@ -43,7 +43,7 @@ def make_python_template(func_name, params, ret_type):
         
     driver_lines.append(f"    print({func_name}({', '.join(parse_calls)}))")
     
-    return f"def {func_name}({param_str}):\n{body}\n\n# Driver code to test input\n" + "\n".join(driver_lines)
+    return f"def {func_name}({param_str}):\n{body}\n\n# -- HIDE DRIVER CODE START --\n# Driver code to test input\n" + "\n".join(driver_lines) + "\n# -- HIDE DRIVER CODE END --"
 
 def make_java_template(func_name, params, ret_type):
     java_ret = "int" if ret_type == "int" else "boolean" if ret_type == "bool" else "String" if ret_type == "str" else "int[]"
@@ -57,14 +57,6 @@ def make_java_template(func_name, params, ret_type):
     body = f"        // Write your Java code here\n        return new {java_ret.replace('[]', '[0]')};" if "[]" in java_ret else f"        // Write your Java code here\n        return { '0' if java_ret == 'int' else 'false' if java_ret == 'boolean' else '\"\"' };"
     
     driver = [
-        "import java.util.*;",
-        "import java.io.*;",
-        "",
-        "public class Main {",
-        f"    public static {java_ret} {java_func}({', '.join(java_params)}) {{",
-        body,
-        "    }",
-        "",
         "    public static void main(String[] args) throws Exception {",
         "        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));"
     ]
@@ -90,9 +82,8 @@ def make_java_template(func_name, params, ret_type):
         driver.append(f"        System.out.println({java_func}({call_args}));")
         
     driver.append("    }")
-    driver.append("}")
     
-    return "\n".join(driver)
+    return f"import java.util.*;\nimport java.io.*;\n\npublic class Main {{\n    public static {java_ret} {java_func}({', '.join(java_params)}) {{\n{body}\n    }}\n\n    // -- HIDE DRIVER CODE START --\n" + "\n".join(driver) + "\n    // -- HIDE DRIVER CODE END --\n}"
 
 def make_cpp_template(func_name, params, ret_type):
     cpp_ret = "int" if ret_type == "int" else "bool" if ret_type == "bool" else "string" if ret_type == "str" else "vector<int>"
@@ -106,18 +97,6 @@ def make_cpp_template(func_name, params, ret_type):
     body = f"    // Write your C++ code here\n    return {{}};" if "vector" in cpp_ret else f"    // Write your C++ code here\n    return { '0' if cpp_ret == 'int' else 'false' if cpp_ret == 'bool' else '\"\"' };"
     
     driver = [
-        "#include <iostream>",
-        "#include <vector>",
-        "#include <string>",
-        "#include <sstream>",
-        "#include <algorithm>",
-        "",
-        "using namespace std;",
-        "",
-        f"{cpp_ret} {cpp_func}({', '.join(cpp_params)}) {{",
-        body,
-        "}",
-        "",
         "int main() {"
     ]
     
@@ -154,7 +133,7 @@ def make_cpp_template(func_name, params, ret_type):
     driver.append("    return 0;")
     driver.append("}")
     
-    return "\n".join(driver)
+    return f"#include <iostream>\n#include <vector>\n#include <string>\n#include <sstream>\n#include <algorithm>\n\nusing namespace std;\n\n{cpp_ret} {cpp_func}({', '.join(cpp_params)}) {{\n{body}\n}}\n\n// -- HIDE DRIVER CODE START --\n" + "\n".join(driver) + "\n// -- HIDE DRIVER CODE END --"
 
 dsa_categories = {
     "Arrays": 30,

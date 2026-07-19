@@ -290,11 +290,81 @@ const highlightCode = (codeText, lang) => {
 };
 
 
+const getVisibleCode = (fullCode) => {
+  if (!fullCode) return '';
+  
+  const startMarker = '# -- HIDE DRIVER CODE START --';
+  const endMarker = '# -- HIDE DRIVER CODE END --';
+  const javaCppStartMarker = '// -- HIDE DRIVER CODE START --';
+  const javaCppEndMarker = '// -- HIDE DRIVER CODE END --';
+  
+  if (fullCode.includes(startMarker) && fullCode.includes(endMarker)) {
+    const parts = fullCode.split(startMarker);
+    const endParts = parts[1].split(endMarker);
+    return (parts[0] + (endParts[1] || '')).trim();
+  }
+  
+  if (fullCode.includes(javaCppStartMarker) && fullCode.includes(javaCppEndMarker)) {
+    const parts = fullCode.split(javaCppStartMarker);
+    const endParts = parts[1].split(javaCppEndMarker);
+    return (parts[0] + (endParts[1] || '')).trim();
+  }
+  
+  return fullCode;
+};
+
+const getHiddenDriverCode = (originalTemplate) => {
+  if (!originalTemplate) return null;
+  const startMarker = '# -- HIDE DRIVER CODE START --';
+  const endMarker = '# -- HIDE DRIVER CODE END --';
+  const javaCppStartMarker = '// -- HIDE DRIVER CODE START --';
+  const javaCppEndMarker = '// -- HIDE DRIVER CODE END --';
+  
+  if (originalTemplate.includes(startMarker) && originalTemplate.includes(endMarker)) {
+    const parts = originalTemplate.split(startMarker);
+    const endParts = parts[1].split(endMarker);
+    return {
+      startMarker,
+      endMarker,
+      hiddenContent: endParts[0]
+    };
+  }
+  if (originalTemplate.includes(javaCppStartMarker) && originalTemplate.includes(javaCppEndMarker)) {
+    const parts = originalTemplate.split(javaCppStartMarker);
+    const endParts = parts[1].split(javaCppEndMarker);
+    return {
+      startMarker: javaCppStartMarker,
+      endMarker: javaCppEndMarker,
+      hiddenContent: endParts[0]
+    };
+  }
+  return null;
+};
+
+const reconstructFullCode = (userEditedCode, originalTemplate) => {
+  const driverInfo = getHiddenDriverCode(originalTemplate);
+  if (!driverInfo) return userEditedCode;
+  
+  const { startMarker, endMarker, hiddenContent } = driverInfo;
+  
+  if (originalTemplate.includes('public class Main')) {
+    const lastBraceIndex = userEditedCode.lastIndexOf('}');
+    if (lastBraceIndex !== -1) {
+      return userEditedCode.substring(0, lastBraceIndex) + 
+             "\n\n  " + startMarker + hiddenContent + endMarker + "\n" + 
+             userEditedCode.substring(lastBraceIndex);
+    }
+  }
+  
+  return userEditedCode + "\n\n" + startMarker + hiddenContent + endMarker;
+};
+
+
 export default function Playground({ questions }) {
   const activeQuestions = (questions && questions.length > 0) ? questions : PROBLEMS;
   const [activeProblem, setActiveProblem] = useState(activeQuestions[0]);
   const [activeLang, setActiveLang] = useState('python');
-  const [code, setCode] = useState(activeQuestions[0].templates.python);
+  const [code, setCode] = useState(getVisibleCode(activeQuestions[0].templates.python));
   const [stdin, setStdin] = useState(activeQuestions[0].input);
   const [stdout, setStdout] = useState('');
   const [stderr, setStderr] = useState('');
@@ -315,7 +385,7 @@ export default function Playground({ questions }) {
   useEffect(() => {
     if (activeProblem) {
       const template = activeProblem.templates[activeLang] || '';
-      setCode(template);
+      setCode(getVisibleCode(template));
       setStdin(activeProblem.input || '');
       setStdout('');
       setStderr('');
@@ -399,7 +469,7 @@ export default function Playground({ questions }) {
         },
         body: JSON.stringify({
           language: activeLang,
-          code: code,
+          code: reconstructFullCode(code, activeProblem.templates[activeLang]),
           input: stdin
         })
       });
