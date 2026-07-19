@@ -52,10 +52,12 @@ const features = [
 ];
 
 const floatingBadges = [
-  { text: '350+ Questions', icon: '🧩', delay: '0s',  top: '12%', left: '-2%' },
-  { text: 'AI Resume',      icon: '✨', delay: '1s',  top: '68%', left: '-5%' },
-  { text: 'Live Code',      icon: '💻', delay: '2s',  top: '38%', right: '-4%' },
-  { text: 'Top MNCs',       icon: '🏢', delay: '0.5s',top: '80%', right: '-2%' },
+  { text: 'Interview Qs',         icon: '💬', delay: '0s',   top: '5%',   left: '-28%' },
+  { text: 'Interview Experiences', icon: '🧑‍💼', delay: '0.4s', top: '38%',  left: '-34%' },
+  { text: '350+ Practice Qs',     icon: '🧩', delay: '0.8s', top: '70%',  left: '-25%' },
+  { text: 'AI Resume Builder',     icon: '✨', delay: '1.2s', top: '10%',  right: '-28%' },
+  { text: 'Live Playground',      icon: '💻', delay: '1.6s', top: '42%',  right: '-34%' },
+  { text: 'Company Guides',       icon: '📚', delay: '2s',   top: '72%',  right: '-25%' },
 ];
 
 export default function Hero({ stats, setActiveTab }) {
