@@ -81,6 +81,15 @@ def strip_and_save():
         with open(os.path.join(frontend_data_dir, f"{key}.json"), "w", encoding="utf-8") as f:
             json.dump(stripped, f, indent=2, ensure_ascii=False)
             
+    # Copy full playground backup to frontend public static backup folder for instant fallback
+    frontend_backup_dir = "frontend/public/data/backup"
+    os.makedirs(frontend_backup_dir, exist_ok=True)
+    if os.path.exists("backend/data/backup/playground_questions.json"):
+        with open("backend/data/backup/playground_questions.json", "r", encoding="utf-8") as f_in:
+            backup_questions = json.load(f_in)
+        with open(os.path.join(frontend_backup_dir, "playground_questions.json"), "w", encoding="utf-8") as f_out:
+            json.dump(backup_questions, f_out, indent=2, ensure_ascii=False)
+
     print("Minification complete! All segregated files updated successfully.")
 
 if __name__ == "__main__":

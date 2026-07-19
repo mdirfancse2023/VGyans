@@ -417,7 +417,7 @@ export default function Playground({ questions }) {
       return;
     }
     
-    if (q.description && q.templates) {
+    if (q.description && q.templates && Object.keys(q.templates).length > 0) {
       setActiveProblem(q);
       return;
     }
@@ -430,9 +430,27 @@ export default function Playground({ questions }) {
     });
     
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/questions/${q.id}`);
-      if (res.ok) {
-        const fullQuestion = await res.json();
+      let fullQuestion = null;
+      try {
+        const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
+        const res = await fetch(`${API_URL}/api/questions/${q.id}`);
+        if (res.ok) {
+          fullQuestion = await res.json();
+        }
+      } catch (e) {
+        console.warn('API fetch failed, falling back to static backup json:', e);
+      }
+
+      // Fallback to static backup JSON if API is offline or returns error
+      if (!fullQuestion || !fullQuestion.templates || Object.keys(fullQuestion.templates).length === 0) {
+        const backupRes = await fetch(`./data/backup/playground_questions.json`);
+        if (backupRes.ok) {
+          const allBackupQuestions = await backupRes.json();
+          fullQuestion = allBackupQuestions.find(item => item.id === q.id);
+        }
+      }
+
+      if (fullQuestion) {
         setActiveProblem(fullQuestion);
         
         // Save in local memory list so we don't refetch
