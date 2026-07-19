@@ -516,7 +516,7 @@ const compareOutputs = (actual, expected) => {
 const FREE_PLAYGROUND_TEMPLATES = {
   python: `# Write your custom Python 3 code here
 def main():
-    print("Hello, VGyans Playground!")
+    print("Hello, Virtual Gyans Playground!")
 
 if __name__ == "__main__":
     main()`,
@@ -525,7 +525,7 @@ if __name__ == "__main__":
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, VGyans Playground!");
+        System.out.println("Hello, Virtual Gyans Playground!");
     }
 }`,
 
@@ -533,15 +533,15 @@ public class Main {
 using namespace std;
 
 int main() {
-    cout << "Hello, VGyans Playground!" << endl;
+    cout << "Hello, Virtual Gyans Playground!" << endl;
     return 0;
 }`,
 
   mysql: `-- Write your custom MySQL query here
-SELECT 'Hello, VGyans Playground!' AS message;`,
+SELECT 'Hello, Virtual Gyans Playground!' AS message;`,
 
   postgres: `-- Write your custom PostgreSQL query here
-SELECT 'Hello, VGyans Playground!' AS message;`
+SELECT 'Hello, Virtual Gyans Playground!' AS message;`
 };
 
 
