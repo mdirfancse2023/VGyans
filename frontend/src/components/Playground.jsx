@@ -1876,13 +1876,22 @@ export default function Playground({ questions }) {
               })}
 
               <button 
-                className={`console-tab ${selectedCaseIdx === -1 ? 'active' : ''}`}
+                className={`console-tab ${consoleTab === 'input' ? 'active' : ''}`}
                 onClick={() => {
                   setSelectedCaseIdx(-1);
                   setConsoleTab('input');
                 }}
               >
                 Custom Input (stdin)
+              </button>
+
+              <button 
+                className={`console-tab ${consoleTab === 'output' && selectedCaseIdx === -1 ? 'active' : ''}`}
+                onClick={() => {
+                  setConsoleTab('output');
+                }}
+              >
+                Output
               </button>
             </div>
 
