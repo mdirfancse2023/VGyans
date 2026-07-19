@@ -1,3 +1,6 @@
+import React, { useState } from 'react';
+import PDFViewer from './PDFViewer';
+
 const highlightCode = (codeText, lang) => {
   if (!codeText) return '';
   let escaped = codeText
