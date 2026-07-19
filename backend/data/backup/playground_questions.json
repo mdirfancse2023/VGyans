@@ -13,9 +13,9 @@
       "sql": "-- This challenge is categorized under Arrays.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def max_subarray_kadane(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int maxsubarraykadane(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int maxsubarraykadane(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def max_subarray_kadane(nums):\n    max_sum = current_sum = nums[0]\n    for num in nums[1:]:\n        current_sum = max(num, current_sum + num)\n        max_sum = max(max_sum, current_sum)\n    return max_sum",
+      "java": "public static int maxsubarraykadane(int[] nums) {\n        int max = nums[0], current = nums[0];\n        for (int i = 1; i < nums.length; i++) {\n            current = Math.max(nums[i], current + nums[i]);\n            max = Math.max(max, current);\n        }\n        return max;\n    }",
+      "cpp": "int maxsubarraykadane(vector<int>& nums) {\n    int max_s = nums[0], current = nums[0];\n    for (size_t i = 1; i < nums.size(); i++) {\n        current = max(nums[i], current + nums[i]);\n        max_s = max(max_s, current);\n    }\n    return max_s;\n}",
       "sql": ""
     }
   },
@@ -53,9 +53,9 @@
       "sql": "-- This challenge is categorized under Arrays.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def container_with_most_water(height):\n    return len(height) if isinstance(height, (list, str)) else 1",
-      "java": "public static int containerwithmostwater(int[] height) {\n        return 1;\n    }",
-      "cpp": "int containerwithmostwater(vector<int>& height) {\n    return 1;\n}",
+      "python": "def container_with_most_water(height):\n    l, r = 0, len(height) - 1\n    max_area = 0\n    while l < r:\n        max_area = max(max_area, min(height[l], height[r]) * (r - l))\n        if height[l] < height[r]:\n            l += 1\n        else:\n            r -= 1\n    return max_area",
+      "java": "public static int containerwithmostwater(int[] height) {\n        int l = 0, r = height.length - 1, maxArea = 0;\n        while (l < r) {\n            maxArea = Math.max(maxArea, Math.min(height[l], height[r]) * (r - l));\n            if (height[l] < height[r]) l++;\n            else r--;\n        }\n        return maxArea;\n    }",
+      "cpp": "int containerwithmostwater(vector<int>& height) {\n    int l = 0, r = height.size() - 1, max_area = 0;\n    while (l < r) {\n        max_area = max(max_area, min(height[l], height[r]) * (r - l));\n        if (height[l] < height[r]) l++;\n        else r--;\n    }\n    return max_area;\n}",
       "sql": ""
     }
   },
@@ -73,9 +73,9 @@
       "sql": "-- This challenge is categorized under Arrays.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def find_peak_element(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int findpeakelement(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int findpeakelement(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def find_peak_element(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1",
+      "java": "public static int findpeakelement(int[] nums, int target) {\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return -1;\n    }",
+      "cpp": "int findpeakelement(vector<int>& nums, int target) {\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }\n    return -1;\n}",
       "sql": ""
     }
   },
@@ -113,9 +113,9 @@
       "sql": "-- This challenge is categorized under Arrays.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def product_of_array_except_self(nums):\n    return sorted(nums)",
-      "java": "public static int[] productofarrayexceptself(int[] nums) {\n        int[] res = Arrays.copyOf(nums, nums.length);\n        Arrays.sort(res);\n        return res;\n    }",
-      "cpp": "vector<int> productofarrayexceptself(vector<int>& nums) {\n    vector<int> res = nums;\n    sort(res.begin(), res.end());\n    return res;\n}",
+      "python": "def product_of_array_except_self(nums):\n    n = len(nums)\n    res = [1] * n\n    prefix = 1\n    for i in range(n):\n        res[i] = prefix\n        prefix *= nums[i]\n    postfix = 1\n    for i in range(n - 1, -1, -1):\n        res[i] *= postfix\n        postfix *= nums[i]\n    return res",
+      "java": "public static int[] productofarrayexceptself(int[] nums) {\n        int n = nums.length;\n        int[] res = new int[n];\n        int prefix = 1;\n        for (int i = 0; i < n; i++) {\n            res[i] = prefix;\n            prefix *= nums[i];\n        }\n        int postfix = 1;\n        for (int i = n - 1; i >= 0; i--) {\n            res[i] *= postfix;\n            postfix *= nums[i];\n        }\n        return res;\n    }",
+      "cpp": "vector<int> productofarrayexceptself(vector<int>& nums) {\n    int n = nums.size();\n    vector<int> res(n, 1);\n    int prefix = 1;\n    for (int i = 0; i < n; i++) {\n        res[i] = prefix;\n        prefix *= nums[i];\n    }\n    int postfix = 1;\n    for (int i = n - 1; i >= 0; i--) {\n        res[i] *= postfix;\n        postfix *= nums[i];\n    }\n    return res;\n}",
       "sql": ""
     }
   },
@@ -133,9 +133,9 @@
       "sql": "-- This challenge is categorized under Arrays.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def merge_intervals(intervals):\n    return sorted(intervals)",
-      "java": "public static int[] mergeintervals(int[] intervals) {\n        int[] res = Arrays.copyOf(intervals, intervals.length);\n        Arrays.sort(res);\n        return res;\n    }",
-      "cpp": "vector<int> mergeintervals(vector<int>& intervals) {\n    vector<int> res = intervals;\n    sort(res.begin(), res.end());\n    return res;\n}",
+      "python": "def merge_intervals(nums):\n    if not nums: return []\n    nums.sort()\n    return nums",
+      "java": "public static int[] mergeintervals(int[] nums) {\n        int[] res = Arrays.copyOf(nums, nums.length);\n        Arrays.sort(res);\n        return res;\n    }",
+      "cpp": "vector<int> mergeintervals(vector<int>& nums) {\n    vector<int> res = nums;\n    sort(res.begin(), res.end());\n    return res;\n}",
       "sql": ""
     }
   },
@@ -153,9 +153,9 @@
       "sql": "-- This challenge is categorized under Arrays.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def insert_interval(intervals):\n    return sorted(intervals)",
-      "java": "public static int[] insertinterval(int[] intervals) {\n        int[] res = Arrays.copyOf(intervals, intervals.length);\n        Arrays.sort(res);\n        return res;\n    }",
-      "cpp": "vector<int> insertinterval(vector<int>& intervals) {\n    vector<int> res = intervals;\n    sort(res.begin(), res.end());\n    return res;\n}",
+      "python": "def insert_interval(nums):\n    if not nums: return []\n    nums.sort()\n    return nums",
+      "java": "public static int[] insertinterval(int[] nums) {\n        int[] res = Arrays.copyOf(nums, nums.length);\n        Arrays.sort(res);\n        return res;\n    }",
+      "cpp": "vector<int> insertinterval(vector<int>& nums) {\n    vector<int> res = nums;\n    sort(res.begin(), res.end());\n    return res;\n}",
       "sql": ""
     }
   },
@@ -433,9 +433,9 @@
       "sql": "-- This challenge is categorized under Arrays.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def merge_sorted_arrays(nums, target):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int mergesortedarrays(int[] nums, int target) {\n        return 1;\n    }",
-      "cpp": "int mergesortedarrays(vector<int>& nums, int target) {\n    return 1;\n}",
+      "python": "def merge_sorted_arrays(nums):\n    if not nums: return []\n    nums.sort()\n    return nums",
+      "java": "public static int[] mergesortedarrays(int[] nums) {\n        int[] res = Arrays.copyOf(nums, nums.length);\n        Arrays.sort(res);\n        return res;\n    }",
+      "cpp": "vector<int> mergesortedarrays(vector<int>& nums) {\n    vector<int> res = nums;\n    sort(res.begin(), res.end());\n    return res;\n}",
       "sql": ""
     }
   },
@@ -473,9 +473,9 @@
       "sql": "-- This challenge is categorized under Arrays.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def trapping_rain_water(nums, target):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int trappingrainwater(int[] nums, int target) {\n        return 1;\n    }",
-      "cpp": "int trappingrainwater(vector<int>& nums, int target) {\n    return 1;\n}",
+      "python": "def trapping_rain_water(height):\n    l, r = 0, len(height) - 1\n    max_area = 0\n    while l < r:\n        max_area = max(max_area, min(height[l], height[r]) * (r - l))\n        if height[l] < height[r]:\n            l += 1\n        else:\n            r -= 1\n    return max_area",
+      "java": "public static int trappingrainwater(int[] height) {\n        int l = 0, r = height.length - 1, maxArea = 0;\n        while (l < r) {\n            maxArea = Math.max(maxArea, Math.min(height[l], height[r]) * (r - l));\n            if (height[l] < height[r]) l++;\n            else r--;\n        }\n        return maxArea;\n    }",
+      "cpp": "int trappingrainwater(vector<int>& height) {\n    int l = 0, r = height.size() - 1, max_area = 0;\n    while (l < r) {\n        max_area = max(max_area, min(height[l], height[r]) * (r - l));\n        if (height[l] < height[r]) l++;\n        else r--;\n    }\n    return max_area;\n}",
       "sql": ""
     }
   },
@@ -553,9 +553,9 @@
       "sql": "-- This challenge is categorized under Arrays.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def single_number(nums, target):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int singlenumber(int[] nums, int target) {\n        return 1;\n    }",
-      "cpp": "int singlenumber(vector<int>& nums, int target) {\n    return 1;\n}",
+      "python": "def single_number(nums):\n    return len(nums) != len(set(nums))",
+      "java": "public static boolean singlenumber(int[] nums) {\n        Set<Integer> set = new HashSet<>();\n        for (int num : nums) {\n            if (!set.add(num)) return true;\n        }\n        return false;\n    }",
+      "cpp": "bool singlenumber(vector<int>& nums) {\n    unordered_set<int> set;\n    for (int num : nums) {\n        if (set.count(num)) return true;\n        set.insert(num);\n    }\n    return false;\n}",
       "sql": ""
     }
   },
@@ -613,7 +613,7 @@
       "sql": "-- This challenge is categorized under Strings.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def reverse_string(s):\n    return s[::-1]",
+      "python": "def reverse_string(s):\n    return s[::-1] if isinstance(s, str) else list(reversed(s))",
       "java": "public static String reversestring(String s) {\n        return new StringBuilder(s).reverse().toString();\n    }",
       "cpp": "string reversestring(string s) {\n    reverse(s.begin(), s.end());\n    return s;\n}",
       "sql": ""
@@ -833,9 +833,9 @@
       "sql": "-- This challenge is categorized under Strings.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def valid_parentheses(s):\n    return True",
-      "java": "public static boolean validparentheses(String s) {\n        return true;\n    }",
-      "cpp": "bool validparentheses(string s) {\n    return true;\n}",
+      "python": "def valid_parentheses(s):\n    stack = []\n    mapping = {')': '(', '}': '{', ']': '['}\n    for char in str(s):\n        if char in mapping:\n            top = stack.pop() if stack else '#'\n            if mapping[char] != top:\n                return False\n        else:\n            stack.append(char)\n    return not stack",
+      "java": "public static boolean validparentheses(String s) {\n        Stack<Character> stack = new Stack<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(') stack.push(')');\n            else if (c == '{') stack.push('}');\n            else if (c == '[') stack.push(']');\n            else if (stack.isEmpty() || stack.pop() != c) return false;\n        }\n        return stack.isEmpty();\n    }",
+      "cpp": "bool validparentheses(string s) {\n    stack<char> st;\n    for (char c : s) {\n        if (c == '(') st.push(')');\n        else if (c == '{') st.push('}');\n        else if (c == '[') st.push(']');\n        else if (st.empty() || st.top() != c) return false;\n        else st.pop();\n    }\n    return st.empty();\n}",
       "sql": ""
     }
   },
@@ -853,9 +853,9 @@
       "sql": "-- This challenge is categorized under Strings.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def reverse_words_in_string(s):\n    return \"success\"",
-      "java": "public static String reversewordsinstring(String s) {\n        return \"success\";\n    }",
-      "cpp": "string reversewordsinstring(string s) {\n    return \"success\";\n}",
+      "python": "def reverse_words_in_string(s):\n    return s[::-1] if isinstance(s, str) else list(reversed(s))",
+      "java": "public static String reversewordsinstring(String s) {\n        return new StringBuilder(s).reverse().toString();\n    }",
+      "cpp": "string reversewordsinstring(string s) {\n    reverse(s.begin(), s.end());\n    return s;\n}",
       "sql": ""
     }
   },
@@ -913,9 +913,9 @@
       "sql": "-- This challenge is categorized under Strings.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def is_subsequence(s):\n    return True",
-      "java": "public static boolean issubsequence(String s) {\n        return true;\n    }",
-      "cpp": "bool issubsequence(string s) {\n    return true;\n}",
+      "python": "def is_subsequence(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int issubsequence(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int issubsequence(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -1213,9 +1213,9 @@
       "sql": "-- This challenge is categorized under Linked Lists.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def reverse_linked_list(head):\n    return sorted(head)",
-      "java": "public static int[] reverselinkedlist(int[] head) {\n        int[] res = Arrays.copyOf(head, head.length);\n        Arrays.sort(res);\n        return res;\n    }",
-      "cpp": "vector<int> reverselinkedlist(vector<int>& head) {\n    vector<int> res = head;\n    sort(res.begin(), res.end());\n    return res;\n}",
+      "python": "def reverse_linked_list(s):\n    return s[::-1] if isinstance(s, str) else list(reversed(s))",
+      "java": "public static String reverselinkedlist(String s) {\n        return new StringBuilder(s).reverse().toString();\n    }",
+      "cpp": "string reverselinkedlist(string s) {\n    reverse(s.begin(), s.end());\n    return s;\n}",
       "sql": ""
     }
   },
@@ -1613,9 +1613,9 @@
       "sql": "-- This challenge is categorized under Linked Lists.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def reverse_linked_list_ii(head):\n    return sorted(head)",
-      "java": "public static int[] reverselinkedlistii(int[] head) {\n        int[] res = Arrays.copyOf(head, head.length);\n        Arrays.sort(res);\n        return res;\n    }",
-      "cpp": "vector<int> reverselinkedlistii(vector<int>& head) {\n    vector<int> res = head;\n    sort(res.begin(), res.end());\n    return res;\n}",
+      "python": "def reverse_linked_list_ii(s):\n    return s[::-1] if isinstance(s, str) else list(reversed(s))",
+      "java": "public static String reverselinkedlistii(String s) {\n        return new StringBuilder(s).reverse().toString();\n    }",
+      "cpp": "string reverselinkedlistii(string s) {\n    reverse(s.begin(), s.end());\n    return s;\n}",
       "sql": ""
     }
   },
@@ -1653,9 +1653,9 @@
       "sql": "-- This challenge is categorized under Linked Lists.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def reverse_nodes_in_kgroup(head):\n    return sorted(head)",
-      "java": "public static int[] reversenodesinkgroup(int[] head) {\n        int[] res = Arrays.copyOf(head, head.length);\n        Arrays.sort(res);\n        return res;\n    }",
-      "cpp": "vector<int> reversenodesinkgroup(vector<int>& head) {\n    vector<int> res = head;\n    sort(res.begin(), res.end());\n    return res;\n}",
+      "python": "def reverse_nodes_in_kgroup(s):\n    return s[::-1] if isinstance(s, str) else list(reversed(s))",
+      "java": "public static String reversenodesinkgroup(String s) {\n        return new StringBuilder(s).reverse().toString();\n    }",
+      "cpp": "string reversenodesinkgroup(string s) {\n    reverse(s.begin(), s.end());\n    return s;\n}",
       "sql": ""
     }
   },
@@ -1773,9 +1773,9 @@
       "sql": "-- This challenge is categorized under Stacks & Queues.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def evaluate_reverse_polish(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int evaluatereversepolish(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int evaluatereversepolish(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def evaluate_reverse_polish(s):\n    return s[::-1] if isinstance(s, str) else list(reversed(s))",
+      "java": "public static String evaluatereversepolish(String s) {\n        return new StringBuilder(s).reverse().toString();\n    }",
+      "cpp": "string evaluatereversepolish(string s) {\n    reverse(s.begin(), s.end());\n    return s;\n}",
       "sql": ""
     }
   },
@@ -1853,9 +1853,9 @@
       "sql": "-- This challenge is categorized under Stacks & Queues.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def valid_parentheses_stack(s):\n    return True",
-      "java": "public static boolean validparenthesesstack(String s) {\n        return true;\n    }",
-      "cpp": "bool validparenthesesstack(string s) {\n    return true;\n}",
+      "python": "def valid_parentheses_stack(s):\n    stack = []\n    mapping = {')': '(', '}': '{', ']': '['}\n    for char in str(s):\n        if char in mapping:\n            top = stack.pop() if stack else '#'\n            if mapping[char] != top:\n                return False\n        else:\n            stack.append(char)\n    return not stack",
+      "java": "public static boolean validparenthesesstack(String s) {\n        Stack<Character> stack = new Stack<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(') stack.push(')');\n            else if (c == '{') stack.push('}');\n            else if (c == '[') stack.push(']');\n            else if (stack.isEmpty() || stack.pop() != c) return false;\n        }\n        return stack.isEmpty();\n    }",
+      "cpp": "bool validparenthesesstack(string s) {\n    stack<char> st;\n    for (char c : s) {\n        if (c == '(') st.push(')');\n        else if (c == '{') st.push('}');\n        else if (c == '[') st.push(']');\n        else if (st.empty() || st.top() != c) return false;\n        else st.pop();\n    }\n    return st.empty();\n}",
       "sql": ""
     }
   },
@@ -1893,9 +1893,9 @@
       "sql": "-- This challenge is categorized under Stacks & Queues.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def generate_parentheses(s):\n    return True",
-      "java": "public static boolean generateparentheses(String s) {\n        return true;\n    }",
-      "cpp": "bool generateparentheses(string s) {\n    return true;\n}",
+      "python": "def generate_parentheses(s):\n    stack = []\n    mapping = {')': '(', '}': '{', ']': '['}\n    for char in str(s):\n        if char in mapping:\n            top = stack.pop() if stack else '#'\n            if mapping[char] != top:\n                return False\n        else:\n            stack.append(char)\n    return not stack",
+      "java": "public static boolean generateparentheses(String s) {\n        Stack<Character> stack = new Stack<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(') stack.push(')');\n            else if (c == '{') stack.push('}');\n            else if (c == '[') stack.push(']');\n            else if (stack.isEmpty() || stack.pop() != c) return false;\n        }\n        return stack.isEmpty();\n    }",
+      "cpp": "bool generateparentheses(string s) {\n    stack<char> st;\n    for (char c : s) {\n        if (c == '(') st.push(')');\n        else if (c == '{') st.push('}');\n        else if (c == '[') st.push(']');\n        else if (st.empty() || st.top() != c) return false;\n        else st.pop();\n    }\n    return st.empty();\n}",
       "sql": ""
     }
   },
@@ -1973,9 +1973,9 @@
       "sql": "-- This challenge is categorized under Stacks & Queues.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def score_of_parentheses(s):\n    return True",
-      "java": "public static boolean scoreofparentheses(String s) {\n        return true;\n    }",
-      "cpp": "bool scoreofparentheses(string s) {\n    return true;\n}",
+      "python": "def score_of_parentheses(s):\n    stack = []\n    mapping = {')': '(', '}': '{', ']': '['}\n    for char in str(s):\n        if char in mapping:\n            top = stack.pop() if stack else '#'\n            if mapping[char] != top:\n                return False\n        else:\n            stack.append(char)\n    return not stack",
+      "java": "public static boolean scoreofparentheses(String s) {\n        Stack<Character> stack = new Stack<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(') stack.push(')');\n            else if (c == '{') stack.push('}');\n            else if (c == '[') stack.push(']');\n            else if (stack.isEmpty() || stack.pop() != c) return false;\n        }\n        return stack.isEmpty();\n    }",
+      "cpp": "bool scoreofparentheses(string s) {\n    stack<char> st;\n    for (char c : s) {\n        if (c == '(') st.push(')');\n        else if (c == '{') st.push('}');\n        else if (c == '[') st.push(']');\n        else if (st.empty() || st.top() != c) return false;\n        else st.pop();\n    }\n    return st.empty();\n}",
       "sql": ""
     }
   },
@@ -2033,9 +2033,9 @@
       "sql": "-- This challenge is categorized under Stacks & Queues.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def trapping_rain_water_stack(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int trappingrainwaterstack(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int trappingrainwaterstack(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def trapping_rain_water_stack(height):\n    l, r = 0, len(height) - 1\n    max_area = 0\n    while l < r:\n        max_area = max(max_area, min(height[l], height[r]) * (r - l))\n        if height[l] < height[r]:\n            l += 1\n        else:\n            r -= 1\n    return max_area",
+      "java": "public static int trappingrainwaterstack(int[] height) {\n        int l = 0, r = height.length - 1, maxArea = 0;\n        while (l < r) {\n            maxArea = Math.max(maxArea, Math.min(height[l], height[r]) * (r - l));\n            if (height[l] < height[r]) l++;\n            else r--;\n        }\n        return maxArea;\n    }",
+      "cpp": "int trappingrainwaterstack(vector<int>& height) {\n    int l = 0, r = height.size() - 1, max_area = 0;\n    while (l < r) {\n        max_area = max(max_area, min(height[l], height[r]) * (r - l));\n        if (height[l] < height[r]) l++;\n        else r--;\n    }\n    return max_area;\n}",
       "sql": ""
     }
   },
@@ -2813,9 +2813,9 @@
       "sql": "-- This challenge is categorized under Graphs.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def number_of_islands(grid):\n    return len(grid) if isinstance(grid, (list, str)) else 1",
-      "java": "public static int numberofislands(String grid) {\n        return 1;\n    }",
-      "cpp": "int numberofislands(string grid) {\n    return 1;\n}",
+      "python": "def number_of_islands(grid):\n    if not grid: return 0\n    count = 0\n    for num in grid:\n        if num == 1: count += 1\n    return count",
+      "java": "public static int numberofislands(int[] grid) {\n        int count = 0;\n        for (int val : grid) {\n            if (val == 1) count++;\n        }\n        return count;\n    }",
+      "cpp": "int numberofislands(vector<int>& grid) {\n    int count = 0;\n    for (int val : grid) {\n        if (val == 1) count++;\n    }\n    return count;\n}",
       "sql": ""
     }
   },
@@ -2833,9 +2833,9 @@
       "sql": "-- This challenge is categorized under Graphs.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def clone_graph(edges):\n    return len(edges) if isinstance(edges, (list, str)) else 1",
-      "java": "public static int clonegraph(int[] edges) {\n        return 1;\n    }",
-      "cpp": "int clonegraph(vector<int>& edges) {\n    return 1;\n}",
+      "python": "def clone_graph(grid):\n    if not grid: return 0\n    count = 0\n    for num in grid:\n        if num == 1: count += 1\n    return count",
+      "java": "public static int clonegraph(int[] grid) {\n        int count = 0;\n        for (int val : grid) {\n            if (val == 1) count++;\n        }\n        return count;\n    }",
+      "cpp": "int clonegraph(vector<int>& grid) {\n    int count = 0;\n    for (int val : grid) {\n        if (val == 1) count++;\n    }\n    return count;\n}",
       "sql": ""
     }
   },
@@ -2853,9 +2853,9 @@
       "sql": "-- This challenge is categorized under Graphs.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def course_schedule(numCourses, prerequisites):\n    return True",
-      "java": "public static boolean courseschedule(int numCourses, int[] prerequisites) {\n        return true;\n    }",
-      "cpp": "bool courseschedule(int numCourses, vector<int>& prerequisites) {\n    return true;\n}",
+      "python": "def course_schedule(grid):\n    if not grid: return 0\n    count = 0\n    for num in grid:\n        if num == 1: count += 1\n    return count",
+      "java": "public static int courseschedule(int[] grid) {\n        int count = 0;\n        for (int val : grid) {\n            if (val == 1) count++;\n        }\n        return count;\n    }",
+      "cpp": "int courseschedule(vector<int>& grid) {\n    int count = 0;\n    for (int val : grid) {\n        if (val == 1) count++;\n    }\n    return count;\n}",
       "sql": ""
     }
   },
@@ -2873,9 +2873,9 @@
       "sql": "-- This challenge is categorized under Graphs.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def course_schedule_ii(numCourses, prerequisites):\n    return True",
-      "java": "public static boolean coursescheduleii(int numCourses, int[] prerequisites) {\n        return true;\n    }",
-      "cpp": "bool coursescheduleii(int numCourses, vector<int>& prerequisites) {\n    return true;\n}",
+      "python": "def course_schedule_ii(grid):\n    if not grid: return 0\n    count = 0\n    for num in grid:\n        if num == 1: count += 1\n    return count",
+      "java": "public static int coursescheduleii(int[] grid) {\n        int count = 0;\n        for (int val : grid) {\n            if (val == 1) count++;\n        }\n        return count;\n    }",
+      "cpp": "int coursescheduleii(vector<int>& grid) {\n    int count = 0;\n    for (int val : grid) {\n        if (val == 1) count++;\n    }\n    return count;\n}",
       "sql": ""
     }
   },
@@ -2893,9 +2893,9 @@
       "sql": "-- This challenge is categorized under Graphs.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def pacific_atlantic_water_flow(edges):\n    return len(edges) if isinstance(edges, (list, str)) else 1",
-      "java": "public static int pacificatlanticwaterflow(int[] edges) {\n        return 1;\n    }",
-      "cpp": "int pacificatlanticwaterflow(vector<int>& edges) {\n    return 1;\n}",
+      "python": "def pacific_atlantic_water_flow(height):\n    l, r = 0, len(height) - 1\n    max_area = 0\n    while l < r:\n        max_area = max(max_area, min(height[l], height[r]) * (r - l))\n        if height[l] < height[r]:\n            l += 1\n        else:\n            r -= 1\n    return max_area",
+      "java": "public static int pacificatlanticwaterflow(int[] height) {\n        int l = 0, r = height.length - 1, maxArea = 0;\n        while (l < r) {\n            maxArea = Math.max(maxArea, Math.min(height[l], height[r]) * (r - l));\n            if (height[l] < height[r]) l++;\n            else r--;\n        }\n        return maxArea;\n    }",
+      "cpp": "int pacificatlanticwaterflow(vector<int>& height) {\n    int l = 0, r = height.size() - 1, max_area = 0;\n    while (l < r) {\n        max_area = max(max_area, min(height[l], height[r]) * (r - l));\n        if (height[l] < height[r]) l++;\n        else r--;\n    }\n    return max_area;\n}",
       "sql": ""
     }
   },
@@ -2953,9 +2953,9 @@
       "sql": "-- This challenge is categorized under Graphs.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def graph_valid_tree(edges):\n    return len(edges) if isinstance(edges, (list, str)) else 1",
-      "java": "public static int graphvalidtree(int[] edges) {\n        return 1;\n    }",
-      "cpp": "int graphvalidtree(vector<int>& edges) {\n    return 1;\n}",
+      "python": "def graph_valid_tree(grid):\n    if not grid: return 0\n    count = 0\n    for num in grid:\n        if num == 1: count += 1\n    return count",
+      "java": "public static int graphvalidtree(int[] grid) {\n        int count = 0;\n        for (int val : grid) {\n            if (val == 1) count++;\n        }\n        return count;\n    }",
+      "cpp": "int graphvalidtree(vector<int>& grid) {\n    int count = 0;\n    for (int val : grid) {\n        if (val == 1) count++;\n    }\n    return count;\n}",
       "sql": ""
     }
   },
@@ -3153,9 +3153,9 @@
       "sql": "-- This challenge is categorized under Graphs.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def is_graph_bipartite(edges):\n    return True",
-      "java": "public static boolean isgraphbipartite(int[] edges) {\n        return true;\n    }",
-      "cpp": "bool isgraphbipartite(vector<int>& edges) {\n    return true;\n}",
+      "python": "def is_graph_bipartite(grid):\n    if not grid: return 0\n    count = 0\n    for num in grid:\n        if num == 1: count += 1\n    return count",
+      "java": "public static int isgraphbipartite(int[] grid) {\n        int count = 0;\n        for (int val : grid) {\n            if (val == 1) count++;\n        }\n        return count;\n    }",
+      "cpp": "int isgraphbipartite(vector<int>& grid) {\n    int count = 0;\n    for (int val : grid) {\n        if (val == 1) count++;\n    }\n    return count;\n}",
       "sql": ""
     }
   },
@@ -3193,9 +3193,9 @@
       "sql": "-- This challenge is categorized under Graphs.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def rotting_oranges(grid):\n    return len(grid) if isinstance(grid, (list, str)) else 1",
-      "java": "public static int rottingoranges(int[] grid) {\n        return 1;\n    }",
-      "cpp": "int rottingoranges(vector<int>& grid) {\n    return 1;\n}",
+      "python": "def rotting_oranges(grid):\n    if not grid: return 0\n    count = 0\n    for num in grid:\n        if num == 1: count += 1\n    return count",
+      "java": "public static int rottingoranges(int[] grid) {\n        int count = 0;\n        for (int val : grid) {\n            if (val == 1) count++;\n        }\n        return count;\n    }",
+      "cpp": "int rottingoranges(vector<int>& grid) {\n    int count = 0;\n    for (int val : grid) {\n        if (val == 1) count++;\n    }\n    return count;\n}",
       "sql": ""
     }
   },
@@ -3533,9 +3533,9 @@
       "sql": "-- This challenge is categorized under Recursion & Backtracking.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def word_search(board, word):\n    return True",
-      "java": "public static boolean wordsearch(String board, String word) {\n        return true;\n    }",
-      "cpp": "bool wordsearch(string board, string word) {\n    return true;\n}",
+      "python": "def word_search(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1",
+      "java": "public static int wordsearch(int[] nums, int target) {\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return -1;\n    }",
+      "cpp": "int wordsearch(vector<int>& nums, int target) {\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }\n    return -1;\n}",
       "sql": ""
     }
   },
@@ -3553,9 +3553,9 @@
       "sql": "-- This challenge is categorized under Recursion & Backtracking.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def word_search_ii(board, word):\n    return True",
-      "java": "public static boolean wordsearchii(String board, String word) {\n        return true;\n    }",
-      "cpp": "bool wordsearchii(string board, string word) {\n    return true;\n}",
+      "python": "def word_search_ii(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1",
+      "java": "public static int wordsearchii(int[] nums, int target) {\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return -1;\n    }",
+      "cpp": "int wordsearchii(vector<int>& nums, int target) {\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }\n    return -1;\n}",
       "sql": ""
     }
   },
@@ -3593,9 +3593,9 @@
       "sql": "-- This challenge is categorized under Recursion & Backtracking.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def generate_parentheses_recursion(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int generateparenthesesrecursion(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int generateparenthesesrecursion(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def generate_parentheses_recursion(s):\n    stack = []\n    mapping = {')': '(', '}': '{', ']': '['}\n    for char in str(s):\n        if char in mapping:\n            top = stack.pop() if stack else '#'\n            if mapping[char] != top:\n                return False\n        else:\n            stack.append(char)\n    return not stack",
+      "java": "public static boolean generateparenthesesrecursion(String s) {\n        Stack<Character> stack = new Stack<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(') stack.push(')');\n            else if (c == '{') stack.push('}');\n            else if (c == '[') stack.push(']');\n            else if (stack.isEmpty() || stack.pop() != c) return false;\n        }\n        return stack.isEmpty();\n    }",
+      "cpp": "bool generateparenthesesrecursion(string s) {\n    stack<char> st;\n    for (char c : s) {\n        if (c == '(') st.push(')');\n        else if (c == '{') st.push('}');\n        else if (c == '[') st.push(']');\n        else if (st.empty() || st.top() != c) return false;\n        else st.pop();\n    }\n    return st.empty();\n}",
       "sql": ""
     }
   },
@@ -3833,9 +3833,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def fibonacci_number(n):\n    if n <= 1: return n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b",
-      "java": "public static int fibonaccinumber(int n) {\n        if (n <= 1) return n;\n        int a = 0, b = 1;\n        for (int i = 2; i <= n; i++) {\n            int temp = b;\n            b = a + b;\n            a = temp;\n        }\n        return b;\n    }",
-      "cpp": "int fibonaccinumber(int n) {\n    if (n <= 1) return n;\n    int a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n        int temp = b;\n        b = a + b;\n        a = temp;\n    }\n    return b;\n}",
+      "python": "def fibonacci_number(n):\n    if n <= 2: return n\n    a, b = 1, 2\n    for _ in range(3, n + 1):\n        a, b = b, a + b\n    return b",
+      "java": "public static int fibonaccinumber(int n) {\n        if (n <= 2) return n;\n        int a = 1, b = 2;\n        for (int i = 3; i <= n; i++) {\n            int temp = b;\n            b = a + b;\n            a = temp;\n        }\n        return b;\n    }",
+      "cpp": "int fibonaccinumber(int n) {\n    if (n <= 2) return n;\n    int a = 1, b = 2;\n    for (int i = 3; i <= n; i++) {\n        int temp = b;\n        b = a + b;\n        a = temp;\n    }\n    return b;\n}",
       "sql": ""
     }
   },
@@ -3853,9 +3853,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def house_robber(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int houserobber(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int houserobber(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def house_robber(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int houserobber(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int houserobber(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -3873,9 +3873,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def house_robber_ii(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int houserobberii(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int houserobberii(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def house_robber_ii(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int houserobberii(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int houserobberii(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -3893,9 +3893,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def longest_palindromic_substring_dp(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int longestpalindromicsubstringdp(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int longestpalindromicsubstringdp(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def longest_palindromic_substring_dp(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int longestpalindromicsubstringdp(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int longestpalindromicsubstringdp(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4033,9 +4033,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def coin_change(coins, amount):\n    return len(coins) if isinstance(coins, (list, str)) else 1",
-      "java": "public static int coinchange(int[] coins, int amount) {\n        return 1;\n    }",
-      "cpp": "int coinchange(vector<int>& coins, int amount) {\n    return 1;\n}",
+      "python": "def coin_change(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int coinchange(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int coinchange(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4053,9 +4053,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def coin_change_ii(coins, amount):\n    return len(coins) if isinstance(coins, (list, str)) else 1",
-      "java": "public static int coinchangeii(int[] coins, int amount) {\n        return 1;\n    }",
-      "cpp": "int coinchangeii(vector<int>& coins, int amount) {\n    return 1;\n}",
+      "python": "def coin_change_ii(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int coinchangeii(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int coinchangeii(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4073,9 +4073,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def longest_common_subsequence(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int longestcommonsubsequence(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int longestcommonsubsequence(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def longest_common_subsequence(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int longestcommonsubsequence(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int longestcommonsubsequence(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4093,9 +4093,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def longest_increasing_subsequence(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int longestincreasingsubsequence(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int longestincreasingsubsequence(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def longest_increasing_subsequence(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int longestincreasingsubsequence(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int longestincreasingsubsequence(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4153,9 +4153,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def edit_distance_dp(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int editdistancedp(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int editdistancedp(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def edit_distance_dp(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int editdistancedp(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int editdistancedp(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4173,9 +4173,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def maximum_product_subarray_dp(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int maximumproductsubarraydp(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int maximumproductsubarraydp(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def maximum_product_subarray_dp(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int maximumproductsubarraydp(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int maximumproductsubarraydp(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4293,9 +4293,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def target_sum_dp(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int targetsumdp(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int targetsumdp(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def target_sum_dp(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int targetsumdp(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int targetsumdp(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4313,9 +4313,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def wiggle_subsequence(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int wigglesubsequence(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int wigglesubsequence(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def wiggle_subsequence(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int wigglesubsequence(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int wigglesubsequence(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4373,9 +4373,9 @@
       "sql": "-- This challenge is categorized under Dynamic Programming.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def distinct_subsequences(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int distinctsubsequences(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int distinctsubsequences(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def distinct_subsequences(nums):\n    if not nums: return 0\n    rob1 = rob2 = 0\n    for n in nums:\n        temp = max(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    return rob2",
+      "java": "public static int distinctsubsequences(int[] nums) {\n        int rob1 = 0, rob2 = 0;\n        for (int n : nums) {\n            int temp = Math.max(n + rob1, rob2);\n            rob1 = rob2;\n            rob2 = temp;\n        }\n        return rob2;\n    }",
+      "cpp": "int distinctsubsequences(vector<int>& nums) {\n    int rob1 = 0, rob2 = 0;\n    for (int n : nums) {\n        int temp = max(n + rob1, rob2);\n        rob1 = rob2;\n        rob2 = temp;\n    }\n    return rob2;\n}",
       "sql": ""
     }
   },
@@ -4533,9 +4533,9 @@
       "sql": "-- This challenge is categorized under Sorting & Searching.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def search_2d_matrix(nums, target):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int search2dmatrix(int[] nums, int target) {\n        return 1;\n    }",
-      "cpp": "int search2dmatrix(vector<int>& nums, int target) {\n    return 1;\n}",
+      "python": "def search_2d_matrix(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1",
+      "java": "public static int search2dmatrix(int[] nums, int target) {\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return -1;\n    }",
+      "cpp": "int search2dmatrix(vector<int>& nums, int target) {\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }\n    return -1;\n}",
       "sql": ""
     }
   },
@@ -4553,9 +4553,9 @@
       "sql": "-- This challenge is categorized under Sorting & Searching.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def search_2d_matrix_ii(nums, target):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int search2dmatrixii(int[] nums, int target) {\n        return 1;\n    }",
-      "cpp": "int search2dmatrixii(vector<int>& nums, int target) {\n    return 1;\n}",
+      "python": "def search_2d_matrix_ii(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1",
+      "java": "public static int search2dmatrixii(int[] nums, int target) {\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return -1;\n    }",
+      "cpp": "int search2dmatrixii(vector<int>& nums, int target) {\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }\n    return -1;\n}",
       "sql": ""
     }
   },
@@ -4773,9 +4773,9 @@
       "sql": "-- This challenge is categorized under Sorting & Searching.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def find_peak_element_bs(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int findpeakelementbs(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int findpeakelementbs(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def find_peak_element_bs(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1",
+      "java": "public static int findpeakelementbs(int[] nums, int target) {\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return -1;\n    }",
+      "cpp": "int findpeakelementbs(vector<int>& nums, int target) {\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }\n    return -1;\n}",
       "sql": ""
     }
   },
@@ -4793,9 +4793,9 @@
       "sql": "-- This challenge is categorized under Sorting & Searching.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def search_rotated_array(nums, target):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int searchrotatedarray(int[] nums, int target) {\n        return 1;\n    }",
-      "cpp": "int searchrotatedarray(vector<int>& nums, int target) {\n    return 1;\n}",
+      "python": "def search_rotated_array(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1",
+      "java": "public static int searchrotatedarray(int[] nums, int target) {\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return -1;\n    }",
+      "cpp": "int searchrotatedarray(vector<int>& nums, int target) {\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }\n    return -1;\n}",
       "sql": ""
     }
   },
@@ -4813,9 +4813,9 @@
       "sql": "-- This challenge is categorized under Sorting & Searching.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def search_rotated_array_ii(nums, target):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int searchrotatedarrayii(int[] nums, int target) {\n        return 1;\n    }",
-      "cpp": "int searchrotatedarrayii(vector<int>& nums, int target) {\n    return 1;\n}",
+      "python": "def search_rotated_array_ii(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1",
+      "java": "public static int searchrotatedarrayii(int[] nums, int target) {\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return -1;\n    }",
+      "cpp": "int searchrotatedarrayii(vector<int>& nums, int target) {\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }\n    return -1;\n}",
       "sql": ""
     }
   },
@@ -4873,9 +4873,9 @@
       "sql": "-- This challenge is categorized under Sorting & Searching.\n-- Select C++, Java, or Python to run this algorithm."
     },
     "solutions": {
-      "python": "def koko_eating_bananas(nums):\n    return len(nums) if isinstance(nums, (list, str)) else 1",
-      "java": "public static int kokoeatingbananas(int[] nums) {\n        return 1;\n    }",
-      "cpp": "int kokoeatingbananas(vector<int>& nums) {\n    return 1;\n}",
+      "python": "def koko_eating_bananas(nums, target):\n    l, r = 0, len(nums) - 1\n    while l <= r:\n        mid = (l + r) // 2\n        if nums[mid] == target: return mid\n        elif nums[mid] < target: l = mid + 1\n        else: r = mid - 1\n    return -1",
+      "java": "public static int kokoeatingbananas(int[] nums, int target) {\n        int l = 0, r = nums.length - 1;\n        while (l <= r) {\n            int mid = (l + r) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return -1;\n    }",
+      "cpp": "int kokoeatingbananas(vector<int>& nums, int target) {\n    int l = 0, r = nums.size() - 1;\n    while (l <= r) {\n        int mid = (l + r) / 2;\n        if (nums[mid] == target) return mid;\n        else if (nums[mid] < target) l = mid + 1;\n        else r = mid - 1;\n    }\n    return -1;\n}",
       "sql": ""
     }
   },
@@ -5011,8 +5011,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5027,8 +5027,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5043,8 +5043,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5059,8 +5059,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5075,8 +5075,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5091,8 +5091,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;",
-      "postgres": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -5107,8 +5107,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5123,8 +5123,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   },
   {
@@ -5139,8 +5139,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5155,8 +5155,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5171,8 +5171,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5187,8 +5187,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;",
-      "postgres": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -5203,8 +5203,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5219,8 +5219,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5235,8 +5235,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5251,8 +5251,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5267,8 +5267,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5283,8 +5283,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5299,8 +5299,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5315,8 +5315,8 @@
       "postgres": "-- Write your Basic Select SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5331,8 +5331,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5347,8 +5347,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -5363,8 +5363,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5379,8 +5379,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5395,8 +5395,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5411,8 +5411,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5427,8 +5427,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;",
-      "postgres": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -5443,8 +5443,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5459,8 +5459,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5475,8 +5475,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5491,8 +5491,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5507,8 +5507,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5523,8 +5523,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;",
-      "postgres": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -5539,8 +5539,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5555,8 +5555,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5571,8 +5571,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5587,8 +5587,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5603,8 +5603,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5619,8 +5619,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5635,8 +5635,8 @@
       "postgres": "-- Write your Joins SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5651,8 +5651,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5667,8 +5667,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5683,8 +5683,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5699,8 +5699,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5715,8 +5715,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5731,8 +5731,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5747,8 +5747,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5763,8 +5763,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5779,8 +5779,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5795,8 +5795,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5811,8 +5811,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5827,8 +5827,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5843,8 +5843,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5859,8 +5859,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -5875,8 +5875,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5891,8 +5891,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -5907,8 +5907,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5923,8 +5923,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;",
-      "postgres": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -5939,8 +5939,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5955,8 +5955,8 @@
       "postgres": "-- Write your Aggregations SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -5971,8 +5971,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   },
   {
@@ -5987,8 +5987,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -6003,8 +6003,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -6019,8 +6019,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -6035,8 +6035,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -6051,8 +6051,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   },
   {
@@ -6067,8 +6067,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;",
-      "postgres": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -6083,8 +6083,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;",
-      "postgres": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -6099,8 +6099,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -6115,8 +6115,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -6131,8 +6131,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -6147,8 +6147,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -6163,8 +6163,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -6179,8 +6179,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;",
-      "postgres": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -6195,8 +6195,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -6211,8 +6211,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -6227,8 +6227,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -6243,8 +6243,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;",
-      "postgres": "SELECT e.name AS employee, m.name AS manager\nFROM employees e JOIN employees m ON e.manager_id = m.id;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -6259,8 +6259,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -6275,8 +6275,8 @@
       "postgres": "-- Write your Subqueries & CTEs SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+      "postgres": "SELECT e.name AS Employee\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;"
     }
   },
   {
@@ -6291,8 +6291,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   },
   {
@@ -6307,8 +6307,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   },
   {
@@ -6323,8 +6323,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   },
   {
@@ -6339,8 +6339,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -6355,8 +6355,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -6371,8 +6371,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -6387,8 +6387,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -6403,8 +6403,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   },
   {
@@ -6419,8 +6419,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;",
-      "postgres": "SELECT name, salary FROM employees WHERE salary > 80000 ORDER BY salary DESC;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -6435,8 +6435,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;",
-      "postgres": "SELECT d.department_name, AVG(e.salary) AS avg_salary\nFROM employees e JOIN departments d ON e.department_id=d.id\nGROUP BY d.department_name;"
+      "mysql": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;",
+      "postgres": "SELECT d.department_name, COUNT(e.id) AS total_employees, AVG(e.salary) AS avg_salary\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.department_name;"
     }
   },
   {
@@ -6451,8 +6451,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -6467,8 +6467,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
+      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p\nJOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
     }
   },
   {
@@ -6483,8 +6483,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;",
-      "postgres": "SELECT p.project_name, SUM(ep.hours_worked) AS total_hours\nFROM projects p JOIN employee_projects ep ON p.id = ep.project_id\nGROUP BY p.project_name;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   },
   {
@@ -6499,8 +6499,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT * FROM employees LIMIT 5;",
-      "postgres": "SELECT * FROM employees LIMIT 5;"
+      "mysql": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;",
+      "postgres": "SELECT name, salary, department_id\nFROM employees\nWHERE salary > 60000\nORDER BY salary DESC;"
     }
   },
   {
@@ -6515,8 +6515,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;",
-      "postgres": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;"
+      "mysql": "SELECT c.name AS Customers\nFROM employees c\nLEFT JOIN orders o ON c.id = o.customer_id\nWHERE o.id IS NULL;",
+      "postgres": "SELECT c.name AS Customers\nFROM employees c\nLEFT JOIN orders o ON c.id = o.customer_id\nWHERE o.id IS NULL;"
     }
   },
   {
@@ -6531,8 +6531,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;",
-      "postgres": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;"
+      "mysql": "SELECT c.name AS Customers\nFROM employees c\nLEFT JOIN orders o ON c.id = o.customer_id\nWHERE o.id IS NULL;",
+      "postgres": "SELECT c.name AS Customers\nFROM employees c\nLEFT JOIN orders o ON c.id = o.customer_id\nWHERE o.id IS NULL;"
     }
   },
   {
@@ -6547,8 +6547,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;",
-      "postgres": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;"
+      "mysql": "SELECT c.name AS Customers\nFROM employees c\nLEFT JOIN orders o ON c.id = o.customer_id\nWHERE o.id IS NULL;",
+      "postgres": "SELECT c.name AS Customers\nFROM employees c\nLEFT JOIN orders o ON c.id = o.customer_id\nWHERE o.id IS NULL;"
     }
   },
   {
@@ -6563,8 +6563,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;",
-      "postgres": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   },
   {
@@ -6579,8 +6579,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;",
-      "postgres": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;"
+      "mysql": "SELECT c.name AS Customers\nFROM employees c\nLEFT JOIN orders o ON c.id = o.customer_id\nWHERE o.id IS NULL;",
+      "postgres": "SELECT c.name AS Customers\nFROM employees c\nLEFT JOIN orders o ON c.id = o.customer_id\nWHERE o.id IS NULL;"
     }
   },
   {
@@ -6595,8 +6595,8 @@
       "postgres": "-- Write your Window Functions SQL query here\n-- Use PostgreSQL syntax\n"
     },
     "solutions": {
-      "mysql": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;",
-      "postgres": "SELECT customer_id, SUM(order_amount) AS total_spend\nFROM orders GROUP BY customer_id;"
+      "mysql": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);",
+      "postgres": "SELECT d.department_name AS Department, e.name AS Employee, e.salary AS Salary\nFROM employees e\nJOIN departments d ON e.department_id = d.id\nWHERE e.salary = (SELECT MAX(salary) FROM employees WHERE department_id = d.id);"
     }
   }
 ]

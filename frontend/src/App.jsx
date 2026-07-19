@@ -34,13 +34,13 @@ export default function App() {
   
   // Dynamic application state
   const [channelStats, setChannelStats] = useState({
-    subscriberCount: '120000',
-    viewCount: '9500000',
-    videoCount: '400',
+    subscriberCount: '2050',
+    viewCount: '434958',
+    videoCount: '131',
     avatarUrl: '/youtube-avatar.png',
     bannerUrl: '/youtube-banner.png',
     title: 'Virtual Gyans',
-    description: ''
+    description: 'Welcome to Virtual Gyans'
   });
   const [playlists, setPlaylists] = useState([]);
   const [videos, setVideos] = useState([]);
