@@ -8,7 +8,7 @@ import InteractiveTools from './components/InteractiveTools';
 import Playground from './components/Playground';
 import Footer from './components/Footer';
 
-const API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
