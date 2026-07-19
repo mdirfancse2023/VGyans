@@ -671,18 +671,18 @@ def main():
             for v in data["videos"]
         ]
     if "resources" in data:
-        stripped["resources"] = [
-            {"id": r.get("id"), "title": r.get("title"), "category": r.get("category")}
-            for r in data["resources"]
-        ]
+        stripped["resources"] = data["resources"]
     if "experiences" in data:
         stripped["experiences"] = [
             {
                 "id": e.get("id"),
-                "title": e.get("title"),
                 "company": e.get("company"),
                 "role": e.get("role"),
-                "status": e.get("status")
+                "verdict": e.get("verdict"),
+                "candidate": e.get("candidate"),
+                "date": e.get("date"),
+                "difficulty": e.get("difficulty"),
+                "tips": e.get("tips")
             }
             for e in data["experiences"]
         ]

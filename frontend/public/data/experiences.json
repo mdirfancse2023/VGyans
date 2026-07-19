@@ -1,723 +1,1032 @@
 [
   {
     "id": "exp-103",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sunita Mishra",
+    "date": "February 2026",
+    "difficulty": "Medium",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
   },
   {
     "id": "exp-102",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys System Engineer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Deepak Nair",
+    "date": "June 2026",
+    "difficulty": "Hard",
+    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes."
   },
   {
     "id": "exp-101",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Arjun Rao",
+    "date": "October 2025",
+    "difficulty": "Medium",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
   },
   {
     "id": "exp-100",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sanjay Mishra",
+    "date": "November 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-99",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Senior Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Arohi Kumar",
+    "date": "February 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes."
   },
   {
     "id": "exp-98",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Neha Gowda",
+    "date": "July 2025",
+    "difficulty": "Easy",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
   },
   {
     "id": "exp-97",
-    "title": null,
     "company": "TCS",
     "role": "TCS Digital Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Meera Iyer",
+    "date": "October 2025",
+    "difficulty": "Hard",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
   },
   {
     "id": "exp-96",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Kavya Nair",
+    "date": "May 2025",
+    "difficulty": "Hard",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
   },
   {
     "id": "exp-95",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Turbo Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Vikram Bose",
+    "date": "April 2025",
+    "difficulty": "Medium-Hard",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
   },
   {
     "id": "exp-94",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Next Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Karan Verma",
+    "date": "February 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
   },
   {
     "id": "exp-93",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys System Engineer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Swati Mehta",
+    "date": "June 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
   },
   {
     "id": "exp-92",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Next Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Kiran Choudhury",
+    "date": "September 2026",
+    "difficulty": "Medium",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
   },
   {
     "id": "exp-91",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Elite Developer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Harsh Singh",
+    "date": "July 2025",
+    "difficulty": "Medium",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
   },
   {
     "id": "exp-90",
-    "title": null,
     "company": "TCS",
     "role": "TCS Ninja Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Arjun Naidu",
+    "date": "November 2026",
+    "difficulty": "Medium",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
   },
   {
     "id": "exp-89",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Next Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Siddharth Prasad",
+    "date": "May 2025",
+    "difficulty": "Hard",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
   },
   {
     "id": "exp-88",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys Specialist Programmer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Varun Menon",
+    "date": "October 2025",
+    "difficulty": "Medium",
+    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes."
   },
   {
     "id": "exp-87",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Tanvi Reddy",
+    "date": "August 2025",
+    "difficulty": "Easy",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-86",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Manish Roy",
+    "date": "June 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
   },
   {
     "id": "exp-85",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sandeep Gowda",
+    "date": "April 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
   },
   {
     "id": "exp-84",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Gaurav Saxena",
+    "date": "December 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
   },
   {
     "id": "exp-83",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Senior Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Suresh Mishra",
+    "date": "May 2026",
+    "difficulty": "Hard",
+    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes."
   },
   {
     "id": "exp-82",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Preeti Menon",
+    "date": "October 2026",
+    "difficulty": "Easy",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-81",
-    "title": null,
     "company": "TCS",
     "role": "TCS Digital Specialist",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Shreya Joshi",
+    "date": "August 2025",
+    "difficulty": "Medium",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
   },
   {
     "id": "exp-80",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Elite Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Varun Pillai",
+    "date": "March 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
   },
   {
     "id": "exp-79",
-    "title": null,
     "company": "TCS",
     "role": "TCS Digital Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Priya Nair",
+    "date": "March 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume."
   },
   {
     "id": "exp-78",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys Power Programmer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Rajesh Kulkarni",
+    "date": "November 2025",
+    "difficulty": "Easy",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
   },
   {
     "id": "exp-77",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sandeep Iyer",
+    "date": "February 2026",
+    "difficulty": "Hard",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-76",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Elevate Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Akash Singh",
+    "date": "July 2026",
+    "difficulty": "Medium",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
   },
   {
     "id": "exp-75",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Senior Analyst",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Deepak Chatterjee",
+    "date": "August 2025",
+    "difficulty": "Medium-Hard",
+    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes."
   },
   {
     "id": "exp-74",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Turbo Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Riya Patel",
+    "date": "March 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
   },
   {
     "id": "exp-73",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Meera Gowda",
+    "date": "May 2025",
+    "difficulty": "Hard",
+    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules."
   },
   {
     "id": "exp-72",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys System Engineer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Gaurav Kulkarni",
+    "date": "May 2025",
+    "difficulty": "Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
   },
   {
     "id": "exp-71",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Next Analyst",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Abhishek Joshi",
+    "date": "June 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
   },
   {
     "id": "exp-70",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Elite Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Amit Joshi",
+    "date": "October 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
   },
   {
     "id": "exp-69",
-    "title": null,
     "company": "TCS",
     "role": "TCS Digital Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Arjun Deshmukh",
+    "date": "March 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
   },
   {
     "id": "exp-68",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Analyst",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Pranav Deshmukh",
+    "date": "October 2026",
+    "difficulty": "Medium",
+    "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility."
   },
   {
     "id": "exp-67",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Elevate Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Pooja Singh",
+    "date": "February 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
   },
   {
     "id": "exp-66",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Elevate Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Gaurav Pandey",
+    "date": "May 2025",
+    "difficulty": "Hard",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
   },
   {
     "id": "exp-65",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Turbo Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Rajesh Saxena",
+    "date": "September 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
   },
   {
     "id": "exp-64",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys System Engineer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Abhishek Sharma",
+    "date": "April 2025",
+    "difficulty": "Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
   },
   {
     "id": "exp-63",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Next Analyst",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Karan Prasad",
+    "date": "October 2026",
+    "difficulty": "Hard",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
   },
   {
     "id": "exp-62",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys Specialist Programmer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Suresh Prasad",
+    "date": "April 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams."
   },
   {
     "id": "exp-61",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Elite Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Meera Sharma",
+    "date": "September 2025",
+    "difficulty": "Medium",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
   },
   {
     "id": "exp-60",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Elevate Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Karan Menon",
+    "date": "December 2026",
+    "difficulty": "Easy",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
   },
   {
     "id": "exp-59",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys Power Programmer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sandeep Mishra",
+    "date": "September 2025",
+    "difficulty": "Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
   },
   {
     "id": "exp-58",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Turbo Analyst",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Pranav Rao",
+    "date": "October 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
   },
   {
     "id": "exp-57",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Karan Menon",
+    "date": "January 2026",
+    "difficulty": "Medium",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
   },
   {
     "id": "exp-56",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Aniket Prasad",
+    "date": "March 2025",
+    "difficulty": "Medium-Hard",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
   },
   {
     "id": "exp-55",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Next Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Manish Patel",
+    "date": "September 2026",
+    "difficulty": "Medium",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
   },
   {
     "id": "exp-54",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Elite Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Swati Prasad",
+    "date": "June 2025",
+    "difficulty": "Hard",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
   },
   {
     "id": "exp-53",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Elite Developer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Karan Kulkarni",
+    "date": "October 2025",
+    "difficulty": "Medium-Hard",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
   },
   {
     "id": "exp-52",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Kishore Chatterjee",
+    "date": "November 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-51",
-    "title": null,
     "company": "TCS",
     "role": "TCS System Engineer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Amit Deshmukh",
+    "date": "May 2025",
+    "difficulty": "Hard",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
   },
   {
     "id": "exp-50",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Rahul Pillai",
+    "date": "January 2026",
+    "difficulty": "Medium",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
   },
   {
     "id": "exp-49",
-    "title": null,
     "company": "TCS",
     "role": "TCS Ninja Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Ramesh Choudhury",
+    "date": "March 2025",
+    "difficulty": "Hard",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
   },
   {
     "id": "exp-48",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Analyst",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Aishwarya Kulkarni",
+    "date": "May 2026",
+    "difficulty": "Medium",
+    "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility."
   },
   {
     "id": "exp-47",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Elite Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sneha Menon",
+    "date": "January 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
   },
   {
     "id": "exp-46",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Arohi Pillai",
+    "date": "October 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
   },
   {
     "id": "exp-45",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys Specialist Programmer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Suresh Saxena",
+    "date": "September 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams."
   },
   {
     "id": "exp-44",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Next Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Ananya Nair",
+    "date": "December 2026",
+    "difficulty": "Hard",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
   },
   {
     "id": "exp-43",
-    "title": null,
     "company": "TCS",
     "role": "TCS System Engineer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Aditya Kumar",
+    "date": "December 2026",
+    "difficulty": "Easy",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
   },
   {
     "id": "exp-42",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Analyst",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Aditya Joshi",
+    "date": "January 2026",
+    "difficulty": "Easy",
+    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes."
   },
   {
     "id": "exp-41",
-    "title": null,
     "company": "TCS",
     "role": "TCS Digital Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Riya Reddy",
+    "date": "August 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
   },
   {
     "id": "exp-40",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys System Engineer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Varun Reddy",
+    "date": "June 2025",
+    "difficulty": "Hard",
+    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes."
   },
   {
     "id": "exp-39",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Elevate Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Deepak Menon",
+    "date": "December 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
   },
   {
     "id": "exp-38",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Kishore Mishra",
+    "date": "August 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-37",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Turbo Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Manish Roy",
+    "date": "November 2026",
+    "difficulty": "Easy",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
   },
   {
     "id": "exp-36",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Rahul Banerjee",
+    "date": "January 2026",
+    "difficulty": "Medium",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
   },
   {
     "id": "exp-35",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Next Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Jyoti Gupta",
+    "date": "September 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
   },
   {
     "id": "exp-34",
-    "title": null,
     "company": "TCS",
     "role": "TCS Ninja Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Aditya Roy",
+    "date": "November 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume."
   },
   {
     "id": "exp-33",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys System Engineer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Kishore Gowda",
+    "date": "November 2025",
+    "difficulty": "Hard",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
   },
   {
     "id": "exp-32",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys Power Programmer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Nikhil Menon",
+    "date": "November 2025",
+    "difficulty": "Hard",
+    "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams."
   },
   {
     "id": "exp-31",
-    "title": null,
     "company": "TCS",
     "role": "TCS Digital Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Tanvi Gupta",
+    "date": "August 2025",
+    "difficulty": "Hard",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
   },
   {
     "id": "exp-30",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sanjay Saxena",
+    "date": "June 2026",
+    "difficulty": "Medium",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
   },
   {
     "id": "exp-29",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sneha Gowda",
+    "date": "June 2026",
+    "difficulty": "Easy",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-28",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Kavya Jha",
+    "date": "February 2025",
+    "difficulty": "Hard",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
   },
   {
     "id": "exp-27",
-    "title": null,
     "company": "TCS",
     "role": "TCS System Engineer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Nikhil Mehta",
+    "date": "June 2025",
+    "difficulty": "Easy",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
   },
   {
     "id": "exp-26",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Next Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Shreya Singh",
+    "date": "July 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
   },
   {
     "id": "exp-25",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Turbo Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Tanvi Banerjee",
+    "date": "May 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
   },
   {
     "id": "exp-24",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Vikram Pandey",
+    "date": "September 2026",
+    "difficulty": "Easy",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-23",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys System Engineer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Swati Gupta",
+    "date": "May 2026",
+    "difficulty": "Easy",
+    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes."
   },
   {
     "id": "exp-22",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sunita Gupta",
+    "date": "December 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules."
   },
   {
     "id": "exp-21",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Neha Nair",
+    "date": "February 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
   },
   {
     "id": "exp-20",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Swati Singh",
+    "date": "December 2026",
+    "difficulty": "Hard",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
   },
   {
     "id": "exp-19",
-    "title": null,
     "company": "TCS",
     "role": "TCS Digital Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Meera Rao",
+    "date": "June 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume."
   },
   {
     "id": "exp-18",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys Power Programmer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Tanvi Pandey",
+    "date": "March 2026",
+    "difficulty": "Easy",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
   },
   {
     "id": "exp-17",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Elite Developer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Arjun Prasad",
+    "date": "April 2025",
+    "difficulty": "Easy-Medium",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
   },
   {
     "id": "exp-16",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sanjay Iyer",
+    "date": "February 2026",
+    "difficulty": "Hard",
+    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules."
   },
   {
     "id": "exp-15",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Sneha Kumar",
+    "date": "December 2026",
+    "difficulty": "Hard",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
   },
   {
     "id": "exp-14",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Elite Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Jyoti Gupta",
+    "date": "November 2026",
+    "difficulty": "Medium",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
   },
   {
     "id": "exp-13",
-    "title": null,
     "company": "Wipro",
     "role": "Wipro Turbo Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Divya Roy",
+    "date": "February 2026",
+    "difficulty": "Easy",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
   },
   {
     "id": "exp-12",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Riya Prasad",
+    "date": "August 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-11",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Nisha Nair",
+    "date": "May 2025",
+    "difficulty": "Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
   },
   {
     "id": "exp-10",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Elevate Specialist",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Manish Kumar",
+    "date": "May 2026",
+    "difficulty": "Hard",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
   },
   {
     "id": "exp-9",
-    "title": null,
     "company": "TCS",
     "role": "TCS Ninja Developer",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Isha Prasad",
+    "date": "October 2026",
+    "difficulty": "Easy",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
   },
   {
     "id": "exp-8",
-    "title": null,
     "company": "Capgemini",
     "role": "Capgemini Senior Analyst",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Riya Pillai",
+    "date": "May 2025",
+    "difficulty": "Medium",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
   },
   {
     "id": "exp-7",
-    "title": null,
     "company": "Infosys",
     "role": "Infosys Power Programmer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Varun Reddy",
+    "date": "February 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
   },
   {
     "id": "exp-6",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Rejected",
+    "candidate": "Akash Jha",
+    "date": "May 2026",
+    "difficulty": "Easy",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
   },
   {
     "id": "exp-5",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Kunal Pandey",
+    "date": "October 2025",
+    "difficulty": "Easy",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
   },
   {
     "id": "exp-4",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture FSE (Full Stack Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Meera Roy",
+    "date": "September 2026",
+    "difficulty": "Medium-Hard",
+    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules."
   },
   {
     "id": "exp-3",
-    "title": null,
     "company": "Accenture",
     "role": "Accenture ASE (Associate Software Engineer)",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Aniket Verma",
+    "date": "May 2026",
+    "difficulty": "Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Accenture's cognitive test has strict timing."
   },
   {
     "id": "exp-2",
-    "title": null,
     "company": "TCS",
     "role": "TCS Ninja Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Priya Patel",
+    "date": "July 2026",
+    "difficulty": "Easy-Medium",
+    "tips": "Focus on verbal and aptitude speed during NQT. For the interview, show confidence and have basic knowledge of DBMS and SDLC."
   },
   {
     "id": "exp-1",
-    "title": null,
     "company": "Cognizant",
     "role": "Cognizant GenC Developer",
-    "status": null
+    "verdict": "Selected",
+    "candidate": "Rahul Sharma",
+    "date": "June 2026",
+    "difficulty": "Medium",
+    "tips": "Revise OOPs concepts thoroughly and practice basic SQL queries. Knowing your project inside out is critical."
   }
 ]

@@ -1,86 +1,84 @@
 import json
 import os
 
-def strip_file(file_path):
-    if not os.path.exists(file_path):
-        print(f"Error: {file_path} not found.")
-        return
-        
-    with open(file_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-        
-    stripped = {}
+def strip_and_save():
+    backup_dir = "backend/data/backup"
+    backend_data_dir = "backend/data"
+    frontend_data_dir = "frontend/public/data"
     
-    # 1. channel: keep all
-    if "channel" in data:
-        stripped["channel"] = data["channel"]
-        
-    # 2. playlists: keep id, title, videoCount
-    if "playlists" in data:
-        stripped["playlists"] = [
-            {"id": p.get("id"), "title": p.get("title"), "videoCount": p.get("videoCount")}
-            for p in data["playlists"]
-        ]
-        
-    # 3. videos: keep id, title, category, views, duration
-    if "videos" in data:
-        stripped["videos"] = [
-            {
-                "id": v.get("id"),
-                "title": v.get("title"),
-                "category": v.get("category"),
-                "views": v.get("views"),
-                "duration": v.get("duration")
-            }
-            for v in data["videos"]
-        ]
-        
-    # 4. resources: keep id, title, category
-    if "resources" in data:
-        stripped["resources"] = [
-            {"id": r.get("id"), "title": r.get("title"), "category": r.get("category")}
-            for r in data["resources"]
-        ]
-        
-    # 5. experiences: keep id, title, company, role, status
-    if "experiences" in data:
-        stripped["experiences"] = [
-            {
-                "id": e.get("id"),
-                "title": e.get("title"),
-                "company": e.get("company"),
-                "role": e.get("role"),
-                "status": e.get("status")
-            }
-            for e in data["experiences"]
-        ]
-        
-    # 6. flashcards: keep id, title, category
-    if "flashcards" in data:
-        stripped["flashcards"] = [
-            {"id": f.get("id"), "title": f.get("title"), "category": f.get("category")}
-            for f in data["flashcards"]
-        ]
-        
-    # 7. onboardingStages: keep keys only
-    if "onboardingStages" in data:
-        stripped["onboardingStages"] = {company: [] for company in data["onboardingStages"]}
-        
-    # 8. notes: keep id, title
-    if "notes" in data:
-        stripped["notes"] = [
-            {"id": n.get("id"), "title": n.get("title")}
-            for n in data["notes"]
-        ]
-        
-    # 9. playground_questions: keep id, title, difficulty, category
-    if "playground_questions" in data:
-        stripped["playground_questions"] = data["playground_questions"]
-        
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(stripped, f, indent=2)
-    print(f"Stripped and saved lightweight file to: {file_path}")
+    os.makedirs(backend_data_dir, exist_ok=True)
+    os.makedirs(frontend_data_dir, exist_ok=True)
+    
+    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions"]
+    
+    for key in keys:
+        backup_path = os.path.join(backup_dir, f"{key}.json")
+        if not os.path.exists(backup_path):
+            print(f"Warning: Backup {backup_path} not found.")
+            continue
+            
+        with open(backup_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            
+        # Perform minification based on key
+        if key == "channel":
+            stripped = data
+        elif key == "playlists":
+            stripped = [
+                {"id": p.get("id"), "title": p.get("title"), "videoCount": p.get("videoCount")}
+                for p in data
+            ]
+        elif key == "videos":
+            stripped = [
+                {
+                    "id": v.get("id"),
+                    "title": v.get("title"),
+                    "category": v.get("category"),
+                    "views": v.get("views"),
+                    "duration": v.get("duration")
+                }
+                for v in data
+            ]
+        elif key == "resources":
+            stripped = data
+        elif key == "experiences":
+            stripped = [
+                {
+                    "id": e.get("id"),
+                    "company": e.get("company"),
+                    "role": e.get("role"),
+                    "verdict": e.get("verdict"),
+                    "candidate": e.get("candidate"),
+                    "date": e.get("date"),
+                    "difficulty": e.get("difficulty"),
+                    "tips": e.get("tips")
+                }
+                for e in data
+            ]
+        elif key == "flashcards":
+            stripped = [
+                {"id": f.get("id"), "title": f.get("title"), "category": f.get("category")}
+                for f in data
+            ]
+        elif key == "onboardingStages":
+            stripped = {company: [] for company in data}
+        elif key == "notes":
+            stripped = [
+                {"id": n.get("id"), "title": n.get("title")}
+                for n in data
+            ]
+        elif key == "playground_questions":
+            stripped = data
+            
+        # Write backend minified JSON
+        with open(os.path.join(backend_data_dir, f"{key}.json"), "w", encoding="utf-8") as f:
+            json.dump(stripped, f, indent=2, ensure_ascii=False)
+            
+        # Write frontend minified JSON
+        with open(os.path.join(frontend_data_dir, f"{key}.json"), "w", encoding="utf-8") as f:
+            json.dump(stripped, f, indent=2, ensure_ascii=False)
+            
+    print("Minification complete! All segregated files updated successfully.")
 
 if __name__ == "__main__":
-    strip_file("backend/data/data.json")
-    strip_file("frontend/public/data.json")
+    strip_and_save()
