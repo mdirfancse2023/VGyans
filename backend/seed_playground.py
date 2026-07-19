@@ -28,21 +28,24 @@ def make_python_template(func_name, params, ret_type):
     driver_lines = [
         "import sys",
         "import json",
-        "lines = sys.stdin.read().split('\\n')",
-        "if lines and lines[0].strip():"
+        "raw_input = sys.stdin.read().strip()",
+        "lines = [l for l in raw_input.split('\\n') if l.strip()]",
+        "if not lines:",
+        "    lines = ['[-2, 1, -3, 4, -1, 2, 1, -5, 4]', '9']"
     ]
     
     parse_calls = []
     for i, (name, ptype) in enumerate(params):
+        driver_lines.append(f"val{i} = lines[{i}] if {i} < len(lines) else ('0' if '{ptype}' == 'int' else '[]' if '{ptype}' == 'list_int' else '\"\"')")
         if ptype == "list_int":
-            driver_lines.append(f"    {name} = json.loads(lines[{i}].strip())")
+            driver_lines.append(f"try:\n    {name} = json.loads(val{i})\nexcept Exception:\n    {name} = [int(x.strip()) for x in val{i}.replace('[','').replace(']','').split(',') if x.strip()]")
         elif ptype == "int":
-            driver_lines.append(f"    {name} = int(lines[{i}].strip())")
+            driver_lines.append(f"try:\n    {name} = int(val{i})\nexcept Exception:\n    {name} = 0")
         elif ptype == "str":
-            driver_lines.append(f"    {name} = lines[{i}].strip().replace('\"', '')")
+            driver_lines.append(f"{name} = val{i}.replace('\"', '')")
         parse_calls.append(name)
         
-    driver_lines.append(f"    print({func_name}({', '.join(parse_calls)}))")
+    driver_lines.append(f"print({func_name}({', '.join(parse_calls)}))")
     
     return f"def {func_name}({param_str}):\n{body}\n\n# -- HIDE DRIVER CODE START --\n# Driver code to test input\n" + "\n".join(driver_lines) + "\n# -- HIDE DRIVER CODE END --"
 
@@ -73,12 +76,12 @@ def make_java_template(func_name, params, ret_type):
     
     for i, (name, ptype) in enumerate(params):
         driver.append(f"        String line{i} = reader.readLine();")
-        driver.append(f"        if (line{i} == null) return;")
+        driver.append(f"        if (line{i} == null || line{i}.trim().isEmpty()) line{i} = (\"{i}\" == \"0\" ? \"[-2, 1, -3, 4, -1, 2, 1, -5, 4]\" : \"9\");")
         if ptype == "list_int":
             driver.append(f"        String clean{i} = line{i}.replace(\"[\", \"\").replace(\"]\", \"\").trim();")
             driver.append(f"        String[] tokens{i} = clean{i}.isEmpty() ? new String[0] : clean{i}.split(\",\");")
             driver.append(f"        int[] {name} = new int[tokens{i}.length];")
-            driver.append(f"        for (int i = 0; i < tokens{i}.length; i++) {name}[i] = Integer.parseInt(tokens{i}[i].trim());")
+            driver.append(f"        for (int k = 0; k < tokens{i}.length; k++) {name}[k] = Integer.parseInt(tokens{i}[k].trim());")
         elif ptype == "int":
             driver.append(f"        int {name} = Integer.parseInt(line{i}.trim());")
         elif ptype == "str":
