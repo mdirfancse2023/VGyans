@@ -6,9 +6,9 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
-# Default channel ID for Virtual Gyans
-CHANNEL_ID = os.getenv("CHANNEL_ID", "UCnN6Q5H7b8r8WjD757mR9yQ")
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY", "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo")
+# Channel ID for Virtual Gyans
+CHANNEL_ID = os.getenv("CHANNEL_ID", "UCkViZeUiDCEof_t9--OgZkA")
 
 OUTPUT_PATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -408,112 +408,12 @@ def generate_mock_data():
     }
 
 def fetch_youtube_data():
-    if not YOUTUBE_API_KEY:
-        print("YOUTUBE_API_KEY environment variable not found.")
-        return None
-
     try:
-        base_url = "https://www.googleapis.com/youtube/v3"
-        print(f"Fetching channel details for ID: {CHANNEL_ID}")
-        
-        # 1. Fetch channel stats
-        channel_url = f"{base_url}/channels?part=snippet,statistics,brandingSettings&id={CHANNEL_ID}&key={YOUTUBE_API_KEY}"
-        r = requests.get(channel_url)
-        r.raise_for_status()
-        channel_data = r.json()
-
-        if not channel_data.get("items"):
-            print("Channel not found.")
-            return None
-
-        item = channel_data["items"][0]
-        snippet = item["snippet"]
-        stats = item["statistics"]
-        branding = item.get("brandingSettings", {})
-
-        avatar_url = "/youtube-avatar.png"
-        banner_url = "/youtube-banner.png"
-
-        channel = {
-            "subscriberCount": stats.get("subscriberCount", "0"),
-            "viewCount": stats.get("viewCount", "0"),
-            "videoCount": stats.get("videoCount", "0"),
-            "avatarUrl": avatar_url,
-            "bannerUrl": banner_url,
-            "title": snippet.get("title", "Virtual Gyans"),
-            "description": snippet.get("description", "")
-        }
-
-        # 2. Fetch playlists
-        print("Fetching playlists...")
-        playlists_url = f"{base_url}/playlists?part=snippet,contentDetails&channelId={CHANNEL_ID}&maxResults=10&key={YOUTUBE_API_KEY}"
-        r = requests.get(playlists_url)
-        r.raise_for_status()
-        playlists_res = r.json()
+        from sync_youtube import fetch_youtube_channel_metadata, fetch_youtube_videos
+        channel = fetch_youtube_channel_metadata()
+        videos = fetch_youtube_videos()
         playlists = []
-        for p in playlists_res.get("items", []):
-            playlists.append({
-                "id": p["id"],
-                "title": p["snippet"]["title"],
-                "videoCount": str(p["contentDetails"]["itemCount"])
-            })
-
-        # 3. Fetch latest videos (from search API or uploads playlist)
-        # Search API is easier to filter, but let's query the channel's uploads
-        print("Fetching latest videos...")
-        uploads_playlist_id = "UU" + CHANNEL_ID[2:] # standard YouTube trick: replace UC with UU
-        playlist_items_url = f"{base_url}/playlistItems?part=snippet,contentDetails&playlistId={uploads_playlist_id}&maxResults=20&key={YOUTUBE_API_KEY}"
-        r = requests.get(playlist_items_url)
         
-        # Fallback to search if uploads playlist trick fails
-        if r.status_code != 200:
-            print("Uploads playlist trick failed, falling back to Search API...")
-            search_url = f"{base_url}/search?part=snippet&channelId={CHANNEL_ID}&order=date&maxResults=20&type=video&key={YOUTUBE_API_KEY}"
-            r = requests.get(search_url)
-            r.raise_for_status()
-            search_res = r.json()
-            video_items = search_res.get("items", [])
-        else:
-            video_items = r.json().get("items", [])
-
-        videos = []
-        for item in video_items:
-            snippet = item["snippet"]
-            
-            # Video ID extraction differs between search and playlistItems
-            if "videoId" in snippet.get("resourceId", {}):
-                video_id = snippet["resourceId"]["videoId"]
-            elif isinstance(item.get("id"), dict) and "videoId" in item["id"]:
-                video_id = item["id"]["videoId"]
-            else:
-                video_id = item.get("id", "")
-
-            if not video_id:
-                continue
-
-            title = snippet["title"]
-            desc = snippet["description"]
-            published_at = snippet["publishedAt"]
-            thumbnail = snippet["thumbnails"]["high"]["url"]
-
-            # Simple logic to categorize based on title
-            category = "Technical"
-            lower_title = title.lower()
-            if any(k in lower_title for k in ["onboarding", "placement", "genc", "tcs", "cognizant", "accenture", "interview", "wipro", "hiring", "job", "career"]):
-                category = "Placement Prep"
-
-            videos.append({
-                "id": video_id,
-                "title": title,
-                "description": desc,
-                "thumbnailUrl": thumbnail,
-                "publishedAt": published_at,
-                "category": category,
-                "videoUrl": f"https://www.youtube.com/watch?v={video_id}",
-                "views": "N/A",  # views need a separate details call, simplifying here
-                "duration": "N/A"
-            })
-
         # Check if Firebase is available
         key_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "serviceAccountKey.json")
         has_firebase = os.getenv("FIREBASE_SERVICE_ACCOUNT") or os.path.exists(key_path)
