@@ -1183,3 +1183,151 @@ section {
     align-items: flex-start;
   }
 }
+
+/* Light Theme Variables and Overrides */
+body.light-theme {
+  --bg-dark: #f8fafc;
+  --bg-dark-secondary: #f1f5f9;
+  --bg-glass: rgba(255, 255, 255, 0.7);
+  --bg-glass-hover: rgba(255, 255, 255, 0.95);
+  --border-glass: rgba(15, 23, 42, 0.08);
+  --border-glass-focus: rgba(6, 182, 212, 0.6);
+  
+  --primary: #0891b2;
+  --primary-glow: rgba(8, 145, 178, 0.1);
+  --secondary: #7c3aed;
+  --secondary-glow: rgba(124, 58, 237, 0.1);
+  --accent: #db2777;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+}
+
+body.light-theme .blob {
+  opacity: 0.08;
+}
+
+body.light-theme .navbar {
+  background: rgba(248, 250, 252, 0.8);
+}
+
+body.light-theme .logo,
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4,
+body.light-theme h5,
+body.light-theme h6,
+body.light-theme .video-title,
+body.light-theme .modal-title,
+body.light-theme .step-title,
+body.light-theme .tracker-title {
+  color: var(--text-primary) !important;
+}
+
+body.light-theme input,
+body.light-theme select,
+body.light-theme textarea,
+body.light-theme option {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
+
+body.light-theme .code-textarea {
+  caret-color: #0f172a !important;
+}
+body.light-theme .highlight-overlay {
+  color: #0f172a !important;
+}
+body.light-theme .line-numbers {
+  background: rgba(15, 23, 42, 0.05) !important;
+  color: #64748b !important;
+  border-right-color: rgba(15, 23, 42, 0.08) !important;
+}
+body.light-theme .editor-wrapper {
+  background: #ffffff !important;
+  border-bottom-color: rgba(15, 23, 42, 0.1) !important;
+}
+body.light-theme .console-panel {
+  background: #f1f5f9 !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+}
+body.light-theme .console-tabs {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.06);
+}
+body.light-theme .console-tab {
+  color: #64748b !important;
+}
+body.light-theme .console-tab.active {
+  color: #0f172a !important;
+  background: #ffffff !important;
+}
+body.light-theme .stdin-textarea {
+  background: rgba(15, 23, 42, 0.05) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  color: #0f172a !important;
+}
+body.light-theme .terminal-stdout {
+  color: #0f766e !important;
+}
+body.light-theme .terminal-stderr {
+  color: #be123c !important;
+}
+body.light-theme .blog-modal-container {
+  background: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+body.light-theme .blog-header {
+  background: rgba(248, 250, 252, 0.8) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+}
+body.light-theme .blog-title {
+  color: #0f172a !important;
+}
+body.light-theme .blog-control-btn {
+  background: rgba(15, 23, 42, 0.05) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  color: #475569 !important;
+}
+body.light-theme .blog-control-btn:hover {
+  background: rgba(15, 23, 42, 0.1) !important;
+  color: #0f172a !important;
+}
+body.light-theme .blog-content-area {
+  background: #ffffff !important;
+}
+body.light-theme .blog-code-container {
+  background: #f8fafc !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+body.light-theme .blog-code-header {
+  background: rgba(15, 23, 42, 0.03) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.05) !important;
+}
+body.light-theme .blog-code-pre {
+  color: #0f172a !important;
+}
+body.light-theme .blog-copy-btn {
+  background: rgba(15, 23, 42, 0.05) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  color: #475569 !important;
+}
+body.light-theme .blog-copy-btn:hover {
+  background: rgba(15, 23, 42, 0.1) !important;
+  color: #0f172a !important;
+}
+body.light-theme .playground-sidebar {
+  border-right-color: rgba(15, 23, 42, 0.08) !important;
+  background: rgba(241, 245, 249, 0.8) !important;
+}
+body.light-theme .sidebar-section:not(:last-child) {
+  border-bottom-color: rgba(15, 23, 42, 0.05) !important;
+}
+body.light-theme .ide-header {
+  background: rgba(241, 245, 249, 0.8) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+}
+

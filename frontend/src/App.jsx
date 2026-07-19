@@ -15,6 +15,23 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark';
+  });
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+  
   // Dynamic application state
   const [channelStats, setChannelStats] = useState({
     subscriberCount: '120000',
@@ -124,7 +141,12 @@ export default function App() {
         <div className="blob blob-3"></div>
       </div>
 
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Header 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
 
       <main style={{ flexGrow: 1 }}>
         {error && (
