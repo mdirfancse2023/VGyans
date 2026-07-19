@@ -57,7 +57,7 @@ def load_data():
             from build_static import main as run_build
             run_build()
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Data directory missing and regeneration failed: {e}")
+            print(f"Warning: Data directory missing and build_static skipped: {e}")
 
     data = {}
     keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions"]
@@ -77,14 +77,14 @@ def load_data():
     return data
 
 def save_data(data):
-    os.makedirs(DATA_DIR, exist_ok=True)
-    for key, val in data.items():
-        file_path = os.path.join(DATA_DIR, f"{key}.json")
-        try:
+    try:
+        os.makedirs(DATA_DIR, exist_ok=True)
+        for key, val in data.items():
+            file_path = os.path.join(DATA_DIR, f"{key}.json")
             with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(val, f, indent=2, ensure_ascii=False)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Failed to write segregated file {key}.json: {e}")
+    except Exception as e:
+        print(f"Warning: Skipped local file write on serverless environment: {e}")
 
 import firebase_admin
 from firebase_admin import credentials, firestore
