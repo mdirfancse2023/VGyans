@@ -109,8 +109,8 @@ export default function Hero({ stats, setActiveTab }) {
         .hero2-top {
           position: relative; z-index: 2;
           display: flex; align-items: center; justify-content: space-between;
-          gap: 2.5rem; flex-wrap: wrap;
-          padding: 4rem 0 2.5rem;
+          gap: 2rem; flex-wrap: wrap;
+          padding: 1.5rem 0 1.5rem;
           opacity: 0; transform: translateY(28px);
           transition: opacity 0.7s ease, transform 0.7s ease;
         }
@@ -133,12 +133,12 @@ export default function Hero({ stats, setActiveTab }) {
         .hero2-eyebrow span { font-size: 0.9rem; }
 
         .hero2-h1 {
-          font-size: clamp(2rem, 5vw, 3.4rem);
+          font-size: clamp(1.5rem, 3.5vw, 2.2rem);
           font-weight: 800;
-          line-height: 1.13;
-          letter-spacing: -0.03em;
+          line-height: 1.18;
+          letter-spacing: -0.025em;
           color: var(--text-primary);
-          margin: 0 0 1.1rem;
+          margin: 0 0 0.85rem;
         }
         .hero2-h1 .grad {
           background: linear-gradient(135deg, #818cf8 0%, #38bdf8 50%, #34d399 100%);
@@ -147,9 +147,9 @@ export default function Hero({ stats, setActiveTab }) {
         }
 
         .hero2-sub {
-          font-size: 1.05rem; line-height: 1.65;
+          font-size: 0.88rem; line-height: 1.6;
           color: var(--text-secondary);
-          max-width: 520px; margin: 0 0 2rem;
+          max-width: 500px; margin: 0 0 1.5rem;
         }
 
         .hero2-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
@@ -180,26 +180,14 @@ export default function Hero({ stats, setActiveTab }) {
         /* ─── Right: Avatar visual ─── */
         .hero2-right {
           position: relative; flex-shrink: 0;
-          width: 280px; height: 280px;
-        }
-        .hero2-avatar-ring {
-          position: absolute; inset: 0;
-          border-radius: 50%;
-          background: conic-gradient(from 0deg, #6366f1, #38bdf8, #34d399, #f59e0b, #f472b6, #6366f1);
-          animation: rotateRing 6s linear infinite;
-          padding: 3px;
-        }
-        .hero2-avatar-ring-inner {
-          width: 100%; height: 100%; border-radius: 50%;
-          background: var(--bg-dark-primary);
+          width: 240px; height: 240px;
           display: flex; align-items: center; justify-content: center;
         }
-        @keyframes rotateRing { to { transform: rotate(360deg); } }
-
         .hero2-avatar-img {
-          width: 200px; height: 200px; border-radius: 50%;
+          width: 210px; height: 210px; border-radius: 50%;
           object-fit: cover;
-          border: 3px solid rgba(255,255,255,0.08);
+          border: 3px solid rgba(255,255,255,0.12);
+          box-shadow: 0 0 0 6px rgba(99,102,241,0.15), 0 0 40px rgba(99,102,241,0.25);
           position: relative; z-index: 2;
         }
 
@@ -358,15 +346,11 @@ export default function Hero({ stats, setActiveTab }) {
           </div>
 
           <div className="hero2-right">
-            <div className="hero2-avatar-ring">
-              <div className="hero2-avatar-ring-inner">
-                <img
-                  src={stats.avatarUrl || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&h=200&fit=crop'}
-                  alt="Md Irfan — Virtual Gyans"
-                  className="hero2-avatar-img"
-                />
-              </div>
-            </div>
+            <img
+              src={stats.avatarUrl || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&h=200&fit=crop'}
+              alt="Md Irfan — Virtual Gyans"
+              className="hero2-avatar-img"
+            />
 
             {floatingBadges.map((b, i) => (
               <div
