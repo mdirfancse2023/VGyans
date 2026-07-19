@@ -1135,11 +1135,11 @@ export default function Playground({ questions }) {
         }
         .topic-header:hover { background: rgba(255,255,255,0.04); }
         .topic-name {
-          font-size: 0.78rem;
-          font-weight: 700;
-          color: #60a5fa;
+          font-size: 0.86rem;
+          font-weight: 800;
+          color: #38bdf8;
           text-transform: uppercase;
-          letter-spacing: 0.07em;
+          letter-spacing: 0.06em;
         }
         .topic-meta {
           display: flex;
@@ -1147,13 +1147,13 @@ export default function Playground({ questions }) {
           gap: 0.5rem;
         }
         .topic-count {
-          font-size: 0.7rem;
-          color: #475569;
-          font-weight: 600;
+          font-size: 0.74rem;
+          color: #94a3b8;
+          font-weight: 700;
         }
         .topic-arrow {
-          color: #475569;
-          font-size: 0.7rem;
+          color: #94a3b8;
+          font-size: 0.75rem;
           transition: transform 0.2s;
           display: inline-block;
         }
@@ -1161,32 +1161,34 @@ export default function Playground({ questions }) {
         .question-list {
           display: none;
           flex-direction: column;
-          padding: 0.25rem 0;
-          background: rgba(0,0,0,0.2);
+          padding: 0.35rem 0;
+          background: rgba(0,0,0,0.35);
         }
         .question-list.visible { display: flex; }
         .question-item {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0.45rem 1.5rem 0.45rem 2rem;
+          padding: 0.65rem 1.25rem 0.65rem 1.75rem;
           cursor: pointer;
           border: none;
           background: transparent;
           text-align: left;
           width: 100%;
           transition: background 0.12s;
-          gap: 0.5rem;
+          gap: 0.55rem;
+          border-bottom: 1px solid rgba(255,255,255,0.02);
         }
-        .question-item:hover { background: rgba(59,130,246,0.08); }
-        .question-item.active { background: rgba(59,130,246,0.15); }
+        .question-item:hover { background: rgba(59,130,246,0.12); }
+        .question-item.active { background: rgba(59,130,246,0.2); }
         .question-item-title {
-          font-size: 0.78rem;
-          color: #cbd5e1;
+          font-size: 0.88rem;
+          color: #f1f5f9;
+          font-weight: 500;
           flex: 1;
-          line-height: 1.3;
+          line-height: 1.4;
         }
-        .question-item.active .question-item-title { color: #93c5fd; font-weight: 600; }
+        .question-item.active .question-item-title { color: #60a5fa; font-weight: 700; }
         body.light-theme .questions-drawer { background: #f8fafc; }
         body.light-theme .drawer-search input { background: #fff; color: #0f172a; }
         body.light-theme .topic-name { color: #2563eb; }
@@ -1519,39 +1521,51 @@ export default function Playground({ questions }) {
         {/* LEFT PANEL: Problem Description & Solutions OR Free Playground Hub */}
         <div className="playground-sidebar">
           {!activeProblem ? (
-            <div style={{ padding: '0.85rem 1rem', flex: 1, overflowY: 'auto' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+            <div style={{ padding: '1rem 1.15rem', flex: 1, overflowY: 'auto' }}>
+              <div style={{
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                color: '#94a3b8',
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
+                marginBottom: '0.85rem'
+              }}>
+                Curated Problem Categories
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                 {Object.entries(groupedProblems).map(([cat, items]) => (
                   <button
                     key={cat}
                     onClick={() => selectQuestion(items[0])}
                     style={{
-                      background: 'rgba(255, 255, 255, 0.025)',
-                      border: '1px solid rgba(255, 255, 255, 0.06)',
-                      borderRadius: '8px',
-                      padding: '0.65rem 0.85rem',
+                      background: 'rgba(15, 23, 42, 0.75)',
+                      border: '1px solid rgba(255, 255, 255, 0.09)',
+                      borderRadius: '10px',
+                      padding: '0.85rem 1.1rem',
                       textAlign: 'left',
                       cursor: 'pointer',
-                      color: '#e2e8f0',
-                      fontSize: '0.83rem',
-                      fontWeight: 600,
+                      color: '#f8fafc',
+                      fontSize: '0.94rem',
+                      fontWeight: 700,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      transition: 'all 0.15s ease'
+                      transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)'
                     }}
                   >
-                    <span>{cat}</span>
+                    <span style={{ color: '#f1f5f9', letterSpacing: '-0.01em' }}>{cat}</span>
                     <span style={{
                       color: '#38bdf8',
-                      fontSize: '0.75rem',
-                      fontWeight: 700,
-                      background: 'rgba(56, 189, 248, 0.1)',
-                      border: '1px solid rgba(56, 189, 248, 0.2)',
-                      padding: '0.15rem 0.55rem',
-                      borderRadius: '99px'
+                      fontSize: '0.78rem',
+                      fontWeight: 800,
+                      background: 'rgba(56, 189, 248, 0.12)',
+                      border: '1px solid rgba(56, 189, 248, 0.25)',
+                      padding: '0.2rem 0.65rem',
+                      borderRadius: '99px',
+                      whiteSpace: 'nowrap'
                     }}>
-                      {items.length}Q
+                      {items.length} Questions
                     </span>
                   </button>
                 ))}
