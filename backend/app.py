@@ -637,23 +637,27 @@ def run_code(req: RunRequest):
     extra_paths = ["/usr/bin", "/usr/local/bin", "/opt/homebrew/bin", "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home/bin", "/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin"]
     env["PATH"] = ":".join(extra_paths) + ":" + env.get("PATH", "")
     
-    def run_remote_wandbox(compiler_name, options=None):
+    def run_remote_judge0(source_code, lang_id):
         try:
             payload = {
-                "compiler": compiler_name,
-                "code": code,
+                "source_code": source_code,
+                "language_id": lang_id,
                 "stdin": stdin
             }
-            if options:
-                payload["options"] = options
-            res = requests.post("https://wandbox.org/api/compile.json", json=payload, timeout=8)
-            if res.status_code == 200:
+            res = requests.post("https://ce.judge0.com/submissions?base64_encoded=false&wait=true", json=payload, timeout=10)
+            if res.status_code in [200, 201]:
                 data = res.json()
-                stdout_res = data.get("program_output", "")
-                stderr_res = data.get("program_error", "")
-                compiler_err = data.get("compiler_error", "") or data.get("compiler_output", "")
-                if compiler_err and not stdout_res:
-                    stderr_res = f"Compilation Error:\n{compiler_err}"
+                stdout_res = data.get("stdout") or ""
+                stderr_res = data.get("stderr") or ""
+                compile_err = data.get("compile_output") or ""
+                status = data.get("status", {})
+                status_desc = status.get("description", "")
+                
+                if compile_err:
+                    stderr_res = f"Compilation Error:\n{compile_err}"
+                elif status_desc not in ["Accepted", ""]:
+                    if not stderr_res:
+                        stderr_res = f"Execution Error: {status_desc}"
                 return {"stdout": stdout_res, "stderr": stderr_res}
             else:
                 return {"stdout": "", "stderr": f"Execution Error: Remote compilation service returned status code {res.status_code}."}
@@ -690,7 +694,7 @@ def run_code(req: RunRequest):
                     )
                     return {"stdout": proc.stdout, "stderr": proc.stderr}
                 except FileNotFoundError:
-                    return run_remote_wandbox("cpython-head")
+                    return run_remote_judge0(code, 100)
             
         elif lang == "cpp":
             file_path = os.path.join(temp_dir, "main.cpp")
@@ -720,7 +724,7 @@ def run_code(req: RunRequest):
                 )
                 return {"stdout": run_proc.stdout, "stderr": run_proc.stderr}
             except FileNotFoundError:
-                return run_remote_wandbox("gcc-head", "c++17")
+                return run_remote_judge0(code, 105)
             
         elif lang == "java":
             class_name_match = re.search(r"public\s+class\s+(\w+)", code)
@@ -753,7 +757,7 @@ def run_code(req: RunRequest):
                 )
                 return {"stdout": run_proc.stdout, "stderr": run_proc.stderr}
             except FileNotFoundError:
-                return run_remote_wandbox("openjdk-head")
+                return run_remote_judge0(code, 91)
             
         else:
             raise HTTPException(status_code=400, detail=f"Unsupported language: {lang}")
