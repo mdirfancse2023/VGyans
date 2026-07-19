@@ -26,7 +26,15 @@ export default function VideoGrid({ videos }) {
     return `https://www.youtube.com/embed/${videoId}`;
   };
 
-  const filteredVideos = videos.filter((video) => {
+  const sortedVideos = React.useMemo(() => {
+    return [...(videos || [])].sort((a, b) => {
+      const timeA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+      const timeB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+      return timeB - timeA;
+    });
+  }, [videos]);
+
+  const filteredVideos = sortedVideos.filter((video) => {
     const matchesCategory = selectedCategory === 'all' || video.category === selectedCategory;
     const titleText = (video.title || '').toLowerCase();
     const descText = (video.description || '').toLowerCase();

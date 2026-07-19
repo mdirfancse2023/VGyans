@@ -86,9 +86,18 @@ export default function App() {
           fetchJSON('playground_questions')
         ]);
 
+        const sortVideosNewestFirst = (vList) => {
+          if (!Array.isArray(vList)) return [];
+          return [...vList].sort((a, b) => {
+            const timeA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+            const timeB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+            return timeB - timeA;
+          });
+        };
+
         if (channel) setChannelStats(cleanChannel(channel));
         if (playlists) setPlaylists(playlists);
-        if (videos) setVideos(videos);
+        if (videos) setVideos(sortVideosNewestFirst(videos));
         if (resources) setResources(resources);
         if (experiences) setExperiences(experiences);
         if (flashcards) setFlashcards(flashcards);
@@ -111,7 +120,7 @@ export default function App() {
             const liveData = await liveRes.json();
             if (liveData.channel) setChannelStats(cleanChannel(liveData.channel));
             if (liveData.playlists) setPlaylists(liveData.playlists);
-            if (liveData.videos) setVideos(liveData.videos);
+            if (liveData.videos) setVideos(sortVideosNewestFirst(liveData.videos));
             if (liveData.resources) setResources(liveData.resources);
             if (liveData.experiences) setExperiences(liveData.experiences);
             if (liveData.flashcards) setFlashcards(liveData.flashcards);

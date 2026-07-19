@@ -184,10 +184,16 @@ def get_all_data():
                 for coll, fut in future_colls.items():
                     data[coll] = fut.result()
             
+            if "videos" in data and isinstance(data["videos"], list):
+                data["videos"].sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
+            
             return data
         except Exception as e:
             print(f"Firestore get_all_data error, falling back: {e}")
-    return load_data()
+    res_data = load_data()
+    if "videos" in res_data and isinstance(res_data["videos"], list):
+        res_data["videos"].sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
+    return res_data
 
 @app.get("/api/stats")
 def get_channel_stats():
@@ -197,6 +203,7 @@ def get_channel_stats():
             if stats_doc.exists:
                 return stats_doc.to_dict()
         except Exception as e:
+            pass
     return load_data().get("channel", {})
 
 @app.get("/api/sync-youtube")
@@ -220,6 +227,7 @@ def get_playlists():
 @app.get("/api/videos")
 def get_videos(category: Optional[str] = None, search: Optional[str] = None):
     videos = load_firestore_collection("videos")
+    videos.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
     if category:
         videos = [v for v in videos if v.get("category", "").lower() == category.lower()]
     if search:
