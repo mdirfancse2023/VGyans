@@ -67,6 +67,7 @@ export default function App() {
           if (localData.flashcards) setFlashcards(localData.flashcards);
           if (localData.onboardingStages) setOnboardingStages(localData.onboardingStages);
           if (localData.notes) setNotes(localData.notes);
+          if (localData.playground_questions) setPlaygroundQuestions(localData.playground_questions);
         }
       } catch (err) {
         console.warn('Failed to load local static data fallback:', err);

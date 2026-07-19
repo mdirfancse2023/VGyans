@@ -1235,7 +1235,34 @@ for category, count in sql_categories.items():
 
 print(f"Generated {len(questions)} playground questions in total.")
 
-# Seeding directly to Firestore, no local files generated.
+# Create lightweight questions list
+lightweight_questions = []
+for q in questions:
+    lightweight_questions.append({
+        "id": q["id"],
+        "title": q["title"],
+        "difficulty": q["difficulty"],
+        "category": q["category"]
+    })
+
+def inject_questions(file_path):
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception:
+            data = {}
+    else:
+        data = {}
+        
+    data["playground_questions"] = lightweight_questions
+    
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+    print(f"Injected and saved lightweight questions list to: {file_path}")
+
+inject_questions("backend/data.json")
+inject_questions("frontend/public/data.json")
 
 # Upload full details to Firebase Firestore
 print("Attempting to upload question details to Firebase Firestore...")
