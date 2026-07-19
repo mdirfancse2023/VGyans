@@ -16,9 +16,12 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
       <div className="nav-container">
         <a href="#home" className="logo" onClick={() => setActiveTab('home')}>
           <img 
-            src={logoImg} 
+            src="/logo.png" 
             alt="Virtual Gyans Logo" 
             style={{ width: '32px', height: '32px', objectFit: 'contain' }} 
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
           />
           Virtual Gyans
         </a>

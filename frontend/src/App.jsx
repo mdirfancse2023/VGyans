@@ -80,7 +80,13 @@ export default function App() {
           fetchJSON('playground_questions')
         ]);
 
-        if (channel) setChannelStats(channel);
+        const cleanChannel = (ch) => ch ? {
+          ...ch,
+          avatarUrl: (!ch.avatarUrl || ch.avatarUrl.includes('unsplash')) ? '/youtube-avatar.png' : ch.avatarUrl,
+          bannerUrl: (!ch.bannerUrl || ch.bannerUrl.includes('unsplash')) ? '/youtube-banner.png' : ch.bannerUrl,
+        } : ch;
+
+        if (channel) setChannelStats(cleanChannel(channel));
         if (playlists) setPlaylists(playlists);
         if (videos) setVideos(videos);
         if (resources) setResources(resources);
@@ -103,7 +109,7 @@ export default function App() {
           const liveRes = await fetch(`${API_URL}/api/all`);
           if (liveRes.ok) {
             const liveData = await liveRes.json();
-            if (liveData.channel) setChannelStats(liveData.channel);
+            if (liveData.channel) setChannelStats(cleanChannel(liveData.channel));
             if (liveData.playlists) setPlaylists(liveData.playlists);
             if (liveData.videos) setVideos(liveData.videos);
             if (liveData.resources) setResources(liveData.resources);

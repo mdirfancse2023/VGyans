@@ -282,8 +282,8 @@ def generate_mock_data():
         "subscriberCount": "124500",
         "viewCount": "9875400",
         "videoCount": "412",
-        "avatarUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&h=150&fit=crop", # Beautiful abstract visual
-        "bannerUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=300&fit=crop",
+        "avatarUrl": "/youtube-avatar.png",
+        "bannerUrl": "/youtube-banner.png",
         "title": "Virtual Gyans",
         "description": "Your ultimate destination for career guidance, placement preparation, and technical training. We simplify recruitment processes for top MNCs like Cognizant, TCS, Infosys, and Accenture, and offer simple tutorials on programming and Computer Science."
     }
@@ -431,10 +431,8 @@ def fetch_youtube_data():
         stats = item["statistics"]
         branding = item.get("brandingSettings", {})
 
-        avatar_url = snippet["thumbnails"]["high"]["url"]
-        banner_url = branding.get("image", {}).get("bannerExternalUrl", "")
-        if not banner_url:
-            banner_url = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=300&fit=crop"
+        avatar_url = "/youtube-avatar.png"
+        banner_url = "/youtube-banner.png"
 
         channel = {
             "subscriberCount": stats.get("subscriberCount", "0"),

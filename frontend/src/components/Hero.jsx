@@ -385,9 +385,12 @@ export default function Hero({ stats, setActiveTab }) {
 
           <div className="hero2-right">
             <img
-              src={stats.avatarUrl || '/youtube-avatar.png'}
+              src={(stats.avatarUrl && !stats.avatarUrl.includes('unsplash')) ? stats.avatarUrl : '/youtube-avatar.png'}
               alt="Md Irfan — Virtual Gyans"
               className="hero2-avatar-img"
+              loading="eager"
+              fetchpriority="high"
+              decoding="sync"
             />
             <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)', zIndex: 2, letterSpacing: '-0.01em', marginTop: '0.2rem' }}>
               Md Irfan
