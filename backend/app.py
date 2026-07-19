@@ -31,6 +31,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def block_ai_agents(request, call_next):
+    user_agent = request.headers.get("user-agent", "")
+    ua_lower = user_agent.lower()
+    ai_agents = [
+        "gptbot", "chatgpt", "claudebot", "claude-web", "google-extended", 
+        "anthropic", "perplexity", "applebot-extended", "facebookbot", 
+        "cohere", "ccbot", "diffbot", "omgili", "bytespider"
+    ]
+    if any(agent in ua_lower for agent in ai_agents):
+        return Response(content="Access denied for AI/LLM agents.", status_code=403)
+    return await call_next(request)
+
 DATA_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     "data.json"
