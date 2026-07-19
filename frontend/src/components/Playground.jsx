@@ -364,8 +364,8 @@ export default function Playground({ questions }) {
   const activeQuestions = (questions && questions.length > 0) ? questions : PROBLEMS;
   const [activeProblem, setActiveProblem] = useState(activeQuestions[0]);
   const [activeLang, setActiveLang] = useState('python');
-  const [code, setCode] = useState(getVisibleCode(activeQuestions[0].templates.python));
-  const [stdin, setStdin] = useState(activeQuestions[0].input);
+  const [code, setCode] = useState(getVisibleCode(activeQuestions[0]?.templates?.python || ''));
+  const [stdin, setStdin] = useState(activeQuestions[0]?.input || '');
   const [stdout, setStdout] = useState('');
   const [stderr, setStderr] = useState('');
   const [isRunning, setIsRunning] = useState(false);
@@ -441,7 +441,8 @@ export default function Playground({ questions }) {
   // Sync template on problem or language change
   useEffect(() => {
     if (activeProblem) {
-      const template = activeProblem.templates[activeLang] || '';
+      const templates = activeProblem.templates || {};
+      const template = templates[activeLang] || '';
       setCode(getVisibleCode(template));
       setStdin(activeProblem.input || '');
       setStdout('');
