@@ -433,6 +433,20 @@ const reconstructFullCode = (userEditedCode, originalTemplate) => {
   return userEditedCode;
 };
 
+const formatSolutionCode = (lang, langCode) => {
+  if (!langCode || !langCode.trim()) return langCode;
+  const targetLang = (lang === 'cpp') ? 'cpp' : (lang === 'java') ? 'java' : (lang === 'mysql' || lang === 'postgres') ? 'sql' : 'python';
+  
+  if (targetLang === 'java' && !langCode.includes('class Main')) {
+    const indented = langCode.split('\n').map(line => '    ' + line).join('\n');
+    return `import java.util.*;\nimport java.io.*;\n\npublic class Main {\n${indented}\n}`;
+  }
+  if (targetLang === 'cpp' && !langCode.includes('main()') && !langCode.includes('#include')) {
+    return `#include <iostream>\n#include <vector>\n#include <string>\n#include <sstream>\n#include <algorithm>\n\nusing namespace std;\n\n${langCode}`;
+  }
+  return langCode;
+};
+
 
 export default function Playground({ questions }) {
   const activeQuestions = (questions && questions.length > 0) ? questions : PROBLEMS;
@@ -451,7 +465,8 @@ export default function Playground({ questions }) {
   const [copiedLang, setCopiedLang] = useState('');
 
   const handleCopySolution = (langCode, lang) => {
-    navigator.clipboard.writeText(langCode);
+    const fullSolution = formatSolutionCode(lang, langCode);
+    navigator.clipboard.writeText(fullSolution);
     setCopiedLang(lang);
     setTimeout(() => {
       setCopiedLang('');
@@ -460,8 +475,9 @@ export default function Playground({ questions }) {
 
   const handleApplySolution = (lang, langCode) => {
     const targetLang = (lang === 'cpp') ? 'cpp' : (lang === 'java') ? 'java' : (lang === 'mysql' || lang === 'postgres') ? 'sql' : 'python';
+    const fullSolution = formatSolutionCode(lang, langCode);
     setActiveLang(targetLang);
-    setCode(langCode);
+    setCode(fullSolution);
     setCopiedLang(`applied_${lang}`);
     setTimeout(() => {
       setCopiedLang('');
@@ -1427,7 +1443,7 @@ export default function Playground({ questions }) {
                             </button>
                           </div>
                           <pre style={{ margin: 0, padding: 0, overflowX: 'auto', fontSize: '0.8rem', fontFamily: 'Courier New, Courier, monospace', lineHeight: 1.5, color: '#e2e8f0', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
-                            <code>{code}</code>
+                            <code>{formatSolutionCode(lang, code)}</code>
                           </pre>
                         </div>
                       </details>
