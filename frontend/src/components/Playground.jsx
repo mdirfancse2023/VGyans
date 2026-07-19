@@ -462,7 +462,8 @@ export default function Playground({ questions }) {
     setStderr('');
     setConsoleTab('output');
     try {
-      const response = await fetch('/api/run', {
+      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
+      const response = await fetch(`${API_URL}/api/run`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
