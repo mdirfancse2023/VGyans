@@ -30,6 +30,7 @@ export default function App() {
   const [experiences, setExperiences] = useState([]);
   const [flashcards, setFlashcards] = useState([]);
   const [onboardingStages, setOnboardingStages] = useState({});
+  const [notes, setNotes] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,6 +65,7 @@ export default function App() {
           if (data.experiences) setExperiences(data.experiences);
           if (data.flashcards) setFlashcards(data.flashcards);
           if (data.onboardingStages) setOnboardingStages(data.onboardingStages);
+          if (data.notes) setNotes(data.notes);
         }
         setError(null);
       } catch (err) {
@@ -218,7 +220,7 @@ export default function App() {
 
         {activeTab === 'guides' && (
           <section>
-            <PlacementHub resources={resources} />
+            <PlacementHub resources={resources} notes={notes} />
           </section>
         )}
 

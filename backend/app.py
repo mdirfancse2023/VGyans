@@ -511,6 +511,28 @@ def pdf_proxy(url: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Proxy error: {str(e)}")
 
+@app.get("/api/notes")
+def get_notes():
+    return load_firestore_collection("notes")
+
+@app.get("/api/notes/{note_id}")
+def get_note_content(note_id: str):
+    if db is not None:
+        try:
+            doc = db.collection("notes").document(note_id).get()
+            if doc.exists:
+                return doc.to_dict()
+        except Exception as e:
+            print(f"Firestore get_note_content error: {e}")
+            
+    # Fallback to local data.json
+    data = load_data()
+    notes = data.get("notes", [])
+    for note in notes:
+        if note.get("id") == note_id:
+            return note
+    raise HTTPException(status_code=404, detail="Study note not found")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)

@@ -77,6 +77,96 @@ CURATED_RESOURCES = [
         "description": "Professional resume of Md Irfan, Software Developer (3+ Years Experience).",
         "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
         "tags": ["Resume", "Developer", "Java", "React"]
+    },
+    {
+        "id": "c-study-notes",
+        "title": "C Programming Quick Notes",
+        "category": "Technical",
+        "company": "All",
+        "description": "Essential syntax, pointer concepts, structures, dynamic memory allocation, and key interview snippets.",
+        "downloadUrl": "/notes/c-study-notes",
+        "tags": ["C", "Syntax", "Pointers", "Core"]
+    },
+    {
+        "id": "cpp-study-notes",
+        "title": "C++ & OOPs Revision Notes",
+        "category": "Technical",
+        "company": "All",
+        "description": "Object-oriented concepts, virtual functions, templates, STL (Standard Template Library), and C++ reference.",
+        "downloadUrl": "/notes/cpp-study-notes",
+        "tags": ["C++", "OOPs", "STL", "Polymorphism"]
+    },
+    {
+        "id": "python-study-notes",
+        "title": "Python Cheat Sheet & Reference",
+        "category": "Technical",
+        "company": "All",
+        "description": "Core concepts, list comprehensions, decorators, generators, OOPs in Python, and common libraries.",
+        "downloadUrl": "/notes/python-study-notes",
+        "tags": ["Python", "Syntax", "Decorators", "OOPs"]
+    },
+    {
+        "id": "dsa-study-notes",
+        "title": "DSA Essential Hand Book",
+        "category": "Technical",
+        "company": "All",
+        "description": "Overview of major data structures, sorting/searching algorithms, complexity analysis, and coding patterns.",
+        "downloadUrl": "/notes/dsa-study-notes",
+        "tags": ["DSA", "Data Structures", "Algorithms", "Binary Search"]
+    },
+    {
+        "id": "java-study-notes",
+        "title": "Java Programming Master Notes",
+        "category": "Technical",
+        "company": "All",
+        "description": "Core Java, JVM architecture, multithreading, collections framework, Java 8 features (lambdas/streams).",
+        "downloadUrl": "/notes/java-study-notes",
+        "tags": ["Java", "OOPs", "JVM", "Streams"]
+    },
+    {
+        "id": "system-design-study-notes",
+        "title": "System Design Fundamentals",
+        "category": "Technical",
+        "company": "All",
+        "description": "High-level architecture, scalability, load balancers, caching, databases (SQL vs NoSQL), and CAP theorem.",
+        "downloadUrl": "/notes/system-design-study-notes",
+        "tags": ["System Design", "Scalability", "Architecture", "Microservices"]
+    },
+    {
+        "id": "spring-boot-study-notes",
+        "title": "Spring Boot Core Concepts",
+        "category": "Technical",
+        "company": "All",
+        "description": "Spring framework core, IoC, Dependency Injection, REST APIs, annotations reference, and Spring Data JPA.",
+        "downloadUrl": "/notes/spring-boot-study-notes",
+        "tags": ["Spring Boot", "Java", "REST API", "MVC"]
+    },
+    {
+        "id": "microservices-study-notes",
+        "title": "Microservices Architecture Blueprints",
+        "category": "Technical",
+        "company": "All",
+        "description": "Discovery services (Eureka), API Gateway, Circuit Breaker patterns, configuration server, and Kafka integration.",
+        "downloadUrl": "/notes/microservices-study-notes",
+        "tags": ["Microservices", "API Gateway", "Eureka", "Kafka"]
+    },
+    {
+        "id": "sql-study-notes",
+        "title": "SQL & Relational Databases Quick Guide",
+        "category": "Technical",
+        "company": "All",
+        "description": "SQL DDL/DML, Joins, grouping and aggregations, window functions, indexing strategies, and ACID properties.",
+        "downloadUrl": "/notes/sql-study-notes",
+        "tags": ["SQL", "Databases", "Joins", "Queries"]
+    },
+    {
+        "id": "interview-questions-study-notes",
+        "title": "Top 50 Technical Interview Questions",
+        "category": "Technical",
+        "company": "All",
+        "description": "Hand-picked high-frequency technical and behavioral interview questions with standard answers.",
+        "downloadUrl": "/notes/interview-questions-study-notes",
+        "tags": ["Interview", "Questions", "Aptitude", "HR"]
     }
 ]
 
@@ -294,6 +384,15 @@ def generate_mock_data():
         }
     ]
 
+    notes_list = []
+    try:
+        local_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
+        if os.path.exists(local_data_path):
+            with open(local_data_path, "r", encoding="utf-8") as f:
+                notes_list = json.load(f).get("notes", [])
+    except Exception:
+        pass
+
     return {
         "channel": mock_stats,
         "playlists": mock_playlists,
@@ -302,6 +401,7 @@ def generate_mock_data():
         "experiences": INTERVIEW_EXPERIENCES,
         "flashcards": FLASHCARDS,
         "onboardingStages": ONBOARDING_STAGES,
+        "notes": notes_list,
         "lastUpdated": "2026-07-19T11:45:00Z"
     }
 
@@ -470,9 +570,23 @@ def fetch_youtube_data():
                 onboarding_stages_dict = {doc.id: doc.to_dict().get("stages", []) for doc in stages_docs}
                 if not onboarding_stages_dict:
                     onboarding_stages_dict = ONBOARDING_STAGES
+                
+                # Fetch study notes
+                print("Fetching study notes from Firestore during static compile...")
+                notes_list = [doc.to_dict() for doc in db.collection("notes").stream()]
                     
             except Exception as e:
                 print(f"Error fetching Firestore data during static compile, falling back to static lists: {e}")
+                notes_list = []
+
+        if not notes_list:
+            try:
+                local_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
+                if os.path.exists(local_data_path):
+                    with open(local_data_path, "r", encoding="utf-8") as f:
+                        notes_list = json.load(f).get("notes", [])
+            except Exception:
+                pass
 
         import datetime
         return {
@@ -483,6 +597,7 @@ def fetch_youtube_data():
             "experiences": experiences_list,
             "flashcards": flashcards_list,
             "onboardingStages": onboarding_stages_dict,
+            "notes": notes_list,
             "lastUpdated": datetime.datetime.utcnow().isoformat() + "Z"
         }
 
