@@ -621,6 +621,210 @@ def get_dsa_description(title, category):
 
     return f"Solve the standard <strong>{title}</strong> challenge under the {category} category."
 
+def get_specific_constraints(title, category):
+    t_lower = title.lower()
+    
+    # 1. DSA - Arrays
+    if "array" in category.lower():
+        if "two sum" in t_lower:
+            return ["2 <= nums.length <= 10^4", "-10^9 <= nums[i] <= 10^9", "-10^9 <= target <= 10^9", "Only one valid answer exists."]
+        if "3sum" in t_lower:
+            return ["3 <= nums.length <= 3000", "-10^5 <= nums[i] <= 10^5"]
+        if "4sum" in t_lower:
+            return ["4 <= nums.length <= 200", "-10^9 <= nums[i] <= 10^9", "-10^9 <= target <= 10^9"]
+        if "stock" in t_lower:
+            return ["1 <= prices.length <= 10^5", "0 <= prices[i] <= 10^4"]
+        if "duplicate" in t_lower:
+            return ["1 <= nums.length <= 10^5", "-10^9 <= nums[i] <= 10^9"]
+        if "rotate" in t_lower or "rotated" in t_lower:
+            return ["1 <= nums.length <= 5000", "-10^4 <= nums[i] <= 10^4", "All elements of nums are unique."]
+        if "merge" in t_lower:
+            return ["nums1.length == m + n", "nums2.length == n", "0 <= m, n <= 200"]
+        return ["1 <= nums.length <= 10^5", "-10^5 <= nums[i] <= 10^5"]
+        
+    # 2. DSA - Strings
+    if "string" in category.lower():
+        if "anagram" in t_lower:
+            return ["1 <= s.length, t.length <= 5 * 10^4", "s and t consist of lowercase English letters."]
+        if "palindrome" in t_lower:
+            return ["1 <= s.length <= 2 * 10^5", "s consists only of printable ASCII characters."]
+        if "common prefix" in t_lower:
+            return ["1 <= strs.length <= 200", "0 <= strs[i].length <= 200"]
+        if "parentheses" in t_lower:
+            return ["1 <= s.length <= 10^4", "s consists of parentheses characters only."]
+        if "subsequence" in t_lower:
+            return ["0 <= s.length <= 100", "0 <= t.length <= 10^4"]
+        if "edit distance" in t_lower:
+            return ["0 <= s.length, t.length <= 500"]
+        return ["1 <= s.length <= 10^5", "s consists of English letters or digits."]
+        
+    # 3. DSA - Linked Lists
+    if "linked list" in category.lower() or "list" in category.lower():
+        if "merge k" in t_lower:
+            return ["k == lists.length", "0 <= k <= 10^4", "0 <= lists[i].length <= 500", "-10^4 <= lists[i][j] <= 10^4"]
+        if "reverse" in t_lower:
+            return ["The number of nodes in the list is in the range [0, 5000].", "-5000 <= Node.val <= 5000"]
+        if "cycle" in t_lower:
+            return ["The number of nodes in the list is in the range [0, 10^4].", "-10^5 <= Node.val <= 10^5"]
+        if "nth" in t_lower:
+            return ["The number of nodes in the list is sz.", "1 <= sz <= 30", "1 <= n <= sz"]
+        return ["The number of nodes in the list is in the range [0, 5000].", "-100 <= Node.val <= 100"]
+        
+    # 4. DSA - Trees & BST
+    if "tree" in category.lower() or "bst" in category.lower():
+        if "path sum" in t_lower:
+            return ["The number of nodes in the tree is in the range [0, 5000].", "-1000 <= Node.val <= 1000", "-1000 <= targetSum <= 1000"]
+        if "kth" in t_lower:
+            return ["The number of nodes in the tree is n.", "1 <= k <= n <= 10^4", "0 <= Node.val <= 10^4"]
+        return ["The number of nodes in the tree is in the range [0, 10^4].", "-1000 <= Node.val <= 1000"]
+        
+    # 5. DSA - Graphs
+    if "graph" in category.lower() or "islands" in category.lower():
+        if "islands" in t_lower:
+            return ["m == grid.length", "n == grid[i].length", "1 <= m, n <= 300", "grid[i][j] is '0' or '1'."]
+        if "course" in t_lower:
+            return ["1 <= numCourses <= 2000", "0 <= prerequisites.length <= 5000"]
+        return ["1 <= vertices <= 500", "0 <= edges.length <= 1000"]
+        
+    # 6. DSA - Stacks & Queues
+    if "stack" in category.lower() or "queue" in category.lower():
+        return ["1 <= elements.length <= 10^4", "Operations are valid."]
+        
+    # 7. DSA - Dynamic Programming
+    if "dynamic" in category.lower() or "dp" in category.lower():
+        if "climb" in t_lower or "stairs" in t_lower:
+            return ["1 <= n <= 45"]
+        if "coin" in t_lower:
+            return ["1 <= coins.length <= 12", "1 <= coins[i] <= 2^31 - 1", "0 <= amount <= 10^4"]
+        if "paths" in t_lower:
+            return ["1 <= m, n <= 100"]
+        return ["1 <= n <= 1000", "0 <= values[i] <= 1000"]
+        
+    # 8. DSA - Sorting & Searching
+    if "sort" in category.lower() or "search" in category.lower():
+        if "binary search" in t_lower:
+            return ["1 <= nums.length <= 10^4", "-10^4 < nums[i], target < 10^4", "nums is sorted in ascending order."]
+        return ["1 <= nums.length <= 5 * 10^4", "-10^5 <= nums[i] <= 10^5"]
+        
+    # SQL
+    if "sql" in category.lower():
+        return ["Output column names must match the specification.", "Result rows order does not matter unless specified."]
+        
+    return ["1 <= n <= 1000"]
+
+def get_specific_examples(title, category):
+    t_lower = title.lower()
+    
+    # Defaults
+    inp = "[1, 2, 3]"
+    out = "3"
+    explanation = None
+    
+    if "linked list" in category.lower() or "list" in category.lower():
+        if "merge two" in t_lower or "merge sorted" in t_lower:
+            inp = "[1, 2, 4]\n[1, 3, 4]"
+            out = "[1, 1, 2, 3, 4, 4]"
+        elif "reverse" in t_lower:
+            inp = "[1, 2, 3, 4, 5]"
+            out = "[5, 4, 3, 2, 1]"
+        elif "cycle" in t_lower:
+            inp = "[3, 2, 0, -4]"
+            out = "true"
+            explanation = "The tail connects to the second node."
+        elif "palindrome" in t_lower:
+            inp = "[1, 2, 2, 1]"
+            out = "true"
+        elif "nth" in t_lower:
+            inp = "[1, 2, 3, 4, 5]\n2"
+            out = "[1, 2, 3, 5]"
+        else:
+            inp = "[1, 2, 3, 4]"
+            out = "[1, 2, 3, 4]"
+            
+    elif "tree" in category.lower():
+        if "inorder" in t_lower:
+            inp = "[1, null, 2, 3]"
+            out = "[1, 3, 2]"
+        elif "preorder" in t_lower:
+            inp = "[1, null, 2, 3]"
+            out = "[1, 2, 3]"
+        elif "postorder" in t_lower:
+            inp = "[1, null, 2, 3]"
+            out = "[3, 2, 1]"
+        elif "depth" in t_lower or "height" in t_lower:
+            inp = "[3, 9, 20, null, null, 15, 7]"
+            out = "3"
+        elif "same" in t_lower or "symmetric" in t_lower:
+            inp = "[1, 2, 3]\n[1, 2, 3]"
+            out = "true"
+        elif "invert" in t_lower:
+            inp = "[4, 2, 7, 1, 3, 6, 9]"
+            out = "[4, 7, 2, 9, 6, 3, 1]"
+        else:
+            inp = "[1, null, 2, 3]"
+            out = "[1, 2, 3]"
+            
+    elif "string" in category.lower():
+        if "anagram" in t_lower:
+            inp = "\"anagram\"\n\"nagaram\""
+            out = "true"
+        elif "palindrome" in t_lower:
+            inp = "\"racecar\""
+            out = "true"
+        elif "substring" in t_lower:
+            inp = "\"abcabcbb\""
+            out = "3"
+        elif "prefix" in t_lower:
+            inp = "[\"flower\",\"flow\",\"flight\"]"
+            out = "\"fl\""
+        else:
+            inp = "\"hello\""
+            out = "\"olleh\""
+            
+    elif "graph" in category.lower():
+        if "islands" in t_lower:
+            inp = "[1, 1, 0, 1, 1, 0, 0, 0, 1]"
+            out = "2"
+        else:
+            inp = "[[0, 1], [1, 2], [2, 0]]"
+            out = "true"
+            
+    elif "dynamic" in category.lower() or "dp" in category.lower() or "stairs" in t_lower or "fibonacci" in t_lower:
+        if "stairs" in t_lower or "climb" in t_lower:
+            inp = "3"
+            out = "3"
+        elif "fibonacci" in t_lower:
+            inp = "4"
+            out = "3"
+        elif "coin" in t_lower:
+            inp = "[1, 2, 5]\n11"
+            out = "3"
+        else:
+            inp = "[10, 15, 20]"
+            out = "15"
+            
+    elif "array" in category.lower() or "arrays" in category.lower():
+        if "two sum" in t_lower:
+            inp = "[2, 7, 11, 15]\n9"
+            out = "[0, 1]"
+        elif "duplicate" in t_lower:
+            inp = "[1, 2, 3, 1]"
+            out = "true"
+        elif "move" in t_lower:
+            inp = "[0, 1, 0, 3, 12]"
+            out = "[1, 3, 12, 0, 0]"
+        elif "single" in t_lower:
+            inp = "[2, 2, 1]"
+            out = "1"
+        else:
+            inp = "[1, 2, 3]"
+            out = "3"
+            
+    res = {"input": inp, "output": out}
+    if explanation:
+        res["explanation"] = explanation
+    return [res]
+
 def get_problem_details(title, category):
     if category.startswith("SQL"):
         return get_sql_problem_details(title, category), "", [], "sql"
@@ -1228,6 +1432,11 @@ def get_problem_details(title, category):
             default_input = "[1, 2, 3]\n5"
             params = [("nums", "list_int"), ("target", "int")]
             ret_type = "int"
+
+        # Apply specific overrides for constraints, examples and default_input
+        constraints = get_specific_constraints(title, category)
+        examples = get_specific_examples(title, category)
+        default_input = examples[0]["input"]
 
     return make_leetcode_style_html(desc, input_fmt, output_fmt, examples, constraints), default_input, params, ret_type
 
