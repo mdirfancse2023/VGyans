@@ -10,6 +10,12 @@ import Footer from './components/Footer';
 
 const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
 
+const cleanChannel = (ch) => ch ? {
+  ...ch,
+  avatarUrl: (!ch.avatarUrl || ch.avatarUrl.includes('unsplash')) ? '/youtube-avatar.png' : ch.avatarUrl,
+  bannerUrl: (!ch.bannerUrl || ch.bannerUrl.includes('unsplash')) ? '/youtube-banner.png' : ch.bannerUrl,
+} : ch;
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [loading, setLoading] = useState(true);
@@ -79,12 +85,6 @@ export default function App() {
           fetchJSON('notes'),
           fetchJSON('playground_questions')
         ]);
-
-        const cleanChannel = (ch) => ch ? {
-          ...ch,
-          avatarUrl: (!ch.avatarUrl || ch.avatarUrl.includes('unsplash')) ? '/youtube-avatar.png' : ch.avatarUrl,
-          bannerUrl: (!ch.bannerUrl || ch.bannerUrl.includes('unsplash')) ? '/youtube-banner.png' : ch.bannerUrl,
-        } : ch;
 
         if (channel) setChannelStats(cleanChannel(channel));
         if (playlists) setPlaylists(playlists);

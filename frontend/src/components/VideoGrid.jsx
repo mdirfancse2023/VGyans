@@ -97,10 +97,14 @@ export default function VideoGrid({ videos }) {
             >
               <div className="video-thumb-container">
                 <img 
-                  src={video.thumbnailUrl || `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} 
+                  src={video.thumbnailUrl || `https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`} 
                   alt={video.title} 
                   className="video-thumb" 
                   loading="lazy"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`;
+                  }}
                 />
                 {video.duration && video.duration !== 'N/A' && (
                   <span className="video-duration">{video.duration}</span>
