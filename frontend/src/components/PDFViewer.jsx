@@ -150,6 +150,13 @@ export default function PDFViewer({ url, title, onClose }) {
       onContextMenu={(e) => e.preventDefault()}
       ref={containerRef}
     >
+      <style>{`
+        @media print {
+          body {
+            display: none !important;
+          }
+        }
+      `}</style>
       {/* Viewport */}
       <div 
         style={{
