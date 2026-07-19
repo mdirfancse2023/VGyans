@@ -533,6 +533,185 @@ def get_note_content(note_id: str):
             return note
     raise HTTPException(status_code=404, detail="Study note not found")
 
+class RunRequest(BaseModel):
+    language: str
+    code: str
+    stdin: Optional[str] = ""
+
+@app.post("/api/run")
+def run_code(req: RunRequest):
+    import subprocess
+    import tempfile
+    import shutil
+    import sqlite3
+    
+    lang = req.language.lower()
+    code = req.code
+    stdin = req.stdin or ""
+    
+    # 1. SQL Execution Logic
+    if lang == "sql":
+        conn = sqlite3.connect(":memory:")
+        try:
+            cursor = conn.cursor()
+            # Seed the database
+            cursor.executescript("""
+            CREATE TABLE departments (
+                id INTEGER PRIMARY KEY,
+                department_name TEXT
+            );
+            CREATE TABLE employees (
+                id INTEGER PRIMARY KEY,
+                name TEXT,
+                department_id INTEGER,
+                salary INTEGER,
+                manager_id INTEGER,
+                FOREIGN KEY(department_id) REFERENCES departments(id)
+            );
+            INSERT INTO departments VALUES (1, 'Engineering');
+            INSERT INTO departments VALUES (2, 'Product');
+            INSERT INTO departments VALUES (3, 'Marketing');
+            INSERT INTO departments VALUES (4, 'HR');
+            
+            INSERT INTO employees VALUES (1, 'Md Irfan', 1, 120000, NULL);
+            INSERT INTO employees VALUES (2, 'Rahul Sharma', 1, 95000, 1);
+            INSERT INTO employees VALUES (3, 'Priya Patel', 2, 105000, NULL);
+            INSERT INTO employees VALUES (4, 'Amit Gupta', 1, 80000, 1);
+            INSERT INTO employees VALUES (5, 'Ananya Sen', 3, 75000, NULL);
+            INSERT INTO employees VALUES (6, 'Siddharth Rao', 2, 90000, 3);
+            INSERT INTO employees VALUES (7, 'Sneha Iyer', 4, 65000, NULL);
+            """)
+            conn.commit()
+            
+            # Execute user query
+            statements = [s.strip() for s in code.split(";") if s.strip()]
+            if not statements:
+                return {"stdout": "", "stderr": "No SQL statements provided."}
+                
+            stdout_lines = []
+            for i, stmt in enumerate(statements):
+                cursor.execute(stmt)
+                if cursor.description:
+                    columns = [desc[0] for desc in cursor.description]
+                    rows = cursor.fetchall()
+                    
+                    # Format as pretty text table
+                    if not rows:
+                        stdout_lines.append("Empty result set.")
+                        continue
+                        
+                    col_widths = [len(c) for c in columns]
+                    for row in rows:
+                        for idx, val in enumerate(row):
+                            col_widths[idx] = max(col_widths[idx], len(str(val if val is not None else "NULL")))
+                            
+                    header_line = " | ".join(c.ljust(col_widths[idx]) for idx, c in enumerate(columns))
+                    sep_line = "-+-".join("-" * col_widths[idx] for idx in range(len(columns)))
+                    
+                    result_lines = [header_line, sep_line]
+                    for row in rows:
+                        row_line = " | ".join(str(val if val is not None else "NULL").ljust(col_widths[idx]) for idx, val in enumerate(row))
+                        result_lines.append(row_line)
+                        
+                    stdout_lines.append("\n".join(result_lines))
+                else:
+                    conn.commit()
+                    stdout_lines.append(f"Query {i+1} executed successfully. Rows affected: {cursor.rowcount}")
+                    
+            return {"stdout": "\n\n".join(stdout_lines), "stderr": ""}
+            
+        except sqlite3.Error as e:
+            return {"stdout": "", "stderr": f"SQL Error: {str(e)}"}
+        finally:
+            conn.close()
+
+    # 2. Prevent malicious constructs
+    dangerous_keywords = ["subprocess", "os.system", "os.fork", "os.kill", "fork(", "popen", "socket", "sys.modules", "urllib", "requests"]
+    for keyword in dangerous_keywords:
+        if keyword in code:
+            return {"stdout": "", "stderr": f"Security violation: usage of '{keyword}' is restricted in this playground."}
+
+    # 3. Compiler Execution Logic (Python, Java, C++)
+    temp_dir = tempfile.mkdtemp(prefix="vt_run_")
+    try:
+        if lang == "python":
+            file_path = os.path.join(temp_dir, "script.py")
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(code)
+                
+            proc = subprocess.run(
+                ["python3", "script.py"],
+                input=stdin,
+                capture_output=True,
+                text=True,
+                cwd=temp_dir,
+                timeout=3
+            )
+            return {"stdout": proc.stdout, "stderr": proc.stderr}
+            
+        elif lang == "cpp":
+            file_path = os.path.join(temp_dir, "main.cpp")
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(code)
+                
+            compile_proc = subprocess.run(
+                ["g++", "-O2", "main.cpp", "-o", "main"],
+                capture_output=True,
+                text=True,
+                cwd=temp_dir,
+                timeout=5
+            )
+            if compile_proc.returncode != 0:
+                return {"stdout": "", "stderr": f"Compilation Error:\n{compile_proc.stderr}"}
+                
+            run_proc = subprocess.run(
+                ["./main"],
+                input=stdin,
+                capture_output=True,
+                text=True,
+                cwd=temp_dir,
+                timeout=3
+            )
+            return {"stdout": run_proc.stdout, "stderr": run_proc.stderr}
+            
+        elif lang == "java":
+            class_name_match = re.search(r"public\s+class\s+(\w+)", code)
+            class_name = class_name_match.group(1) if class_name_match else "Main"
+            
+            file_path = os.path.join(temp_dir, f"{class_name}.java")
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(code)
+                
+            compile_proc = subprocess.run(
+                ["javac", f"{class_name}.java"],
+                capture_output=True,
+                text=True,
+                cwd=temp_dir,
+                timeout=5
+            )
+            if compile_proc.returncode != 0:
+                return {"stdout": "", "stderr": f"Compilation Error:\n{compile_proc.stderr}"}
+                
+            run_proc = subprocess.run(
+                ["java", class_name],
+                input=stdin,
+                capture_output=True,
+                text=True,
+                cwd=temp_dir,
+                timeout=3
+            )
+            return {"stdout": run_proc.stdout, "stderr": run_proc.stderr}
+            
+        else:
+            raise HTTPException(status_code=400, detail=f"Unsupported language: {lang}")
+            
+    except subprocess.TimeoutExpired:
+        return {"stdout": "", "stderr": "Execution Error: Time Limit Exceeded (3 seconds max)."}
+    except Exception as e:
+        return {"stdout": "", "stderr": f"Execution Error: {str(e)}"}
+    finally:
+        shutil.rmtree(temp_dir, ignore_errors=True)
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)

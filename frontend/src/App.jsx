@@ -5,6 +5,7 @@ import VideoGrid from './components/VideoGrid';
 import PlacementHub from './components/PlacementHub';
 import InterviewExperiences from './components/InterviewExperiences';
 import InteractiveTools from './components/InteractiveTools';
+import Playground from './components/Playground';
 import Footer from './components/Footer';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
@@ -230,6 +231,12 @@ export default function App() {
               initialExperiences={experiences} 
               onSubmitExperience={handleSubmitExperience} 
             />
+          </section>
+        )}
+
+        {activeTab === 'playground' && (
+          <section>
+            <Playground />
           </section>
         )}
 

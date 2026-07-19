@@ -6,6 +6,7 @@ export default function Header({ activeTab, setActiveTab }) {
     { id: 'home', label: 'Home' },
     { id: 'videos', label: 'Videos' },
     { id: 'guides', label: 'Placement Prep' },
+    { id: 'playground', label: 'Code Playground' },
     { id: 'experiences', label: 'Interview Logs' },
     { id: 'tools', label: 'Tracker & Tools' }
   ];
