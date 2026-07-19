@@ -1,0 +1,42 @@
+[
+  {
+    "id": "c-study-notes",
+    "title": "C Programming Quick Notes"
+  },
+  {
+    "id": "cpp-study-notes",
+    "title": "C++ & OOPs Revision Notes"
+  },
+  {
+    "id": "dsa-study-notes",
+    "title": "DSA Essential Hand Book"
+  },
+  {
+    "id": "interview-questions-study-notes",
+    "title": "Top 50 Technical Interview Questions"
+  },
+  {
+    "id": "java-study-notes",
+    "title": "Java Programming Master Notes"
+  },
+  {
+    "id": "microservices-study-notes",
+    "title": "Microservices Architecture Blueprints"
+  },
+  {
+    "id": "python-study-notes",
+    "title": "Python Cheat Sheet & Reference"
+  },
+  {
+    "id": "spring-boot-study-notes",
+    "title": "Spring Boot Core Concepts"
+  },
+  {
+    "id": "sql-study-notes",
+    "title": "SQL & Relational Databases Quick Guide"
+  },
+  {
+    "id": "system-design-study-notes",
+    "title": "System Design Fundamentals"
+  }
+]

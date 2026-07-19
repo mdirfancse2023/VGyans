@@ -53,22 +53,42 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // 1. Fetch static local data.json immediately for instant rendering of channel stats & basic info
+      // 1. Fetch static local segregated JSONs immediately for instant rendering of channel stats & basic info
       try {
-        console.log('Fetching local static data.json');
-        const localRes = await fetch('./data.json');
-        if (localRes.ok) {
-          const localData = await localRes.json();
-          if (localData.channel) setChannelStats(localData.channel);
-          if (localData.playlists) setPlaylists(localData.playlists);
-          if (localData.videos) setVideos(localData.videos);
-          if (localData.resources) setResources(localData.resources);
-          if (localData.experiences) setExperiences(localData.experiences);
-          if (localData.flashcards) setFlashcards(localData.flashcards);
-          if (localData.onboardingStages) setOnboardingStages(localData.onboardingStages);
-          if (localData.notes) setNotes(localData.notes);
-          if (localData.playground_questions) setPlaygroundQuestions(localData.playground_questions);
-        }
+        console.log('Fetching segregated static JSON files');
+        const fetchJSON = async (file) => {
+          try {
+            const res = await fetch(`./data/${file}.json`);
+            if (res.ok) return await res.json();
+          } catch (e) {
+            console.warn(`Failed to fetch static segregated file: ${file}.json`, e);
+          }
+          return null;
+        };
+
+        const [
+          channel, playlists, videos, resources, experiences, flashcards, onboardingStages, notes, playgroundQuestions
+        ] = await Promise.all([
+          fetchJSON('channel'),
+          fetchJSON('playlists'),
+          fetchJSON('videos'),
+          fetchJSON('resources'),
+          fetchJSON('experiences'),
+          fetchJSON('flashcards'),
+          fetchJSON('onboardingStages'),
+          fetchJSON('notes'),
+          fetchJSON('playground_questions')
+        ]);
+
+        if (channel) setChannelStats(channel);
+        if (playlists) setPlaylists(playlists);
+        if (videos) setVideos(videos);
+        if (resources) setResources(resources);
+        if (experiences) setExperiences(experiences);
+        if (flashcards) setFlashcards(flashcards);
+        if (onboardingStages) setOnboardingStages(onboardingStages);
+        if (notes) setNotes(notes);
+        if (playgroundQuestions) setPlaygroundQuestions(playgroundQuestions);
       } catch (err) {
         console.warn('Failed to load local static data fallback:', err);
       }

@@ -14,7 +14,8 @@ OUTPUT_PATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     "frontend",
     "public",
-    "data.json"
+    "data",
+    "dummy.json"
 )
 BACKEND_OUTPUT_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -627,18 +628,88 @@ def main():
         print("Using high-quality mock data fallback...")
         data = generate_mock_data()
 
-    # Ensure output directories exist
-    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
-    os.makedirs(os.path.dirname(BACKEND_OUTPUT_PATH), exist_ok=True)
-    
-    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+    # Define directories
+    backend_data_dir = os.path.dirname(BACKEND_OUTPUT_PATH)
+    backend_backup_dir = os.path.join(backend_data_dir, "backup")
+    frontend_data_dir = os.path.dirname(OUTPUT_PATH)
+
+    os.makedirs(backend_data_dir, exist_ok=True)
+    os.makedirs(backend_backup_dir, exist_ok=True)
+    os.makedirs(frontend_data_dir, exist_ok=True)
+
+    # 1. Save full data_full_backup.json
+    full_backup_path = os.path.join(backend_data_dir, "data_full_backup.json")
+    with open(full_backup_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
-        
-    with open(BACKEND_OUTPUT_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-    
-    print(f"Static data compiled and written successfully to: {OUTPUT_PATH}")
-    print(f"Static data compiled and written successfully to: {BACKEND_OUTPUT_PATH}")
+    print(f"Saved full data backup to: {full_backup_path}")
+
+    # 2. Save full detailed segregated files in backend/data/backup/
+    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions"]
+    for key in keys:
+        if key in data:
+            with open(os.path.join(backend_backup_dir, f"{key}.json"), "w", encoding="utf-8") as f:
+                json.dump(data[key], f, indent=2, ensure_ascii=False)
+
+    # 3. Strip data for minified local databases
+    stripped = {}
+    if "channel" in data:
+        stripped["channel"] = data["channel"]
+    if "playlists" in data:
+        stripped["playlists"] = [
+            {"id": p.get("id"), "title": p.get("title"), "videoCount": p.get("videoCount")}
+            for p in data["playlists"]
+        ]
+    if "videos" in data:
+        stripped["videos"] = [
+            {
+                "id": v.get("id"),
+                "title": v.get("title"),
+                "category": v.get("category"),
+                "views": v.get("views"),
+                "duration": v.get("duration")
+            }
+            for v in data["videos"]
+        ]
+    if "resources" in data:
+        stripped["resources"] = [
+            {"id": r.get("id"), "title": r.get("title"), "category": r.get("category")}
+            for r in data["resources"]
+        ]
+    if "experiences" in data:
+        stripped["experiences"] = [
+            {
+                "id": e.get("id"),
+                "title": e.get("title"),
+                "company": e.get("company"),
+                "role": e.get("role"),
+                "status": e.get("status")
+            }
+            for e in data["experiences"]
+        ]
+    if "flashcards" in data:
+        stripped["flashcards"] = [
+            {"id": f.get("id"), "title": f.get("title"), "category": f.get("category")}
+            for f in data["flashcards"]
+        ]
+    if "onboardingStages" in data:
+        stripped["onboardingStages"] = {company: [] for company in data["onboardingStages"]}
+    if "notes" in data:
+        stripped["notes"] = [
+            {"id": n.get("id"), "title": n.get("title")}
+            for n in data["notes"]
+        ]
+    if "playground_questions" in data:
+        stripped["playground_questions"] = data["playground_questions"]
+
+    # 4. Save minified segregated files to backend/data/ and frontend/public/data/
+    for key in keys:
+        if key in stripped:
+            with open(os.path.join(backend_data_dir, f"{key}.json"), "w", encoding="utf-8") as f:
+                json.dump(stripped[key], f, indent=2, ensure_ascii=False)
+            with open(os.path.join(frontend_data_dir, f"{key}.json"), "w", encoding="utf-8") as f:
+                json.dump(stripped[key], f, indent=2, ensure_ascii=False)
+
+    print("Static data compiled, minified, and segregated successfully!")
 
 if __name__ == "__main__":
     main()

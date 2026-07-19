@@ -45,33 +45,46 @@ async def block_ai_agents(request, call_next):
         return Response(content="Access denied for AI/LLM agents.", status_code=403)
     return await call_next(request)
 
-DATA_PATH = os.path.join(
+DATA_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
-    "data",
-    "data.json"
+    "data"
 )
 
 def load_data():
-    if not os.path.exists(DATA_PATH):
-        # Trigger mock compilation if data.json doesn't exist yet
+    # If key directories or files don't exist, try building them
+    if not os.path.exists(os.path.join(DATA_DIR, "channel.json")):
         try:
             from build_static import main as run_build
             run_build()
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Data file missing and regeneration failed: {e}")
+            raise HTTPException(status_code=500, detail=f"Data directory missing and regeneration failed: {e}")
 
-    try:
-        with open(DATA_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to parse database file: {e}")
+    data = {}
+    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions"]
+    for key in keys:
+        file_path = os.path.join(DATA_DIR, f"{key}.json")
+        if os.path.exists(file_path):
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    data[key] = json.load(f)
+            except Exception as e:
+                print(f"Warning: Failed to load segregated file {key}.json: {e}")
+        else:
+            if key in ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions"]:
+                data[key] = []
+            elif key in ["onboardingStages", "channel"]:
+                data[key] = {}
+    return data
 
 def save_data(data):
-    try:
-        with open(DATA_PATH, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to write to database file: {e}")
+    os.makedirs(DATA_DIR, exist_ok=True)
+    for key, val in data.items():
+        file_path = os.path.join(DATA_DIR, f"{key}.json")
+        try:
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(val, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to write segregated file {key}.json: {e}")
 
 import firebase_admin
 from firebase_admin import credentials, firestore
