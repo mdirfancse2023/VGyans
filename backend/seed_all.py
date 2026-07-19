@@ -5,13 +5,10 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 def main():
-    data_path = "backend/data/data_full_backup.json"
-    if not os.path.exists(data_path):
-        print(f"Error: {data_path} not found.")
+    backup_dir = "backend/data/backup"
+    if not os.path.exists(backup_dir):
+        print(f"Error: Backup directory {backup_dir} not found.")
         return
-        
-    with open(data_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
         
     if not firebase_admin._apps:
         key_path = "backend/serviceAccountKey.json"
@@ -26,15 +23,20 @@ def main():
     db = firestore.client()
     
     # 1. Upload Channel Stats
-    if "channel" in data:
+    channel_path = os.path.join(backup_dir, "channel.json")
+    if os.path.exists(channel_path):
         print("Uploading channel stats...")
-        db.collection("channel").document("stats").set(data["channel"])
+        with open(channel_path, "r", encoding="utf-8") as f:
+            channel_data = json.load(f)
+        db.collection("channel").document("stats").set(channel_data)
         print("Uploaded channel stats successfully.")
         
     # 2. Upload Onboarding Stages
-    if "onboardingStages" in data:
+    stages_path = os.path.join(backup_dir, "onboardingStages.json")
+    if os.path.exists(stages_path):
         print("Uploading onboarding stages...")
-        stages = data["onboardingStages"]
+        with open(stages_path, "r", encoding="utf-8") as f:
+            stages = json.load(f)
         for company, stages_list in stages.items():
             db.collection("onboardingStages").document(company).set({"stages": stages_list})
         print("Uploaded onboarding stages successfully.")
@@ -42,8 +44,10 @@ def main():
     # 3. Upload other collections
     collections = ["playlists", "videos", "resources", "experiences", "flashcards", "notes"]
     for coll in collections:
-        if coll in data:
-            items = data[coll]
+        coll_path = os.path.join(backup_dir, f"{coll}.json")
+        if os.path.exists(coll_path):
+            with open(coll_path, "r", encoding="utf-8") as f:
+                items = json.load(f)
             print(f"Uploading {len(items)} items to collection '{coll}'...")
             batch = db.batch()
             count = 0
