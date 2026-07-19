@@ -324,10 +324,10 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
       {/* Compact section header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
         <div>
-          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-            Placement Prep <span className="text-gradient">Hub & Resources</span>
+          <h2 className="section-title" style={{ fontSize: '1.75rem', margin: 0 }}>
+            Placement Prep <span className="text-gradient">Hub &amp; Resources</span>
           </h2>
-          <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', margin: '0.2rem 0 0' }}>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', margin: '0.3rem 0 0' }}>
             Study materials, onboarding tracker, and technical flashcards — all in one place.
           </p>
         </div>
@@ -336,13 +336,25 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
       {/* Section Tab Switcher */}
       <div className="filters-wrapper" style={{ marginBottom: '2rem' }}>
         <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
-          <button className={`filter-tab ${activeSection === 'resources' ? 'active' : ''}`} onClick={() => setActiveSection('resources')}>
+          <button
+            className={`filter-tab ${activeSection === 'resources' ? 'active' : ''}`}
+            onClick={() => setActiveSection('resources')}
+            style={{ fontSize: '0.9rem', fontWeight: 600 }}
+          >
             📚 Resources
           </button>
-          <button className={`filter-tab ${activeSection === 'tracker' ? 'active' : ''}`} onClick={() => setActiveSection('tracker')}>
+          <button
+            className={`filter-tab ${activeSection === 'tracker' ? 'active' : ''}`}
+            onClick={() => setActiveSection('tracker')}
+            style={{ fontSize: '0.9rem', fontWeight: 600 }}
+          >
             🗺️ Onboarding Tracker
           </button>
-          <button className={`filter-tab ${activeSection === 'flashcards' ? 'active' : ''}`} onClick={() => setActiveSection('flashcards')}>
+          <button
+            className={`filter-tab ${activeSection === 'flashcards' ? 'active' : ''}`}
+            onClick={() => setActiveSection('flashcards')}
+            style={{ fontSize: '0.9rem', fontWeight: 600 }}
+          >
             🃏 Technical Flashcards
           </button>
         </div>
