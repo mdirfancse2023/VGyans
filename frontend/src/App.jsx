@@ -260,9 +260,9 @@ export default function App() {
         )}
 
         {activeTab === 'playground' && (
-          <div style={{ width: '100%', maxWidth: 'none', padding: '1rem 2rem 0', boxSizing: 'border-box' }}>
+          <section>
             <Playground questions={playgroundQuestions} />
-          </div>
+          </section>
         )}
 
         {activeTab === 'tools' && (

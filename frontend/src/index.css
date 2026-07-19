@@ -308,9 +308,11 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Page Section */
 section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1rem 2rem 0;
+  box-sizing: border-box;
 }
 
 /* Hero Section */
