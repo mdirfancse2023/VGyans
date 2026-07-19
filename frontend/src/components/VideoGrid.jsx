@@ -28,8 +28,10 @@ export default function VideoGrid({ videos }) {
 
   const filteredVideos = videos.filter((video) => {
     const matchesCategory = selectedCategory === 'all' || video.category === selectedCategory;
-    const matchesSearch = video.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          video.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const titleText = (video.title || '').toLowerCase();
+    const descText = (video.description || '').toLowerCase();
+    const query = searchQuery.toLowerCase();
+    const matchesSearch = titleText.includes(query) || descText.includes(query);
     return matchesCategory && matchesSearch;
   });
 

@@ -47,6 +47,26 @@ def categorize_video(title, description=""):
 
 def fetch_youtube_channel_metadata():
     print(f"Fetching channel metadata from {CHANNEL_URL}...")
+def parse_sub_count(sub_str):
+    if not sub_str:
+        return "2050"
+    s = sub_str.strip().lower().replace('subscribers', '').replace('subscriber', '').strip()
+    if 'k' in s:
+        try:
+            val = float(s.replace('k', ''))
+            return str(int(val * 1000))
+        except Exception:
+            return "2050"
+    elif 'm' in s:
+        try:
+            val = float(s.replace('m', ''))
+            return str(int(val * 1000000))
+        except Exception:
+            return "2050"
+    return s.replace(',', '')
+
+def fetch_youtube_channel_metadata():
+    print(f"Fetching channel metadata from {CHANNEL_URL}...")
     req = urllib.request.Request(
         CHANNEL_URL, 
         headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'}
@@ -66,18 +86,12 @@ def fetch_youtube_channel_metadata():
             # Extract subscriber count
             subs_m = re.search(r'\"accessibilityLabel\":\"([0-9\.\,KkMmThousand]+) subscribers\"', html) or re.search(r'\"content\":\"([0-9\.\,kK]+) subscribers\"', html)
             if subs_m:
-                sub_str = subs_m.group(1).replace('k', '00').replace('K', '00').replace('.', '').replace(',', '')
-                subscriber_count = sub_str
+                subscriber_count = parse_sub_count(subs_m.group(1))
                 
             # Extract video count
             vids_m = re.search(r'\"content\":\"([0-9\.\,kK]+) videos\"', html)
             if vids_m:
                 video_count = vids_m.group(1).replace(',', '')
-                
-            # Extract description
-            desc_m = re.search(r'\"description\":\"([^\"]+)\"', html)
-            if desc_m:
-                description = desc_m.group(1).encode('utf-8').decode('unicode_escape', errors='ignore')
     except Exception as e:
         print(f"Scraping warning: {e}. Using cached fallback values.")
         
@@ -88,7 +102,7 @@ def fetch_youtube_channel_metadata():
         "avatarUrl": "/youtube-avatar.png",
         "bannerUrl": "/youtube-banner.png",
         "title": "Virtual Gyans",
-        "description": description
+        "description": "Welcome to Virtual Gyans - Educational & Technical Contents."
     }
 
 def fetch_youtube_rss_videos():
