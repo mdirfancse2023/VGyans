@@ -108,15 +108,19 @@ export default function Hero({ stats, setActiveTab }) {
         /* ─── Top section: headline + avatar ─── */
         .hero2-top {
           position: relative; z-index: 2;
-          display: flex; align-items: center; justify-content: space-between;
-          gap: 2rem; flex-wrap: wrap;
-          padding: 1.5rem 0 1.5rem;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          text-align: center;
+          gap: 2rem;
+          padding: 1.5rem 0 2rem;
           opacity: 0; transform: translateY(28px);
           transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .hero2-top.visible { opacity: 1; transform: translateY(0); }
 
-        .hero2-left { flex: 1; min-width: 280px; max-width: 640px; }
+        .hero2-left {
+          display: flex; flex-direction: column; align-items: center;
+          width: 100%; max-width: 720px;
+        }
 
         .hero2-eyebrow {
           display: inline-flex; align-items: center; gap: 0.5rem;
@@ -149,10 +153,10 @@ export default function Hero({ stats, setActiveTab }) {
         .hero2-sub {
           font-size: 0.88rem; line-height: 1.6;
           color: var(--text-secondary);
-          max-width: 500px; margin: 0 0 1.5rem;
+          max-width: 600px; margin: 0 auto 1.5rem;
         }
 
-        .hero2-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .hero2-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
 
         .hero2-btn-primary {
           display: inline-flex; align-items: center; gap: 0.55rem;
@@ -312,8 +316,7 @@ export default function Hero({ stats, setActiveTab }) {
         .hero2-card:hover .hero2-card-arrow { opacity: 1; transform: translateX(0); }
 
         @media (max-width: 768px) {
-          .hero2-right { display: none; }
-          .hero2-top { padding-top: 2.5rem; }
+          .hero2-top { padding-top: 1.5rem; }
           .hero2-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
         }
       `}</style>
