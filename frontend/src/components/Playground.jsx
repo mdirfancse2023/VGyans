@@ -493,9 +493,14 @@ const compareOutputs = (actual, expected) => {
 
   if (act === exp) return true;
 
-  const normalize = (s) => (s || '').replace(/[\r\n\s]+/g, '').replace(/,/g, ', ').toLowerCase().trim();
+  // Number comparison (e.g. 23 vs 23)
+  if (act !== '' && exp !== '' && !isNaN(act) && !isNaN(exp) && Number(act) === Number(exp)) return true;
+
+  // Normalization comparison (strip spaces, trailing newlines, commas)
+  const normalize = (s) => (s || '').replace(/[\r\n\s]+/g, '').replace(/,/g, ',').toLowerCase();
   if (normalize(act) === normalize(exp)) return true;
 
+  // JSON array/object comparison
   try {
     const actJson = JSON.parse(act);
     const expJson = JSON.parse(exp);
@@ -1779,70 +1784,64 @@ export default function Playground({ questions }) {
                   placeholder="Enter inputs for standard input stream..."
                 />
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {/* Global Submission Result Banner */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                  {/* Subtle Submission Result Banner */}
                   {submitResult && (
                     <div style={{
-                      padding: '0.7rem 1rem',
-                      borderRadius: '8px',
-                      background: submitResult.status === 'ACCEPTED' ? 'rgba(22, 101, 52, 0.4)' : 'rgba(153, 27, 27, 0.4)',
-                      border: `1px solid ${submitResult.status === 'ACCEPTED' ? '#22c55e' : '#ef4444'}`,
+                      padding: '0.55rem 0.85rem',
+                      borderRadius: '6px',
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.75rem'
+                      justifyContent: 'space-between'
                     }}>
-                      <span style={{ fontSize: '1.2rem' }}>
-                        {submitResult.status === 'ACCEPTED' ? '🎉' : '❌'}
+                      <span style={{
+                        fontSize: '0.82rem',
+                        fontWeight: 700,
+                        color: submitResult.status === 'ACCEPTED' ? '#4ade80' : '#f87171',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
+                      }}>
+                        {submitResult.status === 'ACCEPTED' ? '✓ Accepted' : '✗ Wrong Answer'}
                       </span>
-                      <div>
-                        <div style={{
-                          fontWeight: 800,
-                          fontSize: '0.95rem',
-                          color: submitResult.status === 'ACCEPTED' ? '#4ade80' : '#f87171'
-                        }}>
-                          {submitResult.status === 'ACCEPTED' ? 'Accepted — All Test Cases Passed!' : 'Wrong Answer — Tests Failed'}
-                        </div>
-                        <div style={{ fontSize: '0.78rem', color: '#cbd5e1', marginTop: '0.15rem' }}>
-                          {submitResult.passedCount} / {submitResult.totalCount} Test Cases Passed
-                        </div>
-                      </div>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                        {submitResult.passedCount} / {submitResult.totalCount} Test Cases Passed
+                      </span>
                     </div>
                   )}
 
-                  {/* Active Test Case Execution & Comparison Details */}
+                  {/* Active Test Case Verification Details */}
                   {selectedCaseIdx >= 0 && testCases[selectedCaseIdx] && (
-                    <div style={{ background: 'rgba(15, 23, 42, 0.4)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '0.75rem 0.85rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                        <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '6px', padding: '0.65rem 0.75rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
                           {testCases[selectedCaseIdx].label} Verification
                         </span>
                         {testResults[selectedCaseIdx] && (
                           <span style={{
-                            fontSize: '0.75rem',
-                            fontWeight: 800,
-                            padding: '0.2rem 0.6rem',
-                            borderRadius: '99px',
-                            background: testResults[selectedCaseIdx].passed ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)',
-                            color: testResults[selectedCaseIdx].passed ? '#4ade80' : '#f87171',
-                            border: `1px solid ${testResults[selectedCaseIdx].passed ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'}`
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            color: testResults[selectedCaseIdx].passed ? '#4ade80' : '#f87171'
                           }}>
-                            {testResults[selectedCaseIdx].passed ? '✓ Passed' : '✗ Wrong Answer'}
+                            {testResults[selectedCaseIdx].passed ? '✓ Passed' : '✗ Failed'}
                           </span>
                         )}
                       </div>
 
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.8rem', fontFamily: 'monospace' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.8rem', fontFamily: 'monospace' }}>
                         <div>
-                          <div style={{ color: '#64748b', fontSize: '0.7rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.2rem' }}>Input</div>
-                          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.4rem 0.6rem', borderRadius: '4px', color: '#e2e8f0', whiteSpace: 'pre-wrap' }}>
+                          <div style={{ color: '#64748b', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Input</div>
+                          <div style={{ background: 'rgba(0,0,0,0.25)', padding: '0.35rem 0.55rem', borderRadius: '4px', color: '#e2e8f0', whiteSpace: 'pre-wrap' }}>
                             {testCases[selectedCaseIdx].input}
                           </div>
                         </div>
 
                         {stdout && (
                           <div>
-                            <div style={{ color: '#64748b', fontSize: '0.7rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.2rem' }}>Your Output</div>
-                            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.4rem 0.6rem', borderRadius: '4px', color: testResults[selectedCaseIdx]?.passed === false ? '#f87171' : '#4ade80', whiteSpace: 'pre-wrap' }}>
+                            <div style={{ color: '#64748b', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Your Output</div>
+                            <div style={{ background: 'rgba(0,0,0,0.25)', padding: '0.35rem 0.55rem', borderRadius: '4px', color: testResults[selectedCaseIdx]?.passed === false ? '#f87171' : '#4ade80', whiteSpace: 'pre-wrap' }}>
                               {stdout}
                             </div>
                           </div>
@@ -1850,8 +1849,8 @@ export default function Playground({ questions }) {
 
                         {testCases[selectedCaseIdx].expectedOutput && (
                           <div>
-                            <div style={{ color: '#64748b', fontSize: '0.7rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.2rem' }}>Expected Output</div>
-                            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.4rem 0.6rem', borderRadius: '4px', color: '#38bdf8', whiteSpace: 'pre-wrap' }}>
+                            <div style={{ color: '#64748b', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Expected Output</div>
+                            <div style={{ background: 'rgba(0,0,0,0.25)', padding: '0.35rem 0.55rem', borderRadius: '4px', color: '#38bdf8', whiteSpace: 'pre-wrap' }}>
                               {testCases[selectedCaseIdx].expectedOutput}
                             </div>
                           </div>
