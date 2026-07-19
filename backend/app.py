@@ -549,8 +549,9 @@ def run_code(req: RunRequest):
     code = req.code
     stdin = req.stdin or ""
     
-    # 1. SQL Execution Logic
-    if lang == "sql":
+    # 1. SQL Execution Logic (sql / mysql / postgres all use SQLite sandbox)
+    if lang in ("sql", "mysql", "postgres"):
+
         conn = sqlite3.connect(":memory:")
         try:
             cursor = conn.cursor()

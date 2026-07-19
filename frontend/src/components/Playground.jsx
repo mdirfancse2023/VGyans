@@ -246,7 +246,7 @@ const highlightCode = (codeText, lang) => {
     tokenRegex = /(#.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
   } else if (lang === 'java' || lang === 'cpp') {
     tokenRegex = /(\/\/.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
-  } else if (lang === 'sql') {
+  } else if (lang === 'sql' || lang === 'mysql' || lang === 'postgres') {
     tokenRegex = /(--.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
   } else {
     tokenRegex = /(\b\w+\b|[^\s\w]+|\s+)/g;
@@ -279,7 +279,7 @@ const highlightCode = (codeText, lang) => {
     if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(rawToken)) {
       return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
     }
-    if (lang === 'sql') {
+    if (lang === 'sql' || lang === 'mysql' || lang === 'postgres') {
       const upperToken = rawToken.toUpperCase();
       if (sqlKeywords.has(upperToken)) {
         return `<span style="color: #38bdf8; font-weight: 700;">${token}</span>`;
