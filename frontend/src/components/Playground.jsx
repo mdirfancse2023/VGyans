@@ -2,6 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const PROBLEMS = [
   {
+    id: 'custom',
+    title: '0. Custom Sandbox / Free Coding',
+    difficulty: 'Sandbox',
+    description: `Write and test your own custom code in any supported programming language. Use the Custom Input (stdin) tab below to pass input arguments to your program.`,
+    input: ``,
+    templates: {
+      python: `# Write your own Python code here\nprint("Hello World!")`,
+      java: `public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello World!");\n    }\n}`,
+      cpp: `#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello World!" << endl;\n    return 0;\n}`,
+      sql: `-- Query against employees / departments tables\nSELECT * FROM employees;`
+    }
+  },
+  {
     id: 'two-sum',
     title: '1. Two Sum',
     difficulty: 'Easy',
@@ -48,7 +61,6 @@ public class Main {
         String line1 = reader.readLine();
         String line2 = reader.readLine();
         if (line1 != null && line2 != null) {
-            // Clean bracket array "[2,7,11,15]" -> "2,7,11,15"
             String cleaned = line1.replace("[", "").replace("]", "").trim();
             String[] tokens = cleaned.split(",");
             int[] nums = new int[tokens.length];
@@ -85,7 +97,6 @@ vector<int> twoSum(vector<int>& nums, int target) {
 int main() {
     string line1, line2;
     if (getline(cin, line1) && getline(cin, line2)) {
-        // Parse array format e.g. [2, 7, 11, 15]
         vector<int> nums;
         stringstream ss(line1);
         char ch;
@@ -162,9 +173,9 @@ int main() {
     }
     return 0;
 }`,
-      sql: `-- SQL query cannot solve a general string palindrome check directly without recursive expressions.
--- Switch to Python, C++, or Java for this challenge, or write an employee aggregate query here!
-SELECT 'Use programming languages for Palindrome Check!' as message;`
+      sql: `-- SQL query cannot solve a general string palindrome check directly in this sandbox.
+-- Switch to Python, C++, or Java, or write an employee query!
+SELECT 'Use Python, C++, or Java for Palindrome Check!' as message;`
     }
   },
   {
@@ -175,7 +186,6 @@ SELECT 'Use programming languages for Palindrome Check!' as message;`
     input: ``,
     templates: {
       sql: `-- Write your SQL query here.
--- Hint: Use LIMIT, OFFSET or subqueries with MAX()
 SELECT MAX(salary) AS SecondHighestSalary
 FROM employees
 WHERE salary < (SELECT MAX(salary) FROM employees);`,
@@ -202,7 +212,6 @@ int main() {
     input: ``,
     templates: {
       sql: `-- Write your SQL query here
--- Hint: JOIN employees with departments and GROUP BY department_name
 SELECT d.department_name, SUM(e.salary) AS total_spending
 FROM employees e
 INNER JOIN departments d ON e.department_id = d.id
@@ -225,6 +234,50 @@ int main() {
   }
 ];
 
+const highlightCode = (codeText, lang) => {
+  if (!codeText) return '';
+  let escaped = codeText
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  if (lang === 'python') {
+    // 1. Strings
+    escaped = escaped.replace(/(".*?"|'.*?')/g, '<span style="color: #a7f3d0;">$1</span>');
+    // 2. Keywords
+    const keywords = ['def', 'class', 'import', 'from', 'as', 'return', 'if', 'elif', 'else', 'for', 'in', 'while', 'try', 'except', 'pass', 'print', 'and', 'or', 'not', 'is', 'lambda', 'with', 'yield', 'None', 'True', 'False'];
+    keywords.forEach(kw => {
+      const reg = new RegExp(`\\b${kw}\\b`, 'g');
+      escaped = escaped.replace(reg, `<span style="color: #60a5fa; font-weight: 700;">${kw}</span>`);
+    });
+    // 3. Comments
+    escaped = escaped.replace(/(#.*)/g, '<span style="color: #64748b; font-style: italic;">$1</span>');
+  } else if (lang === 'java' || lang === 'cpp') {
+    // 1. Strings
+    escaped = escaped.replace(/(".*?"|'.*?')/g, '<span style="color: #a7f3d0;">$1</span>');
+    // 2. Keywords
+    const keywords = ['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'do', 'void', 'int', 'double', 'float', 'char', 'boolean', 'long', 'static', 'final', 'new', 'this', 'super', 'override', 'include', 'using', 'namespace', 'cout', 'cin', 'endl', 'vector', 'unordered_map', 'string', 'const', 'virtual'];
+    keywords.forEach(kw => {
+      const reg = new RegExp(`\\b${kw}\\b`, 'g');
+      escaped = escaped.replace(reg, `<span style="color: #60a5fa; font-weight: 700;">${kw}</span>`);
+    });
+    // 3. Comments
+    escaped = escaped.replace(/(\\/\\/.*)/g, '<span style="color: #64748b; font-style: italic;">$1</span>');
+  } else if (lang === 'sql') {
+    // 1. Strings
+    escaped = escaped.replace(/(".*?"|'.*?')/g, '<span style="color: #a7f3d0;">$1</span>');
+    // 2. Keywords
+    const keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'ON', 'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'SUM', 'MAX', 'MIN', 'AVG', 'COUNT', 'AS', 'AND', 'OR', 'IN', 'INSERT', 'INTO', 'VALUES', 'CREATE', 'TABLE', 'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES'];
+    keywords.forEach(kw => {
+      const reg = new RegExp(`\\b${kw}\\b`, 'gi');
+      escaped = escaped.replace(reg, match => `<span style="color: #38bdf8; font-weight: 700;">${match}</span>`);
+    });
+    // 3. Comments
+    escaped = escaped.replace(/(--.*)/g, '<span style="color: #64748b; font-style: italic;">$1</span>');
+  }
+  return escaped;
+};
+
 export default function Playground() {
   const [activeProblem, setActiveProblem] = useState(PROBLEMS[0]);
   const [activeLang, setActiveLang] = useState('python');
@@ -233,10 +286,10 @@ export default function Playground() {
   const [stdout, setStdout] = useState('');
   const [stderr, setStderr] = useState('');
   const [isRunning, setIsRunning] = useState(false);
-  const [editorTheme, setEditorTheme] = useState('dark');
   const [consoleTab, setConsoleTab] = useState('output');
 
   const codeAreaRef = useRef(null);
+  const preRef = useRef(null);
 
   // Sync template on problem or language change
   useEffect(() => {
@@ -246,6 +299,14 @@ export default function Playground() {
     setStdout('');
     setStderr('');
   }, [activeProblem, activeLang]);
+
+  // Synchronize Pre scroll position with Textarea scroll position
+  const handleScroll = (e) => {
+    if (preRef.current) {
+      preRef.current.scrollTop = e.target.scrollTop;
+      preRef.current.scrollLeft = e.target.scrollLeft;
+    }
+  };
 
   // Handle Tab key insertion & Bracket Autoclose inside textarea
   const handleKeyDown = (e) => {
@@ -258,7 +319,6 @@ export default function Playground() {
       e.preventDefault();
       const updatedCode = code.substring(0, start) + '    ' + code.substring(end);
       setCode(updatedCode);
-      // Reset cursor position
       setTimeout(() => {
         textarea.selectionStart = textarea.selectionEnd = start + 4;
       }, 0);
@@ -438,7 +498,8 @@ export default function Playground() {
           background: transparent;
           border: none;
           outline: none;
-          color: #e2e8f0;
+          color: transparent;
+          caret-color: #e2e8f0;
           font-family: 'Courier New', Courier, monospace;
           font-size: 0.9rem;
           line-height: 1.5;
@@ -446,6 +507,26 @@ export default function Playground() {
           resize: none;
           overflow-y: auto;
           white-space: pre;
+          z-index: 2;
+          position: relative;
+        }
+        .highlight-overlay {
+          position: absolute;
+          top: 0;
+          left: 40px; /* Aligned exactly past line numbers */
+          right: 0;
+          bottom: 0;
+          margin: 0;
+          padding: 1rem;
+          font-family: 'Courier New', Courier, monospace;
+          font-size: 0.9rem;
+          line-height: 1.5;
+          white-space: pre;
+          overflow: hidden;
+          color: #e2e8f0;
+          pointer-events: none;
+          background: transparent;
+          z-index: 1;
         }
         .console-panel {
           background: rgba(15, 23, 42, 0.8);
@@ -640,12 +721,20 @@ export default function Playground() {
                 <div key={n}>{n}</div>
               ))}
             </div>
+            
+            <pre 
+              ref={preRef}
+              className="highlight-overlay"
+              dangerouslySetInnerHTML={{ __html: highlightCode(code, activeLang) }}
+            />
+
             <textarea
               ref={codeAreaRef}
               className="code-textarea"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               onKeyDown={handleKeyDown}
+              onScroll={handleScroll}
               spellCheck="false"
               autoComplete="off"
               autoCorrect="off"

@@ -639,14 +639,27 @@ def run_code(req: RunRequest):
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(code)
                 
-            proc = subprocess.run(
-                ["python3", "script.py"],
-                input=stdin,
-                capture_output=True,
-                text=True,
-                cwd=temp_dir,
-                timeout=3
-            )
+            try:
+                proc = subprocess.run(
+                    ["python3", "script.py"],
+                    input=stdin,
+                    capture_output=True,
+                    text=True,
+                    cwd=temp_dir,
+                    timeout=3
+                )
+            except FileNotFoundError:
+                try:
+                    proc = subprocess.run(
+                        ["python", "script.py"],
+                        input=stdin,
+                        capture_output=True,
+                        text=True,
+                        cwd=temp_dir,
+                        timeout=3
+                    )
+                except FileNotFoundError:
+                    return {"stdout": "", "stderr": "Execution Error: 'python3' or 'python' interpreter is not installed or not found on the server's PATH."}
             return {"stdout": proc.stdout, "stderr": proc.stderr}
             
         elif lang == "cpp":
@@ -654,13 +667,17 @@ def run_code(req: RunRequest):
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(code)
                 
-            compile_proc = subprocess.run(
-                ["g++", "-O2", "main.cpp", "-o", "main"],
-                capture_output=True,
-                text=True,
-                cwd=temp_dir,
-                timeout=5
-            )
+            try:
+                compile_proc = subprocess.run(
+                    ["g++", "-O2", "main.cpp", "-o", "main"],
+                    capture_output=True,
+                    text=True,
+                    cwd=temp_dir,
+                    timeout=5
+                )
+            except FileNotFoundError:
+                return {"stdout": "", "stderr": "Execution Error: 'g++' compiler is not installed or not found on the server's PATH. Please ensure GCC/G++ is installed."}
+                
             if compile_proc.returncode != 0:
                 return {"stdout": "", "stderr": f"Compilation Error:\n{compile_proc.stderr}"}
                 
@@ -682,24 +699,32 @@ def run_code(req: RunRequest):
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(code)
                 
-            compile_proc = subprocess.run(
-                ["javac", f"{class_name}.java"],
-                capture_output=True,
-                text=True,
-                cwd=temp_dir,
-                timeout=5
-            )
+            try:
+                compile_proc = subprocess.run(
+                    ["javac", f"{class_name}.java"],
+                    capture_output=True,
+                    text=True,
+                    cwd=temp_dir,
+                    timeout=5
+                )
+            except FileNotFoundError:
+                return {"stdout": "", "stderr": "Execution Error: 'javac' (Java Compiler) is not installed or not found on the server's PATH. Please ensure JDK is installed and configured."}
+                
             if compile_proc.returncode != 0:
                 return {"stdout": "", "stderr": f"Compilation Error:\n{compile_proc.stderr}"}
                 
-            run_proc = subprocess.run(
-                ["java", class_name],
-                input=stdin,
-                capture_output=True,
-                text=True,
-                cwd=temp_dir,
-                timeout=3
-            )
+            try:
+                run_proc = subprocess.run(
+                    ["java", class_name],
+                    input=stdin,
+                    capture_output=True,
+                    text=True,
+                    cwd=temp_dir,
+                    timeout=3
+                )
+            except FileNotFoundError:
+                return {"stdout": "", "stderr": "Execution Error: 'java' launcher is not installed or not found on the server's PATH."}
+                
             return {"stdout": run_proc.stdout, "stderr": run_proc.stderr}
             
         else:
