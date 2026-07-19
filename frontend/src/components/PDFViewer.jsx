@@ -245,152 +245,86 @@ export default function PDFViewer({ url, title, onClose }) {
             flexWrap: 'wrap'
           }}
         >
-          {/* Left: Title & Close */}
+          {/* Left: Title */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 600, color: '#fff', letterSpacing: '0.02em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '250px' }}>
               {title || 'View Resource'}
             </h3>
-            
+          </div>
+
+          {/* Center: Pagination */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <button 
-              onClick={onClose}
+              onClick={() => changePage(-1)} 
+              disabled={pageNum <= 1}
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 color: '#fff',
-                cursor: 'pointer',
-                padding: '0.35rem 0.75rem',
-                borderRadius: '8px',
+                cursor: pageNum <= 1 ? 'not-allowed' : 'pointer',
+                opacity: pageNum <= 1 ? 0.4 : 1,
+                padding: '0.35rem 0.7rem',
+                borderRadius: '6px',
                 fontSize: '0.8rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                transition: 'all 0.2s ease',
+                transition: 'all 0.2s ease'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)';
-                e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)';
-                e.currentTarget.style.color = '#ef4444';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                e.currentTarget.style.color = '#fff';
-              }}
+              onMouseEnter={(e) => { if (pageNum > 1) e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; }}
             >
-              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-              Close
+              ← Prev
+            </button>
+            <span style={{ fontSize: '0.85rem', color: '#fff' }}>
+              Page {pageNum} / {numPages}
+            </span>
+            <button 
+              onClick={() => changePage(1)} 
+              disabled={pageNum >= numPages}
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#fff',
+                cursor: pageNum >= numPages ? 'not-allowed' : 'pointer',
+                opacity: pageNum >= numPages ? 0.4 : 1,
+                padding: '0.35rem 0.7rem',
+                borderRadius: '6px',
+                fontSize: '0.8rem',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => { if (pageNum < numPages) e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; }}
+            >
+              Next →
             </button>
           </div>
 
-          {/* Center: Pagination & Zoom */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            {/* Pagination */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <button 
-                onClick={() => changePage(-1)} 
-                disabled={pageNum <= 1}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  color: '#fff',
-                  cursor: pageNum <= 1 ? 'not-allowed' : 'pointer',
-                  opacity: pageNum <= 1 ? 0.4 : 1,
-                  padding: '0.35rem 0.7rem',
-                  borderRadius: '6px',
-                  fontSize: '0.8rem',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => { if (pageNum > 1) e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; }}
-              >
-                ← Prev
-              </button>
-              <span style={{ fontSize: '0.85rem', color: '#fff' }}>
-                Page {pageNum} / {numPages}
-              </span>
-              <button 
-                onClick={() => changePage(1)} 
-                disabled={pageNum >= numPages}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  color: '#fff',
-                  cursor: pageNum >= numPages ? 'not-allowed' : 'pointer',
-                  opacity: pageNum >= numPages ? 0.4 : 1,
-                  padding: '0.35rem 0.7rem',
-                  borderRadius: '6px',
-                  fontSize: '0.8rem',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => { if (pageNum < numPages) e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; }}
-              >
-                Next →
-              </button>
-            </div>
-
-            {/* Zoom */}
+          {/* Right: Zoom Slider, Fullscreen & Close */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+            {/* Zoom Slider */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <button 
-                onClick={() => changeZoom(-0.1)} 
-                disabled={scale <= 0.6}
+              <span style={{ fontSize: '0.8rem', color: '#ccc' }}>Zoom:</span>
+              <input 
+                type="range"
+                min="0.6"
+                max="2.5"
+                step="0.1"
+                value={scale}
+                onChange={(e) => setScale(parseFloat(e.target.value))}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  color: '#fff',
-                  cursor: scale <= 0.6 ? 'not-allowed' : 'pointer',
-                  opacity: scale <= 0.6 ? 0.4 : 1,
-                  width: '28px',
-                  height: '28px',
-                  borderRadius: '6px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.2s ease'
+                  width: '100px',
+                  accentColor: 'var(--primary)',
+                  cursor: 'pointer',
+                  height: '4px',
+                  borderRadius: '2px',
+                  outline: 'none',
+                  background: 'rgba(255, 255, 255, 0.2)'
                 }}
-                onMouseEnter={(e) => { if (scale > 0.6) e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; }}
-              >
-                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
+              />
               <span style={{ fontSize: '0.8rem', width: '45px', textAlign: 'center', color: '#ccc' }}>
                 {Math.round(scale * 100)}%
               </span>
-              <button 
-                onClick={() => changeZoom(0.1)} 
-                disabled={scale >= 2.5}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  color: '#fff',
-                  cursor: scale >= 2.5 ? 'not-allowed' : 'pointer',
-                  opacity: scale >= 2.5 ? 0.4 : 1,
-                  width: '28px',
-                  height: '28px',
-                  borderRadius: '6px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => { if (scale < 2.5) e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; }}
-              >
-                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
             </div>
-          </div>
 
-          {/* Right: Fullscreen */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {/* Fullscreen */}
             <button
               onClick={toggleFullscreen}
               style={{
@@ -424,6 +358,40 @@ export default function PDFViewer({ url, title, onClose }) {
                   Fullscreen
                 </>
               )}
+            </button>
+
+            {/* Close */}
+            <button 
+              onClick={onClose}
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#fff',
+                cursor: 'pointer',
+                padding: '0.35rem 0.75rem',
+                borderRadius: '8px',
+                fontSize: '0.8rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)';
+                e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                e.currentTarget.style.color = '#ef4444';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.color = '#fff';
+              }}
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Close
             </button>
           </div>
         </div>
