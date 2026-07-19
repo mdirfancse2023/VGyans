@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import ResumeBuilder from './ResumeBuilder';
+import ResumeAnalyzer from './ResumeAnalyzer';
 
 export default function InteractiveTools({ onboardingStages, flashcards }) {
   const [activeTool, setActiveTool] = useState('tracker'); // 'tracker' or 'flashcards'
@@ -53,7 +55,7 @@ export default function InteractiveTools({ onboardingStages, flashcards }) {
       </div>
 
       <div className="filters-wrapper" style={{ marginBottom: '2.5rem' }}>
-        <div className="filter-tabs">
+        <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
           <button 
             className={`filter-tab ${activeTool === 'tracker' ? 'active' : ''}`}
             onClick={() => setActiveTool('tracker')}
@@ -66,10 +68,22 @@ export default function InteractiveTools({ onboardingStages, flashcards }) {
           >
             Technical Flashcards
           </button>
+          <button 
+            className={`filter-tab ${activeTool === 'builder' ? 'active' : ''}`}
+            onClick={() => setActiveTool('builder')}
+          >
+            Resume Builder
+          </button>
+          <button 
+            className={`filter-tab ${activeTool === 'analyzer' ? 'active' : ''}`}
+            onClick={() => setActiveTool('analyzer')}
+          >
+            Resume Analyzer
+          </button>
         </div>
       </div>
 
-      {activeTool === 'tracker' ? (
+      {activeTool === 'tracker' && (
         <div className="glass-panel tracker-container">
           <div className="tracker-select-row">
             <h3 style={{ fontSize: '1.25rem', color: '#fff' }}>Select Company Journey:</h3>
@@ -135,7 +149,9 @@ export default function InteractiveTools({ onboardingStages, flashcards }) {
             </div>
           </div>
         </div>
-      ) : (
+      )}
+
+      {activeTool === 'flashcards' && (
         <div className="glass-panel flashcards-container">
           <div className="flashcard-categories">
             {categories.map((cat) => (
@@ -184,6 +200,18 @@ export default function InteractiveTools({ onboardingStages, flashcards }) {
               </div>
             </>
           )}
+        </div>
+      )}
+
+      {activeTool === 'builder' && (
+        <div className="glass-panel">
+          <ResumeBuilder />
+        </div>
+      )}
+
+      {activeTool === 'analyzer' && (
+        <div className="glass-panel">
+          <ResumeAnalyzer />
         </div>
       )}
     </div>
