@@ -145,7 +145,7 @@ export default function InterviewExperiences({ initialExperiences, onSubmitExper
             </div>
 
             <div className="exp-body">
-              {exp.rounds.map((round, idx) => (
+              {(exp.rounds || []).map((round, idx) => (
                 <div key={idx}>
                   <div className="exp-round-title">{round.name}</div>
                   <div className="exp-round-desc">{round.summary}</div>
