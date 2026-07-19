@@ -528,19 +528,10 @@ def main():
 
     # Define directories
     backend_data_dir = os.path.dirname(BACKEND_OUTPUT_PATH)
-    backend_backup_dir = os.path.join(backend_data_dir, "backup")
     frontend_data_dir = os.path.dirname(OUTPUT_PATH)
 
     os.makedirs(backend_data_dir, exist_ok=True)
-    os.makedirs(backend_backup_dir, exist_ok=True)
     os.makedirs(frontend_data_dir, exist_ok=True)
-
-    # 1. Save full detailed segregated files in backend/data/backup/
-    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions"]
-    for key in keys:
-        if key in data:
-            with open(os.path.join(backend_backup_dir, f"{key}.json"), "w", encoding="utf-8") as f:
-                json.dump(data[key], f, indent=2, ensure_ascii=False)
 
     # 3. Strip data for minified local databases
     stripped = {}
@@ -597,7 +588,8 @@ def main():
     if "playground_questions" in data:
         stripped["playground_questions"] = data["playground_questions"]
 
-    # 4. Save minified segregated files to backend/data/ and frontend/public/data/
+    # Save minified segregated files to backend/data/ and frontend/public/data/
+    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions"]
     for key in keys:
         if key in stripped:
             with open(os.path.join(backend_data_dir, f"{key}.json"), "w", encoding="utf-8") as f:

@@ -177,12 +177,12 @@ def sync_all_youtube_data():
     channel_meta = fetch_youtube_channel_metadata()
     new_videos = fetch_youtube_videos()
     
-    # Load existing video backup to merge
+    # Load existing videos to merge
     existing_videos = []
-    backup_video_path = "backend/data/backup/videos.json"
-    if os.path.exists(backup_video_path):
+    existing_video_path = "backend/data/videos.json"
+    if os.path.exists(existing_video_path):
         try:
-            with open(backup_video_path, "r", encoding="utf-8") as f:
+            with open(existing_video_path, "r", encoding="utf-8") as f:
                 existing_videos = json.load(f)
         except Exception:
             pass
@@ -195,21 +195,14 @@ def sync_all_youtube_data():
     merged_videos = list(merged_videos_dict.values())
     merged_videos.sort(key=lambda x: x.get("publishedAt", ""), reverse=True)
     
-    # 1. Save locally to backend/data/backup
-    os.makedirs("backend/data/backup", exist_ok=True)
-    with open("backend/data/backup/channel.json", "w", encoding="utf-8") as f:
-        json.dump(channel_meta, f, indent=2, ensure_ascii=False)
-    with open("backend/data/backup/videos.json", "w", encoding="utf-8") as f:
-        json.dump(merged_videos, f, indent=2, ensure_ascii=False)
-        
-    # 2. Save minified to backend/data
+    # 1. Save to backend/data
     os.makedirs("backend/data", exist_ok=True)
     with open("backend/data/channel.json", "w", encoding="utf-8") as f:
         json.dump(channel_meta, f, indent=2, ensure_ascii=False)
     with open("backend/data/videos.json", "w", encoding="utf-8") as f:
         json.dump(merged_videos, f, indent=2, ensure_ascii=False)
         
-    # 3. Save to frontend/public/data
+    # 2. Save to frontend/public/data
     os.makedirs("frontend/public/data", exist_ok=True)
     with open("frontend/public/data/channel.json", "w", encoding="utf-8") as f:
         json.dump(channel_meta, f, indent=2, ensure_ascii=False)
