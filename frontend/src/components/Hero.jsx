@@ -54,7 +54,7 @@ const features = [
 const floatingBadges = [
   { text: '350+ Questions', icon: '🧩', delay: '0s',  top: '12%', left: '-2%' },
   { text: 'AI Resume',      icon: '✨', delay: '1s',  top: '68%', left: '-5%' },
-  { text: 'Live SQL',       icon: '🛢️', delay: '2s',  top: '38%', right: '-4%' },
+  { text: 'Live Code',      icon: '💻', delay: '2s',  top: '38%', right: '-4%' },
   { text: 'Top MNCs',       icon: '🏢', delay: '0.5s',top: '80%', right: '-2%' },
 ];
 
@@ -180,8 +180,9 @@ export default function Hero({ stats, setActiveTab }) {
         /* ─── Right: Avatar visual ─── */
         .hero2-right {
           position: relative; flex-shrink: 0;
-          width: 240px; height: 240px;
-          display: flex; align-items: center; justify-content: center;
+          width: 240px;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          gap: 0.8rem;
         }
         .hero2-avatar-img {
           width: 210px; height: 210px; border-radius: 50%;
@@ -351,6 +352,9 @@ export default function Hero({ stats, setActiveTab }) {
               alt="Md Irfan — Virtual Gyans"
               className="hero2-avatar-img"
             />
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)', zIndex: 2, letterSpacing: '-0.01em', marginTop: '0.2rem' }}>
+              Md Irfan
+            </div>
 
             {floatingBadges.map((b, i) => (
               <div
@@ -375,7 +379,6 @@ export default function Hero({ stats, setActiveTab }) {
             { val: formatNumber(stats.viewCount) + '+',       label: 'Total Views' },
             { val: stats.videoCount,                          label: 'Tutorial Videos' },
             { val: '350+',                                    label: 'Practice Questions' },
-            { val: '5',                                       label: 'MNC Companies Covered' },
           ].map((s, i) => (
             <div className="hero2-stat" key={i}>
               <div className="hero2-stat-val">{s.val}</div>
