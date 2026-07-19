@@ -520,7 +520,7 @@ export default function Playground({ questions }) {
 
       // Fallback to static backup JSON if API is offline or returns error
       if (!fullQuestion || !fullQuestion.templates || Object.keys(fullQuestion.templates).length === 0) {
-        const backupRes = await fetch(`./data/backup/playground_questions.json`);
+        const backupRes = await fetch(`./data/playground_questions.json`);
         if (backupRes.ok) {
           const allBackupQuestions = await backupRes.json();
           fullQuestion = allBackupQuestions.find(item => item.id === q.id);

@@ -1,12 +1,11 @@
 [
   {
     "date": "February 2026",
-    "candidate": "Sunita Mishra",
-    "difficulty": "Medium",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
     "id": "exp-103",
+    "difficulty": "Medium",
     "role": "Cognizant GenC Developer",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude test containing logical reasoning, quantitative analysis, and verbal skills. Also included a SQL query MCQs section.",
@@ -21,16 +20,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
+    "candidate": "Sunita Mishra",
+    "company": "Cognizant"
   },
   {
     "date": "June 2026",
-    "candidate": "Deepak Nair",
-    "difficulty": "Hard",
+    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
     "id": "exp-102",
+    "difficulty": "Hard",
     "role": "Infosys System Engineer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "InfyTQ Certification test. Extremely tough Python coding and database query questions. Focus on OOPs logic and data structures.",
@@ -45,16 +44,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes."
+    "candidate": "Deepak Nair",
+    "company": "Infosys"
   },
   {
     "date": "October 2025",
-    "candidate": "Arjun Rao",
-    "difficulty": "Medium",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
     "id": "exp-101",
+    "difficulty": "Medium",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Rejected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Rapid fire MCQ on cognitive ability and basic IT topics. English section had reading comprehension and error spotting.",
@@ -69,16 +68,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
+    "candidate": "Arjun Rao",
+    "company": "Accenture"
   },
   {
     "date": "November 2026",
-    "candidate": "Sanjay Mishra",
-    "difficulty": "Easy-Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-100",
+    "difficulty": "Easy-Medium",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive assessment with rapid-fire questions on abstract reasoning, logic, and English. Technical section had pseudocode, MS Office, and cloud concepts.",
@@ -93,16 +92,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Sanjay Mishra",
+    "company": "Accenture"
   },
   {
     "date": "February 2026",
-    "candidate": "Arohi Kumar",
-    "difficulty": "Easy-Medium",
+    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
     "id": "exp-99",
+    "difficulty": "Easy-Medium",
     "role": "Capgemini Senior Analyst",
     "verdict": "Selected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Online test with behavioral, English grammar, pseudo-code analysis, and basic mathematical sections.",
@@ -117,16 +116,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes."
+    "candidate": "Arohi Kumar",
+    "company": "Capgemini"
   },
   {
     "date": "July 2025",
-    "candidate": "Neha Gowda",
-    "difficulty": "Easy",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
     "id": "exp-98",
+    "difficulty": "Easy",
     "role": "Cognizant GenC Developer",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "AMCAT-based assessment. Had sections on logical reasoning, quantitative ability, and debugging codes (Automata Fix).",
@@ -141,16 +140,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
+    "candidate": "Neha Gowda",
+    "company": "Cognizant"
   },
   {
     "date": "October 2025",
-    "candidate": "Meera Iyer",
-    "difficulty": "Hard",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
     "id": "exp-97",
+    "difficulty": "Hard",
     "role": "TCS Digital Specialist",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "Online test on TCS iON platform. Quant questions on time-work, speed-distance, probability. Coding questions: series summation and matrix transposing.",
@@ -165,16 +164,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
+    "candidate": "Meera Iyer",
+    "company": "TCS"
   },
   {
     "date": "May 2025",
-    "candidate": "Kavya Nair",
-    "difficulty": "Hard",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
     "id": "exp-96",
+    "difficulty": "Hard",
     "role": "Capgemini Analyst",
     "verdict": "Selected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Online test with behavioral, English grammar, pseudo-code analysis, and basic mathematical sections.",
@@ -189,16 +188,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
+    "candidate": "Kavya Nair",
+    "company": "Capgemini"
   },
   {
     "date": "April 2025",
-    "candidate": "Vikram Bose",
-    "difficulty": "Medium-Hard",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
     "id": "exp-95",
+    "difficulty": "Medium-Hard",
     "role": "Wipro Turbo Analyst",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Online test with quantitative, analytical, and verbal sections. Essay writing section on topics like 'Impact of AI on jobs'.",
@@ -213,16 +212,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
+    "candidate": "Vikram Bose",
+    "company": "Wipro"
   },
   {
     "date": "February 2026",
-    "candidate": "Karan Verma",
-    "difficulty": "Medium-Hard",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
     "id": "exp-94",
+    "difficulty": "Medium-Hard",
     "role": "Cognizant GenC Next Analyst",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Online test on Mettl. Verbal ability was moderate, quant had probability and permutation questions. Coding was on arrays.",
@@ -237,16 +236,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
+    "candidate": "Karan Verma",
+    "company": "Cognizant"
   },
   {
     "date": "June 2025",
-    "candidate": "Swati Mehta",
-    "difficulty": "Easy-Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
     "id": "exp-93",
+    "difficulty": "Easy-Medium",
     "role": "Infosys System Engineer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "HackwithInfy online coding challenge. Had 3 coding questions. I solved 1.5 questions to get selected for the interview.",
@@ -261,16 +260,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
+    "candidate": "Swati Mehta",
+    "company": "Infosys"
   },
   {
     "date": "September 2026",
-    "candidate": "Kiran Choudhury",
-    "difficulty": "Medium",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
     "id": "exp-92",
+    "difficulty": "Medium",
     "role": "Cognizant GenC Next Analyst",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "AMCAT-based assessment. Had sections on logical reasoning, quantitative ability, and debugging codes (Automata Fix).",
@@ -285,16 +284,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
+    "candidate": "Kiran Choudhury",
+    "company": "Cognizant"
   },
   {
     "date": "July 2025",
-    "candidate": "Harsh Singh",
-    "difficulty": "Medium",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
     "id": "exp-91",
+    "difficulty": "Medium",
     "role": "Wipro Elite Developer",
     "verdict": "Rejected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "NLTH test on CoCubes. Quant questions on ratios, time-speed-distance, and log values. Coding had 2 easy programs.",
@@ -309,16 +308,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
+    "candidate": "Harsh Singh",
+    "company": "Wipro"
   },
   {
     "date": "November 2026",
-    "candidate": "Arjun Naidu",
-    "difficulty": "Medium",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
     "id": "exp-90",
+    "difficulty": "Medium",
     "role": "TCS Ninja Developer",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "NQT online test. Included verbal, numerical, and reasoning sections. Very tight constraints. Coding section had 1 easy (Prime Check) and 1 medium (Graph traversal) question.",
@@ -333,16 +332,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
+    "candidate": "Arjun Naidu",
+    "company": "TCS"
   },
   {
     "date": "May 2025",
-    "candidate": "Siddharth Prasad",
-    "difficulty": "Hard",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
     "id": "exp-89",
+    "difficulty": "Hard",
     "role": "Cognizant GenC Next Analyst",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "AMCAT-based assessment. Had sections on logical reasoning, quantitative ability, and debugging codes (Automata Fix).",
@@ -357,16 +356,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
+    "candidate": "Siddharth Prasad",
+    "company": "Cognizant"
   },
   {
     "date": "October 2025",
-    "candidate": "Varun Menon",
-    "difficulty": "Medium",
+    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
     "id": "exp-88",
+    "difficulty": "Medium",
     "role": "Infosys Specialist Programmer",
     "verdict": "Rejected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "InfyTQ Certification test. Extremely tough Python coding and database query questions. Focus on OOPs logic and data structures.",
@@ -381,16 +380,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes."
+    "candidate": "Varun Menon",
+    "company": "Infosys"
   },
   {
     "date": "August 2025",
-    "candidate": "Tanvi Reddy",
-    "difficulty": "Easy",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-87",
+    "difficulty": "Easy",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive and technical test. Pseudocodes were tricky (bitwise operations and nested loops). English section was focused on prepositions and grammar.",
@@ -405,16 +404,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Tanvi Reddy",
+    "company": "Accenture"
   },
   {
     "date": "June 2025",
-    "candidate": "Manish Roy",
-    "difficulty": "Easy-Medium",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
     "id": "exp-86",
+    "difficulty": "Easy-Medium",
     "role": "Capgemini Analyst",
     "verdict": "Selected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Online test with behavioral, English grammar, pseudo-code analysis, and basic mathematical sections.",
@@ -429,16 +428,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
+    "candidate": "Manish Roy",
+    "company": "Capgemini"
   },
   {
     "date": "April 2026",
-    "candidate": "Sandeep Gowda",
-    "difficulty": "Medium-Hard",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
     "id": "exp-85",
+    "difficulty": "Medium-Hard",
     "role": "Cognizant GenC Developer",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude test containing logical reasoning, quantitative analysis, and verbal skills. Also included a SQL query MCQs section.",
@@ -453,16 +452,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
+    "candidate": "Sandeep Gowda",
+    "company": "Cognizant"
   },
   {
     "date": "December 2026",
-    "candidate": "Gaurav Saxena",
-    "difficulty": "Medium-Hard",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
     "id": "exp-84",
+    "difficulty": "Medium-Hard",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Rejected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Rapid fire MCQ on cognitive ability and basic IT topics. English section had reading comprehension and error spotting.",
@@ -477,16 +476,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
+    "candidate": "Gaurav Saxena",
+    "company": "Accenture"
   },
   {
     "date": "May 2026",
-    "candidate": "Suresh Mishra",
-    "difficulty": "Hard",
+    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
     "id": "exp-83",
+    "difficulty": "Hard",
     "role": "Capgemini Senior Analyst",
     "verdict": "Selected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Pseudo-code, English communication, and game-based aptitude sections. Game-based reasoning requires rapid spatial memory.",
@@ -501,16 +500,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes."
+    "candidate": "Suresh Mishra",
+    "company": "Capgemini"
   },
   {
     "date": "October 2026",
-    "candidate": "Preeti Menon",
-    "difficulty": "Easy",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-82",
+    "difficulty": "Easy",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Rapid fire MCQ on cognitive ability and basic IT topics. English section had reading comprehension and error spotting.",
@@ -525,16 +524,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Preeti Menon",
+    "company": "Accenture"
   },
   {
     "date": "August 2025",
-    "candidate": "Shreya Joshi",
-    "difficulty": "Medium",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
     "id": "exp-81",
+    "difficulty": "Medium",
     "role": "TCS Digital Specialist",
     "verdict": "Rejected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "NQT online test. Included verbal, numerical, and reasoning sections. Very tight constraints. Coding section had 1 easy (Prime Check) and 1 medium (Graph traversal) question.",
@@ -549,16 +548,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
+    "candidate": "Shreya Joshi",
+    "company": "TCS"
   },
   {
     "date": "March 2025",
-    "candidate": "Varun Pillai",
-    "difficulty": "Easy-Medium",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
     "id": "exp-80",
+    "difficulty": "Easy-Medium",
     "role": "Wipro Elite Developer",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Online test with quantitative, analytical, and verbal sections. Essay writing section on topics like 'Impact of AI on jobs'.",
@@ -573,16 +572,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
+    "candidate": "Varun Pillai",
+    "company": "Wipro"
   },
   {
     "date": "March 2026",
-    "candidate": "Priya Nair",
-    "difficulty": "Medium-Hard",
+    "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume.",
     "id": "exp-79",
+    "difficulty": "Medium-Hard",
     "role": "TCS Digital Specialist",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "Online test on TCS iON platform. Quant questions on time-work, speed-distance, probability. Coding questions: series summation and matrix transposing.",
@@ -597,16 +596,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume."
+    "candidate": "Priya Nair",
+    "company": "TCS"
   },
   {
     "date": "November 2025",
-    "candidate": "Rajesh Kulkarni",
-    "difficulty": "Easy",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
     "id": "exp-78",
+    "difficulty": "Easy",
     "role": "Infosys Power Programmer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "InfyTQ Certification test. Extremely tough Python coding and database query questions. Focus on OOPs logic and data structures.",
@@ -621,16 +620,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
+    "candidate": "Rajesh Kulkarni",
+    "company": "Infosys"
   },
   {
     "date": "February 2026",
-    "candidate": "Sandeep Iyer",
-    "difficulty": "Hard",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-77",
+    "difficulty": "Hard",
     "role": "Accenture ASE (Associate Software Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Rapid fire MCQ on cognitive ability and basic IT topics. English section had reading comprehension and error spotting.",
@@ -645,16 +644,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Sandeep Iyer",
+    "company": "Accenture"
   },
   {
     "date": "July 2026",
-    "candidate": "Akash Singh",
-    "difficulty": "Medium",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
     "id": "exp-76",
+    "difficulty": "Medium",
     "role": "Cognizant GenC Elevate Specialist",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "AMCAT-based assessment. Had sections on logical reasoning, quantitative ability, and debugging codes (Automata Fix).",
@@ -669,16 +668,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
+    "candidate": "Akash Singh",
+    "company": "Cognizant"
   },
   {
     "date": "August 2025",
-    "candidate": "Deepak Chatterjee",
-    "difficulty": "Medium-Hard",
+    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
     "id": "exp-75",
+    "difficulty": "Medium-Hard",
     "role": "Capgemini Senior Analyst",
     "verdict": "Rejected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Online test with behavioral, English grammar, pseudo-code analysis, and basic mathematical sections.",
@@ -693,16 +692,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes."
+    "candidate": "Deepak Chatterjee",
+    "company": "Capgemini"
   },
   {
     "date": "March 2026",
-    "candidate": "Riya Patel",
-    "difficulty": "Medium-Hard",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
     "id": "exp-74",
+    "difficulty": "Medium-Hard",
     "role": "Wipro Turbo Analyst",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Elite NLTH online test. Aptitude section was of moderate difficulty. Essay writing section was online (automating checking for spelling and grammar).",
@@ -717,16 +716,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
+    "candidate": "Riya Patel",
+    "company": "Wipro"
   },
   {
     "date": "May 2025",
-    "candidate": "Meera Gowda",
-    "difficulty": "Hard",
+    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
     "id": "exp-73",
+    "difficulty": "Hard",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive assessment with rapid-fire questions on abstract reasoning, logic, and English. Technical section had pseudocode, MS Office, and cloud concepts.",
@@ -741,16 +740,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules."
+    "candidate": "Meera Gowda",
+    "company": "Accenture"
   },
   {
     "date": "May 2025",
-    "candidate": "Gaurav Kulkarni",
-    "difficulty": "Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
     "id": "exp-72",
+    "difficulty": "Medium",
     "role": "Infosys System Engineer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "System Engineer online assessment. Had sections on mathematical puzzles, visual reasoning, and pseudocode analysis.",
@@ -765,16 +764,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
+    "candidate": "Gaurav Kulkarni",
+    "company": "Infosys"
   },
   {
     "date": "June 2026",
-    "candidate": "Abhishek Joshi",
-    "difficulty": "Easy-Medium",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
     "id": "exp-71",
+    "difficulty": "Easy-Medium",
     "role": "Cognizant GenC Next Analyst",
     "verdict": "Rejected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude test containing logical reasoning, quantitative analysis, and verbal skills. Also included a SQL query MCQs section.",
@@ -789,16 +788,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
+    "candidate": "Abhishek Joshi",
+    "company": "Cognizant"
   },
   {
     "date": "October 2026",
-    "candidate": "Amit Joshi",
-    "difficulty": "Easy-Medium",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
     "id": "exp-70",
+    "difficulty": "Easy-Medium",
     "role": "Wipro Elite Developer",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Elite NLTH online test. Aptitude section was of moderate difficulty. Essay writing section was online (automating checking for spelling and grammar).",
@@ -813,16 +812,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
+    "candidate": "Amit Joshi",
+    "company": "Wipro"
   },
   {
     "date": "March 2026",
-    "candidate": "Arjun Deshmukh",
-    "difficulty": "Easy-Medium",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
     "id": "exp-69",
+    "difficulty": "Easy-Medium",
     "role": "TCS Digital Specialist",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "Standard NQT test. Numerical questions on averages, percentages, and simple interest. Coding questions: array element search and string duplication removal.",
@@ -837,16 +836,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
+    "candidate": "Arjun Deshmukh",
+    "company": "TCS"
   },
   {
     "date": "October 2026",
-    "candidate": "Pranav Deshmukh",
-    "difficulty": "Medium",
+    "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility.",
     "id": "exp-68",
+    "difficulty": "Medium",
     "role": "Capgemini Analyst",
     "verdict": "Rejected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Pseudo-code, English communication, and game-based aptitude sections. Game-based reasoning requires rapid spatial memory.",
@@ -861,16 +860,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility."
+    "candidate": "Pranav Deshmukh",
+    "company": "Capgemini"
   },
   {
     "date": "February 2025",
-    "candidate": "Pooja Singh",
-    "difficulty": "Easy-Medium",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
     "id": "exp-67",
+    "difficulty": "Easy-Medium",
     "role": "Cognizant GenC Elevate Specialist",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude test containing logical reasoning, quantitative analysis, and verbal skills. Also included a SQL query MCQs section.",
@@ -885,16 +884,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
+    "candidate": "Pooja Singh",
+    "company": "Cognizant"
   },
   {
     "date": "May 2025",
-    "candidate": "Gaurav Pandey",
-    "difficulty": "Hard",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
     "id": "exp-66",
+    "difficulty": "Hard",
     "role": "Cognizant GenC Elevate Specialist",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Online test on Mettl. Verbal ability was moderate, quant had probability and permutation questions. Coding was on arrays.",
@@ -909,16 +908,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
+    "candidate": "Gaurav Pandey",
+    "company": "Cognizant"
   },
   {
     "date": "September 2026",
-    "candidate": "Rajesh Saxena",
-    "difficulty": "Medium-Hard",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
     "id": "exp-65",
+    "difficulty": "Medium-Hard",
     "role": "Wipro Turbo Analyst",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "NLTH test on CoCubes. Quant questions on ratios, time-speed-distance, and log values. Coding had 2 easy programs.",
@@ -933,16 +932,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
+    "candidate": "Rajesh Saxena",
+    "company": "Wipro"
   },
   {
     "date": "April 2025",
-    "candidate": "Abhishek Sharma",
-    "difficulty": "Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
     "id": "exp-64",
+    "difficulty": "Medium",
     "role": "Infosys System Engineer",
     "verdict": "Rejected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "HackwithInfy online coding challenge. Had 3 coding questions. I solved 1.5 questions to get selected for the interview.",
@@ -957,16 +956,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
+    "candidate": "Abhishek Sharma",
+    "company": "Infosys"
   },
   {
     "date": "October 2026",
-    "candidate": "Karan Prasad",
-    "difficulty": "Hard",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
     "id": "exp-63",
+    "difficulty": "Hard",
     "role": "Cognizant GenC Next Analyst",
     "verdict": "Rejected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "AMCAT-based assessment. Had sections on logical reasoning, quantitative ability, and debugging codes (Automata Fix).",
@@ -981,16 +980,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
+    "candidate": "Karan Prasad",
+    "company": "Cognizant"
   },
   {
     "date": "April 2025",
-    "candidate": "Suresh Prasad",
-    "difficulty": "Easy-Medium",
+    "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams.",
     "id": "exp-62",
+    "difficulty": "Easy-Medium",
     "role": "Infosys Specialist Programmer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "InfyTQ Certification test. Extremely tough Python coding and database query questions. Focus on OOPs logic and data structures.",
@@ -1005,16 +1004,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams."
+    "candidate": "Suresh Prasad",
+    "company": "Infosys"
   },
   {
     "date": "September 2025",
-    "candidate": "Meera Sharma",
-    "difficulty": "Medium",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
     "id": "exp-61",
+    "difficulty": "Medium",
     "role": "Wipro Elite Developer",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "NLTH test on CoCubes. Quant questions on ratios, time-speed-distance, and log values. Coding had 2 easy programs.",
@@ -1029,16 +1028,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
+    "candidate": "Meera Sharma",
+    "company": "Wipro"
   },
   {
     "date": "December 2026",
-    "candidate": "Karan Menon",
-    "difficulty": "Easy",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
     "id": "exp-60",
+    "difficulty": "Easy",
     "role": "Cognizant GenC Elevate Specialist",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "AMCAT-based assessment. Had sections on logical reasoning, quantitative ability, and debugging codes (Automata Fix).",
@@ -1053,16 +1052,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
+    "candidate": "Karan Menon",
+    "company": "Cognizant"
   },
   {
     "date": "September 2025",
-    "candidate": "Sandeep Mishra",
-    "difficulty": "Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
     "id": "exp-59",
+    "difficulty": "Medium",
     "role": "Infosys Power Programmer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "HackwithInfy online coding challenge. Had 3 coding questions. I solved 1.5 questions to get selected for the interview.",
@@ -1077,16 +1076,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
+    "candidate": "Sandeep Mishra",
+    "company": "Infosys"
   },
   {
     "date": "October 2026",
-    "candidate": "Pranav Rao",
-    "difficulty": "Medium-Hard",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
     "id": "exp-58",
+    "difficulty": "Medium-Hard",
     "role": "Wipro Turbo Analyst",
     "verdict": "Rejected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "NLTH test on CoCubes. Quant questions on ratios, time-speed-distance, and log values. Coding had 2 easy programs.",
@@ -1101,16 +1100,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
+    "candidate": "Pranav Rao",
+    "company": "Wipro"
   },
   {
     "date": "January 2026",
-    "candidate": "Karan Menon",
-    "difficulty": "Medium",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
     "id": "exp-57",
+    "difficulty": "Medium",
     "role": "Accenture ASE (Associate Software Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive and technical test. Pseudocodes were tricky (bitwise operations and nested loops). English section was focused on prepositions and grammar.",
@@ -1125,16 +1124,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
+    "candidate": "Karan Menon",
+    "company": "Accenture"
   },
   {
     "date": "March 2025",
-    "candidate": "Aniket Prasad",
-    "difficulty": "Medium-Hard",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
     "id": "exp-56",
+    "difficulty": "Medium-Hard",
     "role": "Cognizant GenC Developer",
     "verdict": "Rejected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "AMCAT-based assessment. Had sections on logical reasoning, quantitative ability, and debugging codes (Automata Fix).",
@@ -1149,16 +1148,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
+    "candidate": "Aniket Prasad",
+    "company": "Cognizant"
   },
   {
     "date": "September 2026",
-    "candidate": "Manish Patel",
-    "difficulty": "Medium",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
     "id": "exp-55",
+    "difficulty": "Medium",
     "role": "Cognizant GenC Next Analyst",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Online test on Mettl. Verbal ability was moderate, quant had probability and permutation questions. Coding was on arrays.",
@@ -1173,16 +1172,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
+    "candidate": "Manish Patel",
+    "company": "Cognizant"
   },
   {
     "date": "June 2025",
-    "candidate": "Swati Prasad",
-    "difficulty": "Hard",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
     "id": "exp-54",
+    "difficulty": "Hard",
     "role": "Wipro Elite Developer",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Elite NLTH online test. Aptitude section was of moderate difficulty. Essay writing section was online (automating checking for spelling and grammar).",
@@ -1197,16 +1196,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
+    "candidate": "Swati Prasad",
+    "company": "Wipro"
   },
   {
     "date": "October 2025",
-    "candidate": "Karan Kulkarni",
-    "difficulty": "Medium-Hard",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
     "id": "exp-53",
+    "difficulty": "Medium-Hard",
     "role": "Wipro Elite Developer",
     "verdict": "Rejected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Elite NLTH online test. Aptitude section was of moderate difficulty. Essay writing section was online (automating checking for spelling and grammar).",
@@ -1221,16 +1220,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
+    "candidate": "Karan Kulkarni",
+    "company": "Wipro"
   },
   {
     "date": "November 2026",
-    "candidate": "Kishore Chatterjee",
-    "difficulty": "Medium-Hard",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-52",
+    "difficulty": "Medium-Hard",
     "role": "Accenture ASE (Associate Software Engineer)",
     "verdict": "Rejected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive and technical test. Pseudocodes were tricky (bitwise operations and nested loops). English section was focused on prepositions and grammar.",
@@ -1245,16 +1244,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Kishore Chatterjee",
+    "company": "Accenture"
   },
   {
     "date": "May 2025",
-    "candidate": "Amit Deshmukh",
-    "difficulty": "Hard",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
     "id": "exp-51",
+    "difficulty": "Hard",
     "role": "TCS System Engineer",
     "verdict": "Rejected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "Standard NQT test. Numerical questions on averages, percentages, and simple interest. Coding questions: array element search and string duplication removal.",
@@ -1269,16 +1268,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
+    "candidate": "Amit Deshmukh",
+    "company": "TCS"
   },
   {
     "date": "January 2026",
-    "candidate": "Rahul Pillai",
-    "difficulty": "Medium",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
     "id": "exp-50",
+    "difficulty": "Medium",
     "role": "Cognizant GenC Developer",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Online test on Mettl. Verbal ability was moderate, quant had probability and permutation questions. Coding was on arrays.",
@@ -1293,16 +1292,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
+    "candidate": "Rahul Pillai",
+    "company": "Cognizant"
   },
   {
     "date": "March 2025",
-    "candidate": "Ramesh Choudhury",
-    "difficulty": "Hard",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
     "id": "exp-49",
+    "difficulty": "Hard",
     "role": "TCS Ninja Developer",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "NQT online test. Included verbal, numerical, and reasoning sections. Very tight constraints. Coding section had 1 easy (Prime Check) and 1 medium (Graph traversal) question.",
@@ -1317,16 +1316,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
+    "candidate": "Ramesh Choudhury",
+    "company": "TCS"
   },
   {
     "date": "May 2026",
-    "candidate": "Aishwarya Kulkarni",
-    "difficulty": "Medium",
+    "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility.",
     "id": "exp-48",
+    "difficulty": "Medium",
     "role": "Capgemini Analyst",
     "verdict": "Rejected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Aptitude test with game-based reasoning (inductive, grid challenge, motion challenge) which was very interactive and interesting.",
@@ -1341,16 +1340,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility."
+    "candidate": "Aishwarya Kulkarni",
+    "company": "Capgemini"
   },
   {
     "date": "January 2025",
-    "candidate": "Sneha Menon",
-    "difficulty": "Easy-Medium",
+    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
     "id": "exp-47",
+    "difficulty": "Easy-Medium",
     "role": "Wipro Elite Developer",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Elite NLTH online test. Aptitude section was of moderate difficulty. Essay writing section was online (automating checking for spelling and grammar).",
@@ -1365,16 +1364,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement."
+    "candidate": "Sneha Menon",
+    "company": "Wipro"
   },
   {
     "date": "October 2026",
-    "candidate": "Arohi Pillai",
-    "difficulty": "Medium-Hard",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
     "id": "exp-46",
+    "difficulty": "Medium-Hard",
     "role": "Capgemini Analyst",
     "verdict": "Selected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Online test with behavioral, English grammar, pseudo-code analysis, and basic mathematical sections.",
@@ -1389,16 +1388,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
+    "candidate": "Arohi Pillai",
+    "company": "Capgemini"
   },
   {
     "date": "September 2026",
-    "candidate": "Suresh Saxena",
-    "difficulty": "Easy-Medium",
+    "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams.",
     "id": "exp-45",
+    "difficulty": "Easy-Medium",
     "role": "Infosys Specialist Programmer",
     "verdict": "Rejected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "InfyTQ Certification test. Extremely tough Python coding and database query questions. Focus on OOPs logic and data structures.",
@@ -1413,16 +1412,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams."
+    "candidate": "Suresh Saxena",
+    "company": "Infosys"
   },
   {
     "date": "December 2026",
-    "candidate": "Ananya Nair",
-    "difficulty": "Hard",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
     "id": "exp-44",
+    "difficulty": "Hard",
     "role": "Cognizant GenC Next Analyst",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Online test on Mettl. Verbal ability was moderate, quant had probability and permutation questions. Coding was on arrays.",
@@ -1437,16 +1436,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
+    "candidate": "Ananya Nair",
+    "company": "Cognizant"
   },
   {
     "date": "December 2026",
-    "candidate": "Aditya Kumar",
-    "difficulty": "Easy",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
     "id": "exp-43",
+    "difficulty": "Easy",
     "role": "TCS System Engineer",
     "verdict": "Rejected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "NQT online test. Included verbal, numerical, and reasoning sections. Very tight constraints. Coding section had 1 easy (Prime Check) and 1 medium (Graph traversal) question.",
@@ -1461,16 +1460,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
+    "candidate": "Aditya Kumar",
+    "company": "TCS"
   },
   {
     "date": "January 2026",
-    "candidate": "Aditya Joshi",
-    "difficulty": "Easy",
+    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
     "id": "exp-42",
+    "difficulty": "Easy",
     "role": "Capgemini Analyst",
     "verdict": "Rejected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Aptitude test with game-based reasoning (inductive, grid challenge, motion challenge) which was very interactive and interesting.",
@@ -1485,16 +1484,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes."
+    "candidate": "Aditya Joshi",
+    "company": "Capgemini"
   },
   {
     "date": "August 2026",
-    "candidate": "Riya Reddy",
-    "difficulty": "Medium-Hard",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
     "id": "exp-41",
+    "difficulty": "Medium-Hard",
     "role": "TCS Digital Specialist",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "Standard NQT test. Numerical questions on averages, percentages, and simple interest. Coding questions: array element search and string duplication removal.",
@@ -1509,16 +1508,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
+    "candidate": "Riya Reddy",
+    "company": "TCS"
   },
   {
     "date": "June 2025",
-    "candidate": "Varun Reddy",
-    "difficulty": "Hard",
+    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
     "id": "exp-40",
+    "difficulty": "Hard",
     "role": "Infosys System Engineer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "HackwithInfy online coding challenge. Had 3 coding questions. I solved 1.5 questions to get selected for the interview.",
@@ -1533,16 +1532,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes."
+    "candidate": "Varun Reddy",
+    "company": "Infosys"
   },
   {
     "date": "December 2026",
-    "candidate": "Deepak Menon",
-    "difficulty": "Medium-Hard",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
     "id": "exp-39",
+    "difficulty": "Medium-Hard",
     "role": "Cognizant GenC Elevate Specialist",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Online test on Mettl. Verbal ability was moderate, quant had probability and permutation questions. Coding was on arrays.",
@@ -1557,16 +1556,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
+    "candidate": "Deepak Menon",
+    "company": "Cognizant"
   },
   {
     "date": "August 2026",
-    "candidate": "Kishore Mishra",
-    "difficulty": "Easy-Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-38",
+    "difficulty": "Easy-Medium",
     "role": "Accenture ASE (Associate Software Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Rapid fire MCQ on cognitive ability and basic IT topics. English section had reading comprehension and error spotting.",
@@ -1581,16 +1580,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Kishore Mishra",
+    "company": "Accenture"
   },
   {
     "date": "November 2026",
-    "candidate": "Manish Roy",
-    "difficulty": "Easy",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
     "id": "exp-37",
+    "difficulty": "Easy",
     "role": "Wipro Turbo Analyst",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Online test with quantitative, analytical, and verbal sections. Essay writing section on topics like 'Impact of AI on jobs'.",
@@ -1605,16 +1604,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
+    "candidate": "Manish Roy",
+    "company": "Wipro"
   },
   {
     "date": "January 2026",
-    "candidate": "Rahul Banerjee",
-    "difficulty": "Medium",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
     "id": "exp-36",
+    "difficulty": "Medium",
     "role": "Cognizant GenC Developer",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "AMCAT-based assessment. Had sections on logical reasoning, quantitative ability, and debugging codes (Automata Fix).",
@@ -1629,16 +1628,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
+    "candidate": "Rahul Banerjee",
+    "company": "Cognizant"
   },
   {
     "date": "September 2026",
-    "candidate": "Jyoti Gupta",
-    "difficulty": "Medium-Hard",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
     "id": "exp-35",
+    "difficulty": "Medium-Hard",
     "role": "Cognizant GenC Next Analyst",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude test containing logical reasoning, quantitative analysis, and verbal skills. Also included a SQL query MCQs section.",
@@ -1653,16 +1652,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
+    "candidate": "Jyoti Gupta",
+    "company": "Cognizant"
   },
   {
     "date": "November 2026",
-    "candidate": "Aditya Roy",
-    "difficulty": "Medium-Hard",
+    "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume.",
     "id": "exp-34",
+    "difficulty": "Medium-Hard",
     "role": "TCS Ninja Developer",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "NQT online test. Included verbal, numerical, and reasoning sections. Very tight constraints. Coding section had 1 easy (Prime Check) and 1 medium (Graph traversal) question.",
@@ -1677,16 +1676,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume."
+    "candidate": "Aditya Roy",
+    "company": "TCS"
   },
   {
     "date": "November 2025",
-    "candidate": "Kishore Gowda",
-    "difficulty": "Hard",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
     "id": "exp-33",
+    "difficulty": "Hard",
     "role": "Infosys System Engineer",
     "verdict": "Rejected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "InfyTQ Certification test. Extremely tough Python coding and database query questions. Focus on OOPs logic and data structures.",
@@ -1701,16 +1700,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
+    "candidate": "Kishore Gowda",
+    "company": "Infosys"
   },
   {
     "date": "November 2025",
-    "candidate": "Nikhil Menon",
-    "difficulty": "Hard",
+    "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams.",
     "id": "exp-32",
+    "difficulty": "Hard",
     "role": "Infosys Power Programmer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "InfyTQ Certification test. Extremely tough Python coding and database query questions. Focus on OOPs logic and data structures.",
@@ -1725,16 +1724,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams."
+    "candidate": "Nikhil Menon",
+    "company": "Infosys"
   },
   {
     "date": "August 2025",
-    "candidate": "Tanvi Gupta",
-    "difficulty": "Hard",
+    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
     "id": "exp-31",
+    "difficulty": "Hard",
     "role": "TCS Digital Specialist",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "Online test on TCS iON platform. Quant questions on time-work, speed-distance, probability. Coding questions: series summation and matrix transposing.",
@@ -1749,16 +1748,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'."
+    "candidate": "Tanvi Gupta",
+    "company": "TCS"
   },
   {
     "date": "June 2026",
-    "candidate": "Sanjay Saxena",
-    "difficulty": "Medium",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
     "id": "exp-30",
+    "difficulty": "Medium",
     "role": "Cognizant GenC Developer",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude test containing logical reasoning, quantitative analysis, and verbal skills. Also included a SQL query MCQs section.",
@@ -1773,16 +1772,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
+    "candidate": "Sanjay Saxena",
+    "company": "Cognizant"
   },
   {
     "date": "June 2026",
-    "candidate": "Sneha Gowda",
-    "difficulty": "Easy",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-29",
+    "difficulty": "Easy",
     "role": "Accenture ASE (Associate Software Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive and technical test. Pseudocodes were tricky (bitwise operations and nested loops). English section was focused on prepositions and grammar.",
@@ -1797,16 +1796,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Sneha Gowda",
+    "company": "Accenture"
   },
   {
     "date": "February 2025",
-    "candidate": "Kavya Jha",
-    "difficulty": "Hard",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
     "id": "exp-28",
+    "difficulty": "Hard",
     "role": "Capgemini Analyst",
     "verdict": "Selected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Online test with behavioral, English grammar, pseudo-code analysis, and basic mathematical sections.",
@@ -1821,16 +1820,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
+    "candidate": "Kavya Jha",
+    "company": "Capgemini"
   },
   {
     "date": "June 2025",
-    "candidate": "Nikhil Mehta",
-    "difficulty": "Easy",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
     "id": "exp-27",
+    "difficulty": "Easy",
     "role": "TCS System Engineer",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "NQT online test. Included verbal, numerical, and reasoning sections. Very tight constraints. Coding section had 1 easy (Prime Check) and 1 medium (Graph traversal) question.",
@@ -1845,16 +1844,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
+    "candidate": "Nikhil Mehta",
+    "company": "TCS"
   },
   {
     "date": "July 2025",
-    "candidate": "Shreya Singh",
-    "difficulty": "Easy-Medium",
+    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
     "id": "exp-26",
+    "difficulty": "Easy-Medium",
     "role": "Cognizant GenC Next Analyst",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Online test on Mettl. Verbal ability was moderate, quant had probability and permutation questions. Coding was on arrays.",
@@ -1869,16 +1868,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview."
+    "candidate": "Shreya Singh",
+    "company": "Cognizant"
   },
   {
     "date": "May 2025",
-    "candidate": "Tanvi Banerjee",
-    "difficulty": "Easy-Medium",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
     "id": "exp-25",
+    "difficulty": "Easy-Medium",
     "role": "Wipro Turbo Analyst",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Online test with quantitative, analytical, and verbal sections. Essay writing section on topics like 'Impact of AI on jobs'.",
@@ -1893,16 +1892,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
+    "candidate": "Tanvi Banerjee",
+    "company": "Wipro"
   },
   {
     "date": "September 2026",
-    "candidate": "Vikram Pandey",
-    "difficulty": "Easy",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-24",
+    "difficulty": "Easy",
     "role": "Accenture ASE (Associate Software Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive assessment with rapid-fire questions on abstract reasoning, logic, and English. Technical section had pseudocode, MS Office, and cloud concepts.",
@@ -1917,16 +1916,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Vikram Pandey",
+    "company": "Accenture"
   },
   {
     "date": "May 2026",
-    "candidate": "Swati Gupta",
-    "difficulty": "Easy",
+    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
     "id": "exp-23",
+    "difficulty": "Easy",
     "role": "Infosys System Engineer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "InfyTQ Certification test. Extremely tough Python coding and database query questions. Focus on OOPs logic and data structures.",
@@ -1941,16 +1940,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes."
+    "candidate": "Swati Gupta",
+    "company": "Infosys"
   },
   {
     "date": "December 2025",
-    "candidate": "Sunita Gupta",
-    "difficulty": "Easy-Medium",
+    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
     "id": "exp-22",
+    "difficulty": "Easy-Medium",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive assessment with rapid-fire questions on abstract reasoning, logic, and English. Technical section had pseudocode, MS Office, and cloud concepts.",
@@ -1965,16 +1964,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules."
+    "candidate": "Sunita Gupta",
+    "company": "Accenture"
   },
   {
     "date": "February 2026",
-    "candidate": "Neha Nair",
-    "difficulty": "Medium-Hard",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
     "id": "exp-21",
+    "difficulty": "Medium-Hard",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Rejected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive assessment with rapid-fire questions on abstract reasoning, logic, and English. Technical section had pseudocode, MS Office, and cloud concepts.",
@@ -1989,16 +1988,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
+    "candidate": "Neha Nair",
+    "company": "Accenture"
   },
   {
     "date": "December 2026",
-    "candidate": "Swati Singh",
-    "difficulty": "Hard",
+    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
     "id": "exp-20",
+    "difficulty": "Hard",
     "role": "Cognizant GenC Developer",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude test containing logical reasoning, quantitative analysis, and verbal skills. Also included a SQL query MCQs section.",
@@ -2013,16 +2012,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory."
+    "candidate": "Swati Singh",
+    "company": "Cognizant"
   },
   {
     "date": "June 2026",
-    "candidate": "Meera Rao",
-    "difficulty": "Easy-Medium",
+    "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume.",
     "id": "exp-19",
+    "difficulty": "Easy-Medium",
     "role": "TCS Digital Specialist",
     "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "NQT online test. Included verbal, numerical, and reasoning sections. Very tight constraints. Coding section had 1 easy (Prime Check) and 1 medium (Graph traversal) question.",
@@ -2037,16 +2036,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume."
+    "candidate": "Meera Rao",
+    "company": "TCS"
   },
   {
     "date": "March 2026",
-    "candidate": "Tanvi Pandey",
-    "difficulty": "Easy",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
     "id": "exp-18",
+    "difficulty": "Easy",
     "role": "Infosys Power Programmer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "InfyTQ Certification test. Extremely tough Python coding and database query questions. Focus on OOPs logic and data structures.",
@@ -2061,16 +2060,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
+    "candidate": "Tanvi Pandey",
+    "company": "Infosys"
   },
   {
     "date": "April 2025",
-    "candidate": "Arjun Prasad",
-    "difficulty": "Easy-Medium",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
     "id": "exp-17",
+    "difficulty": "Easy-Medium",
     "role": "Wipro Elite Developer",
     "verdict": "Rejected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Online test with quantitative, analytical, and verbal sections. Essay writing section on topics like 'Impact of AI on jobs'.",
@@ -2085,16 +2084,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
+    "candidate": "Arjun Prasad",
+    "company": "Wipro"
   },
   {
     "date": "February 2026",
-    "candidate": "Sanjay Iyer",
-    "difficulty": "Hard",
+    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
     "id": "exp-16",
+    "difficulty": "Hard",
     "role": "Accenture ASE (Associate Software Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive assessment with rapid-fire questions on abstract reasoning, logic, and English. Technical section had pseudocode, MS Office, and cloud concepts.",
@@ -2109,16 +2108,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules."
+    "candidate": "Sanjay Iyer",
+    "company": "Accenture"
   },
   {
     "date": "December 2026",
-    "candidate": "Sneha Kumar",
-    "difficulty": "Hard",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
     "id": "exp-15",
+    "difficulty": "Hard",
     "role": "Capgemini Analyst",
     "verdict": "Selected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Aptitude test with game-based reasoning (inductive, grid challenge, motion challenge) which was very interactive and interesting.",
@@ -2133,16 +2132,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
+    "candidate": "Sneha Kumar",
+    "company": "Capgemini"
   },
   {
     "date": "November 2026",
-    "candidate": "Jyoti Gupta",
-    "difficulty": "Medium",
+    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
     "id": "exp-14",
+    "difficulty": "Medium",
     "role": "Wipro Elite Developer",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "Elite NLTH online test. Aptitude section was of moderate difficulty. Essay writing section was online (automating checking for spelling and grammar).",
@@ -2157,16 +2156,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code."
+    "candidate": "Jyoti Gupta",
+    "company": "Wipro"
   },
   {
     "date": "February 2026",
-    "candidate": "Divya Roy",
-    "difficulty": "Easy",
+    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
     "id": "exp-13",
+    "difficulty": "Easy",
     "role": "Wipro Turbo Analyst",
     "verdict": "Selected",
-    "company": "Wipro",
     "rounds": [
       {
         "summary": "NLTH test on CoCubes. Quant questions on ratios, time-speed-distance, and log values. Coding had 2 easy programs.",
@@ -2181,16 +2180,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF)."
+    "candidate": "Divya Roy",
+    "company": "Wipro"
   },
   {
     "date": "August 2026",
-    "candidate": "Riya Prasad",
-    "difficulty": "Easy-Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-12",
+    "difficulty": "Easy-Medium",
     "role": "Accenture ASE (Associate Software Engineer)",
     "verdict": "Rejected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Rapid fire MCQ on cognitive ability and basic IT topics. English section had reading comprehension and error spotting.",
@@ -2205,16 +2204,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Riya Prasad",
+    "company": "Accenture"
   },
   {
     "date": "May 2025",
-    "candidate": "Nisha Nair",
-    "difficulty": "Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
     "id": "exp-11",
+    "difficulty": "Medium",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Rejected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Rapid fire MCQ on cognitive ability and basic IT topics. English section had reading comprehension and error spotting.",
@@ -2229,16 +2228,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify."
+    "candidate": "Nisha Nair",
+    "company": "Accenture"
   },
   {
     "date": "May 2026",
-    "candidate": "Manish Kumar",
-    "difficulty": "Hard",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
     "id": "exp-10",
+    "difficulty": "Hard",
     "role": "Cognizant GenC Elevate Specialist",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude test containing logical reasoning, quantitative analysis, and verbal skills. Also included a SQL query MCQs section.",
@@ -2253,16 +2252,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
+    "candidate": "Manish Kumar",
+    "company": "Cognizant"
   },
   {
     "date": "October 2026",
-    "candidate": "Isha Prasad",
-    "difficulty": "Easy",
+    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
     "id": "exp-9",
+    "difficulty": "Easy",
     "role": "TCS Ninja Developer",
     "verdict": "Rejected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "Standard NQT test. Numerical questions on averages, percentages, and simple interest. Coding questions: array element search and string duplication removal.",
@@ -2277,16 +2276,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts."
+    "candidate": "Isha Prasad",
+    "company": "TCS"
   },
   {
     "date": "May 2025",
-    "candidate": "Riya Pillai",
-    "difficulty": "Medium",
+    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
     "id": "exp-8",
+    "difficulty": "Medium",
     "role": "Capgemini Senior Analyst",
     "verdict": "Selected",
-    "company": "Capgemini",
     "rounds": [
       {
         "summary": "Aptitude test with game-based reasoning (inductive, grid challenge, motion challenge) which was very interactive and interesting.",
@@ -2301,16 +2300,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges."
+    "candidate": "Riya Pillai",
+    "company": "Capgemini"
   },
   {
     "date": "February 2026",
-    "candidate": "Varun Reddy",
-    "difficulty": "Easy-Medium",
+    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
     "id": "exp-7",
+    "difficulty": "Easy-Medium",
     "role": "Infosys Power Programmer",
     "verdict": "Selected",
-    "company": "Infosys",
     "rounds": [
       {
         "summary": "System Engineer online assessment. Had sections on mathematical puzzles, visual reasoning, and pseudocode analysis.",
@@ -2325,16 +2324,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview."
+    "candidate": "Varun Reddy",
+    "company": "Infosys"
   },
   {
     "date": "May 2026",
-    "candidate": "Akash Jha",
-    "difficulty": "Easy",
+    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
     "id": "exp-6",
+    "difficulty": "Easy",
     "role": "Accenture ASE (Associate Software Engineer)",
     "verdict": "Rejected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Rapid fire MCQ on cognitive ability and basic IT topics. English section had reading comprehension and error spotting.",
@@ -2349,16 +2348,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration."
+    "candidate": "Akash Jha",
+    "company": "Accenture"
   },
   {
     "date": "October 2025",
-    "candidate": "Kunal Pandey",
-    "difficulty": "Easy",
+    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
     "id": "exp-5",
+    "difficulty": "Easy",
     "role": "Cognizant GenC Developer",
     "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude test containing logical reasoning, quantitative analysis, and verbal skills. Also included a SQL query MCQs section.",
@@ -2373,16 +2372,16 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy."
+    "candidate": "Kunal Pandey",
+    "company": "Cognizant"
   },
   {
     "date": "September 2026",
-    "candidate": "Meera Roy",
-    "difficulty": "Medium-Hard",
+    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
     "id": "exp-4",
+    "difficulty": "Medium-Hard",
     "role": "Accenture FSE (Full Stack Engineer)",
     "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Cognitive and technical test. Pseudocodes were tricky (bitwise operations and nested loops). English section was focused on prepositions and grammar.",
@@ -2397,16 +2396,13 @@
         "name": "Round 3: HR & Managerial Interview (MR/HR)"
       }
     ],
-    "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules."
+    "candidate": "Meera Roy",
+    "company": "Accenture"
   },
   {
-    "candidate": "Aniket Verma",
     "date": "May 2026",
-    "difficulty": "Medium",
+    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Accenture's cognitive test has strict timing.",
     "id": "exp-3",
-    "role": "Accenture ASE (Associate Software Engineer)",
-    "verdict": "Selected",
-    "company": "Accenture",
     "rounds": [
       {
         "summary": "Rapid fire MCQ on cognitive ability, pseudocode debugging, MS Office suite basics, and cloud concepts.",
@@ -2421,16 +2417,16 @@
         "name": "Technical & HR Interview"
       }
     ],
-    "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Accenture's cognitive test has strict timing."
+    "verdict": "Selected",
+    "role": "Accenture ASE (Associate Software Engineer)",
+    "difficulty": "Medium",
+    "candidate": "Aniket Verma",
+    "company": "Accenture"
   },
   {
-    "candidate": "Priya Patel",
     "date": "July 2026",
-    "difficulty": "Easy-Medium",
+    "tips": "Focus on verbal and aptitude speed during NQT. For the interview, show confidence and have basic knowledge of DBMS and SDLC.",
     "id": "exp-2",
-    "role": "TCS Ninja Developer",
-    "verdict": "Selected",
-    "company": "TCS",
     "rounds": [
       {
         "summary": "Numerical ability, verbal reasoning, and 2 coding questions (Matrix manipulation and string reversal).",
@@ -2441,16 +2437,16 @@
         "name": "TR/MR/HR Combined Interview"
       }
     ],
-    "tips": "Focus on verbal and aptitude speed during NQT. For the interview, show confidence and have basic knowledge of DBMS and SDLC."
+    "verdict": "Selected",
+    "role": "TCS Ninja Developer",
+    "difficulty": "Easy-Medium",
+    "candidate": "Priya Patel",
+    "company": "TCS"
   },
   {
-    "candidate": "Rahul Sharma",
     "date": "June 2026",
-    "difficulty": "Medium",
+    "tips": "Revise OOPs concepts thoroughly and practice basic SQL queries. Knowing your project inside out is critical.",
     "id": "exp-1",
-    "role": "Cognizant GenC Developer",
-    "verdict": "Selected",
-    "company": "Cognizant",
     "rounds": [
       {
         "summary": "Aptitude, logical reasoning, and 2 basic coding questions (Array-based and String-based).",
@@ -2465,6 +2461,10 @@
         "name": "HR Interview"
       }
     ],
-    "tips": "Revise OOPs concepts thoroughly and practice basic SQL queries. Knowing your project inside out is critical."
+    "verdict": "Selected",
+    "role": "Cognizant GenC Developer",
+    "difficulty": "Medium",
+    "candidate": "Rahul Sharma",
+    "company": "Cognizant"
   }
 ]

@@ -535,13 +535,7 @@ def main():
     os.makedirs(backend_backup_dir, exist_ok=True)
     os.makedirs(frontend_data_dir, exist_ok=True)
 
-    # 1. Save full data_full_backup.json
-    full_backup_path = os.path.join(backend_data_dir, "data_full_backup.json")
-    with open(full_backup_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-    print(f"Saved full data backup to: {full_backup_path}")
-
-    # 2. Save full detailed segregated files in backend/data/backup/
+    # 1. Save full detailed segregated files in backend/data/backup/
     keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions"]
     for key in keys:
         if key in data:
@@ -562,9 +556,13 @@ def main():
             {
                 "id": v.get("id"),
                 "title": v.get("title"),
-                "category": v.get("category"),
-                "views": v.get("views"),
-                "duration": v.get("duration")
+                "description": v.get("description", ""),
+                "thumbnailUrl": v.get("thumbnailUrl") or f"https://i.ytimg.com/vi/{v.get('id')}/hqdefault.jpg",
+                "publishedAt": v.get("publishedAt", ""),
+                "category": v.get("category", "Placement Prep"),
+                "videoUrl": v.get("videoUrl") or f"https://www.youtube.com/watch?v={v.get('id')}",
+                "views": v.get("views", "N/A"),
+                "duration": v.get("duration", "N/A")
             }
             for v in data["videos"]
         ]

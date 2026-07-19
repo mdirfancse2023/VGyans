@@ -1,86 +1,86 @@
 [
   {
-    "company": "Accenture",
     "category": "Placement Prep",
+    "description": "Step-by-step preparation guide for Accenture's cognitive assessment, technical assessment, and coding round.",
+    "id": "accenture-cognitive-prep",
+    "downloadUrl": "#",
     "tags": [
       "Accenture",
       "Cognitive",
       "Coding",
       "Aptitude"
     ],
-    "title": "Accenture Cognitive and Coding Test Guide",
-    "downloadUrl": "#",
-    "id": "accenture-cognitive-prep",
-    "description": "Step-by-step preparation guide for Accenture's cognitive assessment, technical assessment, and coding round."
+    "company": "Accenture",
+    "title": "Accenture Cognitive and Coding Test Guide"
   },
   {
-    "company": "Cognizant",
     "category": "Placement Prep",
+    "description": "Comprehensive guide to clearing the Cognizant technical interview, training assessment, and skill matrix test.",
+    "id": "cog-prep-guide",
+    "downloadUrl": "#",
     "tags": [
       "Cognizant",
       "GenC",
       "Training",
       "Interview"
     ],
-    "title": "Cognizant GenC / Elevate Preparation Guide",
-    "downloadUrl": "#",
-    "id": "cog-prep-guide",
-    "description": "Comprehensive guide to clearing the Cognizant technical interview, training assessment, and skill matrix test."
+    "company": "Cognizant",
+    "title": "Cognizant GenC / Elevate Preparation Guide"
   },
   {
-    "company": "All",
     "category": "Technical",
+    "description": "Learn the patterns behind coding interview questions: Slidng Window, Two Pointers, Fast & Slow Pointers, etc.",
+    "id": "dsa-interview-patterns",
+    "downloadUrl": "#",
     "tags": [
       "DSA",
       "Algorithms",
       "C++",
       "Java"
     ],
-    "title": "Top 15 DSA Patterns for Tech Interviews",
-    "downloadUrl": "#",
-    "id": "dsa-interview-patterns",
-    "description": "Learn the patterns behind coding interview questions: Slidng Window, Two Pointers, Fast & Slow Pointers, etc."
+    "company": "All",
+    "title": "Top 15 DSA Patterns for Tech Interviews"
   },
   {
-    "company": "All",
     "category": "Resume",
+    "description": "Professional resume of Md Irfan, Software Developer (3+ Years Experience).",
+    "id": "irfan-resume",
+    "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
     "tags": [
       "Resume",
       "Developer",
       "Java",
       "React"
     ],
-    "title": "Md Irfan's Resume",
-    "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
-    "id": "irfan-resume",
-    "description": "Professional resume of Md Irfan, Software Developer (3+ Years Experience)."
+    "company": "All",
+    "title": "Md Irfan's Resume"
   },
   {
-    "company": "All",
     "category": "Technical",
+    "description": "Quick revision notes on Core Java, OOPs concepts, Exception Handling, Collections Framework, and Multithreading.",
+    "id": "java-oop-cheatsheet",
+    "downloadUrl": "#",
     "tags": [
       "Java",
       "OOPs",
       "Coding",
       "Interview"
     ],
-    "title": "Java & OOPs Interview Cheat Sheet",
-    "downloadUrl": "#",
-    "id": "java-oop-cheatsheet",
-    "description": "Quick revision notes on Core Java, OOPs concepts, Exception Handling, Collections Framework, and Multithreading."
+    "company": "All",
+    "title": "Java & OOPs Interview Cheat Sheet"
   },
   {
-    "company": "TCS",
     "category": "Placement Prep",
+    "description": "Detailed syllabus, recommended resources, and mock questions for TCS National Qualifier Test (NQT).",
+    "id": "tcs-nqt-roadmap",
+    "downloadUrl": "#",
     "tags": [
       "TCS",
       "NQT",
       "Aptitude",
       "Coding"
     ],
-    "title": "TCS NQT Preparation Roadmap & Syllabus",
-    "downloadUrl": "#",
-    "id": "tcs-nqt-roadmap",
-    "description": "Detailed syllabus, recommended resources, and mock questions for TCS National Qualifier Test (NQT)."
+    "company": "TCS",
+    "title": "TCS NQT Preparation Roadmap & Syllabus"
   }
 ]
