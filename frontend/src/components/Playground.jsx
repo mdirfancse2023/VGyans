@@ -874,9 +874,12 @@ export default function Playground({ questions }) {
         failedCase: firstFailedCase
       });
 
-      if (firstFailedCase) {
-        setSelectedCaseIdx(firstFailedCase.index);
-        setStdin(firstFailedCase.tc.input);
+      const targetIdx = firstFailedCase ? firstFailedCase.index : 0;
+      setSelectedCaseIdx(targetIdx);
+      if (testCases[targetIdx]) {
+        setStdin(testCases[targetIdx].input);
+        setStdout(newResults[targetIdx]?.stdout || '');
+        setStderr(newResults[targetIdx]?.stderr || '');
       }
       setHasRun(true);
     } catch (err) {
@@ -1743,6 +1746,10 @@ export default function Playground({ questions }) {
                     onClick={() => {
                       setSelectedCaseIdx(idx);
                       setStdin(tc.input);
+                      if (testResults[idx]) {
+                        setStdout(testResults[idx].stdout || '');
+                        setStderr(testResults[idx].stderr || '');
+                      }
                       setConsoleTab('output');
                     }}
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
@@ -1811,11 +1818,11 @@ export default function Playground({ questions }) {
                           </div>
                         </div>
 
-                        {stdout && (
+                        {(testResults[selectedCaseIdx]?.stdout !== undefined ? testResults[selectedCaseIdx].stdout : stdout) !== '' && (
                           <div>
                             <div style={{ color: '#64748b', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Your Output</div>
                             <div style={{ background: 'rgba(0,0,0,0.25)', padding: '0.35rem 0.55rem', borderRadius: '4px', color: testResults[selectedCaseIdx]?.passed === false ? '#f87171' : '#4ade80', whiteSpace: 'pre-wrap' }}>
-                              {stdout}
+                              {testResults[selectedCaseIdx]?.stdout !== undefined ? testResults[selectedCaseIdx].stdout : stdout}
                             </div>
                           </div>
                         )}
