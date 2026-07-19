@@ -8,6 +8,7 @@ import InteractiveTools from './components/InteractiveTools';
 import Playground from './components/Playground';
 import Footer from './components/Footer';
 import FeedbackButton from './components/FeedbackButton';
+import Jobs from './components/Jobs';
 
 const API_URL = import.meta.env.VITE_API_URL || (
   typeof window !== 'undefined' && window.location.hostname === 'localhost' 
@@ -325,6 +326,12 @@ export default function App() {
               flashcards={flashcards} 
               apiUrl={API_URL}
             />
+          </section>
+        )}
+
+        {activeTab === 'jobs' && (
+          <section>
+            <Jobs />
           </section>
         )}
       </main>

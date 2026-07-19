@@ -161,6 +161,156 @@ def submit_feedback(fb: FeedbackCreate):
         print(f"Feedback write error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to save feedback: {str(e)}")
 
+# ─── JOBS AGGREGATOR ───────────────────────────────────────────────────────────
+
+def _fetch_remotive() -> list:
+    """Remote IT jobs from Remotive (free, no key)"""
+    try:
+        categories = ["software-dev", "data", "devops-sysadmin", "qa", "product"]
+        jobs = []
+        for cat in categories:
+            r = requests.get(
+                f"https://remotive.com/api/remote-jobs?category={cat}&limit=15",
+                timeout=10, headers={"User-Agent": "VirtualGyans/1.0"}
+            )
+            if r.status_code == 200:
+                for j in r.json().get("jobs", []):
+                    jobs.append({
+                        "id": f"remotive-{j.get('id')}",
+                        "title": j.get("title", ""),
+                        "company": j.get("company_name", ""),
+                        "location": j.get("candidate_required_location") or "Remote",
+                        "type": j.get("job_type", "full_time").replace("_", " ").title(),
+                        "category": j.get("category", cat),
+                        "salary": j.get("salary", ""),
+                        "tags": j.get("tags", [])[:5],
+                        "logo": j.get("company_logo", ""),
+                        "url": j.get("url", ""),
+                        "postedAt": j.get("publication_date", ""),
+                        "source": "Remotive",
+                        "remote": True,
+                    })
+        return jobs
+    except Exception as e:
+        print(f"Remotive fetch error: {e}")
+        return []
+
+def _fetch_arbeitnow() -> list:
+    """Jobs from Arbeitnow (free, no key, global)"""
+    try:
+        r = requests.get(
+            "https://arbeitnow.com/api/job-board-api?page=1",
+            timeout=10, headers={"User-Agent": "VirtualGyans/1.0"}
+        )
+        if r.status_code != 200:
+            return []
+        jobs = []
+        it_keywords = ["software","developer","engineer","data","backend","frontend","fullstack",
+                       "devops","cloud","python","java","javascript","react","node","ml","ai",
+                       "qa","android","ios","mobile","database","sre","security"]
+        for j in r.json().get("data", []):
+            title_lower = (j.get("title","") + j.get("description","")).lower()
+            if not any(kw in title_lower for kw in it_keywords):
+                continue
+            jobs.append({
+                "id": f"arbeitnow-{j.get('slug','')}",
+                "title": j.get("title",""),
+                "company": j.get("company_name",""),
+                "location": j.get("location","") or ("Remote" if j.get("remote") else ""),
+                "type": j.get("job_types", ["Full Time"])[0] if j.get("job_types") else "Full Time",
+                "category": "Software Engineering",
+                "salary": "",
+                "tags": j.get("tags", [])[:5],
+                "logo": j.get("company_logo_url",""),
+                "url": j.get("url",""),
+                "postedAt": j.get("created_at",""),
+                "source": "Arbeitnow",
+                "remote": bool(j.get("remote")),
+            })
+        return jobs
+    except Exception as e:
+        print(f"Arbeitnow fetch error: {e}")
+        return []
+
+def _fetch_themuse() -> list:
+    """Tech jobs from The Muse (free, no key for basic)"""
+    try:
+        r = requests.get(
+            "https://www.themuse.com/api/public/jobs?category=Computer+%26+IT&page=1&descending=true",
+            timeout=10, headers={"User-Agent": "VirtualGyans/1.0"}
+        )
+        if r.status_code != 200:
+            return []
+        jobs = []
+        for j in r.json().get("results", []):
+            locs = j.get("locations", [])
+            loc = locs[0].get("name","") if locs else "Flexible"
+            levels = j.get("levels", [])
+            lvl = levels[0].get("name","") if levels else ""
+            jobs.append({
+                "id": f"themuse-{j.get('id')}",
+                "title": j.get("name",""),
+                "company": j.get("company",{}).get("name",""),
+                "location": loc,
+                "type": lvl or "Full Time",
+                "category": "Computer & IT",
+                "salary": "",
+                "tags": [],
+                "logo": "",
+                "url": j.get("refs",{}).get("landing_page",""),
+                "postedAt": j.get("publication_date",""),
+                "source": "The Muse",
+                "remote": "remote" in loc.lower() or "flexible" in loc.lower(),
+            })
+        return jobs
+    except Exception as e:
+        print(f"TheMuse fetch error: {e}")
+        return []
+
+@app.get("/api/jobs")
+def get_jobs(
+    search: Optional[str] = None,
+    category: Optional[str] = None,
+    remote: Optional[bool] = None,
+    source: Optional[str] = None,
+):
+    """Aggregate real-time IT jobs from multiple free sources."""
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=3) as ex:
+        f_remotive  = ex.submit(_fetch_remotive)
+        f_arbeitnow = ex.submit(_fetch_arbeitnow)
+        f_themuse   = ex.submit(_fetch_themuse)
+        all_jobs = f_remotive.result() + f_arbeitnow.result() + f_themuse.result()
+
+    # Deduplicate by title+company
+    seen = set()
+    unique = []
+    for j in all_jobs:
+        key = (j["title"].lower().strip(), j["company"].lower().strip())
+        if key not in seen:
+            seen.add(key)
+            unique.append(j)
+
+    # Apply filters
+    if search:
+        s = search.lower()
+        unique = [j for j in unique if s in j["title"].lower() or s in j["company"].lower()
+                  or any(s in t.lower() for t in j.get("tags",[]))]
+    if category and category != "All":
+        unique = [j for j in unique if category.lower() in j.get("category","").lower()]
+    if remote is not None:
+        unique = [j for j in unique if j.get("remote") == remote]
+    if source and source != "All":
+        unique = [j for j in unique if j.get("source","").lower() == source.lower()]
+
+    # Sort by postedAt desc
+    unique.sort(key=lambda x: x.get("postedAt",""), reverse=True)
+
+    return {
+        "total": len(unique),
+        "jobs": unique[:100],
+        "sources": ["Remotive", "Arbeitnow", "The Muse"],
+    }
 
 
 @app.get("/")

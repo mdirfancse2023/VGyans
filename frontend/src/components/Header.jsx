@@ -8,6 +8,7 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
     { id: 'guides', label: 'Placement' },
     { id: 'playground', label: 'Code' },
     { id: 'experiences', label: 'Interviews' },
+    { id: 'jobs', label: 'Jobs' },
     { id: 'tools', label: 'Resume' }
   ];
 
