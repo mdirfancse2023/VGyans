@@ -290,11 +290,12 @@ const highlightCode = (codeText, lang) => {
 };
 
 
-export default function Playground() {
-  const [activeProblem, setActiveProblem] = useState(PROBLEMS[0]);
+export default function Playground({ questions }) {
+  const activeQuestions = (questions && questions.length > 0) ? questions : PROBLEMS;
+  const [activeProblem, setActiveProblem] = useState(activeQuestions[0]);
   const [activeLang, setActiveLang] = useState('python');
-  const [code, setCode] = useState(PROBLEMS[0].templates.python);
-  const [stdin, setStdin] = useState(PROBLEMS[0].input);
+  const [code, setCode] = useState(activeQuestions[0].templates.python);
+  const [stdin, setStdin] = useState(activeQuestions[0].input);
   const [stdout, setStdout] = useState('');
   const [stderr, setStderr] = useState('');
   const [isRunning, setIsRunning] = useState(false);
@@ -303,14 +304,42 @@ export default function Playground() {
   const codeAreaRef = useRef(null);
   const preRef = useRef(null);
 
+  // Sync active problem when dynamic questions list is loaded
+  useEffect(() => {
+    if (activeQuestions && activeQuestions.length > 0) {
+      setActiveProblem(activeQuestions[0]);
+    }
+  }, [questions]);
+
   // Sync template on problem or language change
   useEffect(() => {
-    const template = activeProblem.templates[activeLang] || '';
-    setCode(template);
-    setStdin(activeProblem.input || '');
-    setStdout('');
-    setStderr('');
+    if (activeProblem) {
+      const template = activeProblem.templates[activeLang] || '';
+      setCode(template);
+      setStdin(activeProblem.input || '');
+      setStdout('');
+      setStderr('');
+    }
   }, [activeProblem, activeLang]);
+
+  // Auto-switch language interface when active problem changes
+  useEffect(() => {
+    if (activeProblem) {
+      if (activeProblem.id.startsWith('sql')) {
+        setActiveLang('sql');
+      } else if (activeLang === 'sql') {
+        setActiveLang('python');
+      }
+    }
+  }, [activeProblem]);
+
+  // Group problems by category
+  const groupedProblems = activeQuestions.reduce((acc, p) => {
+    const cat = p.category || 'General';
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(p);
+    return acc;
+  }, {});
 
   // Synchronize Pre scroll position with Textarea scroll position
   const handleScroll = (e) => {
@@ -323,38 +352,36 @@ export default function Playground() {
   // Handle Tab key insertion & Bracket Autoclose inside textarea
   const handleKeyDown = (e) => {
     const textarea = e.target;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
+    const { value, selectionStart, selectionEnd } = textarea;
 
-    // 1. Tab insertion (4 spaces)
     if (e.key === 'Tab') {
       e.preventDefault();
-      const updatedCode = code.substring(0, start) + '    ' + code.substring(end);
-      setCode(updatedCode);
+      const tabString = "    ";
+      const before = value.substring(0, selectionStart);
+      const after = value.substring(selectionEnd);
+      setCode(before + tabString + after);
       setTimeout(() => {
-        textarea.selectionStart = textarea.selectionEnd = start + 4;
+        textarea.selectionStart = textarea.selectionEnd = selectionStart + tabString.length;
       }, 0);
+      return;
     }
 
-    // 2. Bracket Auto-closing
     const pairs = {
-      '{': '}',
       '(': ')',
+      '{': '}',
       '[': ']',
       '"': '"',
       "'": "'"
     };
 
-    if (pairs[e.key] !== undefined) {
+    if (pairs[e.key]) {
       e.preventDefault();
-      const char = e.key;
-      const closingChar = pairs[char];
-      
-      const updatedCode = code.substring(0, start) + char + closingChar + code.substring(end);
-      setCode(updatedCode);
-      
+      const closeChar = pairs[e.key];
+      const before = value.substring(0, selectionStart);
+      const after = value.substring(selectionEnd);
+      setCode(before + e.key + closeChar + after);
       setTimeout(() => {
-        textarea.selectionStart = textarea.selectionEnd = start + 1;
+        textarea.selectionStart = textarea.selectionEnd = selectionStart + 1;
       }, 0);
     }
   };
@@ -364,168 +391,160 @@ export default function Playground() {
     setStdout('');
     setStderr('');
     setConsoleTab('output');
-    
     try {
-      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
-      const res = await fetch(`${API_URL}/api/run`, {
+      const response = await fetch('/api/run', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           language: activeLang,
-          code,
-          stdin
+          code: code,
+          input: stdin
         })
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        setStdout(data.stdout || '');
-        setStderr(data.stderr || '');
+      const result = await response.json();
+      if (response.ok) {
+        setStdout(result.stdout || '');
+        setStderr(result.stderr || '');
       } else {
-        const errData = await res.json();
-        setStderr(errData.detail || 'Server encountered an error running your code.');
+        setStderr(result.detail || result.error || 'Server error occurred during compilation.');
       }
     } catch (err) {
-      setStderr(`Network Error: Could not connect to code compiler backend. Make sure the API server is running.`);
+      setStderr(`Network Error: ${err.message}`);
     } finally {
       setIsRunning(false);
     }
   };
 
-  // Generate line numbers
-  const lineCount = code.split('\n').length;
-  const lineNumbers = Array.from({ length: lineCount }, (_, i) => i + 1);
-
   return (
-    <div style={{ marginBottom: '0.5rem' }}>
+    <div style={{ width: '100%' }}>
       <style>{`
         .playground-container {
-          display: grid;
-          grid-template-columns: 320px 1fr;
-          height: calc(100vh - 110px);
-          background: rgba(15, 23, 42, 0.4);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 16px;
+          display: flex;
+          background: var(--bg-dark-secondary);
+          border: 1px solid var(--border-glass);
+          border-radius: 12px;
+          height: calc(100vh - 120px);
           overflow: hidden;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        @media (max-width: 968px) {
-          .playground-container {
-            grid-template-columns: 1fr;
-            height: auto;
-            max-height: none;
-          }
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
         .playground-sidebar {
-          background: rgba(30, 41, 59, 0.4);
-          border-right: 1px solid rgba(255, 255, 255, 0.08);
+          width: 320px;
+          flex-shrink: 0;
+          border-right: 1px solid var(--border-glass);
           display: flex;
           flex-direction: column;
-          overflow: hidden;
-          height: 100%;
+          background: rgba(15, 22, 42, 0.4);
         }
         .sidebar-section {
           padding: 1.25rem;
         }
         .sidebar-section:not(:last-child) {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          border-bottom: 1px solid var(--border-glass);
         }
         .problem-select {
           width: 100%;
-          background: rgba(15, 23, 42, 0.6);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: #f8fafc;
-          padding: 0.5rem 0.75rem;
+          padding: 0.6rem;
+          background: rgba(7, 10, 19, 0.6);
+          border: 1px solid var(--border-glass);
           border-radius: 8px;
+          color: var(--text-primary);
+          font-weight: 500;
           outline: none;
           cursor: pointer;
-          font-weight: 600;
-          font-size: 0.85rem;
         }
         .problem-title {
           font-size: 1.15rem;
-          font-weight: 700;
           color: #f8fafc;
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.5rem;
+          font-weight: 700;
         }
         .problem-desc {
-          font-size: 0.9rem;
-          line-height: 1.5;
-          color: #94a3b8;
-          margin-bottom: 1.25rem;
+          font-size: 0.85rem;
+          color: var(--text-secondary);
+          line-height: 1.6;
+        }
+        .problem-desc strong {
+          color: #f8fafc;
         }
         .playground-ide {
+          flex: 1;
           display: flex;
           flex-direction: column;
-          background: rgba(15, 23, 42, 0.2);
-          overflow: hidden;
-          height: 100%;
+          background: #070a13;
         }
         .ide-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
           padding: 0.75rem 1.25rem;
-          background: rgba(30, 41, 59, 0.4);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          flex-shrink: 0;
-        }
-        .ide-controls {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
+          background: rgba(15, 22, 42, 0.5);
+          border-bottom: 1px solid var(--border-glass);
         }
         .lang-select {
-          background: rgba(15, 23, 42, 0.6);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: #f8fafc;
-          padding: 0.35rem 0.75rem;
+          padding: 0.5rem;
+          background: rgba(7, 10, 19, 0.8);
+          border: 1px solid var(--border-glass);
           border-radius: 6px;
+          color: var(--text-primary);
+          font-weight: 500;
           outline: none;
-          cursor: pointer;
-          font-size: 0.85rem;
         }
         .editor-wrapper {
           flex: 1;
-          display: flex;
           position: relative;
-          background: #0f172a;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          background: #080c16;
           overflow: hidden;
+          border-bottom: 1px solid var(--border-glass);
         }
         .line-numbers {
-          padding: 1rem 0.5rem;
-          text-align: right;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 40px;
+          bottom: 0;
+          background: rgba(15, 23, 42, 0.4);
+          border-right: 1px solid rgba(255, 255, 255, 0.05);
           color: #475569;
           font-family: 'Courier New', Courier, monospace;
           font-size: 0.9rem;
           line-height: 1.5;
+          text-align: right;
+          padding: 1rem 0.5rem;
+          box-sizing: border-box;
           user-select: none;
-          background: rgba(15, 23, 42, 0.4);
-          border-right: 1px solid rgba(255, 255, 255, 0.05);
-          width: 40px;
+          z-index: 2;
+          overflow: hidden;
         }
         .code-textarea {
-          flex: 1;
+          position: absolute;
+          top: 0;
+          left: 40px;
+          right: 0;
+          bottom: 0;
+          width: calc(100% - 40px);
+          height: 100%;
           background: transparent;
           border: none;
-          outline: none;
           color: transparent;
-          caret-color: #e2e8f0;
+          caret-color: #f8fafc;
           font-family: 'Courier New', Courier, monospace;
           font-size: 0.9rem;
           line-height: 1.5;
           padding: 1rem;
-          resize: none;
-          overflow-y: auto;
+          box-sizing: border-box;
           white-space: pre;
-          z-index: 2;
-          position: relative;
+          overflow: auto;
+          outline: none;
+          resize: none;
+          z-index: 3;
         }
         .highlight-overlay {
           position: absolute;
           top: 0;
-          left: 40px; /* Aligned exactly past line numbers */
+          left: 40px;
           right: 0;
           bottom: 0;
           margin: 0;
@@ -540,63 +559,34 @@ export default function Playground() {
           background: transparent;
           z-index: 1;
         }
-        .console-panel {
-          background: rgba(15, 23, 42, 0.8);
-          display: flex;
-          flex-direction: column;
-          height: 200px;
-          flex-shrink: 0;
-          overflow: hidden;
-        }
-        .console-tabs {
-          display: flex;
-          background: rgba(30, 41, 59, 0.3);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-          flex-shrink: 0;
-        }
-        .console-tab {
-          padding: 0.5rem 1rem;
-          border: none;
-          background: transparent;
-          color: #64748b;
-          font-size: 0.8rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-        .console-tab.active {
-          color: #f8fafc;
-          border-bottom: 2px solid #0284c7;
-          background: rgba(255, 255, 255, 0.02);
-        }
         .console-body {
           flex: 1;
           padding: 0.75rem 1.25rem;
           overflow-y: auto;
+          background: #05070d;
         }
         .terminal-stdout {
+          color: #4ade80;
           font-family: 'Courier New', Courier, monospace;
-          color: #10b981;
           white-space: pre-wrap;
-          font-size: 0.8rem;
-          line-height: 1.4;
+          font-size: 0.85rem;
+          margin-bottom: 0.75rem;
         }
         .terminal-stderr {
+          color: #f87171;
           font-family: 'Courier New', Courier, monospace;
-          color: #ef4444;
           white-space: pre-wrap;
-          font-size: 0.8rem;
-          line-height: 1.4;
+          font-size: 0.85rem;
         }
         .stdin-textarea {
           width: 100%;
           height: 100%;
-          background: rgba(15, 23, 42, 0.5);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 8px;
-          color: #f8fafc;
-          font-family: monospace;
-          padding: 0.5rem;
+          background: rgba(7, 10, 19, 0.5);
+          border: 1px solid var(--border-glass);
+          border-radius: 6px;
+          color: var(--text-primary);
+          font-family: 'Courier New', Courier, monospace;
+          padding: 0.6rem;
           outline: none;
           resize: none;
           font-size: 0.8rem;
@@ -604,12 +594,12 @@ export default function Playground() {
         .schema-table {
           width: 100%;
           border-collapse: collapse;
-          font-size: 0.75rem;
-          margin-bottom: 0.75rem;
+          font-size: 0.72rem;
+          margin-bottom: 0.5rem;
         }
         .schema-table th, .schema-table td {
           border: 1px solid rgba(255, 255, 255, 0.05);
-          padding: 0.3rem 0.5rem;
+          padding: 0.25rem 0.4rem;
           text-align: left;
         }
         .schema-table th {
@@ -619,23 +609,45 @@ export default function Playground() {
         .schema-table td {
           color: #cbd5e1;
         }
+        .schema-details {
+          background: rgba(15, 22, 42, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 6px;
+          padding: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+        .schema-details summary {
+          color: #cbd5e1;
+          font-size: 0.75rem;
+          font-weight: 600;
+          cursor: pointer;
+          outline: none;
+          user-select: none;
+        }
+        .schema-details summary:hover {
+          color: #f8fafc;
+        }
       `}</style>
 
       <div className="playground-container">
         {/* SIDEBAR: Problems and Details */}
         <div className="playground-sidebar">
           <div className="sidebar-section">
-            <label style={{ display: 'block', fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }}>SELECT PROBLEM</label>
+            <label style={{ display: 'block', fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }}>SELECT QUESTION</label>
             <select 
               className="problem-select"
               value={activeProblem.id}
               onChange={(e) => {
-                const found = PROBLEMS.find(p => p.id === e.target.value);
+                const found = activeQuestions.find(p => p.id === e.target.value);
                 if (found) setActiveProblem(found);
               }}
             >
-              {PROBLEMS.map(p => (
-                <option key={p.id} value={p.id}>{p.title}</option>
+              {Object.entries(groupedProblems).map(([category, items]) => (
+                <optgroup key={category} label={category}>
+                  {items.map(p => (
+                    <option key={p.id} value={p.id}>{p.title}</option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           </div>
@@ -648,38 +660,115 @@ export default function Playground() {
             {/* SQL Table Reference Helper */}
             {activeLang === 'sql' && (
               <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
-                <h4 style={{ color: '#0284c7', fontSize: '0.9rem', marginBottom: '0.75rem', fontWeight: 700 }}>DATABASE SCHEMA REFERENCE</h4>
+                <h4 style={{ color: '#0284c7', fontSize: '0.85rem', marginBottom: '0.75rem', fontWeight: 700 }}>RELATIONAL SCHEMA REFERENCE</h4>
                 
-                <h5 style={{ color: '#f8fafc', fontSize: '0.8rem', marginBottom: '0.4rem' }}>Table: <strong>employees</strong></h5>
-                <table className="schema-table">
-                  <thead>
-                    <tr><th>Column</th><th>Type</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                    <tr><td>name</td><td>TEXT</td></tr>
-                    <tr><td>department_id (FK)</td><td>INTEGER</td></tr>
-                    <tr><td>salary</td><td>INTEGER</td></tr>
-                    <tr><td>manager_id</td><td>INTEGER</td></tr>
-                  </tbody>
-                </table>
+                <details className="schema-details" open>
+                  <summary>Table: employees</summary>
+                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                    <tbody>
+                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                      <tr><td>name</td><td>TEXT</td></tr>
+                      <tr><td>department_id (FK)</td><td>INTEGER</td></tr>
+                      <tr><td>salary</td><td>INTEGER</td></tr>
+                      <tr><td>manager_id</td><td>INTEGER</td></tr>
+                      <tr><td>hire_date</td><td>TEXT</td></tr>
+                    </tbody>
+                  </table>
+                </details>
 
-                <h5 style={{ color: '#f8fafc', fontSize: '0.8rem', marginBottom: '0.4rem' }}>Table: <strong>departments</strong></h5>
-                <table className="schema-table">
-                  <thead>
-                    <tr><th>Column</th><th>Type</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                    <tr><td>department_name</td><td>TEXT</td></tr>
-                  </tbody>
-                </table>
+                <details className="schema-details">
+                  <summary>Table: departments</summary>
+                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                    <tbody>
+                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                      <tr><td>department_name</td><td>TEXT</td></tr>
+                      <tr><td>location</td><td>TEXT</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+
+                <details className="schema-details">
+                  <summary>Table: projects</summary>
+                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                    <tbody>
+                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                      <tr><td>project_name</td><td>TEXT</td></tr>
+                      <tr><td>budget</td><td>INTEGER</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+
+                <details className="schema-details">
+                  <summary>Table: employee_projects</summary>
+                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                    <tbody>
+                      <tr><td>employee_id (PK, FK)</td><td>INTEGER</td></tr>
+                      <tr><td>project_id (PK, FK)</td><td>INTEGER</td></tr>
+                      <tr><td>hours_worked</td><td>INTEGER</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+
+                <details className="schema-details">
+                  <summary>Table: customers</summary>
+                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                    <tbody>
+                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                      <tr><td>name</td><td>TEXT</td></tr>
+                      <tr><td>email</td><td>TEXT</td></tr>
+                      <tr><td>country</td><td>TEXT</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+
+                <details className="schema-details">
+                  <summary>Table: orders</summary>
+                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                    <tbody>
+                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                      <tr><td>customer_id (FK)</td><td>INTEGER</td></tr>
+                      <tr><td>order_date</td><td>TEXT</td></tr>
+                      <tr><td>total_amount</td><td>REAL</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+
+                <details className="schema-details">
+                  <summary>Table: products</summary>
+                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                    <tbody>
+                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
+                      <tr><td>name</td><td>TEXT</td></tr>
+                      <tr><td>price</td><td>REAL</td></tr>
+                      <tr><td>stock</td><td>INTEGER</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+
+                <details className="schema-details">
+                  <summary>Table: order_items</summary>
+                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
+                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
+                    <tbody>
+                      <tr><td>order_id (PK, FK)</td><td>INTEGER</td></tr>
+                      <tr><td>product_id (PK, FK)</td><td>INTEGER</td></tr>
+                      <tr><td>quantity</td><td>INTEGER</td></tr>
+                      <tr><td>unit_price</td><td>REAL</td></tr>
+                    </tbody>
+                  </table>
+                </details>
               </div>
             )}
           </div>
         </div>
 
-        {/* MAIN IDE EDITOR AREA */}
         <div className="playground-ide">
           <div className="ide-header">
             <div className="ide-controls">
@@ -690,8 +779,8 @@ export default function Playground() {
               >
                 <option value="python">Python 3</option>
                 <option value="java">Java (JDK 17)</option>
-                <option value="cpp">C++ (GCC 11)</option>
-                <option value="sql">SQL (SQLite3)</option>
+                <option value="cpp">C++ (GCC 14)</option>
+                <option value="sql">SQL (Postgres / MySQL / SQLite3)</option>
               </select>
             </div>
 
@@ -703,22 +792,16 @@ export default function Playground() {
             >
               {isRunning ? (
                 <>
-                  <svg className="spin" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
-                    <line x1="12" y1="2" x2="12" y2="6"></line>
-                    <line x1="12" y1="18" x2="12" y2="22"></line>
-                    <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
-                    <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
-                    <line x1="2" y1="12" x2="6" y2="12"></line>
-                    <line x1="18" y1="12" x2="22" y2="12"></line>
-                    <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
-                    <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                  <svg className="animate-spin" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" opacity="0.25"></circle>
+                    <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" opacity="0.75"></path>
                   </svg>
-                  Compiling...
+                  Running...
                 </>
               ) : (
                 <>
-                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
                   </svg>
                   Run Code
                 </>
@@ -726,27 +809,23 @@ export default function Playground() {
             </button>
           </div>
 
-          {/* CODE EDITOR PANELS */}
           <div className="editor-wrapper">
             <div className="line-numbers">
-              {lineNumbers.map(n => (
-                <div key={n}>{n}</div>
+              {code.split('\n').map((_, index) => (
+                <div key={index}>{index + 1}</div>
               ))}
             </div>
             
-            <pre 
-              ref={preRef}
-              className="highlight-overlay"
-              dangerouslySetInnerHTML={{ __html: highlightCode(code, activeLang) }}
-            />
-
+            {/* Syntax Highlight overlay */}
+            <pre className="highlight-overlay" ref={preRef} dangerouslySetInnerHTML={{ __html: highlightCode(code, activeLang) }} />
+            
             <textarea
               ref={codeAreaRef}
               className="code-textarea"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              onKeyDown={handleKeyDown}
               onScroll={handleScroll}
+              onKeyDown={handleKeyDown}
               spellCheck="false"
               autoComplete="off"
               autoCorrect="off"

@@ -144,7 +144,7 @@ def get_all_data():
             stats_doc = db.collection("channel").document("stats").get()
             data["channel"] = stats_doc.to_dict() if stats_doc.exists else {}
             
-            for coll in ["playlists", "videos", "resources", "experiences", "flashcards"]:
+            for coll in ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions"]:
                 docs = db.collection(coll).stream()
                 data[coll] = [doc.to_dict() for doc in docs]
                 
@@ -558,7 +558,8 @@ def run_code(req: RunRequest):
             cursor.executescript("""
             CREATE TABLE departments (
                 id INTEGER PRIMARY KEY,
-                department_name TEXT
+                department_name TEXT,
+                location TEXT
             );
             CREATE TABLE employees (
                 id INTEGER PRIMARY KEY,
@@ -566,20 +567,97 @@ def run_code(req: RunRequest):
                 department_id INTEGER,
                 salary INTEGER,
                 manager_id INTEGER,
+                hire_date TEXT,
                 FOREIGN KEY(department_id) REFERENCES departments(id)
             );
-            INSERT INTO departments VALUES (1, 'Engineering');
-            INSERT INTO departments VALUES (2, 'Product');
-            INSERT INTO departments VALUES (3, 'Marketing');
-            INSERT INTO departments VALUES (4, 'HR');
+            CREATE TABLE projects (
+                id INTEGER PRIMARY KEY,
+                project_name TEXT,
+                budget INTEGER
+            );
+            CREATE TABLE employee_projects (
+                employee_id INTEGER,
+                project_id INTEGER,
+                hours_worked INTEGER,
+                PRIMARY KEY(employee_id, project_id),
+                FOREIGN KEY(employee_id) REFERENCES employees(id),
+                FOREIGN KEY(project_id) REFERENCES projects(id)
+            );
+            CREATE TABLE customers (
+                id INTEGER PRIMARY KEY,
+                name TEXT,
+                email TEXT,
+                country TEXT
+            );
+            CREATE TABLE orders (
+                id INTEGER PRIMARY KEY,
+                customer_id INTEGER,
+                order_date TEXT,
+                total_amount REAL,
+                FOREIGN KEY(customer_id) REFERENCES customers(id)
+            );
+            CREATE TABLE products (
+                id INTEGER PRIMARY KEY,
+                name TEXT,
+                price REAL,
+                stock INTEGER
+            );
+            CREATE TABLE order_items (
+                order_id INTEGER,
+                product_id INTEGER,
+                quantity INTEGER,
+                unit_price REAL,
+                PRIMARY KEY(order_id, product_id),
+                FOREIGN KEY(order_id) REFERENCES orders(id),
+                FOREIGN KEY(product_id) REFERENCES products(id)
+            );
+
+            INSERT INTO departments VALUES (1, 'Engineering', 'San Francisco');
+            INSERT INTO departments VALUES (2, 'Product', 'New York');
+            INSERT INTO departments VALUES (3, 'Marketing', 'London');
+            INSERT INTO departments VALUES (4, 'HR', 'San Francisco');
             
-            INSERT INTO employees VALUES (1, 'Md Irfan', 1, 120000, NULL);
-            INSERT INTO employees VALUES (2, 'Rahul Sharma', 1, 95000, 1);
-            INSERT INTO employees VALUES (3, 'Priya Patel', 2, 105000, NULL);
-            INSERT INTO employees VALUES (4, 'Amit Gupta', 1, 80000, 1);
-            INSERT INTO employees VALUES (5, 'Ananya Sen', 3, 75000, NULL);
-            INSERT INTO employees VALUES (6, 'Siddharth Rao', 2, 90000, 3);
-            INSERT INTO employees VALUES (7, 'Sneha Iyer', 4, 65000, NULL);
+            INSERT INTO employees VALUES (1, 'Md Irfan', 1, 120000, NULL, '2020-01-15');
+            INSERT INTO employees VALUES (2, 'Rahul Sharma', 1, 95000, 1, '2021-03-22');
+            INSERT INTO employees VALUES (3, 'Priya Patel', 2, 105000, NULL, '2020-06-10');
+            INSERT INTO employees VALUES (4, 'Amit Gupta', 1, 80000, 1, '2022-09-01');
+            INSERT INTO employees VALUES (5, 'Ananya Sen', 3, 75000, NULL, '2021-11-15');
+            INSERT INTO employees VALUES (6, 'Siddharth Rao', 2, 90000, 3, '2022-05-18');
+            INSERT INTO employees VALUES (7, 'Sneha Iyer', 4, 65000, NULL, '2023-02-10');
+            INSERT INTO employees VALUES (8, 'Vikram Malhotra', 1, 110000, 1, '2021-08-20');
+            
+            INSERT INTO projects VALUES (1, 'Alpha Cloud', 500000);
+            INSERT INTO projects VALUES (2, 'Beta Platform', 350000);
+            INSERT INTO projects VALUES (3, 'Gamma Launch', 150000);
+            
+            INSERT INTO employee_projects VALUES (1, 1, 45);
+            INSERT INTO employee_projects VALUES (2, 1, 35);
+            INSERT INTO employee_projects VALUES (2, 2, 15);
+            INSERT INTO employee_projects VALUES (3, 2, 40);
+            INSERT INTO employee_projects VALUES (4, 1, 50);
+            INSERT INTO employee_projects VALUES (6, 2, 30);
+            INSERT INTO employee_projects VALUES (8, 1, 20);
+            INSERT INTO employee_projects VALUES (8, 3, 25);
+            
+            INSERT INTO customers VALUES (1, 'Acme Corp', 'contact@acme.com', 'USA');
+            INSERT INTO customers VALUES (2, 'Stark Industries', 'pepper@stark.com', 'USA');
+            INSERT INTO customers VALUES (3, 'Wayne Enterprises', 'bruce@wayne.co', 'UK');
+            
+            INSERT INTO orders VALUES (1, 1, '2023-05-01', 1200.50);
+            INSERT INTO orders VALUES (2, 2, '2023-05-12', 4500.00);
+            INSERT INTO orders VALUES (3, 3, '2023-05-15', 750.25);
+            INSERT INTO orders VALUES (4, 1, '2023-06-02', 300.00);
+            
+            INSERT INTO products VALUES (1, 'Cloud Subscription', 99.99, 1000);
+            INSERT INTO products VALUES (2, 'Premium Server Support', 499.99, 500);
+            INSERT INTO products VALUES (3, 'Hardware Node', 1500.00, 50);
+            
+            INSERT INTO order_items VALUES (1, 1, 2, 99.99);
+            INSERT INTO order_items VALUES (1, 2, 2, 499.99);
+            INSERT INTO order_items VALUES (2, 3, 3, 1500.00);
+            INSERT INTO order_items VALUES (3, 1, 5, 99.99);
+            INSERT INTO order_items VALUES (3, 2, 1, 499.99);
+            INSERT INTO order_items VALUES (4, 1, 3, 99.99);
             """)
             conn.commit()
             

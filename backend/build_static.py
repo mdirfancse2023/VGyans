@@ -574,10 +574,15 @@ def fetch_youtube_data():
                 # Fetch study notes
                 print("Fetching study notes from Firestore during static compile...")
                 notes_list = [doc.to_dict() for doc in db.collection("notes").stream()]
+                
+                # Fetch playground questions
+                print("Fetching playground questions from Firestore during static compile...")
+                questions_list = [doc.to_dict() for doc in db.collection("playground_questions").stream()]
                     
             except Exception as e:
                 print(f"Error fetching Firestore data during static compile, falling back to static lists: {e}")
                 notes_list = []
+                questions_list = []
 
         if not notes_list:
             try:
@@ -585,6 +590,15 @@ def fetch_youtube_data():
                 if os.path.exists(local_data_path):
                     with open(local_data_path, "r", encoding="utf-8") as f:
                         notes_list = json.load(f).get("notes", [])
+            except Exception:
+                pass
+
+        if not questions_list:
+            try:
+                local_data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
+                if os.path.exists(local_data_path):
+                    with open(local_data_path, "r", encoding="utf-8") as f:
+                        questions_list = json.load(f).get("playground_questions", [])
             except Exception:
                 pass
 
@@ -598,6 +612,7 @@ def fetch_youtube_data():
             "flashcards": flashcards_list,
             "onboardingStages": onboarding_stages_dict,
             "notes": notes_list,
+            "playground_questions": questions_list,
             "lastUpdated": datetime.datetime.utcnow().isoformat() + "Z"
         }
 
