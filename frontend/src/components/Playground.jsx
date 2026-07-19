@@ -375,7 +375,53 @@ export default function Playground({ questions }) {
   const [expandedTopics, setExpandedTopics] = useState({});
 
   const toggleTopic = (cat) => setExpandedTopics(prev => ({ ...prev, [cat]: !prev[cat] }));
-  const selectQuestion = (q) => { setActiveProblem(q); setDrawerOpen(false); };
+  
+  const selectQuestion = async (q) => {
+    setDrawerOpen(false);
+    if (q.id === 'custom') {
+      setActiveProblem(q);
+      return;
+    }
+    
+    if (q.description && q.templates) {
+      setActiveProblem(q);
+      return;
+    }
+    
+    // Set a loading description state
+    setActiveProblem({
+      ...q,
+      description: '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:200px;color:var(--text-secondary);"><div style="width:30px;height:30px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem;"></div><p>Loading question details...</p></div>',
+      templates: {}
+    });
+    
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/questions/${q.id}`);
+      if (res.ok) {
+        const fullQuestion = await res.json();
+        setActiveProblem(fullQuestion);
+        
+        // Save in local memory list so we don't refetch
+        if (questions) {
+          const idx = questions.findIndex(item => item.id === q.id);
+          if (idx !== -1) {
+            questions[idx] = fullQuestion;
+          }
+        }
+      } else {
+        throw new Error('Failed to fetch details');
+      }
+    } catch (err) {
+      console.error(err);
+      setActiveProblem({
+        ...q,
+        description: '<p style="color:var(--danger);padding:1rem;">Failed to load question details. Please try again.</p>',
+        templates: {
+          python: '# Error loading question details'
+        }
+      });
+    }
+  };
 
   const codeAreaRef = useRef(null);
   const preRef = useRef(null);
@@ -383,7 +429,12 @@ export default function Playground({ questions }) {
   // Sync active problem when dynamic questions list is loaded
   useEffect(() => {
     if (activeQuestions && activeQuestions.length > 0) {
-      setActiveProblem(activeQuestions[0]);
+      const firstProblem = activeQuestions[0];
+      if (firstProblem.id !== 'custom' && (!firstProblem.description || !firstProblem.templates)) {
+        selectQuestion(firstProblem);
+      } else {
+        setActiveProblem(firstProblem);
+      }
     }
   }, [questions]);
 

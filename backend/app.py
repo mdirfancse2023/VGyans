@@ -1,4 +1,5 @@
 import os
+os.environ["GRPC_DNS_RESOLVER"] = "native"
 import json
 import datetime
 import io
@@ -97,14 +98,14 @@ except Exception as e:
     print(f"Warning: Failed to initialize Firebase connection: {e}")
 
 def load_firestore_collection(collection_name: str) -> list:
-    if db is not None:
-        try:
-            docs = db.collection(collection_name).stream()
-            return [doc.to_dict() for doc in docs]
-        except Exception as e:
-            print(f"Firestore read error for {collection_name}, falling back to static data: {e}")
-    local_data = load_data()
-    return local_data.get(collection_name, [])
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database connection is unavailable")
+    try:
+        docs = db.collection(collection_name).stream()
+        return [doc.to_dict() for doc in docs]
+    except Exception as e:
+        print(f"Firestore read error for {collection_name}: {e}")
+        raise HTTPException(status_code=500, detail=f"Database read error: {str(e)}")
 
 # Pydantic models for validation
 class RoundDetail(BaseModel):
@@ -138,51 +139,58 @@ def read_root():
 
 @app.get("/api/all")
 def get_all_data():
-    if db is not None:
-        try:
-            from concurrent.futures import ThreadPoolExecutor
-            data = {}
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database connection is unavailable")
+    try:
+        from concurrent.futures import ThreadPoolExecutor
+        data = {}
+        
+        def fetch_stats():
+            stats_doc = db.collection("channel").document("stats").get()
+            return stats_doc.to_dict() if stats_doc.exists else {}
             
-            def fetch_stats():
-                stats_doc = db.collection("channel").document("stats").get()
-                return stats_doc.to_dict() if stats_doc.exists else {}
-                
-            def fetch_coll(coll):
+        def fetch_coll(coll):
+            if coll == "playground_questions":
+                docs = db.collection(coll).select(["id", "title", "difficulty", "category"]).stream()
+            else:
                 docs = db.collection(coll).stream()
-                return [doc.to_dict() for doc in docs]
-                
-            def fetch_stages():
-                stages_docs = db.collection("onboardingStages").stream()
-                return {doc.id: doc.to_dict().get("stages", []) for doc in stages_docs}
-                
-            collections = ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions"]
+            return [doc.to_dict() for doc in docs]
             
-            with ThreadPoolExecutor(max_workers=9) as executor:
-                future_stats = executor.submit(fetch_stats)
-                future_stages = executor.submit(fetch_stages)
-                future_colls = {coll: executor.submit(fetch_coll, coll) for coll in collections}
-                
-                data["channel"] = future_stats.result()
-                data["onboardingStages"] = future_stages.result()
-                for coll, fut in future_colls.items():
-                    data[coll] = fut.result()
+        def fetch_stages():
+            stages_docs = db.collection("onboardingStages").stream()
+            return {doc.id: doc.to_dict().get("stages", []) for doc in stages_docs}
             
-            return data
-        except Exception as e:
-            print(f"Firestore get_all_data error, falling back to static: {e}")
-    return load_data()
+        collections = ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions"]
+        
+        with ThreadPoolExecutor(max_workers=9) as executor:
+            future_stats = executor.submit(fetch_stats)
+            future_stages = executor.submit(fetch_stages)
+            future_colls = {coll: executor.submit(fetch_coll, coll) for coll in collections}
+            
+            data["channel"] = future_stats.result()
+            data["onboardingStages"] = future_stages.result()
+            for coll, fut in future_colls.items():
+                data[coll] = fut.result()
+        
+        return data
+    except Exception as e:
+        print(f"Firestore get_all_data error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 @app.get("/api/stats")
 def get_channel_stats():
-    if db is not None:
-        try:
-            stats_doc = db.collection("channel").document("stats").get()
-            if stats_doc.exists:
-                return stats_doc.to_dict()
-        except Exception as e:
-            print(f"Firestore get_channel_stats error: {e}")
-    data = load_data()
-    return data.get("channel", {})
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database connection is unavailable")
+    try:
+        stats_doc = db.collection("channel").document("stats").get()
+        if stats_doc.exists:
+            return stats_doc.to_dict()
+        raise HTTPException(status_code=404, detail="Channel stats not found in database")
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Firestore get_channel_stats error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 @app.get("/api/playlists")
 def get_playlists():
@@ -223,6 +231,9 @@ def get_experiences(company: Optional[str] = None):
 
 @app.post("/api/experiences")
 def create_experience(exp: InterviewExperienceCreate):
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database connection is unavailable")
+    
     new_exp = exp.dict()
     existing = get_experiences()
     new_num = 1
@@ -235,19 +246,12 @@ def create_experience(exp: InterviewExperienceCreate):
     new_id = f"exp-{new_num}"
     new_exp["id"] = new_id
     
-    if db is not None:
-        try:
-            db.collection("experiences").document(new_id).set(new_exp)
-            return {"message": "Interview experience submitted successfully!", "experience": new_exp}
-        except Exception as e:
-            print(f"Firestore create_experience error, saving locally: {e}")
-            
-    data = load_data()
-    experiences = data.get("experiences", [])
-    experiences.insert(0, new_exp)
-    data["experiences"] = experiences
-    save_data(data)
-    return {"message": "Interview experience submitted successfully (locally)!", "experience": new_exp}
+    try:
+        db.collection("experiences").document(new_id).set(new_exp)
+        return {"message": "Interview experience submitted successfully!", "experience": new_exp}
+    except Exception as e:
+        print(f"Firestore create_experience error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database write error: {str(e)}")
 
 @app.get("/api/flashcards")
 def get_flashcards(category: Optional[str] = None):
@@ -258,28 +262,22 @@ def get_flashcards(category: Optional[str] = None):
 
 @app.get("/api/onboarding")
 def get_onboarding_stages(company: Optional[str] = None):
-    if db is not None:
-        try:
-            if company:
-                doc = db.collection("onboardingStages").document(company).get()
-                if doc.exists:
-                    return {company: doc.to_dict().get("stages", [])}
-                raise HTTPException(status_code=404, detail=f"Onboarding data for {company} not found")
-            else:
-                stages_docs = db.collection("onboardingStages").stream()
-                return {doc.id: doc.to_dict().get("stages", []) for doc in stages_docs}
-        except HTTPException:
-            raise
-        except Exception as e:
-            print(f"Firestore get_onboarding_stages error, falling back: {e}")
-            
-    data = load_data()
-    stages = data.get("onboardingStages", {})
-    if company:
-        if company in stages:
-            return {company: stages[company]}
-        raise HTTPException(status_code=404, detail=f"Onboarding data for {company} not found")
-    return stages
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database connection is unavailable")
+    try:
+        if company:
+            doc = db.collection("onboardingStages").document(company).get()
+            if doc.exists:
+                return {company: doc.to_dict().get("stages", [])}
+            raise HTTPException(status_code=404, detail=f"Onboarding data for {company} not found")
+        else:
+            stages_docs = db.collection("onboardingStages").stream()
+            return {doc.id: doc.to_dict().get("stages", []) for doc in stages_docs}
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Firestore get_onboarding_stages error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 def extract_text_from_pdf(file_bytes: bytes) -> str:
     try:
@@ -534,21 +532,44 @@ def get_notes():
 
 @app.get("/api/notes/{note_id}")
 def get_note_content(note_id: str):
-    if db is not None:
-        try:
-            doc = db.collection("notes").document(note_id).get()
-            if doc.exists:
-                return doc.to_dict()
-        except Exception as e:
-            print(f"Firestore get_note_content error: {e}")
-            
-    # Fallback to local data.json
-    data = load_data()
-    notes = data.get("notes", [])
-    for note in notes:
-        if note.get("id") == note_id:
-            return note
-    raise HTTPException(status_code=404, detail="Study note not found")
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database connection is unavailable")
+    try:
+        doc = db.collection("notes").document(note_id).get()
+        if doc.exists:
+            return doc.to_dict()
+        raise HTTPException(status_code=404, detail="Study note not found in database")
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Firestore get_note_content error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+
+@app.get("/api/questions")
+def get_questions():
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database connection is unavailable")
+    try:
+        docs = db.collection("playground_questions").select(["id", "title", "difficulty", "category"]).stream()
+        return [doc.to_dict() for doc in docs]
+    except Exception as e:
+        print(f"Firestore get_questions error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+
+@app.get("/api/questions/{question_id}")
+def get_question_detail(question_id: str):
+    if db is None:
+        raise HTTPException(status_code=503, detail="Database connection is unavailable")
+    try:
+        doc = db.collection("playground_questions").document(question_id).get()
+        if doc.exists:
+            return doc.to_dict()
+        raise HTTPException(status_code=404, detail="Question not found in database")
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Firestore get_question_detail error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 class RunRequest(BaseModel):
     language: str
