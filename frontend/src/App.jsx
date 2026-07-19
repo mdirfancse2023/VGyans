@@ -175,7 +175,7 @@ export default function App() {
                 </div>
                 
                 <div className="grid-container">
-                  {videos.slice(0, 3).map((video) => (
+                  {videos.slice(0, 4).map((video) => (
                     <div 
                       key={video.id} 
                       className="glass-card video-card"
