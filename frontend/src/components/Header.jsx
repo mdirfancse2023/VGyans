@@ -79,11 +79,11 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
           </li>
           <li>
             <a 
-              href="https://www.youtube.com/c/virtualgyans" 
+              href="https://www.youtube.com/@virtualgyans" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="btn btn-primary"
-              style={{ padding: '0.4rem 1rem', fontSize: '0.85rem' }}
+              className="nav-link"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
             >
               <svg 
                 viewBox="0 0 24 24" 
