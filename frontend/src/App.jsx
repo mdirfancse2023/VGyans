@@ -245,9 +245,10 @@ export default function App() {
 
         {activeTab === 'guides' && (
           <section>
-            <PlacementHub resources={resources} notes={notes} />
+            <PlacementHub resources={resources} notes={notes} onboardingStages={onboardingStages} flashcards={flashcards} />
           </section>
         )}
+
 
         {activeTab === 'experiences' && (
           <section>

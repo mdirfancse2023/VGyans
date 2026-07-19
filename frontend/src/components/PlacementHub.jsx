@@ -263,60 +263,56 @@ function BlogReader({ note, onClose }) {
   );
 }
 
-export default function PlacementHub({ resources, notes }) {
+export default function PlacementHub({ resources, notes, onboardingStages = {}, flashcards = [] }) {
+  const [activeSection, setActiveSection] = useState('resources');
   const [selectedCompany, setSelectedCompany] = useState('All');
   const [activePdf, setActivePdf] = useState(null);
   const [activeNote, setActiveNote] = useState(null);
 
+  // Tracker state
+  const [trackerCompany, setTrackerCompany] = useState('');
+  const [currentStageIndex, setCurrentStageIndex] = useState(0);
+
+  // Flashcard state
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const fcCategories = ['All', 'Java', 'SQL', 'DSA'];
+  const filteredCards = flashcards.filter(c =>
+    selectedCategory === 'All' ? true : c.category.toLowerCase() === selectedCategory.toLowerCase()
+  );
+  const currentCard = filteredCards[currentCardIndex];
+
+  const handleNextCard = () => { setIsFlipped(false); setTimeout(() => setCurrentCardIndex(p => (p + 1) % filteredCards.length), 150); };
+  const handlePrevCard = () => { setIsFlipped(false); setTimeout(() => setCurrentCardIndex(p => (p - 1 + filteredCards.length) % filteredCards.length), 150); };
+  const handleCatChange = (cat) => { setSelectedCategory(cat); setCurrentCardIndex(0); setIsFlipped(false); };
+
+  const companyKeys = Object.keys(onboardingStages);
+  const activeTrackerCompany = trackerCompany || companyKeys[0] || '';
+  const activeStages = onboardingStages[activeTrackerCompany] || [];
+
   const handleAction = (res) => {
     const targetUrl = res.downloadUrl || '#';
-    
-    // Check if it's a study note / blog
     if (targetUrl.startsWith('/notes/')) {
       const noteId = targetUrl.split('/').pop();
       const foundNote = notes?.find(n => n.id === noteId);
-      if (foundNote) {
-        setActiveNote(foundNote);
-      } else {
-        // Fetch note content from live API endpoint
-        const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
-        fetch(`${API_URL}/api/notes/${noteId}`)
-          .then(r => {
-            if (r.ok) return r.json();
-            throw new Error('Note not found');
-          })
-          .then(data => {
-            setActiveNote(data);
-          })
-          .catch(() => {
-            alert('Unable to load this note blog. Please check your connection.');
-          });
-      }
+      if (foundNote) { setActiveNote(foundNote); return; }
+      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
+      fetch(`${API_URL}/api/notes/${noteId}`)
+        .then(r => { if (r.ok) return r.json(); throw new Error('Note not found'); })
+        .then(data => setActiveNote(data))
+        .catch(() => alert('Unable to load this note blog. Please check your connection.'));
       return;
     }
-
-    // PDF logic fallback
     let pdfUrl = targetUrl;
-    if (!pdfUrl || pdfUrl === '#') {
-      pdfUrl = '/pdfs/placeholder.pdf';
-    }
-    
+    if (!pdfUrl || pdfUrl === '#') pdfUrl = '/pdfs/placeholder.pdf';
     const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
-    let proxyUrl = '';
-    if (pdfUrl.startsWith('/') || pdfUrl.startsWith('./')) {
-      pdfUrl = pdfUrl;
-    } else {
-      proxyUrl = `${API_URL}/api/pdf-proxy?url=${encodeURIComponent(pdfUrl)}`;
-    }
-    
-    setActivePdf({
-      url: proxyUrl,
-      title: res.title
-    });
+    const proxyUrl = (pdfUrl.startsWith('/') || pdfUrl.startsWith('./')) ? pdfUrl : `${API_URL}/api/pdf-proxy?url=${encodeURIComponent(pdfUrl)}`;
+    setActivePdf({ url: proxyUrl, title: res.title });
   };
 
   const companies = ['All', 'Cognizant', 'TCS', 'Accenture', 'All-Rounder'];
-
   const filteredResources = resources.filter(res => {
     if (selectedCompany === 'All') return true;
     if (selectedCompany === 'All-Rounder') return res.company.toLowerCase() === 'all';
@@ -325,95 +321,157 @@ export default function PlacementHub({ resources, notes }) {
 
   return (
     <div style={{ marginBottom: '3rem' }}>
-      <div className="section-header" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1.5rem', marginBottom: '2.5rem' }}>
+      <div className="section-header" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem' }}>
         <div className="section-info" style={{ flex: '1 1 500px' }}>
           <h2 className="section-title">Placement Prep <span className="text-gradient">Hub & Resources</span></h2>
-          <p className="section-desc">Get instant access to study blogs, cheat sheets, and blueprints for top MNCs.</p>
+          <p className="section-desc">Study materials, onboarding tracker, and technical flashcards — all in one place.</p>
         </div>
       </div>
 
-      <div className="filters-wrapper">
-        <div className="filter-tabs">
-          {companies.map((comp) => (
-            <button
-              key={comp}
-              className={`filter-tab ${selectedCompany === comp ? 'active' : ''}`}
-              onClick={() => setSelectedCompany(comp)}
-            >
-              {comp}
-            </button>
-          ))}
+      {/* Section Tab Switcher */}
+      <div className="filters-wrapper" style={{ marginBottom: '2rem' }}>
+        <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
+          <button className={`filter-tab ${activeSection === 'resources' ? 'active' : ''}`} onClick={() => setActiveSection('resources')}>
+            📚 Resources
+          </button>
+          <button className={`filter-tab ${activeSection === 'tracker' ? 'active' : ''}`} onClick={() => setActiveSection('tracker')}>
+            🗺️ Onboarding Tracker
+          </button>
+          <button className={`filter-tab ${activeSection === 'flashcards' ? 'active' : ''}`} onClick={() => setActiveSection('flashcards')}>
+            🃏 Technical Flashcards
+          </button>
         </div>
       </div>
 
-      <div className="grid-container">
-        {filteredResources.map((res) => {
-          const isBlog = res.downloadUrl && res.downloadUrl.startsWith('/notes/');
-          return (
-            <div key={res.id} className="glass-card resource-card">
-              <div className="resource-header">
-                <span className="badge badge-primary">{res.company}</span>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{res.category}</span>
-              </div>
-              
-              <h3 className="resource-title">{res.title}</h3>
-              <p className="resource-desc">{res.description}</p>
-              
-              <div className="resource-tags">
-                {res.tags.map((tag) => (
-                  <span key={tag} className="badge badge-secondary" style={{ fontSize: '0.65rem' }}>
-                    #{tag}
-                  </span>
-                ))}
-              </div>
+      {/* ── RESOURCES ── */}
+      {activeSection === 'resources' && (
+        <>
+          <div className="filters-wrapper" style={{ marginBottom: '1.5rem' }}>
+            <div className="filter-tabs">
+              {companies.map((comp) => (
+                <button key={comp} className={`filter-tab ${selectedCompany === comp ? 'active' : ''}`} onClick={() => setSelectedCompany(comp)}>
+                  {comp}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="grid-container">
+            {filteredResources.map((res) => {
+              const isBlog = res.downloadUrl && res.downloadUrl.startsWith('/notes/');
+              return (
+                <div key={res.id} className="glass-card resource-card">
+                  <div className="resource-header">
+                    <span className="badge badge-primary">{res.company}</span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{res.category}</span>
+                  </div>
+                  <h3 className="resource-title">{res.title}</h3>
+                  <p className="resource-desc">{res.description}</p>
+                  <div className="resource-tags">
+                    {res.tags.map((tag) => (
+                      <span key={tag} className="badge badge-secondary" style={{ fontSize: '0.65rem' }}>#{tag}</span>
+                    ))}
+                  </div>
+                  <div className="resource-action">
+                    <button className="btn btn-secondary" style={{ width: '100%', gap: '0.5rem', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); handleAction(res); }}>
+                      {isBlog ? (
+                        <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Read Study Blog</>
+                      ) : (
+                        <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View PDF Resource</>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
 
-              <div className="resource-action">
-                <button 
-                  className="btn btn-secondary" 
-                  style={{ width: '100%', gap: '0.5rem', cursor: 'pointer' }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAction(res);
-                  }}
-                >
-                  {isBlog ? (
+      {/* ── ONBOARDING TRACKER ── */}
+      {activeSection === 'tracker' && (
+        <div className="glass-panel tracker-container">
+          {companyKeys.length === 0 ? (
+            <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '2rem' }}>No onboarding data available.</p>
+          ) : (
+            <>
+              <div className="tracker-select-row">
+                <h3 style={{ fontSize: '1.1rem', color: '#fff' }}>Select Company Journey:</h3>
+                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  {companyKeys.map((comp) => (
+                    <button key={comp} className={`btn ${activeTrackerCompany === comp ? 'btn-primary' : 'btn-secondary'}`} style={{ padding: '0.4rem 1rem', fontSize: '0.9rem' }}
+                      onClick={() => { setTrackerCompany(comp); setCurrentStageIndex(0); }}>
+                      {comp}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem', marginTop: '2rem' }}>
+                <div className="timeline">
+                  {activeStages.map((stage, idx) => (
+                    <div key={idx} className="timeline-item" style={{ cursor: 'pointer', opacity: currentStageIndex === idx ? 1 : 0.6 }} onClick={() => setCurrentStageIndex(idx)}>
+                      <div className="timeline-dot" style={{ borderColor: currentStageIndex === idx ? 'var(--primary)' : 'var(--border-glass)', background: currentStageIndex === idx ? 'var(--primary)' : 'rgba(255,255,255,0.1)' }}></div>
+                      <div className="timeline-title">{stage.stage}<span className="badge badge-success" style={{ fontSize: '0.65rem' }}>{stage.duration}</span></div>
+                      <div className="timeline-desc">{stage.desc.substring(0, 80)}...</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="glass-card" style={{ background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', height: 'fit-content' }}>
+                  <div className="badge badge-primary" style={{ marginBottom: '1rem', width: 'fit-content' }}>Stage Details & Advice</div>
+                  {activeStages[currentStageIndex] && (
                     <>
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                      </svg>
-                      Read Study Blog
-                    </>
-                  ) : (
-                    <>
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                      </svg>
-                      View PDF Resource
+                      <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '0.5rem' }}>{activeStages[currentStageIndex].stage}</h3>
+                      <div style={{ color: 'var(--primary)', fontSize: '0.9rem', fontWeight: '600', marginBottom: '1rem' }}>Duration: {activeStages[currentStageIndex].duration}</div>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>{activeStages[currentStageIndex].desc}</p>
+                      <div style={{ background: 'rgba(6,182,212,0.05)', borderLeft: '3px solid var(--primary)', padding: '1rem', borderRadius: '0 8px 8px 0', fontSize: '0.85rem' }}>
+                        <strong>Pro Gyan Tip:</strong> If your files have been in verification for more than {activeStages[currentStageIndex].duration}, reach out to support or check your onboarding dashboard for action items.
+                      </div>
                     </>
                   )}
-                </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {activePdf && (
-        <PDFViewer 
-          url={activePdf.url} 
-          title={activePdf.title} 
-          onClose={() => setActivePdf(null)} 
-        />
+            </>
+          )}
+        </div>
       )}
 
-      {activeNote && (
-        <BlogReader 
-          note={activeNote} 
-          onClose={() => setActiveNote(null)} 
-        />
+      {/* ── FLASHCARDS ── */}
+      {activeSection === 'flashcards' && (
+        <div className="glass-panel flashcards-container">
+          <div className="flashcard-categories">
+            {fcCategories.map((cat) => (
+              <button key={cat} className={`filter-tab ${selectedCategory === cat ? 'active' : ''}`} onClick={() => handleCatChange(cat)}>{cat}</button>
+            ))}
+          </div>
+          {filteredCards.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>No flashcards found for this category.</div>
+          ) : (
+            <>
+              <div className={`flashcard-stage ${isFlipped ? 'flipped' : ''}`} onClick={() => setIsFlipped(!isFlipped)}>
+                <div className="flashcard-inner">
+                  <div className="flashcard-front">
+                    <span className="flashcard-tag">{currentCard.category}</span>
+                    <h3 className="flashcard-question">{currentCard.question}</h3>
+                    <div className="flashcard-hint">Click card to reveal answer</div>
+                  </div>
+                  <div className="flashcard-back">
+                    <span className="flashcard-tag" style={{ color: 'var(--secondary)' }}>Answer</span>
+                    <p className="flashcard-answer">{currentCard.answer}</p>
+                    <div className="flashcard-hint" style={{ color: 'var(--secondary)' }}>Click card to see question</div>
+                  </div>
+                </div>
+              </div>
+              <div className="flashcard-controls">
+                <button className="btn btn-secondary" onClick={handlePrevCard}>← Previous</button>
+                <span className="flashcard-progress">Card {currentCardIndex + 1} of {filteredCards.length}</span>
+                <button className="btn btn-secondary" onClick={handleNextCard}>Next →</button>
+              </div>
+            </>
+          )}
+        </div>
       )}
+
+      {activePdf && <PDFViewer url={activePdf.url} title={activePdf.title} onClose={() => setActivePdf(null)} />}
+      {activeNote && <BlogReader note={activeNote} onClose={() => setActiveNote(null)} />}
     </div>
   );
 }

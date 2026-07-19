@@ -5,7 +5,7 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'videos', label: 'Videos' },
-    { id: 'guides', label: 'Placement Prep' },
+    { id: 'guides', label: 'Placement' },
     { id: 'playground', label: 'Code' },
     { id: 'experiences', label: 'Interviews' },
     { id: 'tools', label: 'Resume' }
