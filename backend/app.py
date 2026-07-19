@@ -274,29 +274,23 @@ def _fetch_jsearch(query: str = "software developer", location: str = "india") -
     if not RAPIDAPI_KEY:
         return []
     try:
+        # Keep to 2 queries max to stay under Vercel's 10s function timeout
         queries = [
-            ("software engineer", "india"),
-            ("backend developer", "india"),
-            ("frontend developer", "india"),
-            ("data engineer", "india"),
-            ("software developer", ""),
+            "software engineer in india",
+            "python developer in india",
         ]
         jobs = []
-        for q, loc in queries:
-            params = {"query": q + (f" in {loc}" if loc else ""), "page": "1", "num_results": "10", "date_posted": "week"}
+        for q in queries:
+            params = {"query": q, "page": "1", "num_results": "10", "date_posted": "week"}
             r = requests.get(
                 "https://jsearch.p.rapidapi.com/search",
                 headers={"X-RapidAPI-Key": RAPIDAPI_KEY, "X-RapidAPI-Host": "jsearch.p.rapidapi.com"},
-                params=params, timeout=12
+                params=params, timeout=8
             )
             if r.status_code != 200:
                 print(f"JSearch error {r.status_code}: {r.text[:200]}")
                 continue
             for j in r.json().get("data", []):
-                employer = j.get("employer_name", "")
-                title    = j.get("job_title", "")
-                src_name = j.get("job_apply_link", "")
-                # Identify source from publisher
                 publisher = j.get("job_publisher", "").lower()
                 if "linkedin" in publisher:
                     src = "LinkedIn"
@@ -307,9 +301,8 @@ def _fetch_jsearch(query: str = "software developer", location: str = "india") -
                 elif "naukri" in publisher:
                     src = "Naukri"
                 else:
-                    src = j.get("job_publisher", "JSearch")
+                    src = j.get("job_publisher", "JSearch") or "JSearch"
 
-                # salary
                 min_sal = j.get("job_min_salary")
                 max_sal = j.get("job_max_salary")
                 cur     = j.get("job_salary_currency", "")
@@ -319,8 +312,8 @@ def _fetch_jsearch(query: str = "software developer", location: str = "india") -
                 elif min_sal:
                     salary = f"{cur}{int(min_sal):,}+"
 
-                city    = j.get("job_city", "")
-                country = j.get("job_country", "")
+                city         = j.get("job_city", "")
+                country      = j.get("job_country", "")
                 location_str = ", ".join(filter(None, [city, country])) or "Flexible"
 
                 posted = j.get("job_posted_at_datetime_utc", "") or j.get("job_posted_at_timestamp", "")
@@ -329,15 +322,15 @@ def _fetch_jsearch(query: str = "software developer", location: str = "india") -
 
                 jobs.append({
                     "id": f"jsearch-{j.get('job_id','')}",
-                    "title": title,
-                    "company": employer,
+                    "title": j.get("job_title", ""),
+                    "company": j.get("employer_name", ""),
                     "location": location_str,
-                    "type": j.get("job_employment_type", "Full Time").replace("_", " ").title(),
-                    "category": j.get("job_category", "Software Engineering") or "Software Engineering",
+                    "type": (j.get("job_employment_type") or "Full Time").replace("_", " ").title(),
+                    "category": j.get("job_category") or "Software Engineering",
                     "salary": salary,
                     "tags": (j.get("job_required_skills") or [])[:5],
                     "logo": j.get("employer_logo", ""),
-                    "url": j.get("job_apply_link", j.get("job_google_link", "")),
+                    "url": j.get("job_apply_link") or j.get("job_google_link", ""),
                     "postedAt": posted,
                     "source": src,
                     "remote": bool(j.get("job_is_remote")),
@@ -351,48 +344,36 @@ def _fetch_indeed_rss() -> list:
     """Indeed job RSS feeds for India IT roles (free, no key)"""
     try:
         import xml.etree.ElementTree as ET
-        queries = ["software+engineer", "python+developer", "java+developer", "data+engineer"]
+        import re as _re, email.utils
+        queries = ["software+engineer", "python+developer"]
         jobs = []
         for q in queries:
             url = f"https://www.indeed.com/rss?q={q}&l=India&sort=date&fromage=14"
-            r = requests.get(url, timeout=10, headers={"User-Agent": "Mozilla/5.0 (compatible; VirtualGyans/1.0)"})
+            r = requests.get(url, timeout=6, headers={"User-Agent": "Mozilla/5.0 (compatible; VirtualGyans/1.0)"})
             if r.status_code != 200:
                 continue
-            root = ET.fromstring(r.content)
+            try:
+                root = ET.fromstring(r.content)
+            except ET.ParseError:
+                continue
             for item in root.findall(".//item"):
                 title_el   = item.find("title")
                 link_el    = item.find("link")
                 desc_el    = item.find("description")
                 pubdate_el = item.find("pubDate")
                 guid_el    = item.find("guid")
-
                 title = title_el.text if title_el is not None else ""
                 link  = link_el.text  if link_el  is not None else ""
                 desc  = desc_el.text  if desc_el  is not None else ""
                 pub   = pubdate_el.text if pubdate_el is not None else ""
-
-                # Extract company + location from description
-                company  = ""
-                location = "India"
+                company, location = "", "India"
                 if desc:
-                    import re as _re
-                    company_match = _re.search(r'<b>([^<]+)</b>', desc)
-                    if company_match:
-                        company = company_match.group(1)
-                    loc_match = _re.search(r'-\s*([A-Za-z ,]+?)(?:<|$)', desc)
-                    if loc_match:
-                        location = loc_match.group(1).strip()
-
-                # Parse pub date
+                    m = _re.search(r'<b>([^<]+)</b>', desc)
+                    if m: company = m.group(1)
                 posted_iso = ""
                 if pub:
-                    try:
-                        import email.utils
-                        tt = email.utils.parsedate_to_datetime(pub)
-                        posted_iso = tt.isoformat()
-                    except Exception:
-                        posted_iso = ""
-
+                    try: posted_iso = email.utils.parsedate_to_datetime(pub).isoformat()
+                    except Exception: pass
                 if title and link:
                     jobs.append({
                         "id": f"indeed-{guid_el.text if guid_el is not None else link}",
@@ -401,13 +382,10 @@ def _fetch_indeed_rss() -> list:
                         "location": location,
                         "type": "Full Time",
                         "category": "Software Engineering",
-                        "salary": "",
-                        "tags": [],
-                        "logo": "",
-                        "url": link,
-                        "postedAt": posted_iso,
+                        "salary": "", "tags": [], "logo": "",
+                        "url": link, "postedAt": posted_iso,
                         "source": "Indeed",
-                        "remote": "remote" in title.lower() or "remote" in location.lower(),
+                        "remote": "remote" in title.lower(),
                     })
         return jobs
     except Exception as e:
@@ -421,51 +399,61 @@ def get_jobs(
     remote: Optional[bool] = None,
     source: Optional[str] = None,
 ):
-    """Aggregate real-time IT jobs from LinkedIn/Indeed/Glassdoor (JSearch), Remotive, Arbeitnow, The Muse, Indeed RSS."""
-    from concurrent.futures import ThreadPoolExecutor
-    with ThreadPoolExecutor(max_workers=5) as ex:
-        f_jsearch   = ex.submit(_fetch_jsearch)
-        f_indeed    = ex.submit(_fetch_indeed_rss)
-        f_remotive  = ex.submit(_fetch_remotive)
-        f_arbeitnow = ex.submit(_fetch_arbeitnow)
-        f_themuse   = ex.submit(_fetch_themuse)
-        all_jobs = (
-            f_jsearch.result() +
-            f_indeed.result() +
-            f_remotive.result() +
-            f_arbeitnow.result() +
-            f_themuse.result()
-        )
+    """Aggregate real-time IT jobs — JSearch(LinkedIn/Indeed/Glassdoor) + Remotive + Arbeitnow + The Muse."""
+    try:
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        futures_map = {}
+        with ThreadPoolExecutor(max_workers=4) as ex:
+            futures_map['jsearch']   = ex.submit(_fetch_jsearch)
+            futures_map['remotive']  = ex.submit(_fetch_remotive)
+            futures_map['arbeitnow'] = ex.submit(_fetch_arbeitnow)
+            futures_map['themuse']   = ex.submit(_fetch_themuse)
+            # Collect results safely — a single source failure won't crash the endpoint
+            all_jobs = []
+            for name, future in futures_map.items():
+                try:
+                    all_jobs.extend(future.result(timeout=9))
+                except Exception as e:
+                    print(f"Source '{name}' failed: {e}")
 
-    # Deduplicate by title+company
-    seen, unique = set(), []
-    for j in all_jobs:
-        key = (j["title"].lower().strip(), j["company"].lower().strip())
-        if key not in seen:
-            seen.add(key)
-            unique.append(j)
+        # Deduplicate by title+company
+        seen, unique = set(), []
+        for j in all_jobs:
+            key = (j["title"].lower().strip(), j["company"].lower().strip())
+            if key not in seen and j["title"]:
+                seen.add(key)
+                unique.append(j)
 
-    # Apply filters
-    if search:
-        s = search.lower()
-        unique = [j for j in unique if s in j["title"].lower() or s in j["company"].lower()
-                  or any(s in t.lower() for t in j.get("tags", []))]
-    if category and category != "All":
-        unique = [j for j in unique if category.lower() in j.get("category", "").lower()]
-    if remote is not None:
-        unique = [j for j in unique if j.get("remote") == remote]
-    if source and source != "All":
-        unique = [j for j in unique if j.get("source", "").lower() == source.lower()]
+        # Filters
+        if search:
+            s = search.lower()
+            unique = [j for j in unique if s in j["title"].lower() or s in j["company"].lower()
+                      or any(s in t.lower() for t in j.get("tags", []))]
+        if category and category != "All":
+            unique = [j for j in unique if category.lower() in j.get("category", "").lower()]
+        if remote is not None:
+            unique = [j for j in unique if j.get("remote") == remote]
+        if source and source != "All":
+            unique = [j for j in unique if j.get("source", "").lower() == source.lower()]
 
-    unique.sort(key=lambda x: x.get("postedAt", ""), reverse=True)
+        unique.sort(key=lambda x: x.get("postedAt", ""), reverse=True)
 
-    active_sources = ["LinkedIn", "Indeed", "Glassdoor", "Naukri", "Remotive", "Arbeitnow", "The Muse"]
-    return {
-        "total": len(unique),
-        "jobs": unique[:150],
-        "sources": active_sources,
-        "jsearch_active": bool(RAPIDAPI_KEY),
-    }
+        return {
+            "total": len(unique),
+            "jobs": unique[:150],
+            "sources": ["LinkedIn", "Indeed", "Glassdoor", "Naukri", "Remotive", "Arbeitnow", "The Muse"],
+            "jsearch_active": bool(RAPIDAPI_KEY),
+        }
+    except Exception as e:
+        print(f"get_jobs critical error: {e}")
+        # Return empty but valid JSON so CORS headers are still sent
+        return {
+            "total": 0,
+            "jobs": [],
+            "sources": [],
+            "error": str(e),
+            "jsearch_active": bool(RAPIDAPI_KEY),
+        }
 
 
 @app.get("/")
