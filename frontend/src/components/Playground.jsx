@@ -1896,8 +1896,8 @@ export default function Playground({ questions }) {
                 />
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                  {/* Active Test Case Verification Details */}
-                  {selectedCaseIdx >= 0 && testCases[selectedCaseIdx] && (
+                  {/* Active Test Case Verification Details OR Free Playground STDOUT/STDERR */}
+                  {activeProblem && testCases.length > 0 && selectedCaseIdx >= 0 && testCases[selectedCaseIdx] ? (
                     <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '6px', padding: '0.65rem 0.75rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
                         <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
@@ -1941,13 +1941,24 @@ export default function Playground({ questions }) {
                         )}
                       </div>
                     </div>
-                  )}
-
-                  {stderr && (
-                    <div className="terminal-stderr">
-                      <div style={{ color: '#64748b', fontSize: '0.75rem', marginBottom: '0.4rem', fontFamily: 'sans-serif', fontWeight: 600 }}>STDERR / COMPILE ERROR:</div>
-                      {stderr}
-                    </div>
+                  ) : (
+                    <>
+                      {stdout && (
+                        <div className="terminal-stdout">
+                          <div style={{ color: '#64748b', fontSize: '0.72rem', marginBottom: '0.3rem', fontFamily: 'sans-serif', fontWeight: 600, textTransform: 'uppercase' }}>STDOUT</div>
+                          <pre style={{ margin: 0, padding: '0.4rem 0.6rem', background: 'rgba(0,0,0,0.3)', borderRadius: '4px', color: '#4ade80', fontFamily: 'monospace', fontSize: '0.82rem', whiteSpace: 'pre-wrap' }}>{stdout}</pre>
+                        </div>
+                      )}
+                      {stderr && (
+                        <div className="terminal-stderr">
+                          <div style={{ color: '#64748b', fontSize: '0.72rem', marginBottom: '0.3rem', fontFamily: 'sans-serif', fontWeight: 600, textTransform: 'uppercase' }}>STDERR / COMPILE ERROR</div>
+                          <pre style={{ margin: 0, padding: '0.4rem 0.6rem', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '4px', color: '#f87171', fontFamily: 'monospace', fontSize: '0.82rem', whiteSpace: 'pre-wrap' }}>{stderr}</pre>
+                        </div>
+                      )}
+                      {!stdout && !stderr && !isRunning && hasRun && (
+                        <p style={{ color: '#64748b', fontSize: '0.85rem', fontStyle: 'italic', margin: 0 }}>✓ Code ran successfully — no output produced.</p>
+                      )}
+                    </>
                   )}
                 </div>
               )}
