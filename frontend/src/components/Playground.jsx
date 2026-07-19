@@ -1882,7 +1882,7 @@ export default function Playground({ questions }) {
                   setConsoleTab('input');
                 }}
               >
-                Custom Input (stdin)
+                Input
               </button>
 
               <button 
@@ -1901,7 +1901,7 @@ export default function Playground({ questions }) {
                   className="stdin-textarea"
                   value={stdin}
                   onChange={(e) => setStdin(e.target.value)}
-                  placeholder="Enter inputs for standard input stream..."
+                  placeholder="Enter program input..."
                 />
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
