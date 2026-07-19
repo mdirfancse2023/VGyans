@@ -1038,34 +1038,35 @@ export default function Playground({ questions }) {
           right: 0;
           transform: translateY(-50%);
           z-index: 60;
-          background: linear-gradient(135deg, #3b82f6, #6366f1);
-          border: none;
-          border-radius: 8px 0 0 8px;
-          width: 28px;
-          height: 80px;
+          background: linear-gradient(135deg, #2563eb, #4f46e5);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-right: none;
+          border-radius: 10px 0 0 10px;
+          width: 36px;
+          height: 115px;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: width 0.2s, background 0.2s;
-          box-shadow: -3px 0 12px rgba(59,130,246,0.4);
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: -4px 0 18px rgba(37, 99, 235, 0.45);
         }
         .drawer-toggle:hover {
-          width: 34px;
-          background: linear-gradient(135deg, #2563eb, #4f46e5);
+          width: 42px;
+          background: linear-gradient(135deg, #1d4ed8, #4338ca);
+          box-shadow: -6px 0 24px rgba(37, 99, 235, 0.65);
         }
         .drawer-toggle-icon {
-          color: #fff;
-          font-size: 1rem;
-          line-height: 1;
+          color: #ffffff;
           user-select: none;
           writing-mode: vertical-rl;
           text-orientation: mixed;
-          font-size: 0.62rem;
-          font-weight: 700;
-          letter-spacing: 0.12em;
+          font-size: 0.84rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
           text-transform: uppercase;
           transform: rotate(180deg);
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         .drawer-header {
           display: flex;
