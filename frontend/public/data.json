@@ -284,9 +284,7 @@
   ],
   "resources": [
     {
-      "title": "Accenture Cognitive and Coding Test Guide",
-      "company": "Accenture",
-      "downloadUrl": "#",
+      "id": "accenture-cognitive-prep",
       "tags": [
         "Accenture",
         "Cognitive",
@@ -294,13 +292,13 @@
         "Aptitude"
       ],
       "category": "Placement Prep",
-      "id": "accenture-cognitive-prep",
+      "downloadUrl": "#",
+      "company": "Accenture",
+      "title": "Accenture Cognitive and Coding Test Guide",
       "description": "Step-by-step preparation guide for Accenture's cognitive assessment, technical assessment, and coding round."
     },
     {
-      "title": "Cognizant GenC / Elevate Preparation Guide",
-      "company": "Cognizant",
-      "downloadUrl": "#",
+      "id": "cog-prep-guide",
       "tags": [
         "Cognizant",
         "GenC",
@@ -308,13 +306,13 @@
         "Interview"
       ],
       "category": "Placement Prep",
-      "id": "cog-prep-guide",
+      "downloadUrl": "#",
+      "company": "Cognizant",
+      "title": "Cognizant GenC / Elevate Preparation Guide",
       "description": "Comprehensive guide to clearing the Cognizant technical interview, training assessment, and skill matrix test."
     },
     {
-      "title": "Top 15 DSA Patterns for Tech Interviews",
-      "company": "All",
-      "downloadUrl": "#",
+      "id": "dsa-interview-patterns",
       "tags": [
         "DSA",
         "Algorithms",
@@ -322,13 +320,13 @@
         "Java"
       ],
       "category": "Technical",
-      "id": "dsa-interview-patterns",
+      "downloadUrl": "#",
+      "company": "All",
+      "title": "Top 15 DSA Patterns for Tech Interviews",
       "description": "Learn the patterns behind coding interview questions: Slidng Window, Two Pointers, Fast & Slow Pointers, etc."
     },
     {
-      "title": "Md Irfan's Resume",
-      "company": "All",
-      "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
+      "id": "irfan-resume",
       "tags": [
         "Resume",
         "Developer",
@@ -336,13 +334,13 @@
         "React"
       ],
       "category": "Resume",
-      "id": "irfan-resume",
+      "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
+      "company": "All",
+      "title": "Md Irfan's Resume",
       "description": "Professional resume of Md Irfan, Software Developer (3+ Years Experience)."
     },
     {
-      "title": "Java & OOPs Interview Cheat Sheet",
-      "company": "All",
-      "downloadUrl": "#",
+      "id": "java-oop-cheatsheet",
       "tags": [
         "Java",
         "OOPs",
@@ -350,13 +348,13 @@
         "Interview"
       ],
       "category": "Technical",
-      "id": "java-oop-cheatsheet",
+      "downloadUrl": "#",
+      "company": "All",
+      "title": "Java & OOPs Interview Cheat Sheet",
       "description": "Quick revision notes on Core Java, OOPs concepts, Exception Handling, Collections Framework, and Multithreading."
     },
     {
-      "title": "TCS NQT Preparation Roadmap & Syllabus",
-      "company": "TCS",
-      "downloadUrl": "#",
+      "id": "tcs-nqt-roadmap",
       "tags": [
         "TCS",
         "NQT",
@@ -364,20 +362,20 @@
         "Coding"
       ],
       "category": "Placement Prep",
-      "id": "tcs-nqt-roadmap",
+      "downloadUrl": "#",
+      "company": "TCS",
+      "title": "TCS NQT Preparation Roadmap & Syllabus",
       "description": "Detailed syllabus, recommended resources, and mock questions for TCS National Qualifier Test (NQT)."
     }
   ],
   "experiences": [
     {
-      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
-      "id": "exp-103",
-      "date": "February 2026",
-      "candidate": "Sunita Mishra",
-      "difficulty": "Medium",
-      "role": "Cognizant GenC Developer",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
+      "candidate": "Sunita Mishra",
+      "verdict": "Selected",
+      "id": "exp-103",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -391,17 +389,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'If you are assigned to a technology that you do not know, how will you handle it?'"
         }
-      ]
+      ],
+      "date": "February 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
-      "id": "exp-102",
-      "date": "June 2026",
-      "candidate": "Deepak Nair",
-      "difficulty": "Hard",
-      "role": "Infosys System Engineer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
+      "candidate": "Deepak Nair",
+      "verdict": "Selected",
+      "id": "exp-102",
+      "role": "Infosys System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -415,17 +413,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about the company history and founders. Why Infosys? I mentioned their beautiful campuses and training center in Mysore."
         }
-      ]
+      ],
+      "date": "June 2026",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
-      "id": "exp-101",
-      "date": "October 2025",
-      "candidate": "Arjun Rao",
-      "difficulty": "Medium",
-      "role": "Accenture FSE (Full Stack Engineer)",
-      "verdict": "Rejected",
       "company": "Accenture",
+      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
+      "candidate": "Arjun Rao",
+      "verdict": "Rejected",
+      "id": "exp-101",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -439,17 +437,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my career plans for the next 3 to 5 years. I explained my goal of becoming a technical lead."
         }
-      ]
+      ],
+      "date": "October 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-100",
-      "date": "November 2026",
-      "candidate": "Sanjay Mishra",
-      "difficulty": "Easy-Medium",
-      "role": "Accenture FSE (Full Stack Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
+      "candidate": "Sanjay Mishra",
+      "verdict": "Selected",
+      "id": "exp-100",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -463,17 +461,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my hobbies and extra-curricular activities. They asked how I handle pressure and work stress."
         }
-      ]
+      ],
+      "date": "November 2026",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
-      "id": "exp-99",
-      "date": "February 2026",
-      "candidate": "Arohi Kumar",
-      "difficulty": "Easy-Medium",
-      "role": "Capgemini Senior Analyst",
-      "verdict": "Selected",
       "company": "Capgemini",
+      "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
+      "candidate": "Arohi Kumar",
+      "verdict": "Selected",
+      "id": "exp-99",
+      "role": "Capgemini Senior Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -487,17 +485,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my communication skills and how I ensure clarity when presenting projects to non-technical stakeholders."
         }
-      ]
+      ],
+      "date": "February 2026",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
-      "id": "exp-98",
-      "date": "July 2025",
-      "candidate": "Neha Gowda",
-      "difficulty": "Easy",
-      "role": "Cognizant GenC Developer",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
+      "candidate": "Neha Gowda",
+      "verdict": "Selected",
+      "id": "exp-98",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -511,17 +509,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my leadership qualities and instances where I took initiative in college events."
         }
-      ]
+      ],
+      "date": "July 2025",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
-      "id": "exp-97",
-      "date": "October 2025",
-      "candidate": "Meera Iyer",
-      "difficulty": "Hard",
-      "role": "TCS Digital Specialist",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
+      "candidate": "Meera Iyer",
+      "verdict": "Selected",
+      "id": "exp-97",
+      "role": "TCS Digital Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -535,17 +533,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I want to join TCS. I talked about TCS being a global leader and its training programs like ILP."
         }
-      ]
+      ],
+      "date": "October 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
-      "id": "exp-96",
-      "date": "May 2025",
-      "candidate": "Kavya Nair",
-      "difficulty": "Hard",
-      "role": "Capgemini Analyst",
-      "verdict": "Selected",
       "company": "Capgemini",
+      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
+      "candidate": "Kavya Nair",
+      "verdict": "Selected",
+      "id": "exp-96",
+      "role": "Capgemini Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -559,17 +557,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on work-life balance and how I prioritize my tasks when multiple assignments are due."
         }
-      ]
+      ],
+      "date": "May 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
-      "id": "exp-95",
-      "date": "April 2025",
-      "candidate": "Vikram Bose",
-      "difficulty": "Medium-Hard",
-      "role": "Wipro Turbo Analyst",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
+      "candidate": "Vikram Bose",
+      "verdict": "Selected",
+      "id": "exp-95",
+      "role": "Wipro Turbo Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -583,17 +581,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about the Wipro service agreement (bond). Verified my willingness to sign it and relocate."
         }
-      ]
+      ],
+      "date": "April 2025",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
-      "id": "exp-94",
-      "date": "February 2026",
-      "candidate": "Karan Verma",
-      "difficulty": "Medium-Hard",
-      "role": "Cognizant GenC Next Analyst",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
+      "candidate": "Karan Verma",
+      "verdict": "Selected",
+      "id": "exp-94",
+      "role": "Cognizant GenC Next Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -607,17 +605,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my salary expectations and willingness to work in shifts. Verified my educational documents."
         }
-      ]
+      ],
+      "date": "February 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
-      "id": "exp-93",
-      "date": "June 2025",
-      "candidate": "Swati Mehta",
-      "difficulty": "Easy-Medium",
-      "role": "Infosys System Engineer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
+      "candidate": "Swati Mehta",
+      "verdict": "Selected",
+      "id": "exp-93",
+      "role": "Infosys System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -631,17 +629,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked situational questions: 'If your manager gives you negative feedback, how will you react?'"
         }
-      ]
+      ],
+      "date": "June 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
-      "id": "exp-92",
-      "date": "September 2026",
-      "candidate": "Kiran Choudhury",
-      "difficulty": "Medium",
-      "role": "Cognizant GenC Next Analyst",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
+      "candidate": "Kiran Choudhury",
+      "verdict": "Selected",
+      "id": "exp-92",
+      "role": "Cognizant GenC Next Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -655,17 +653,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my salary expectations and willingness to work in shifts. Verified my educational documents."
         }
-      ]
+      ],
+      "date": "September 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
-      "id": "exp-91",
-      "date": "July 2025",
-      "candidate": "Harsh Singh",
-      "difficulty": "Medium",
-      "role": "Wipro Elite Developer",
-      "verdict": "Rejected",
       "company": "Wipro",
+      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
+      "candidate": "Harsh Singh",
+      "verdict": "Rejected",
+      "id": "exp-91",
+      "role": "Wipro Elite Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -679,17 +677,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on my family background and willingness to adapt to new corporate environments."
         }
-      ]
+      ],
+      "date": "July 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
-      "id": "exp-90",
-      "date": "November 2026",
-      "candidate": "Arjun Naidu",
-      "difficulty": "Medium",
-      "role": "TCS Ninja Developer",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
+      "candidate": "Arjun Naidu",
+      "verdict": "Selected",
+      "id": "exp-90",
+      "role": "TCS Ninja Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -703,17 +701,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my strengths and weaknesses. I explained how I work on my weakness (time management) by using calendar tools."
         }
-      ]
+      ],
+      "date": "November 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
-      "id": "exp-89",
-      "date": "May 2025",
-      "candidate": "Siddharth Prasad",
-      "difficulty": "Hard",
-      "role": "Cognizant GenC Next Analyst",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
+      "candidate": "Siddharth Prasad",
+      "verdict": "Selected",
+      "id": "exp-89",
+      "role": "Cognizant GenC Next Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -727,17 +725,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my salary expectations and willingness to work in shifts. Verified my educational documents."
         }
-      ]
+      ],
+      "date": "May 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
-      "id": "exp-88",
-      "date": "October 2025",
-      "candidate": "Varun Menon",
-      "difficulty": "Medium",
-      "role": "Infosys Specialist Programmer",
-      "verdict": "Rejected",
       "company": "Infosys",
+      "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
+      "candidate": "Varun Menon",
+      "verdict": "Rejected",
+      "id": "exp-88",
+      "role": "Infosys Specialist Programmer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -751,17 +749,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed how I keep myself updated with latest technology trends. I mentioned blogs and certification courses."
         }
-      ]
+      ],
+      "date": "October 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-87",
-      "date": "August 2025",
-      "candidate": "Tanvi Reddy",
-      "difficulty": "Easy",
-      "role": "Accenture FSE (Full Stack Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
+      "candidate": "Tanvi Reddy",
+      "verdict": "Selected",
+      "id": "exp-87",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -775,17 +773,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my career plans for the next 3 to 5 years. I explained my goal of becoming a technical lead."
         }
-      ]
+      ],
+      "date": "August 2025",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
-      "id": "exp-86",
-      "date": "June 2025",
-      "candidate": "Manish Roy",
-      "difficulty": "Easy-Medium",
-      "role": "Capgemini Analyst",
-      "verdict": "Selected",
       "company": "Capgemini",
+      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
+      "candidate": "Manish Roy",
+      "verdict": "Selected",
+      "id": "exp-86",
+      "role": "Capgemini Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -799,17 +797,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed Capgemini's French heritage and global presence. Asked about my willingness to relocate."
         }
-      ]
+      ],
+      "date": "June 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
-      "id": "exp-85",
-      "date": "April 2026",
-      "candidate": "Sandeep Gowda",
-      "difficulty": "Medium-Hard",
-      "role": "Cognizant GenC Developer",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
+      "candidate": "Sandeep Gowda",
+      "verdict": "Selected",
+      "id": "exp-85",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -823,17 +821,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'If you are assigned to a technology that you do not know, how will you handle it?'"
         }
-      ]
+      ],
+      "date": "April 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
-      "id": "exp-84",
-      "date": "December 2026",
-      "candidate": "Gaurav Saxena",
-      "difficulty": "Medium-Hard",
-      "role": "Accenture FSE (Full Stack Engineer)",
-      "verdict": "Rejected",
       "company": "Accenture",
+      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
+      "candidate": "Gaurav Saxena",
+      "verdict": "Rejected",
+      "id": "exp-84",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -847,17 +845,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed team collaboration: 'Tell me about a time you had a conflict with a team member and how you resolved it.'"
         }
-      ]
+      ],
+      "date": "December 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
-      "id": "exp-83",
-      "date": "May 2026",
-      "candidate": "Suresh Mishra",
-      "difficulty": "Hard",
-      "role": "Capgemini Senior Analyst",
-      "verdict": "Selected",
       "company": "Capgemini",
+      "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
+      "candidate": "Suresh Mishra",
+      "verdict": "Selected",
+      "id": "exp-83",
+      "role": "Capgemini Senior Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -871,17 +869,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'What is the most challenging situation you faced in college, and how did you overcome it?'"
         }
-      ]
+      ],
+      "date": "May 2026",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-82",
-      "date": "October 2026",
-      "candidate": "Preeti Menon",
-      "difficulty": "Easy",
-      "role": "Accenture FSE (Full Stack Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
+      "candidate": "Preeti Menon",
+      "verdict": "Selected",
+      "id": "exp-82",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -895,17 +893,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed team collaboration: 'Tell me about a time you had a conflict with a team member and how you resolved it.'"
         }
-      ]
+      ],
+      "date": "October 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
-      "id": "exp-81",
-      "date": "August 2025",
-      "candidate": "Shreya Joshi",
-      "difficulty": "Medium",
-      "role": "TCS Digital Specialist",
-      "verdict": "Rejected",
       "company": "TCS",
+      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
+      "candidate": "Shreya Joshi",
+      "verdict": "Rejected",
+      "id": "exp-81",
+      "role": "TCS Digital Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -919,17 +917,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my strengths and weaknesses. I explained how I work on my weakness (time management) by using calendar tools."
         }
-      ]
+      ],
+      "date": "August 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
-      "id": "exp-80",
-      "date": "March 2025",
-      "candidate": "Varun Pillai",
-      "difficulty": "Easy-Medium",
-      "role": "Wipro Elite Developer",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
+      "candidate": "Varun Pillai",
+      "verdict": "Selected",
+      "id": "exp-80",
+      "role": "Wipro Elite Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -943,17 +941,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on my family background and willingness to adapt to new corporate environments."
         }
-      ]
+      ],
+      "date": "March 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume.",
-      "id": "exp-79",
-      "date": "March 2026",
-      "candidate": "Priya Nair",
-      "difficulty": "Medium-Hard",
-      "role": "TCS Digital Specialist",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume.",
+      "candidate": "Priya Nair",
+      "verdict": "Selected",
+      "id": "exp-79",
+      "role": "TCS Digital Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -967,17 +965,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I want to join TCS. I talked about TCS being a global leader and its training programs like ILP."
         }
-      ]
+      ],
+      "date": "March 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
-      "id": "exp-78",
-      "date": "November 2025",
-      "candidate": "Rajesh Kulkarni",
-      "difficulty": "Easy",
-      "role": "Infosys Power Programmer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
+      "candidate": "Rajesh Kulkarni",
+      "verdict": "Selected",
+      "id": "exp-78",
+      "role": "Infosys Power Programmer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -991,17 +989,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked situational questions: 'If your manager gives you negative feedback, how will you react?'"
         }
-      ]
+      ],
+      "date": "November 2025",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-77",
-      "date": "February 2026",
-      "candidate": "Sandeep Iyer",
-      "difficulty": "Hard",
-      "role": "Accenture ASE (Associate Software Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
+      "candidate": "Sandeep Iyer",
+      "verdict": "Selected",
+      "id": "exp-77",
+      "role": "Accenture ASE (Associate Software Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1015,17 +1013,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my career plans for the next 3 to 5 years. I explained my goal of becoming a technical lead."
         }
-      ]
+      ],
+      "date": "February 2026",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
-      "id": "exp-76",
-      "date": "July 2026",
-      "candidate": "Akash Singh",
-      "difficulty": "Medium",
-      "role": "Cognizant GenC Elevate Specialist",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
+      "candidate": "Akash Singh",
+      "verdict": "Selected",
+      "id": "exp-76",
+      "role": "Cognizant GenC Elevate Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1039,17 +1037,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my leadership qualities and instances where I took initiative in college events."
         }
-      ]
+      ],
+      "date": "July 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
-      "id": "exp-75",
-      "date": "August 2025",
-      "candidate": "Deepak Chatterjee",
-      "difficulty": "Medium-Hard",
-      "role": "Capgemini Senior Analyst",
-      "verdict": "Rejected",
       "company": "Capgemini",
+      "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
+      "candidate": "Deepak Chatterjee",
+      "verdict": "Rejected",
+      "id": "exp-75",
+      "role": "Capgemini Senior Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1063,17 +1061,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on work-life balance and how I prioritize my tasks when multiple assignments are due."
         }
-      ]
+      ],
+      "date": "August 2025",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
-      "id": "exp-74",
-      "date": "March 2026",
-      "candidate": "Riya Patel",
-      "difficulty": "Medium-Hard",
-      "role": "Wipro Turbo Analyst",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
+      "candidate": "Riya Patel",
+      "verdict": "Selected",
+      "id": "exp-74",
+      "role": "Wipro Turbo Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1087,17 +1085,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'Why should we hire you instead of other candidates?' I highlighted my technical projects and fast learning ability."
         }
-      ]
+      ],
+      "date": "March 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
-      "id": "exp-73",
-      "date": "May 2025",
-      "candidate": "Meera Gowda",
-      "difficulty": "Hard",
-      "role": "Accenture FSE (Full Stack Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
+      "candidate": "Meera Gowda",
+      "verdict": "Selected",
+      "id": "exp-73",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1111,17 +1109,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my career plans for the next 3 to 5 years. I explained my goal of becoming a technical lead."
         }
-      ]
+      ],
+      "date": "May 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
-      "id": "exp-72",
-      "date": "May 2025",
-      "candidate": "Gaurav Kulkarni",
-      "difficulty": "Medium",
-      "role": "Infosys System Engineer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
+      "candidate": "Gaurav Kulkarni",
+      "verdict": "Selected",
+      "id": "exp-72",
+      "role": "Infosys System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1135,17 +1133,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about the company history and founders. Why Infosys? I mentioned their beautiful campuses and training center in Mysore."
         }
-      ]
+      ],
+      "date": "May 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
-      "id": "exp-71",
-      "date": "June 2026",
-      "candidate": "Abhishek Joshi",
-      "difficulty": "Easy-Medium",
-      "role": "Cognizant GenC Next Analyst",
-      "verdict": "Rejected",
       "company": "Cognizant",
+      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
+      "candidate": "Abhishek Joshi",
+      "verdict": "Rejected",
+      "id": "exp-71",
+      "role": "Cognizant GenC Next Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1159,17 +1157,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'If you are assigned to a technology that you do not know, how will you handle it?'"
         }
-      ]
+      ],
+      "date": "June 2026",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
-      "id": "exp-70",
-      "date": "October 2026",
-      "candidate": "Amit Joshi",
-      "difficulty": "Easy-Medium",
-      "role": "Wipro Elite Developer",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
+      "candidate": "Amit Joshi",
+      "verdict": "Selected",
+      "id": "exp-70",
+      "role": "Wipro Elite Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1183,17 +1181,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed Wipro's culture and values (Spirit of Wipro). Asked how I align with them."
         }
-      ]
+      ],
+      "date": "October 2026",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
-      "id": "exp-69",
-      "date": "March 2026",
-      "candidate": "Arjun Deshmukh",
-      "difficulty": "Easy-Medium",
-      "role": "TCS Digital Specialist",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
+      "candidate": "Arjun Deshmukh",
+      "verdict": "Selected",
+      "id": "exp-69",
+      "role": "TCS Digital Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1207,17 +1205,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked situational questions like: 'If your project deadline is near and your team member falls sick, what will you do?'"
         }
-      ]
+      ],
+      "date": "March 2026",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility.",
-      "id": "exp-68",
-      "date": "October 2026",
-      "candidate": "Pranav Deshmukh",
-      "difficulty": "Medium",
-      "role": "Capgemini Analyst",
-      "verdict": "Rejected",
       "company": "Capgemini",
+      "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility.",
+      "candidate": "Pranav Deshmukh",
+      "verdict": "Rejected",
+      "id": "exp-68",
+      "role": "Capgemini Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1231,17 +1229,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my communication skills and how I ensure clarity when presenting projects to non-technical stakeholders."
         }
-      ]
+      ],
+      "date": "October 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
-      "id": "exp-67",
-      "date": "February 2025",
-      "candidate": "Pooja Singh",
-      "difficulty": "Easy-Medium",
-      "role": "Cognizant GenC Elevate Specialist",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
+      "candidate": "Pooja Singh",
+      "verdict": "Selected",
+      "id": "exp-67",
+      "role": "Cognizant GenC Elevate Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1255,17 +1253,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on company core values. Why Cognizant? What do you know about Cognizant's recent acquisitions?"
         }
-      ]
+      ],
+      "date": "February 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
-      "id": "exp-66",
-      "date": "May 2025",
-      "candidate": "Gaurav Pandey",
-      "difficulty": "Hard",
-      "role": "Cognizant GenC Elevate Specialist",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
+      "candidate": "Gaurav Pandey",
+      "verdict": "Selected",
+      "id": "exp-66",
+      "role": "Cognizant GenC Elevate Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1279,17 +1277,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on company core values. Why Cognizant? What do you know about Cognizant's recent acquisitions?"
         }
-      ]
+      ],
+      "date": "May 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
-      "id": "exp-65",
-      "date": "September 2026",
-      "candidate": "Rajesh Saxena",
-      "difficulty": "Medium-Hard",
-      "role": "Wipro Turbo Analyst",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
+      "candidate": "Rajesh Saxena",
+      "verdict": "Selected",
+      "id": "exp-65",
+      "role": "Wipro Turbo Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1303,17 +1301,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about the Wipro service agreement (bond). Verified my willingness to sign it and relocate."
         }
-      ]
+      ],
+      "date": "September 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
-      "id": "exp-64",
-      "date": "April 2025",
-      "candidate": "Abhishek Sharma",
-      "difficulty": "Medium",
-      "role": "Infosys System Engineer",
-      "verdict": "Rejected",
       "company": "Infosys",
+      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
+      "candidate": "Abhishek Sharma",
+      "verdict": "Rejected",
+      "id": "exp-64",
+      "role": "Infosys System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1327,17 +1325,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Verification of academic records and discussions on location preferences."
         }
-      ]
+      ],
+      "date": "April 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
-      "id": "exp-63",
-      "date": "October 2026",
-      "candidate": "Karan Prasad",
-      "difficulty": "Hard",
-      "role": "Cognizant GenC Next Analyst",
-      "verdict": "Rejected",
       "company": "Cognizant",
+      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
+      "candidate": "Karan Prasad",
+      "verdict": "Rejected",
+      "id": "exp-63",
+      "role": "Cognizant GenC Next Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1351,17 +1349,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on company core values. Why Cognizant? What do you know about Cognizant's recent acquisitions?"
         }
-      ]
+      ],
+      "date": "October 2026",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams.",
-      "id": "exp-62",
-      "date": "April 2025",
-      "candidate": "Suresh Prasad",
-      "difficulty": "Easy-Medium",
-      "role": "Infosys Specialist Programmer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams.",
+      "candidate": "Suresh Prasad",
+      "verdict": "Selected",
+      "id": "exp-62",
+      "role": "Infosys Specialist Programmer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1375,17 +1373,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Verification of academic records and discussions on location preferences."
         }
-      ]
+      ],
+      "date": "April 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
-      "id": "exp-61",
-      "date": "September 2025",
-      "candidate": "Meera Sharma",
-      "difficulty": "Medium",
-      "role": "Wipro Elite Developer",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
+      "candidate": "Meera Sharma",
+      "verdict": "Selected",
+      "id": "exp-61",
+      "role": "Wipro Elite Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1399,17 +1397,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'Why should we hire you instead of other candidates?' I highlighted my technical projects and fast learning ability."
         }
-      ]
+      ],
+      "date": "September 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
-      "id": "exp-60",
-      "date": "December 2026",
-      "candidate": "Karan Menon",
-      "difficulty": "Easy",
-      "role": "Cognizant GenC Elevate Specialist",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
+      "candidate": "Karan Menon",
+      "verdict": "Selected",
+      "id": "exp-60",
+      "role": "Cognizant GenC Elevate Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1423,17 +1421,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my leadership qualities and instances where I took initiative in college events."
         }
-      ]
+      ],
+      "date": "December 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
-      "id": "exp-59",
-      "date": "September 2025",
-      "candidate": "Sandeep Mishra",
-      "difficulty": "Medium",
-      "role": "Infosys Power Programmer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
+      "candidate": "Sandeep Mishra",
+      "verdict": "Selected",
+      "id": "exp-59",
+      "role": "Infosys Power Programmer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1447,17 +1445,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about the company history and founders. Why Infosys? I mentioned their beautiful campuses and training center in Mysore."
         }
-      ]
+      ],
+      "date": "September 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
-      "id": "exp-58",
-      "date": "October 2026",
-      "candidate": "Pranav Rao",
-      "difficulty": "Medium-Hard",
-      "role": "Wipro Turbo Analyst",
-      "verdict": "Rejected",
       "company": "Wipro",
+      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
+      "candidate": "Pranav Rao",
+      "verdict": "Rejected",
+      "id": "exp-58",
+      "role": "Wipro Turbo Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1471,17 +1469,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed Wipro's culture and values (Spirit of Wipro). Asked how I align with them."
         }
-      ]
+      ],
+      "date": "October 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
-      "id": "exp-57",
-      "date": "January 2026",
-      "candidate": "Karan Menon",
-      "difficulty": "Medium",
-      "role": "Accenture ASE (Associate Software Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
+      "candidate": "Karan Menon",
+      "verdict": "Selected",
+      "id": "exp-57",
+      "role": "Accenture ASE (Associate Software Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1495,17 +1493,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my career plans for the next 3 to 5 years. I explained my goal of becoming a technical lead."
         }
-      ]
+      ],
+      "date": "January 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
-      "id": "exp-56",
-      "date": "March 2025",
-      "candidate": "Aniket Prasad",
-      "difficulty": "Medium-Hard",
-      "role": "Cognizant GenC Developer",
-      "verdict": "Rejected",
       "company": "Cognizant",
+      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
+      "candidate": "Aniket Prasad",
+      "verdict": "Rejected",
+      "id": "exp-56",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1519,17 +1517,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my salary expectations and willingness to work in shifts. Verified my educational documents."
         }
-      ]
+      ],
+      "date": "March 2025",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
-      "id": "exp-55",
-      "date": "September 2026",
-      "candidate": "Manish Patel",
-      "difficulty": "Medium",
-      "role": "Cognizant GenC Next Analyst",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
+      "candidate": "Manish Patel",
+      "verdict": "Selected",
+      "id": "exp-55",
+      "role": "Cognizant GenC Next Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1543,17 +1541,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my salary expectations and willingness to work in shifts. Verified my educational documents."
         }
-      ]
+      ],
+      "date": "September 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
-      "id": "exp-54",
-      "date": "June 2025",
-      "candidate": "Swati Prasad",
-      "difficulty": "Hard",
-      "role": "Wipro Elite Developer",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
+      "candidate": "Swati Prasad",
+      "verdict": "Selected",
+      "id": "exp-54",
+      "role": "Wipro Elite Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1567,17 +1565,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'Why should we hire you instead of other candidates?' I highlighted my technical projects and fast learning ability."
         }
-      ]
+      ],
+      "date": "June 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
-      "id": "exp-53",
-      "date": "October 2025",
-      "candidate": "Karan Kulkarni",
-      "difficulty": "Medium-Hard",
-      "role": "Wipro Elite Developer",
-      "verdict": "Rejected",
       "company": "Wipro",
+      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
+      "candidate": "Karan Kulkarni",
+      "verdict": "Rejected",
+      "id": "exp-53",
+      "role": "Wipro Elite Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1591,17 +1589,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about the Wipro service agreement (bond). Verified my willingness to sign it and relocate."
         }
-      ]
+      ],
+      "date": "October 2025",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-52",
-      "date": "November 2026",
-      "candidate": "Kishore Chatterjee",
-      "difficulty": "Medium-Hard",
-      "role": "Accenture ASE (Associate Software Engineer)",
-      "verdict": "Rejected",
       "company": "Accenture",
+      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
+      "candidate": "Kishore Chatterjee",
+      "verdict": "Rejected",
+      "id": "exp-52",
+      "role": "Accenture ASE (Associate Software Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1615,17 +1613,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my hobbies and extra-curricular activities. They asked how I handle pressure and work stress."
         }
-      ]
+      ],
+      "date": "November 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
-      "id": "exp-51",
-      "date": "May 2025",
-      "candidate": "Amit Deshmukh",
-      "difficulty": "Hard",
-      "role": "TCS System Engineer",
-      "verdict": "Rejected",
       "company": "TCS",
+      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
+      "candidate": "Amit Deshmukh",
+      "verdict": "Rejected",
+      "id": "exp-51",
+      "role": "TCS System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1639,17 +1637,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I want to join TCS. I talked about TCS being a global leader and its training programs like ILP."
         }
-      ]
+      ],
+      "date": "May 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
-      "id": "exp-50",
-      "date": "January 2026",
-      "candidate": "Rahul Pillai",
-      "difficulty": "Medium",
-      "role": "Cognizant GenC Developer",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
+      "candidate": "Rahul Pillai",
+      "verdict": "Selected",
+      "id": "exp-50",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1663,17 +1661,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my leadership qualities and instances where I took initiative in college events."
         }
-      ]
+      ],
+      "date": "January 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
-      "id": "exp-49",
-      "date": "March 2025",
-      "candidate": "Ramesh Choudhury",
-      "difficulty": "Hard",
-      "role": "TCS Ninja Developer",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
+      "candidate": "Ramesh Choudhury",
+      "verdict": "Selected",
+      "id": "exp-49",
+      "role": "TCS Ninja Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1687,17 +1685,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I want to join TCS. I talked about TCS being a global leader and its training programs like ILP."
         }
-      ]
+      ],
+      "date": "March 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility.",
-      "id": "exp-48",
-      "date": "May 2026",
-      "candidate": "Aishwarya Kulkarni",
-      "difficulty": "Medium",
-      "role": "Capgemini Analyst",
-      "verdict": "Rejected",
       "company": "Capgemini",
+      "tips": "Be ready with abstract class vs interface code. Capgemini HR focuses heavily on communication and flexibility.",
+      "candidate": "Aishwarya Kulkarni",
+      "verdict": "Rejected",
+      "id": "exp-48",
+      "role": "Capgemini Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1711,17 +1709,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed Capgemini's French heritage and global presence. Asked about my willingness to relocate."
         }
-      ]
+      ],
+      "date": "May 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
-      "id": "exp-47",
-      "date": "January 2025",
-      "candidate": "Sneha Menon",
-      "difficulty": "Easy-Medium",
-      "role": "Wipro Elite Developer",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "For Wipro Elite, focus on Java/Python string methods. Be willing to relocate and sign the service agreement.",
+      "candidate": "Sneha Menon",
+      "verdict": "Selected",
+      "id": "exp-47",
+      "role": "Wipro Elite Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1735,17 +1733,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed Wipro's culture and values (Spirit of Wipro). Asked how I align with them."
         }
-      ]
+      ],
+      "date": "January 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
-      "id": "exp-46",
-      "date": "October 2026",
-      "candidate": "Arohi Pillai",
-      "difficulty": "Medium-Hard",
-      "role": "Capgemini Analyst",
-      "verdict": "Selected",
       "company": "Capgemini",
+      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
+      "candidate": "Arohi Pillai",
+      "verdict": "Selected",
+      "id": "exp-46",
+      "role": "Capgemini Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1759,17 +1757,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on work-life balance and how I prioritize my tasks when multiple assignments are due."
         }
-      ]
+      ],
+      "date": "October 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams.",
-      "id": "exp-45",
-      "date": "September 2026",
-      "candidate": "Suresh Saxena",
-      "difficulty": "Easy-Medium",
-      "role": "Infosys Specialist Programmer",
-      "verdict": "Rejected",
       "company": "Infosys",
+      "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams.",
+      "candidate": "Suresh Saxena",
+      "verdict": "Rejected",
+      "id": "exp-45",
+      "role": "Infosys Specialist Programmer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1783,17 +1781,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed how I keep myself updated with latest technology trends. I mentioned blogs and certification courses."
         }
-      ]
+      ],
+      "date": "September 2026",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
-      "id": "exp-44",
-      "date": "December 2026",
-      "candidate": "Ananya Nair",
-      "difficulty": "Hard",
-      "role": "Cognizant GenC Next Analyst",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
+      "candidate": "Ananya Nair",
+      "verdict": "Selected",
+      "id": "exp-44",
+      "role": "Cognizant GenC Next Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1807,17 +1805,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my salary expectations and willingness to work in shifts. Verified my educational documents."
         }
-      ]
+      ],
+      "date": "December 2026",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
-      "id": "exp-43",
-      "date": "December 2026",
-      "candidate": "Aditya Kumar",
-      "difficulty": "Easy",
-      "role": "TCS System Engineer",
-      "verdict": "Rejected",
       "company": "TCS",
+      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
+      "candidate": "Aditya Kumar",
+      "verdict": "Rejected",
+      "id": "exp-43",
+      "role": "TCS System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1831,17 +1829,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked if I am willing to relocate to any location in India. Also asked about my willingness to work in night shifts. I said yes to both."
         }
-      ]
+      ],
+      "date": "December 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
-      "id": "exp-42",
-      "date": "January 2026",
-      "candidate": "Aditya Joshi",
-      "difficulty": "Easy",
-      "role": "Capgemini Analyst",
-      "verdict": "Rejected",
       "company": "Capgemini",
+      "tips": "Game-based aptitude tests are unique; watch tutorial videos on YouTube before attempting. Practice basic pseudo-codes.",
+      "candidate": "Aditya Joshi",
+      "verdict": "Rejected",
+      "id": "exp-42",
+      "role": "Capgemini Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1855,17 +1853,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my communication skills and how I ensure clarity when presenting projects to non-technical stakeholders."
         }
-      ]
+      ],
+      "date": "January 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
-      "id": "exp-41",
-      "date": "August 2026",
-      "candidate": "Riya Reddy",
-      "difficulty": "Medium-Hard",
-      "role": "TCS Digital Specialist",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
+      "candidate": "Riya Reddy",
+      "verdict": "Selected",
+      "id": "exp-41",
+      "role": "TCS Digital Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1879,17 +1877,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my strengths and weaknesses. I explained how I work on my weakness (time management) by using calendar tools."
         }
-      ]
+      ],
+      "date": "August 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
-      "id": "exp-40",
-      "date": "June 2025",
-      "candidate": "Varun Reddy",
-      "difficulty": "Hard",
-      "role": "Infosys System Engineer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
+      "candidate": "Varun Reddy",
+      "verdict": "Selected",
+      "id": "exp-40",
+      "role": "Infosys System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1903,17 +1901,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed how I keep myself updated with latest technology trends. I mentioned blogs and certification courses."
         }
-      ]
+      ],
+      "date": "June 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
-      "id": "exp-39",
-      "date": "December 2026",
-      "candidate": "Deepak Menon",
-      "difficulty": "Medium-Hard",
-      "role": "Cognizant GenC Elevate Specialist",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
+      "candidate": "Deepak Menon",
+      "verdict": "Selected",
+      "id": "exp-39",
+      "role": "Cognizant GenC Elevate Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1927,17 +1925,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my leadership qualities and instances where I took initiative in college events."
         }
-      ]
+      ],
+      "date": "December 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-38",
-      "date": "August 2026",
-      "candidate": "Kishore Mishra",
-      "difficulty": "Easy-Medium",
-      "role": "Accenture ASE (Associate Software Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
+      "candidate": "Kishore Mishra",
+      "verdict": "Selected",
+      "id": "exp-38",
+      "role": "Accenture ASE (Associate Software Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1951,17 +1949,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed team collaboration: 'Tell me about a time you had a conflict with a team member and how you resolved it.'"
         }
-      ]
+      ],
+      "date": "August 2026",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
-      "id": "exp-37",
-      "date": "November 2026",
-      "candidate": "Manish Roy",
-      "difficulty": "Easy",
-      "role": "Wipro Turbo Analyst",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
+      "candidate": "Manish Roy",
+      "verdict": "Selected",
+      "id": "exp-37",
+      "role": "Wipro Turbo Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1975,17 +1973,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about the Wipro service agreement (bond). Verified my willingness to sign it and relocate."
         }
-      ]
+      ],
+      "date": "November 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
-      "id": "exp-36",
-      "date": "January 2026",
-      "candidate": "Rahul Banerjee",
-      "difficulty": "Medium",
-      "role": "Cognizant GenC Developer",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
+      "candidate": "Rahul Banerjee",
+      "verdict": "Selected",
+      "id": "exp-36",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -1999,17 +1997,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my salary expectations and willingness to work in shifts. Verified my educational documents."
         }
-      ]
+      ],
+      "date": "January 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
-      "id": "exp-35",
-      "date": "September 2026",
-      "candidate": "Jyoti Gupta",
-      "difficulty": "Medium-Hard",
-      "role": "Cognizant GenC Next Analyst",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
+      "candidate": "Jyoti Gupta",
+      "verdict": "Selected",
+      "id": "exp-35",
+      "role": "Cognizant GenC Next Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2023,17 +2021,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my salary expectations and willingness to work in shifts. Verified my educational documents."
         }
-      ]
+      ],
+      "date": "September 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume.",
-      "id": "exp-34",
-      "date": "November 2026",
-      "candidate": "Aditya Roy",
-      "difficulty": "Medium-Hard",
-      "role": "TCS Ninja Developer",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume.",
+      "candidate": "Aditya Roy",
+      "verdict": "Selected",
+      "id": "exp-34",
+      "role": "TCS Ninja Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2047,17 +2045,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I want to join TCS. I talked about TCS being a global leader and its training programs like ILP."
         }
-      ]
+      ],
+      "date": "November 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
-      "id": "exp-33",
-      "date": "November 2025",
-      "candidate": "Kishore Gowda",
-      "difficulty": "Hard",
-      "role": "Infosys System Engineer",
-      "verdict": "Rejected",
       "company": "Infosys",
+      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
+      "candidate": "Kishore Gowda",
+      "verdict": "Rejected",
+      "id": "exp-33",
+      "role": "Infosys System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2071,17 +2069,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked situational questions: 'If your manager gives you negative feedback, how will you react?'"
         }
-      ]
+      ],
+      "date": "November 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams.",
-      "id": "exp-32",
-      "date": "November 2025",
-      "candidate": "Nikhil Menon",
-      "difficulty": "Hard",
-      "role": "Infosys Power Programmer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Focus on logical puzzles and matrix/string algorithms. Explain your project with block diagrams.",
+      "candidate": "Nikhil Menon",
+      "verdict": "Selected",
+      "id": "exp-32",
+      "role": "Infosys Power Programmer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2095,17 +2093,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed how I keep myself updated with latest technology trends. I mentioned blogs and certification courses."
         }
-      ]
+      ],
+      "date": "November 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
-      "id": "exp-31",
-      "date": "August 2025",
-      "candidate": "Tanvi Gupta",
-      "difficulty": "Hard",
-      "role": "TCS Digital Specialist",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Be strong in your final year project. Know the basic concepts of SDLC and DBMS. Relocation question should always be answered with 'Yes'.",
+      "candidate": "Tanvi Gupta",
+      "verdict": "Selected",
+      "id": "exp-31",
+      "role": "TCS Digital Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2119,17 +2117,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I want to join TCS. I talked about TCS being a global leader and its training programs like ILP."
         }
-      ]
+      ],
+      "date": "August 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
-      "id": "exp-30",
-      "date": "June 2026",
-      "candidate": "Sanjay Saxena",
-      "difficulty": "Medium",
-      "role": "Cognizant GenC Developer",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
+      "candidate": "Sanjay Saxena",
+      "verdict": "Selected",
+      "id": "exp-30",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2143,17 +2141,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my salary expectations and willingness to work in shifts. Verified my educational documents."
         }
-      ]
+      ],
+      "date": "June 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-29",
-      "date": "June 2026",
-      "candidate": "Sneha Gowda",
-      "difficulty": "Easy",
-      "role": "Accenture ASE (Associate Software Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
+      "candidate": "Sneha Gowda",
+      "verdict": "Selected",
+      "id": "exp-29",
+      "role": "Accenture ASE (Associate Software Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2167,17 +2165,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed team collaboration: 'Tell me about a time you had a conflict with a team member and how you resolved it.'"
         }
-      ]
+      ],
+      "date": "June 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
-      "id": "exp-28",
-      "date": "February 2025",
-      "candidate": "Kavya Jha",
-      "difficulty": "Hard",
-      "role": "Capgemini Analyst",
-      "verdict": "Selected",
       "company": "Capgemini",
+      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
+      "candidate": "Kavya Jha",
+      "verdict": "Selected",
+      "id": "exp-28",
+      "role": "Capgemini Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2191,17 +2189,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'What is the most challenging situation you faced in college, and how did you overcome it?'"
         }
-      ]
+      ],
+      "date": "February 2025",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
-      "id": "exp-27",
-      "date": "June 2025",
-      "candidate": "Nikhil Mehta",
-      "difficulty": "Easy",
-      "role": "TCS System Engineer",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
+      "candidate": "Nikhil Mehta",
+      "verdict": "Selected",
+      "id": "exp-27",
+      "role": "TCS System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2215,17 +2213,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my strengths and weaknesses. I explained how I work on my weakness (time management) by using calendar tools."
         }
-      ]
+      ],
+      "date": "June 2025",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
-      "id": "exp-26",
-      "date": "July 2025",
-      "candidate": "Shreya Singh",
-      "difficulty": "Easy-Medium",
-      "role": "Cognizant GenC Next Analyst",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Solve aptitude tests. Keep your resume concise. Show enthusiasm to learn new frameworks in the interview.",
+      "candidate": "Shreya Singh",
+      "verdict": "Selected",
+      "id": "exp-26",
+      "role": "Cognizant GenC Next Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2239,17 +2237,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on company core values. Why Cognizant? What do you know about Cognizant's recent acquisitions?"
         }
-      ]
+      ],
+      "date": "July 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
-      "id": "exp-25",
-      "date": "May 2025",
-      "candidate": "Tanvi Banerjee",
-      "difficulty": "Easy-Medium",
-      "role": "Wipro Turbo Analyst",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
+      "candidate": "Tanvi Banerjee",
+      "verdict": "Selected",
+      "id": "exp-25",
+      "role": "Wipro Turbo Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2263,17 +2261,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussion on my family background and willingness to adapt to new corporate environments."
         }
-      ]
+      ],
+      "date": "May 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-24",
-      "date": "September 2026",
-      "candidate": "Vikram Pandey",
-      "difficulty": "Easy",
-      "role": "Accenture ASE (Associate Software Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
+      "candidate": "Vikram Pandey",
+      "verdict": "Selected",
+      "id": "exp-24",
+      "role": "Accenture ASE (Associate Software Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2287,17 +2285,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I applied for Accenture. I discussed Accenture's innovation centers and their focus on cloud and digital transformation."
         }
-      ]
+      ],
+      "date": "September 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
-      "id": "exp-23",
-      "date": "May 2026",
-      "candidate": "Swati Gupta",
-      "difficulty": "Easy",
-      "role": "Infosys System Engineer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Infosys InfyTQ is coding-heavy, so practice data structures thoroughly. Revise DBMS schemas and database indexes.",
+      "candidate": "Swati Gupta",
+      "verdict": "Selected",
+      "id": "exp-23",
+      "role": "Infosys System Engineer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2311,17 +2309,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about the company history and founders. Why Infosys? I mentioned their beautiful campuses and training center in Mysore."
         }
-      ]
+      ],
+      "date": "May 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
-      "id": "exp-22",
-      "date": "December 2025",
-      "candidate": "Sunita Gupta",
-      "difficulty": "Easy-Medium",
-      "role": "Accenture FSE (Full Stack Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
+      "candidate": "Sunita Gupta",
+      "verdict": "Selected",
+      "id": "exp-22",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2335,17 +2333,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my hobbies and extra-curricular activities. They asked how I handle pressure and work stress."
         }
-      ]
+      ],
+      "date": "December 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
-      "id": "exp-21",
-      "date": "February 2026",
-      "candidate": "Neha Nair",
-      "difficulty": "Medium-Hard",
-      "role": "Accenture FSE (Full Stack Engineer)",
-      "verdict": "Rejected",
       "company": "Accenture",
+      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
+      "candidate": "Neha Nair",
+      "verdict": "Rejected",
+      "id": "exp-21",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2359,17 +2357,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my hobbies and extra-curricular activities. They asked how I handle pressure and work stress."
         }
-      ]
+      ],
+      "date": "February 2026",
+      "difficulty": "Medium-Hard"
     },
     {
-      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
-      "id": "exp-20",
-      "date": "December 2026",
-      "candidate": "Swati Singh",
-      "difficulty": "Hard",
-      "role": "Cognizant GenC Developer",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Practice debugging questions (finding syntax/logical errors in C/Java/Python). Basic OOPs concepts are mandatory.",
+      "candidate": "Swati Singh",
+      "verdict": "Selected",
+      "id": "exp-20",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2383,17 +2381,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'If you are assigned to a technology that you do not know, how will you handle it?'"
         }
-      ]
+      ],
+      "date": "December 2026",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume.",
-      "id": "exp-19",
-      "date": "June 2026",
-      "candidate": "Meera Rao",
-      "difficulty": "Easy-Medium",
-      "role": "TCS Digital Specialist",
-      "verdict": "Selected",
       "company": "TCS",
+      "tips": "Practice coding on GeeksforGeeks and study basic SQL queries. Be confident in TR panel and don't lie on your resume.",
+      "candidate": "Meera Rao",
+      "verdict": "Selected",
+      "id": "exp-19",
+      "role": "TCS Digital Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2407,17 +2405,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I want to join TCS. I talked about TCS being a global leader and its training programs like ILP."
         }
-      ]
+      ],
+      "date": "June 2026",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
-      "id": "exp-18",
-      "date": "March 2026",
-      "candidate": "Tanvi Pandey",
-      "difficulty": "Easy",
-      "role": "Infosys Power Programmer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
+      "candidate": "Tanvi Pandey",
+      "verdict": "Selected",
+      "id": "exp-18",
+      "role": "Infosys Power Programmer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2431,17 +2429,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked situational questions: 'If your manager gives you negative feedback, how will you react?'"
         }
-      ]
+      ],
+      "date": "March 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
-      "id": "exp-17",
-      "date": "April 2025",
-      "candidate": "Arjun Prasad",
-      "difficulty": "Easy-Medium",
-      "role": "Wipro Elite Developer",
-      "verdict": "Rejected",
       "company": "Wipro",
+      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
+      "candidate": "Arjun Prasad",
+      "verdict": "Rejected",
+      "id": "exp-17",
+      "role": "Wipro Elite Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2455,17 +2453,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed Wipro's culture and values (Spirit of Wipro). Asked how I align with them."
         }
-      ]
+      ],
+      "date": "April 2025",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
-      "id": "exp-16",
-      "date": "February 2026",
-      "candidate": "Sanjay Iyer",
-      "difficulty": "Hard",
-      "role": "Accenture ASE (Associate Software Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
+      "candidate": "Sanjay Iyer",
+      "verdict": "Selected",
+      "id": "exp-16",
+      "role": "Accenture ASE (Associate Software Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2479,17 +2477,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed team collaboration: 'Tell me about a time you had a conflict with a team member and how you resolved it.'"
         }
-      ]
+      ],
+      "date": "February 2026",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
-      "id": "exp-15",
-      "date": "December 2026",
-      "candidate": "Sneha Kumar",
-      "difficulty": "Hard",
-      "role": "Capgemini Analyst",
-      "verdict": "Selected",
       "company": "Capgemini",
+      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
+      "candidate": "Sneha Kumar",
+      "verdict": "Selected",
+      "id": "exp-15",
+      "role": "Capgemini Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2503,17 +2501,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed Capgemini's French heritage and global presence. Asked about my willingness to relocate."
         }
-      ]
+      ],
+      "date": "December 2026",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
-      "id": "exp-14",
-      "date": "November 2026",
-      "candidate": "Jyoti Gupta",
-      "difficulty": "Medium",
-      "role": "Wipro Elite Developer",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "Elite test requires good typing speed for the essay writing section. Review basic OOPs and array manipulation code.",
+      "candidate": "Jyoti Gupta",
+      "verdict": "Selected",
+      "id": "exp-14",
+      "role": "Wipro Elite Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2527,17 +2525,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked: 'Why should we hire you instead of other candidates?' I highlighted my technical projects and fast learning ability."
         }
-      ]
+      ],
+      "date": "November 2026",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
-      "id": "exp-13",
-      "date": "February 2026",
-      "candidate": "Divya Roy",
-      "difficulty": "Easy",
-      "role": "Wipro Turbo Analyst",
-      "verdict": "Selected",
       "company": "Wipro",
+      "tips": "Revise basic data structures (Stacks, Queues, Linked Lists) and database normalization rules (1NF, 2NF, 3NF).",
+      "candidate": "Divya Roy",
+      "verdict": "Selected",
+      "id": "exp-13",
+      "role": "Wipro Turbo Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2551,17 +2549,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about the Wipro service agreement (bond). Verified my willingness to sign it and relocate."
         }
-      ]
+      ],
+      "date": "February 2026",
+      "difficulty": "Easy"
     },
     {
+      "company": "Accenture",
       "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-12",
-      "date": "August 2026",
       "candidate": "Riya Prasad",
-      "difficulty": "Easy-Medium",
+      "verdict": "Rejected",
+      "id": "exp-12",
       "role": "Accenture ASE (Associate Software Engineer)",
-      "verdict": "Rejected",
-      "company": "Accenture",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2575,17 +2573,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I applied for Accenture. I discussed Accenture's innovation centers and their focus on cloud and digital transformation."
         }
-      ]
+      ],
+      "date": "August 2026",
+      "difficulty": "Easy-Medium"
     },
     {
+      "company": "Accenture",
       "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Ensure you write at least one coding question correctly to qualify.",
-      "id": "exp-11",
-      "date": "May 2025",
       "candidate": "Nisha Nair",
-      "difficulty": "Medium",
-      "role": "Accenture FSE (Full Stack Engineer)",
       "verdict": "Rejected",
-      "company": "Accenture",
+      "id": "exp-11",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2599,17 +2597,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I applied for Accenture. I discussed Accenture's innovation centers and their focus on cloud and digital transformation."
         }
-      ]
+      ],
+      "date": "May 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
-      "id": "exp-10",
-      "date": "May 2026",
-      "candidate": "Manish Kumar",
-      "difficulty": "Hard",
-      "role": "Cognizant GenC Elevate Specialist",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
+      "candidate": "Manish Kumar",
+      "verdict": "Selected",
+      "id": "exp-10",
+      "role": "Cognizant GenC Elevate Specialist",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2623,17 +2621,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my leadership qualities and instances where I took initiative in college events."
         }
-      ]
+      ],
+      "date": "May 2026",
+      "difficulty": "Hard"
     },
     {
-      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
-      "id": "exp-9",
-      "date": "October 2026",
-      "candidate": "Isha Prasad",
-      "difficulty": "Easy",
-      "role": "TCS Ninja Developer",
-      "verdict": "Rejected",
       "company": "TCS",
+      "tips": "Prepare NQT mock tests. Verbal section is easy, but quant requires speed. For the interview, revise basic Java/C++ concepts.",
+      "candidate": "Isha Prasad",
+      "verdict": "Rejected",
+      "id": "exp-9",
+      "role": "TCS Ninja Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2647,17 +2645,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked about my strengths and weaknesses. I explained how I work on my weakness (time management) by using calendar tools."
         }
-      ]
+      ],
+      "date": "October 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
-      "id": "exp-8",
-      "date": "May 2025",
-      "candidate": "Riya Pillai",
-      "difficulty": "Medium",
-      "role": "Capgemini Senior Analyst",
-      "verdict": "Selected",
       "company": "Capgemini",
+      "tips": "Practice quantitative and reasoning MCQs. During the interview, show good soft skills and explain project challenges.",
+      "candidate": "Riya Pillai",
+      "verdict": "Selected",
+      "id": "exp-8",
+      "role": "Capgemini Senior Analyst",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2671,17 +2669,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed Capgemini's French heritage and global presence. Asked about my willingness to relocate."
         }
-      ]
+      ],
+      "date": "May 2025",
+      "difficulty": "Medium"
     },
     {
-      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
-      "id": "exp-7",
-      "date": "February 2026",
-      "candidate": "Varun Reddy",
-      "difficulty": "Easy-Medium",
-      "role": "Infosys Power Programmer",
-      "verdict": "Selected",
       "company": "Infosys",
+      "tips": "Be strong in Operating System concepts (paging, virtual memory) and explain your coding logic clearly during the interview.",
+      "candidate": "Varun Reddy",
+      "verdict": "Selected",
+      "id": "exp-7",
+      "role": "Infosys Power Programmer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2695,17 +2693,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked situational questions: 'If your manager gives you negative feedback, how will you react?'"
         }
-      ]
+      ],
+      "date": "February 2026",
+      "difficulty": "Easy-Medium"
     },
     {
-      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
-      "id": "exp-6",
-      "date": "May 2026",
-      "candidate": "Akash Jha",
-      "difficulty": "Easy",
-      "role": "Accenture ASE (Associate Software Engineer)",
-      "verdict": "Rejected",
       "company": "Accenture",
+      "tips": "Communication assessment requires a quiet room and clear pronunciation. For the interview, talk about teamwork and collaboration.",
+      "candidate": "Akash Jha",
+      "verdict": "Rejected",
+      "id": "exp-6",
+      "role": "Accenture ASE (Associate Software Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2719,17 +2717,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my hobbies and extra-curricular activities. They asked how I handle pressure and work stress."
         }
-      ]
+      ],
+      "date": "May 2026",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
-      "id": "exp-5",
-      "date": "October 2025",
-      "candidate": "Kunal Pandey",
-      "difficulty": "Easy",
-      "role": "Cognizant GenC Developer",
-      "verdict": "Selected",
       "company": "Cognizant",
+      "tips": "Rehearse your project details. Be prepared for SQL queries involving JOINS and aggregate functions. HR round is easy.",
+      "candidate": "Kunal Pandey",
+      "verdict": "Selected",
+      "id": "exp-5",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2743,17 +2741,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Discussed my leadership qualities and instances where I took initiative in college events."
         }
-      ]
+      ],
+      "date": "October 2025",
+      "difficulty": "Easy"
     },
     {
-      "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
-      "id": "exp-4",
-      "date": "September 2026",
-      "candidate": "Meera Roy",
-      "difficulty": "Medium-Hard",
-      "role": "Accenture FSE (Full Stack Engineer)",
-      "verdict": "Selected",
       "company": "Accenture",
+      "tips": "Focus on MS Office, MS Excel shortcuts, and cloud computing definitions. Accenture's cognitive test has strict timing rules.",
+      "candidate": "Meera Roy",
+      "verdict": "Selected",
+      "id": "exp-4",
+      "role": "Accenture FSE (Full Stack Engineer)",
       "rounds": [
         {
           "name": "Round 1: Online Assessment / Aptitude Test",
@@ -2767,17 +2765,17 @@
           "name": "Round 3: HR & Managerial Interview (MR/HR)",
           "summary": "Asked why I applied for Accenture. I discussed Accenture's innovation centers and their focus on cloud and digital transformation."
         }
-      ]
+      ],
+      "date": "September 2026",
+      "difficulty": "Medium-Hard"
     },
     {
+      "company": "Accenture",
       "tips": "Practice solving pseudocodes on platforms like GeeksforGeeks. Accenture's cognitive test has strict timing.",
       "candidate": "Aniket Verma",
-      "id": "exp-3",
-      "date": "May 2026",
-      "difficulty": "Medium",
-      "role": "Accenture ASE (Associate Software Engineer)",
       "verdict": "Selected",
-      "company": "Accenture",
+      "id": "exp-3",
+      "role": "Accenture ASE (Associate Software Engineer)",
       "rounds": [
         {
           "name": "Cognitive and Technical Assessment",
@@ -2791,17 +2789,17 @@
           "name": "Technical & HR Interview",
           "summary": "Discussion about project structure, Git commands used, team conflicts resolved, and goals for the next 2 years."
         }
-      ]
+      ],
+      "date": "May 2026",
+      "difficulty": "Medium"
     },
     {
+      "company": "TCS",
       "tips": "Focus on verbal and aptitude speed during NQT. For the interview, show confidence and have basic knowledge of DBMS and SDLC.",
       "candidate": "Priya Patel",
-      "id": "exp-2",
-      "date": "July 2026",
-      "difficulty": "Easy-Medium",
-      "role": "TCS Ninja Developer",
       "verdict": "Selected",
-      "company": "TCS",
+      "id": "exp-2",
+      "role": "TCS Ninja Developer",
       "rounds": [
         {
           "name": "TCS NQT",
@@ -2811,17 +2809,17 @@
           "name": "TR/MR/HR Combined Interview",
           "summary": "Single panel interview. Asked about my favorite programming language (Python), explanation of lists vs tuples, basic database normalization, and situational questions like 'how do you handle conflicts in a team?'"
         }
-      ]
+      ],
+      "date": "July 2026",
+      "difficulty": "Easy-Medium"
     },
     {
+      "company": "Cognizant",
       "tips": "Revise OOPs concepts thoroughly and practice basic SQL queries. Knowing your project inside out is critical.",
       "candidate": "Rahul Sharma",
-      "id": "exp-1",
-      "date": "June 2026",
-      "difficulty": "Medium",
-      "role": "Cognizant GenC Developer",
       "verdict": "Selected",
-      "company": "Cognizant",
+      "id": "exp-1",
+      "role": "Cognizant GenC Developer",
       "rounds": [
         {
           "name": "Online Assessment",
@@ -2835,138 +2833,136 @@
           "name": "HR Interview",
           "summary": "Basic behavioral questions: relocation willingness, night shift comfort, and background verification overview."
         }
-      ]
+      ],
+      "date": "June 2026",
+      "difficulty": "Medium"
     }
   ],
   "flashcards": [
     {
-      "answer": "An Abstract Class can have both abstract and concrete methods, can have state (instance variables), and supports single inheritance. An Interface can only have abstract methods (prior to Java 8), static/default methods (Java 8+), cannot have instance variables (only static final constants), and supports multiple inheritance.",
-      "category": "Java",
       "id": "fc-1",
+      "category": "Java",
+      "answer": "An Abstract Class can have both abstract and concrete methods, can have state (instance variables), and supports single inheritance. An Interface can only have abstract methods (prior to Java 8), static/default methods (Java 8+), cannot have instance variables (only static final constants), and supports multiple inheritance.",
       "question": "What is the difference between an Abstract Class and an Interface in Java?"
     },
     {
-      "answer": "Overloading happens in the same class when two methods have the same name but different signatures (compile-time polymorphism). Overriding happens in child classes when a subclass redefines a parent class method with the identical signature (run-time polymorphism).",
-      "category": "Java",
       "id": "fc-2",
+      "category": "Java",
+      "answer": "Overloading happens in the same class when two methods have the same name but different signatures (compile-time polymorphism). Overriding happens in child classes when a subclass redefines a parent class method with the identical signature (run-time polymorphism).",
       "question": "What is Method Overriding vs Method Overloading?"
     },
     {
-      "answer": "Using subqueries: `SELECT MAX(Salary) FROM Employee WHERE Salary < (SELECT MAX(Salary) FROM Employee);` or using LIMIT/OFFSET: `SELECT Salary FROM Employee ORDER BY Salary DESC LIMIT 1 OFFSET 1;`.",
-      "category": "SQL",
       "id": "fc-3",
+      "category": "SQL",
+      "answer": "Using subqueries: `SELECT MAX(Salary) FROM Employee WHERE Salary < (SELECT MAX(Salary) FROM Employee);` or using LIMIT/OFFSET: `SELECT Salary FROM Employee ORDER BY Salary DESC LIMIT 1 OFFSET 1;`.",
       "question": "How do you find the second highest salary in SQL?"
     },
     {
-      "answer": "A Singly Linked List node contains data and a pointer to the next node (unidirectional traversal). A Doubly Linked List node contains data, a pointer to the next node, and a pointer to the previous node (bidirectional traversal, but consumes more memory per node).",
-      "category": "DSA",
       "id": "fc-4",
+      "category": "DSA",
+      "answer": "A Singly Linked List node contains data and a pointer to the next node (unidirectional traversal). A Doubly Linked List node contains data, a pointer to the next node, and a pointer to the previous node (bidirectional traversal, but consumes more memory per node).",
       "question": "What is the difference between a Singly Linked List and a Doubly Linked List?"
     },
     {
-      "answer": "Garbage Collection is an automatic process by the JVM that identifies and destroys objects that are no longer referenced in the heap memory, freeing up system resources. System.gc() can suggest execution, but doesn't guarantee immediate GC.",
-      "category": "Java",
       "id": "fc-5",
+      "category": "Java",
+      "answer": "Garbage Collection is an automatic process by the JVM that identifies and destroys objects that are no longer referenced in the heap memory, freeing up system resources. System.gc() can suggest execution, but doesn't guarantee immediate GC.",
       "question": "Explain the concept of Garbage Collection in Java."
     }
   ],
   "onboardingStages": {
     "Accenture": [
       {
+        "duration": "1 - 2 Weeks",
         "stage": "1. Selection Mail & Task Allocation",
-        "desc": "Selection notification followed by access to the Workday onboarding portal for tasks.",
-        "duration": "1 - 2 Weeks"
+        "desc": "Selection notification followed by access to the Workday onboarding portal for tasks."
       },
       {
+        "duration": "2 - 4 Weeks",
         "stage": "2. Document Uploads & Green Audit",
-        "desc": "Intense review of educational records. Once verified, you get a 'Green Status' mail.",
-        "duration": "2 - 4 Weeks"
+        "desc": "Intense review of educational records. Once verified, you get a 'Green Status' mail."
       },
       {
+        "duration": "1 Month",
         "stage": "3. Warm-up Learning & Primers",
-        "desc": "Self-learning modules on software engineering fundamentals. Followed by a primer assessment.",
-        "duration": "1 Month"
+        "desc": "Self-learning modules on software engineering fundamentals. Followed by a primer assessment."
       },
       {
+        "duration": "2 - 4 Weeks before joining",
         "stage": "4. Date of Joining (DOJ) Confirmation",
-        "desc": "Official joining date confirmation based on business demand and location selection.",
-        "duration": "2 - 4 Weeks before joining"
+        "desc": "Official joining date confirmation based on business demand and location selection."
       },
       {
+        "duration": "Day 1",
         "stage": "5. Day 1 Induction",
-        "desc": "Onboarding induction at the office, asset issuance, and project tagging setup.",
-        "duration": "Day 1"
+        "desc": "Onboarding induction at the office, asset issuance, and project tagging setup."
       }
     ],
     "Cognizant": [
       {
+        "duration": "Immediate",
         "stage": "1. Letter of Intent (LOI)",
-        "desc": "Received after clearing the interview rounds. Acceptance is required within 3-7 days.",
-        "duration": "Immediate"
+        "desc": "Received after clearing the interview rounds. Acceptance is required within 3-7 days."
       },
       {
+        "duration": "1 - 2 Months",
         "stage": "2. Pre-onboarding Training",
-        "desc": "Mandatory enablement training on tech stacks (Java, C#, Python, QA, etc.) via platforms like Udemy/Internal portals.",
-        "duration": "1 - 2 Months"
+        "desc": "Mandatory enablement training on tech stacks (Java, C#, Python, QA, etc.) via platforms like Udemy/Internal portals."
       },
       {
+        "duration": "2 - 4 Weeks after LOI/Training",
         "stage": "3. Offer Letter (OL)",
-        "desc": "Formal employment offer containing compensation breakdown and tentative joining date.",
-        "duration": "2 - 4 Weeks after LOI/Training"
+        "desc": "Formal employment offer containing compensation breakdown and tentative joining date."
       },
       {
+        "duration": "1 - 2 Weeks",
         "stage": "4. Document Verification",
-        "desc": "Upload degree certificates, PAN, Aadhaar, and background check authorization on the onboarding portal.",
-        "duration": "1 - 2 Weeks"
+        "desc": "Upload degree certificates, PAN, Aadhaar, and background check authorization on the onboarding portal."
       },
       {
+        "duration": "Day 1",
         "stage": "5. Onboarding & Induction",
-        "desc": "Physical or virtual induction, asset allocation (laptop setup), and assignment of employee ID.",
-        "duration": "Day 1"
+        "desc": "Physical or virtual induction, asset allocation (laptop setup), and assignment of employee ID."
       }
     ],
     "TCS": [
       {
+        "duration": "Immediate",
         "stage": "1. Exam & Interview Results",
-        "desc": "Receipt of NQT scorecard and interview completion mail.",
-        "duration": "Immediate"
+        "desc": "Receipt of NQT scorecard and interview completion mail."
       },
       {
+        "duration": "2 - 4 Weeks",
         "stage": "2. Offer Letter on NextStep Portal",
-        "desc": "Generated on the TCS NextStep portal. Must download, sign, and upload acceptance.",
-        "duration": "2 - 4 Weeks"
+        "desc": "Generated on the TCS NextStep portal. Must download, sign, and upload acceptance."
       },
       {
+        "duration": "1 - 3 Months",
         "stage": "3. ILP (Initial Learning Program) Scheduling",
-        "desc": "Assigned batch for digital or physical learning at a TCS center. Covers coding, Agile, and soft skills.",
-        "duration": "1 - 3 Months"
+        "desc": "Assigned batch for digital or physical learning at a TCS center. Covers coding, Agile, and soft skills."
       },
       {
+        "duration": "3 - 6 Weeks before onboarding",
         "stage": "4. Joining Letter (JL)",
-        "desc": "Final date and location of joining, including ILP center details.",
-        "duration": "3 - 6 Weeks before onboarding"
+        "desc": "Final date and location of joining, including ILP center details."
       },
       {
+        "duration": "1 - 2 Weeks",
         "stage": "5. BGC (Background Check)",
-        "desc": "Service Agreement uploading (usually requires stamp papers and guarantor signature) and medical certificate submissions.",
-        "duration": "1 - 2 Weeks"
+        "desc": "Service Agreement uploading (usually requires stamp papers and guarantor signature) and medical certificate submissions."
       }
     ]
   },
   "notes": [
     {
-      "description": "Essential syntax, pointer concepts, structures, dynamic memory allocation, and key interview snippets.",
-      "category": "Technical",
-      "id": "c-study-notes",
-      "title": "C Programming Quick Notes",
-      "downloadUrl": "/notes/c-study-notes",
+      "company": "All",
       "tags": [
         "C",
         "Syntax",
         "Pointers",
         "Core"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "1. Introduction to C",
@@ -3012,21 +3008,21 @@
           "text": "struct Employee {\n    int id;          // 4 bytes\n    char grade;      // 1 byte\n    double salary;   // 8 bytes\n}; // Total memory: ~16 bytes due to padding\n\nunion Cache {\n    int val;         // 4 bytes\n    char code;       // 1 byte\n}; // Total memory: 4 bytes (shared)",
           "type": "code"
         }
-      ]
+      ],
+      "id": "c-study-notes",
+      "downloadUrl": "/notes/c-study-notes",
+      "title": "C Programming Quick Notes",
+      "description": "Essential syntax, pointer concepts, structures, dynamic memory allocation, and key interview snippets."
     },
     {
-      "description": "Object-oriented concepts, virtual functions, templates, STL (Standard Template Library), and C++ reference.",
-      "category": "Technical",
-      "id": "cpp-study-notes",
-      "title": "C++ & OOPs Revision Notes",
-      "downloadUrl": "/notes/cpp-study-notes",
+      "company": "All",
       "tags": [
         "C++",
         "OOPs",
         "STL",
         "Polymorphism"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "1. Core Principles of OOPs",
@@ -3056,21 +3052,21 @@
           "text": "C++ STL provides built-in data structures:<br/>- <b>Vector:</b> Dynamic contiguous array. Fast inserts/deletions at the end.<br/>- <b>Map:</b> Key-value lookup implemented as self-balancing Red-Black trees. Key operations are O(log n).<br/>- <b>Unordered Map:</b> Key-value lookup using hash tables. Average O(1) time complexity.",
           "type": "body"
         }
-      ]
+      ],
+      "id": "cpp-study-notes",
+      "downloadUrl": "/notes/cpp-study-notes",
+      "title": "C++ & OOPs Revision Notes",
+      "description": "Object-oriented concepts, virtual functions, templates, STL (Standard Template Library), and C++ reference."
     },
     {
-      "description": "Overview of major data structures, sorting/searching algorithms, complexity analysis, and coding patterns.",
-      "category": "Technical",
-      "id": "dsa-study-notes",
-      "title": "DSA Essential Hand Book",
-      "downloadUrl": "/notes/dsa-study-notes",
+      "company": "All",
       "tags": [
         "DSA",
         "Data Structures",
         "Algorithms",
         "Binary Search"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "1. Big-O Complexity Quick Guide",
@@ -3100,21 +3096,21 @@
           "text": "<b>Breadth-First Search (BFS):</b> Explores vertices level-by-level using a Queue. Ideal for finding the shortest path in unweighted graphs.<br/><b>Depth-First Search (DFS):</b> Explores nodes as deep as possible before backtracking using a Stack or recursion. Ideal for topology sorting and path checking.",
           "type": "body"
         }
-      ]
+      ],
+      "id": "dsa-study-notes",
+      "downloadUrl": "/notes/dsa-study-notes",
+      "title": "DSA Essential Hand Book",
+      "description": "Overview of major data structures, sorting/searching algorithms, complexity analysis, and coding patterns."
     },
     {
-      "description": "Hand-picked high-frequency technical and behavioral interview questions with standard answers.",
-      "category": "Technical",
-      "id": "interview-questions-study-notes",
-      "title": "Top 50 Technical Interview Questions",
-      "downloadUrl": "/notes/interview-questions-study-notes",
+      "company": "All",
       "tags": [
         "Interview",
         "Questions",
         "Aptitude",
         "HR"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "Q1: Explain ACID Properties in DBMS",
@@ -3148,21 +3144,21 @@
           "text": "<b>Situation:</b> In our final year project, we had to choose between SQL and MongoDB. Two members clashed heavily.<br/><b>Task:</b> As the project coordinator, I had to resolve the conflict without affecting the timeline.<br/><b>Action:</b> I scheduled a meeting, listened to both ideas, listed the pros and cons of SQL vs NoSQL relative to our specific requirements, and proposed a vote based on technical fit.<br/><b>Result:</b> We chose SQL, completed the project 1 week early, and maintained great team relationships.",
           "type": "body"
         }
-      ]
+      ],
+      "id": "interview-questions-study-notes",
+      "downloadUrl": "/notes/interview-questions-study-notes",
+      "title": "Top 50 Technical Interview Questions",
+      "description": "Hand-picked high-frequency technical and behavioral interview questions with standard answers."
     },
     {
-      "description": "Core Java, JVM architecture, multithreading, collections framework, Java 8 features (lambdas/streams).",
-      "category": "Technical",
-      "id": "java-study-notes",
-      "title": "Java Programming Master Notes",
-      "downloadUrl": "/notes/java-study-notes",
+      "company": "All",
       "tags": [
         "Java",
         "OOPs",
         "JVM",
         "Streams"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "1. JVM Execution Lifecycle & Memory Zones",
@@ -3188,21 +3184,21 @@
           "text": "import java.util.*;\nimport java.util.stream.*;\n\npublic class StreamDemo {\n    public static void main(String[] args) {\n        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);\n        \n        // Compute sum of squares of all even numbers\n        int sumOfSquares = numbers.stream()\n            .filter(n -> n % 2 == 0) // Filter evens\n            .map(n -> n * n)         // Square them\n            .reduce(0, Integer::sum);\n            \n        System.out.println(\"Result: \" + sumOfSquares); // Outputs 220\n    }\n}",
           "type": "code"
         }
-      ]
+      ],
+      "id": "java-study-notes",
+      "downloadUrl": "/notes/java-study-notes",
+      "title": "Java Programming Master Notes",
+      "description": "Core Java, JVM architecture, multithreading, collections framework, Java 8 features (lambdas/streams)."
     },
     {
-      "description": "Discovery services (Eureka), API Gateway, Circuit Breaker patterns, configuration server, and Kafka integration.",
-      "category": "Technical",
-      "id": "microservices-study-notes",
-      "title": "Microservices Architecture Blueprints",
-      "downloadUrl": "/notes/microservices-study-notes",
+      "company": "All",
       "tags": [
         "Microservices",
         "API Gateway",
         "Eureka",
         "Kafka"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "1. Key Microservices Patterns",
@@ -3224,21 +3220,21 @@
           "text": "// Kafka consumer code inside consumer microservice\n@Service\npublic class OrderConsumer {\n    \n    @KafkaListener(topics = \"order-topic\", groupId = \"inventory-group\")\n    public void consumeOrderEvent(String eventJson) {\n        System.out.println(\"Processing inventory decrease for order: \" + eventJson);\n        // Process local database operations here\n    }\n}",
           "type": "code"
         }
-      ]
+      ],
+      "id": "microservices-study-notes",
+      "downloadUrl": "/notes/microservices-study-notes",
+      "title": "Microservices Architecture Blueprints",
+      "description": "Discovery services (Eureka), API Gateway, Circuit Breaker patterns, configuration server, and Kafka integration."
     },
     {
-      "description": "Core concepts, list comprehensions, decorators, generators, OOPs in Python, and common libraries.",
-      "category": "Technical",
-      "id": "python-study-notes",
-      "title": "Python Cheat Sheet & Reference",
-      "downloadUrl": "/notes/python-study-notes",
+      "company": "All",
       "tags": [
         "Python",
         "Syntax",
         "Decorators",
         "OOPs"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "1. Pythonic Collections and Complexities",
@@ -3272,21 +3268,21 @@
           "text": "# Generator function yielding values lazily\ndef fibonacci(limit):\n    a, b = 0, 1\n    while a < limit:\n        yield a\n        a, b = b, a + b\n\nfor num in fibonacci(50):\n    print(num, end=\" \") # O(1) memory complexity",
           "type": "code"
         }
-      ]
+      ],
+      "id": "python-study-notes",
+      "downloadUrl": "/notes/python-study-notes",
+      "title": "Python Cheat Sheet & Reference",
+      "description": "Core concepts, list comprehensions, decorators, generators, OOPs in Python, and common libraries."
     },
     {
-      "description": "Spring framework core, IoC, Dependency Injection, REST APIs, annotations reference, and Spring Data JPA.",
-      "category": "Technical",
-      "id": "spring-boot-study-notes",
-      "title": "Spring Boot Core Concepts",
-      "downloadUrl": "/notes/spring-boot-study-notes",
+      "company": "All",
       "tags": [
         "Spring Boot",
         "Java",
         "REST API",
         "MVC"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "1. Spring IoC & Dependency Injection",
@@ -3312,21 +3308,21 @@
           "text": "@RestController\n@RequestMapping(\"/api/v1/products\")\npublic class ProductController {\n\n    @Autowired\n    private ProductService productService;\n\n    @GetMapping(\"/{id}\")\n    public ResponseEntity<Product> getProduct(@PathVariable Long id) {\n        Product prod = productService.findById(id);\n        if (prod == null) {\n            return ResponseEntity.notFound().build();\n        }\n        return ResponseEntity.ok(prod);\n    }\n}",
           "type": "code"
         }
-      ]
+      ],
+      "id": "spring-boot-study-notes",
+      "downloadUrl": "/notes/spring-boot-study-notes",
+      "title": "Spring Boot Core Concepts",
+      "description": "Spring framework core, IoC, Dependency Injection, REST APIs, annotations reference, and Spring Data JPA."
     },
     {
-      "description": "SQL DDL/DML, Joins, grouping and aggregations, window functions, indexing strategies, and ACID properties.",
-      "category": "Technical",
-      "id": "sql-study-notes",
-      "title": "SQL & Relational Databases Quick Guide",
-      "downloadUrl": "/notes/sql-study-notes",
+      "company": "All",
       "tags": [
         "SQL",
         "Databases",
         "Joins",
         "Queries"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "1. SQL Commands Classification",
@@ -3360,21 +3356,21 @@
           "text": "-- Rank employee salaries in their departments\nSELECT name, dept_id, salary,\n       DENSE_RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) as rank\nFROM employees;",
           "type": "code"
         }
-      ]
+      ],
+      "id": "sql-study-notes",
+      "downloadUrl": "/notes/sql-study-notes",
+      "title": "SQL & Relational Databases Quick Guide",
+      "description": "SQL DDL/DML, Joins, grouping and aggregations, window functions, indexing strategies, and ACID properties."
     },
     {
-      "description": "High-level architecture, scalability, load balancers, caching, databases (SQL vs NoSQL), and CAP theorem.",
-      "category": "Technical",
-      "id": "system-design-study-notes",
-      "title": "System Design Fundamentals",
-      "downloadUrl": "/notes/system-design-study-notes",
+      "company": "All",
       "tags": [
         "System Design",
         "Scalability",
         "Architecture",
         "Microservices"
       ],
-      "company": "All",
+      "category": "Technical",
       "content": [
         {
           "text": "1. Scalability: Scale Up vs Scale Out",
@@ -3408,8 +3404,12 @@
           "text": "- <b>SQL (Relational):</b> Schema-enforced, structured tables, supports ACID transactions. Scaled vertically. Ideal for payments and billing.<br/>- <b>NoSQL (Non-Relational):</b> Flexible schema, Key-Value (Redis), Document (MongoDB), Column (Cassandra), Graph (Neo4j). Scaled horizontally. Ideal for social feeds, chat logs.",
           "type": "body"
         }
-      ]
+      ],
+      "id": "system-design-study-notes",
+      "downloadUrl": "/notes/system-design-study-notes",
+      "title": "System Design Fundamentals",
+      "description": "High-level architecture, scalability, load balancers, caching, databases (SQL vs NoSQL), and CAP theorem."
     }
   ],
-  "lastUpdated": "2026-07-19T09:14:31.347792Z"
+  "lastUpdated": "2026-07-19T09:16:18.283907Z"
 }

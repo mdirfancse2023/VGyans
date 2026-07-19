@@ -633,6 +633,33 @@ def run_code(req: RunRequest):
 
     # 3. Compiler Execution Logic (Python, Java, C++)
     temp_dir = tempfile.mkdtemp(prefix="vt_run_")
+    env = os.environ.copy()
+    extra_paths = ["/usr/bin", "/usr/local/bin", "/opt/homebrew/bin", "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home/bin", "/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin"]
+    env["PATH"] = ":".join(extra_paths) + ":" + env.get("PATH", "")
+    
+    def run_remote_wandbox(compiler_name, options=None):
+        try:
+            payload = {
+                "compiler": compiler_name,
+                "code": code,
+                "stdin": stdin
+            }
+            if options:
+                payload["options"] = options
+            res = requests.post("https://wandbox.org/api/compile.json", json=payload, timeout=8)
+            if res.status_code == 200:
+                data = res.json()
+                stdout_res = data.get("program_output", "")
+                stderr_res = data.get("program_error", "")
+                compiler_err = data.get("compiler_error", "") or data.get("compiler_output", "")
+                if compiler_err and not stdout_res:
+                    stderr_res = f"Compilation Error:\n{compiler_err}"
+                return {"stdout": stdout_res, "stderr": stderr_res}
+            else:
+                return {"stdout": "", "stderr": f"Execution Error: Remote compilation service returned status code {res.status_code}."}
+        except Exception as err:
+            return {"stdout": "", "stderr": f"Execution Error: Remote compilation fallback failed ({str(err)})."}
+
     try:
         if lang == "python":
             file_path = os.path.join(temp_dir, "script.py")
@@ -646,8 +673,10 @@ def run_code(req: RunRequest):
                     capture_output=True,
                     text=True,
                     cwd=temp_dir,
+                    env=env,
                     timeout=3
                 )
+                return {"stdout": proc.stdout, "stderr": proc.stderr}
             except FileNotFoundError:
                 try:
                     proc = subprocess.run(
@@ -656,11 +685,12 @@ def run_code(req: RunRequest):
                         capture_output=True,
                         text=True,
                         cwd=temp_dir,
+                        env=env,
                         timeout=3
                     )
+                    return {"stdout": proc.stdout, "stderr": proc.stderr}
                 except FileNotFoundError:
-                    return {"stdout": "", "stderr": "Execution Error: 'python3' or 'python' interpreter is not installed or not found on the server's PATH."}
-            return {"stdout": proc.stdout, "stderr": proc.stderr}
+                    return run_remote_wandbox("cpython-head")
             
         elif lang == "cpp":
             file_path = os.path.join(temp_dir, "main.cpp")
@@ -673,23 +703,24 @@ def run_code(req: RunRequest):
                     capture_output=True,
                     text=True,
                     cwd=temp_dir,
+                    env=env,
                     timeout=5
                 )
+                if compile_proc.returncode != 0:
+                    return {"stdout": "", "stderr": f"Compilation Error:\n{compile_proc.stderr}"}
+                
+                run_proc = subprocess.run(
+                    ["./main"],
+                    input=stdin,
+                    capture_output=True,
+                    text=True,
+                    cwd=temp_dir,
+                    env=env,
+                    timeout=3
+                )
+                return {"stdout": run_proc.stdout, "stderr": run_proc.stderr}
             except FileNotFoundError:
-                return {"stdout": "", "stderr": "Execution Error: 'g++' compiler is not installed or not found on the server's PATH. Please ensure GCC/G++ is installed."}
-                
-            if compile_proc.returncode != 0:
-                return {"stdout": "", "stderr": f"Compilation Error:\n{compile_proc.stderr}"}
-                
-            run_proc = subprocess.run(
-                ["./main"],
-                input=stdin,
-                capture_output=True,
-                text=True,
-                cwd=temp_dir,
-                timeout=3
-            )
-            return {"stdout": run_proc.stdout, "stderr": run_proc.stderr}
+                return run_remote_wandbox("gcc-head", "c++17")
             
         elif lang == "java":
             class_name_match = re.search(r"public\s+class\s+(\w+)", code)
@@ -705,27 +736,24 @@ def run_code(req: RunRequest):
                     capture_output=True,
                     text=True,
                     cwd=temp_dir,
+                    env=env,
                     timeout=5
                 )
-            except FileNotFoundError:
-                return {"stdout": "", "stderr": "Execution Error: 'javac' (Java Compiler) is not installed or not found on the server's PATH. Please ensure JDK is installed and configured."}
+                if compile_proc.returncode != 0:
+                    return {"stdout": "", "stderr": f"Compilation Error:\n{compile_proc.stderr}"}
                 
-            if compile_proc.returncode != 0:
-                return {"stdout": "", "stderr": f"Compilation Error:\n{compile_proc.stderr}"}
-                
-            try:
                 run_proc = subprocess.run(
                     ["java", class_name],
                     input=stdin,
                     capture_output=True,
                     text=True,
                     cwd=temp_dir,
+                    env=env,
                     timeout=3
                 )
+                return {"stdout": run_proc.stdout, "stderr": run_proc.stderr}
             except FileNotFoundError:
-                return {"stdout": "", "stderr": "Execution Error: 'java' launcher is not installed or not found on the server's PATH."}
-                
-            return {"stdout": run_proc.stdout, "stderr": run_proc.stderr}
+                return run_remote_wandbox("openjdk-head")
             
         else:
             raise HTTPException(status_code=400, detail=f"Unsupported language: {lang}")
