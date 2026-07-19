@@ -6,9 +6,9 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
     { id: 'home', label: 'Home' },
     { id: 'videos', label: 'Videos' },
     { id: 'guides', label: 'Placement Prep' },
-    { id: 'playground', label: 'Code Playground' },
+    { id: 'playground', label: 'Code' },
     { id: 'experiences', label: 'Interview Logs' },
-    { id: 'tools', label: 'Tracker & Tools' }
+    { id: 'tools', label: 'Resume' }
   ];
 
   return (
