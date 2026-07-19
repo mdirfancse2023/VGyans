@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY", "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo")
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 raw_chan_id = os.getenv("CHANNEL_ID", "")
 CHANNEL_ID = raw_chan_id if (raw_chan_id and raw_chan_id.startswith("UC")) else "UCkViZeUiDCEof_t9--OgZkA"
 
