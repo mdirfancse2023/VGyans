@@ -33,13 +33,13 @@ export default function InteractiveTools({ apiUrl }) {
 
 
       {activeTool === 'builder' && (
-        <div className="glass-panel">
+        <div className="glass-panel" style={{ padding: '2rem' }}>
           <ResumeBuilder />
         </div>
       )}
 
       {activeTool === 'analyzer' && (
-        <div className="glass-panel">
+        <div className="glass-panel" style={{ padding: '2rem' }}>
           <ResumeAnalyzer apiUrl={apiUrl} />
         </div>
       )}
