@@ -1785,33 +1785,6 @@ export default function Playground({ questions }) {
                 />
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                  {/* Subtle Submission Result Banner */}
-                  {submitResult && (
-                    <div style={{
-                      padding: '0.55rem 0.85rem',
-                      borderRadius: '6px',
-                      background: 'rgba(255, 255, 255, 0.03)',
-                      border: '1px solid rgba(255, 255, 255, 0.08)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
-                    }}>
-                      <span style={{
-                        fontSize: '0.82rem',
-                        fontWeight: 700,
-                        color: submitResult.status === 'ACCEPTED' ? '#4ade80' : '#f87171',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.35rem'
-                      }}>
-                        {submitResult.status === 'ACCEPTED' ? '✓ Accepted' : '✗ Wrong Answer'}
-                      </span>
-                      <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                        {submitResult.passedCount} / {submitResult.totalCount} Test Cases Passed
-                      </span>
-                    </div>
-                  )}
-
                   {/* Active Test Case Verification Details */}
                   {selectedCaseIdx >= 0 && testCases[selectedCaseIdx] && (
                     <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '6px', padding: '0.65rem 0.75rem' }}>
