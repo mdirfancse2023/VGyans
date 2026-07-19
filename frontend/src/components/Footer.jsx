@@ -46,9 +46,6 @@ export default function Footer({ setActiveTab }) {
       
       <div className="footer-bottom">
         <div>&copy; {new Date().getFullYear()} Virtual Gyans. All rights reserved.</div>
-        <div>
-          Designed for <a href="https://www.virtualgyans.me" style={{ color: 'var(--primary)', textDecoration: 'none' }}>virtualgyans.me</a>
-        </div>
       </div>
     </footer>
   );
