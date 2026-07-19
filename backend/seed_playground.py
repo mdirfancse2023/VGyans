@@ -15,8 +15,16 @@ def snake_case(s):
 
 def make_python_template(func_name, params, ret_type):
     param_str = ", ".join(f"{name}" for name, _ in params)
-    body = "    # Write your Python 3 code here\n    pass"
-    
+    if ret_type == "list_int":
+        default_return = "return []  # TODO: return result list"
+    elif ret_type == "bool":
+        default_return = "return False  # TODO: return True or False"
+    elif ret_type == "str":
+        default_return = 'return ""  # TODO: return result string'
+    else:
+        default_return = "return 0  # TODO: return result integer"
+    body = f"    # Write your Python 3 code here\n    {default_return}"
+
     driver_lines = [
         "import sys",
         "import json",
@@ -39,7 +47,16 @@ def make_python_template(func_name, params, ret_type):
     return f"def {func_name}({param_str}):\n{body}\n\n# -- HIDE DRIVER CODE START --\n# Driver code to test input\n" + "\n".join(driver_lines) + "\n# -- HIDE DRIVER CODE END --"
 
 def make_java_template(func_name, params, ret_type):
-    java_ret = "int" if ret_type == "int" else "boolean" if ret_type == "bool" else "String" if ret_type == "str" else "int[]"
+    if ret_type == "int":
+        java_ret = "int"
+    elif ret_type == "bool":
+        java_ret = "boolean"
+    elif ret_type == "str":
+        java_ret = "String"
+    elif ret_type == "list_int":
+        java_ret = "int[]"
+    else:
+        java_ret = "int[]"
     java_func = camel_case(func_name)
     
     java_params = []
@@ -348,12 +365,29 @@ for category, count in dsa_categories.items():
             
         params = [("nums", "list_int"), ("target", "int")]
         ret_type = "int"
-        
-        if "Palindrome" in title or "Valid" in title or "Same" in title or "Cycle" in title:
+
+        # Override params and ret_type per problem type
+        if any(k in title for k in ["Two Sum", "3Sum", "4Sum", "Intersection", "Top K", "K Closest"]):
+            params = [("nums", "list_int"), ("target", "int")]
+            ret_type = "list_int"
+        elif any(k in title for k in ["Palindrome", "Valid Anagram", "Valid Palindrome", "Same Tree", "Cycle", "Pangram", "Bipartite", "Balanced", "Symmetric"]):
             ret_type = "bool"
-            
-        if "String" in title or "Word" in title:
+        elif any(k in title for k in ["Reverse String", "Decrypt String", "Shuffle String", "Sorting the Sentence", "Goal Parser", "Defanging", "Truncate Sentence"]):
             params = [("s", "str")]
+            ret_type = "str"
+        elif any(k in title for k in ["Group Anagrams", "Valid Parentheses", "Letter Combinations"]):
+            params = [("s", "str")]
+            ret_type = "str"
+        elif any(k in title for k in ["Word", "String to Integer", "Longest Common Prefix", "Longest Substring", "Longest Palindromic"]):
+            params = [("s", "str")]
+            ret_type = "int"
+        elif any(k in title for k in ["Climbing Stairs", "Fibonacci", "Sqrt", "Guess Number", "First Bad", "Kth Largest", "Majority Element", "Single Number", "Move Zeroes", "House Robber", "Count"]):
+            params = [("nums", "list_int"), ("target", "int")]
+            ret_type = "int"
+        elif any(k in title for k in ["Merge Sort", "Quick Sort", "Sort", "Rotate", "Product of Array", "Subsets", "Permutations", "Combinations", "Merge Sorted"]):
+            params = [("nums", "list_int"), ("target", "int")]
+            ret_type = "list_int"
+
             
         func_name = snake_case(title)
         desc_html, default_input = get_problem_details(title, f"DSA - {category}")
