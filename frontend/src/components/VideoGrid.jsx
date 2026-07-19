@@ -95,7 +95,7 @@ export default function VideoGrid({ videos }) {
             >
               <div className="video-thumb-container">
                 <img 
-                  src={video.thumbnailUrl} 
+                  src={video.thumbnailUrl || `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} 
                   alt={video.title} 
                   className="video-thumb" 
                   loading="lazy"

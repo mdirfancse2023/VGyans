@@ -33,6 +33,9 @@ def strip_and_save():
                 {
                     "id": v.get("id"),
                     "title": v.get("title"),
+                    "thumbnailUrl": v.get("thumbnailUrl") or f"https://i.ytimg.com/vi/{v.get('id')}/hqdefault.jpg",
+                    "videoUrl": v.get("videoUrl") or f"https://www.youtube.com/watch?v={v.get('id')}",
+                    "publishedAt": v.get("publishedAt"),
                     "category": v.get("category"),
                     "views": v.get("views"),
                     "duration": v.get("duration")

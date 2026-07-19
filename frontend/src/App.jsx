@@ -212,7 +212,11 @@ export default function App() {
                       onClick={() => setActiveTab('videos')}
                     >
                       <div className="video-thumb-container">
-                        <img src={video.thumbnailUrl} alt={video.title} className="video-thumb" />
+                        <img 
+                          src={video.thumbnailUrl || `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} 
+                          alt={video.title} 
+                          className="video-thumb" 
+                        />
                       </div>
                       <div className="video-body">
                         <h3 className="video-title" style={{ height: 'auto', marginBottom: '0.5rem' }}>{video.title}</h3>
