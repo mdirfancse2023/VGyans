@@ -19,7 +19,7 @@ export default function Header({ activeTab, setActiveTab }) {
             alt="Virtual Gyans Logo" 
             style={{ width: '32px', height: '32px', objectFit: 'contain' }} 
           />
-          Virtual Gyans
+          Virtual Gyans | Md Irfan
         </a>
         
         <ul className="nav-links">
