@@ -371,6 +371,11 @@ export default function Playground({ questions }) {
   const [isRunning, setIsRunning] = useState(false);
   const [consoleTab, setConsoleTab] = useState('output');
   const [hasRun, setHasRun] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [expandedTopics, setExpandedTopics] = useState({});
+
+  const toggleTopic = (cat) => setExpandedTopics(prev => ({ ...prev, [cat]: !prev[cat] }));
+  const selectQuestion = (q) => { setActiveProblem(q); setDrawerOpen(false); };
 
   const codeAreaRef = useRef(null);
   const preRef = useRef(null);
@@ -516,6 +521,7 @@ export default function Playground({ questions }) {
           height: calc(100vh - 120px);
           overflow: hidden;
           box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+          position: relative;
         }
         .playground-sidebar {
           width: 320px;
@@ -524,29 +530,46 @@ export default function Playground({ questions }) {
           display: flex;
           flex-direction: column;
           background: rgba(15, 22, 42, 0.4);
+          overflow: hidden;
         }
         .sidebar-section {
           padding: 1.25rem;
         }
-        .sidebar-section:not(:last-child) {
+        .sidebar-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.85rem 1.25rem;
           border-bottom: 1px solid var(--border-glass);
+          background: rgba(7, 10, 19, 0.4);
+          flex-shrink: 0;
         }
-        .problem-select {
-          width: 100%;
-          padding: 0.6rem;
-          background: rgba(7, 10, 19, 0.6);
-          border: 1px solid var(--border-glass);
-          border-radius: 8px;
-          color: var(--text-primary);
-          font-weight: 500;
-          outline: none;
-          cursor: pointer;
+        .sidebar-header-title {
+          font-size: 0.78rem;
+          font-weight: 700;
+          color: #94a3b8;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
         }
+        .diff-badge {
+          font-size: 0.7rem;
+          font-weight: 700;
+          padding: 0.2rem 0.55rem;
+          border-radius: 99px;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        .diff-easy   { background: rgba(34,197,94,0.15); color: #22c55e; }
+        .diff-medium { background: rgba(234,179,8,0.15);  color: #eab308; }
+        .diff-hard   { background: rgba(239,68,68,0.15);  color: #ef4444; }
+        .diff-sandbox { background: rgba(99,102,241,0.15); color: #818cf8; }
+
         .problem-title {
-          font-size: 1.15rem;
+          font-size: 1.05rem;
           color: #f8fafc;
           margin-bottom: 0.5rem;
           font-weight: 700;
+          line-height: 1.3;
         }
         .problem-desc {
           font-size: 0.85rem;
@@ -571,6 +594,198 @@ export default function Playground({ questions }) {
         body.light-theme .problem-desc strong {
           color: #0f172a !important;
         }
+        /* ── RIGHT DRAWER ── */
+        .drawer-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(0,0,0,0.45);
+          z-index: 40;
+          backdrop-filter: blur(2px);
+          animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+        .questions-drawer {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: 340px;
+          background: #080d1a;
+          border-left: 1px solid var(--border-glass);
+          display: flex;
+          flex-direction: column;
+          z-index: 50;
+          transform: translateX(100%);
+          transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+          box-shadow: -8px 0 32px rgba(0,0,0,0.5);
+        }
+        .questions-drawer.open {
+          transform: translateX(0);
+        }
+        .drawer-toggle {
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+          z-index: 60;
+          background: linear-gradient(135deg, #3b82f6, #6366f1);
+          border: none;
+          border-radius: 8px 0 0 8px;
+          width: 28px;
+          height: 80px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: width 0.2s, background 0.2s;
+          box-shadow: -3px 0 12px rgba(59,130,246,0.4);
+        }
+        .drawer-toggle:hover {
+          width: 34px;
+          background: linear-gradient(135deg, #2563eb, #4f46e5);
+        }
+        .drawer-toggle-icon {
+          color: #fff;
+          font-size: 1rem;
+          line-height: 1;
+          user-select: none;
+          writing-mode: vertical-rl;
+          text-orientation: mixed;
+          font-size: 0.62rem;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          transform: rotate(180deg);
+        }
+        .drawer-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 1rem 1.25rem;
+          border-bottom: 1px solid var(--border-glass);
+          background: rgba(7, 10, 19, 0.7);
+          flex-shrink: 0;
+        }
+        .drawer-title {
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: #94a3b8;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+        .drawer-close {
+          background: rgba(255,255,255,0.06);
+          border: 1px solid var(--border-glass);
+          color: #94a3b8;
+          border-radius: 6px;
+          width: 28px;
+          height: 28px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1rem;
+          line-height: 1;
+          transition: background 0.15s, color 0.15s;
+        }
+        .drawer-close:hover { background: rgba(239,68,68,0.15); color: #f87171; }
+        .drawer-search {
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid var(--border-glass);
+          flex-shrink: 0;
+        }
+        .drawer-search input {
+          width: 100%;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid var(--border-glass);
+          border-radius: 8px;
+          color: #e2e8f0;
+          padding: 0.5rem 0.75rem;
+          font-size: 0.82rem;
+          outline: none;
+          box-sizing: border-box;
+          transition: border-color 0.2s;
+        }
+        .drawer-search input:focus { border-color: #3b82f6; }
+        .drawer-body {
+          flex: 1;
+          overflow-y: auto;
+          padding: 0.5rem 0;
+        }
+        .topic-group {}
+        .topic-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.6rem 1.25rem;
+          cursor: pointer;
+          user-select: none;
+          transition: background 0.15s;
+          border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .topic-header:hover { background: rgba(255,255,255,0.04); }
+        .topic-name {
+          font-size: 0.78rem;
+          font-weight: 700;
+          color: #60a5fa;
+          text-transform: uppercase;
+          letter-spacing: 0.07em;
+        }
+        .topic-meta {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .topic-count {
+          font-size: 0.7rem;
+          color: #475569;
+          font-weight: 600;
+        }
+        .topic-arrow {
+          color: #475569;
+          font-size: 0.7rem;
+          transition: transform 0.2s;
+          display: inline-block;
+        }
+        .topic-arrow.expanded { transform: rotate(90deg); }
+        .question-list {
+          display: none;
+          flex-direction: column;
+          padding: 0.25rem 0;
+          background: rgba(0,0,0,0.2);
+        }
+        .question-list.visible { display: flex; }
+        .question-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.45rem 1.5rem 0.45rem 2rem;
+          cursor: pointer;
+          border: none;
+          background: transparent;
+          text-align: left;
+          width: 100%;
+          transition: background 0.12s;
+          gap: 0.5rem;
+        }
+        .question-item:hover { background: rgba(59,130,246,0.08); }
+        .question-item.active { background: rgba(59,130,246,0.15); }
+        .question-item-title {
+          font-size: 0.78rem;
+          color: #cbd5e1;
+          flex: 1;
+          line-height: 1.3;
+        }
+        .question-item.active .question-item-title { color: #93c5fd; font-weight: 600; }
+        body.light-theme .questions-drawer { background: #f8fafc; }
+        body.light-theme .drawer-search input { background: #fff; color: #0f172a; }
+        body.light-theme .topic-name { color: #2563eb; }
+        body.light-theme .question-item-title { color: #334155; }
+        body.light-theme .question-item.active .question-item-title { color: #1d4ed8; }
+        body.light-theme .topic-header:hover { background: rgba(0,0,0,0.04); }
+        body.light-theme .question-item:hover { background: rgba(37,99,235,0.06); }
+        body.light-theme .question-item.active { background: rgba(37,99,235,0.1); }
+
         .playground-ide {
           flex: 1;
           display: flex;
@@ -770,31 +985,84 @@ export default function Playground({ questions }) {
       `}</style>
 
       <div className="playground-container">
-        {/* SIDEBAR: Problems and Details */}
-        <div className="playground-sidebar">
-          <div className="sidebar-section">
-            <label style={{ display: 'block', fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }}>SELECT QUESTION</label>
-            <select 
-              className="problem-select"
-              value={activeProblem.id}
-              onChange={(e) => {
-                const found = activeQuestions.find(p => p.id === e.target.value);
-                if (found) setActiveProblem(found);
-              }}
-            >
-              {Object.entries(groupedProblems).map(([category, items]) => (
-                <optgroup key={category} label={category}>
-                  {items.map(p => (
-                    <option key={p.id} value={p.id}>{p.title}</option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-          </div>
 
+        {/* DRAWER OVERLAY */}
+        {drawerOpen && (
+          <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
+        )}
+
+        {/* RIGHT SLIDE-IN DRAWER */}
+        <div className={`questions-drawer ${drawerOpen ? 'open' : ''}`}>
+          <div className="drawer-header">
+            <span className="drawer-title">📚 Select Question</span>
+            <button className="drawer-close" onClick={() => setDrawerOpen(false)}>✕</button>
+          </div>
+          <div className="drawer-search">
+            <input
+              type="text"
+              placeholder="🔍  Search questions..."
+              onChange={(e) => {
+                const q = e.target.value.toLowerCase();
+                if (!q) { setExpandedTopics({}); return; }
+                const matched = {};
+                Object.entries(groupedProblems).forEach(([cat, items]) => {
+                  if (items.some(p => p.title.toLowerCase().includes(q))) matched[cat] = true;
+                });
+                setExpandedTopics(matched);
+              }}
+            />
+          </div>
+          <div className="drawer-body">
+            {Object.entries(groupedProblems).map(([category, items]) => {
+              const isExpanded = !!expandedTopics[category];
+              return (
+                <div className="topic-group" key={category}>
+                  <div className="topic-header" onClick={() => toggleTopic(category)}>
+                    <span className="topic-name">{category}</span>
+                    <span className="topic-meta">
+                      <span className="topic-count">{items.length}Q</span>
+                      <span className={`topic-arrow ${isExpanded ? 'expanded' : ''}`}>▶</span>
+                    </span>
+                  </div>
+                  <div className={`question-list ${isExpanded ? 'visible' : ''}`}>
+                    {items.map(p => (
+                      <button
+                        key={p.id}
+                        className={`question-item ${activeProblem.id === p.id ? 'active' : ''}`}
+                        onClick={() => selectQuestion(p)}
+                      >
+                        <span className="question-item-title">{p.title}</span>
+                        <span className={`diff-badge diff-${(p.difficulty||'easy').toLowerCase()}`}>
+                          {p.difficulty}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* DRAWER TOGGLE TAB on right edge */}
+        <button
+          className="drawer-toggle"
+          onClick={() => setDrawerOpen(o => !o)}
+          title="Browse Questions"
+        >
+          <span className="drawer-toggle-icon">{drawerOpen ? '✕ Close' : '☰ Questions'}</span>
+        </button>
+
+        {/* LEFT PANEL: Problem Description */}
+        <div className="playground-sidebar">
+          <div className="sidebar-header">
+            <span className="sidebar-header-title">Problem</span>
+            <span className={`diff-badge diff-${(activeProblem.difficulty||'easy').toLowerCase()}`}>
+              {activeProblem.difficulty}
+            </span>
+          </div>
           <div className="sidebar-section" style={{ flex: 1, overflowY: 'auto' }}>
             <h3 className="problem-title">{activeProblem.title}</h3>
-            <span className="badge badge-primary" style={{ marginBottom: '1rem', textTransform: 'none' }}>{activeProblem.difficulty}</span>
             <p className="problem-desc" dangerouslySetInnerHTML={{ __html: activeProblem.description }} />
 
             {/* SQL Table Reference Helper */}
@@ -854,19 +1122,6 @@ export default function Playground({ questions }) {
                 </details>
 
                 <details className="schema-details">
-                  <summary>Table: customers</summary>
-                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                    <tbody>
-                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                      <tr><td>name</td><td>TEXT</td></tr>
-                      <tr><td>email</td><td>TEXT</td></tr>
-                      <tr><td>country</td><td>TEXT</td></tr>
-                    </tbody>
-                  </table>
-                </details>
-
-                <details className="schema-details">
                   <summary>Table: orders</summary>
                   <table className="schema-table" style={{ marginTop: '0.4rem' }}>
                     <thead><tr><th>Column</th><th>Type</th></tr></thead>
@@ -878,38 +1133,13 @@ export default function Playground({ questions }) {
                     </tbody>
                   </table>
                 </details>
-
-                <details className="schema-details">
-                  <summary>Table: products</summary>
-                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                    <tbody>
-                      <tr><td>id (PK)</td><td>INTEGER</td></tr>
-                      <tr><td>name</td><td>TEXT</td></tr>
-                      <tr><td>price</td><td>REAL</td></tr>
-                      <tr><td>stock</td><td>INTEGER</td></tr>
-                    </tbody>
-                  </table>
-                </details>
-
-                <details className="schema-details">
-                  <summary>Table: order_items</summary>
-                  <table className="schema-table" style={{ marginTop: '0.4rem' }}>
-                    <thead><tr><th>Column</th><th>Type</th></tr></thead>
-                    <tbody>
-                      <tr><td>order_id (PK, FK)</td><td>INTEGER</td></tr>
-                      <tr><td>product_id (PK, FK)</td><td>INTEGER</td></tr>
-                      <tr><td>quantity</td><td>INTEGER</td></tr>
-                      <tr><td>unit_price</td><td>REAL</td></tr>
-                    </tbody>
-                  </table>
-                </details>
               </div>
             )}
           </div>
         </div>
 
         <div className="playground-ide">
+
           <div className="ide-header">
             <div className="ide-controls">
               <select 
