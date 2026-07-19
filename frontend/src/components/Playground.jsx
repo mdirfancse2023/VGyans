@@ -241,42 +241,54 @@ const highlightCode = (codeText, lang) => {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
+  let tokenRegex;
   if (lang === 'python') {
-    // 1. Strings
-    escaped = escaped.replace(/(".*?"|'.*?')/g, '<span style="color: #a7f3d0;">$1</span>');
-    // 2. Keywords
-    const keywords = ['def', 'class', 'import', 'from', 'as', 'return', 'if', 'elif', 'else', 'for', 'in', 'while', 'try', 'except', 'pass', 'print', 'and', 'or', 'not', 'is', 'lambda', 'with', 'yield', 'None', 'True', 'False'];
-    keywords.forEach(kw => {
-      const reg = new RegExp(`\\b${kw}\\b`, 'g');
-      escaped = escaped.replace(reg, `<span style="color: #60a5fa; font-weight: 700;">${kw}</span>`);
-    });
-    // 3. Comments
-    escaped = escaped.replace(/(#.*)/g, '<span style="color: #64748b; font-style: italic;">$1</span>');
+    tokenRegex = /(#.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
   } else if (lang === 'java' || lang === 'cpp') {
-    // 1. Strings
-    escaped = escaped.replace(/(".*?"|'.*?')/g, '<span style="color: #a7f3d0;">$1</span>');
-    // 2. Keywords
-    const keywords = ['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'do', 'void', 'int', 'double', 'float', 'char', 'boolean', 'long', 'static', 'final', 'new', 'this', 'super', 'override', 'include', 'using', 'namespace', 'cout', 'cin', 'endl', 'vector', 'unordered_map', 'string', 'const', 'virtual'];
-    keywords.forEach(kw => {
-      const reg = new RegExp(`\\b${kw}\\b`, 'g');
-      escaped = escaped.replace(reg, `<span style="color: #60a5fa; font-weight: 700;">${kw}</span>`);
-    });
-    // 3. Comments
-    escaped = escaped.replace(/(\\/\\/.*)/g, '<span style="color: #64748b; font-style: italic;">$1</span>');
+    tokenRegex = /(\/\/.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
   } else if (lang === 'sql') {
-    // 1. Strings
-    escaped = escaped.replace(/(".*?"|'.*?')/g, '<span style="color: #a7f3d0;">$1</span>');
-    // 2. Keywords
-    const keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'ON', 'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'SUM', 'MAX', 'MIN', 'AVG', 'COUNT', 'AS', 'AND', 'OR', 'IN', 'INSERT', 'INTO', 'VALUES', 'CREATE', 'TABLE', 'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES'];
-    keywords.forEach(kw => {
-      const reg = new RegExp(`\\b${kw}\\b`, 'gi');
-      escaped = escaped.replace(reg, match => `<span style="color: #38bdf8; font-weight: 700;">${match}</span>`);
-    });
-    // 3. Comments
-    escaped = escaped.replace(/(--.*)/g, '<span style="color: #64748b; font-style: italic;">$1</span>');
+    tokenRegex = /(--.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
+  } else {
+    tokenRegex = /(\b\w+\b|[^\s\w]+|\s+)/g;
   }
-  return escaped;
+
+  const pythonKeywords = new Set(['def', 'class', 'import', 'from', 'as', 'return', 'if', 'elif', 'else', 'for', 'in', 'while', 'try', 'except', 'pass', 'print', 'and', 'or', 'not', 'is', 'lambda', 'with', 'yield', 'None', 'True', 'False']);
+  const cppKeywords = new Set(['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'do', 'void', 'int', 'double', 'float', 'char', 'boolean', 'long', 'static', 'final', 'new', 'this', 'super', 'override', 'include', 'using', 'namespace', 'cout', 'cin', 'endl', 'vector', 'unordered_map', 'string', 'const', 'virtual']);
+  const sqlKeywords = new Set(['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'ON', 'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'SUM', 'MAX', 'MIN', 'AVG', 'COUNT', 'AS', 'AND', 'OR', 'IN', 'INSERT', 'INTO', 'VALUES', 'CREATE', 'TABLE', 'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES']);
+
+  const tokens = escaped.match(tokenRegex) || [escaped];
+  
+  return tokens.map(token => {
+    const rawToken = token
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&');
+
+    if (rawToken.startsWith('#') || rawToken.startsWith('//') || rawToken.startsWith('--')) {
+      return `<span style="color: #64748b; font-style: italic;">${token}</span>`;
+    }
+    if ((rawToken.startsWith('"') && rawToken.endsWith('"')) || (rawToken.startsWith("'") && rawToken.endsWith("'"))) {
+      return `<span style="color: #a7f3d0;">${token}</span>`;
+    }
+    if (/^\d+$/.test(rawToken)) {
+      return `<span style="color: #f59e0b;">${token}</span>`;
+    }
+    if (lang === 'python' && pythonKeywords.has(rawToken)) {
+      return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
+    }
+    if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(rawToken)) {
+      return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
+    }
+    if (lang === 'sql') {
+      const upperToken = rawToken.toUpperCase();
+      if (sqlKeywords.has(upperToken)) {
+        return `<span style="color: #38bdf8; font-weight: 700;">${token}</span>`;
+      }
+    }
+    return token;
+  }).join('');
 };
+
 
 export default function Playground() {
   const [activeProblem, setActiveProblem] = useState(PROBLEMS[0]);

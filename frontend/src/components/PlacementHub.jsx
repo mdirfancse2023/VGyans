@@ -1,5 +1,65 @@
-import React, { useState } from 'react';
-import PDFViewer from './PDFViewer';
+const highlightCode = (codeText, lang) => {
+  if (!codeText) return '';
+  let escaped = codeText
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  let tokenRegex;
+  if (lang === 'python') {
+    tokenRegex = /(#.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
+  } else if (lang === 'java' || lang === 'cpp') {
+    tokenRegex = /(\/\/.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
+  } else if (lang === 'sql') {
+    tokenRegex = /(--.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
+  } else {
+    tokenRegex = /(\b\w+\b|[^\s\w]+|\s+)/g;
+  }
+
+  const pythonKeywords = new Set(['def', 'class', 'import', 'from', 'as', 'return', 'if', 'elif', 'else', 'for', 'in', 'while', 'try', 'except', 'pass', 'print', 'and', 'or', 'not', 'is', 'lambda', 'with', 'yield', 'None', 'True', 'False']);
+  const cppKeywords = new Set(['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'do', 'void', 'int', 'double', 'float', 'char', 'boolean', 'long', 'static', 'final', 'new', 'this', 'super', 'override', 'include', 'using', 'namespace', 'cout', 'cin', 'endl', 'vector', 'unordered_map', 'string', 'const', 'virtual']);
+  const sqlKeywords = new Set(['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'ON', 'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'SUM', 'MAX', 'MIN', 'AVG', 'COUNT', 'AS', 'AND', 'OR', 'IN', 'INSERT', 'INTO', 'VALUES', 'CREATE', 'TABLE', 'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES']);
+
+  const tokens = escaped.match(tokenRegex) || [escaped];
+  
+  return tokens.map(token => {
+    // Unescape entities for internal regex checks
+    const rawToken = token
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&');
+
+    if (rawToken.startsWith('#') || rawToken.startsWith('//') || rawToken.startsWith('--')) {
+      return `<span style="color: #64748b; font-style: italic;">${token}</span>`;
+    }
+    if ((rawToken.startsWith('"') && rawToken.endsWith('"')) || (rawToken.startsWith("'") && rawToken.endsWith("'"))) {
+      return `<span style="color: #a7f3d0;">${token}</span>`;
+    }
+    if (/^\d+$/.test(rawToken)) {
+      return `<span style="color: #f59e0b;">${token}</span>`;
+    }
+    if (lang === 'python' && pythonKeywords.has(rawToken)) {
+      return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
+    }
+    if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(rawToken)) {
+      return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
+    }
+    if (lang === 'sql') {
+      const upperToken = rawToken.toUpperCase();
+      if (sqlKeywords.has(upperToken)) {
+        return `<span style="color: #38bdf8; font-weight: 700;">${token}</span>`;
+      }
+    }
+    return token;
+  }).join('');
+};
+
+const detectLanguage = (title) => {
+  const t = title.toLowerCase();
+  if (t.includes('python')) return 'python';
+  if (t.includes('sql') || t.includes('database')) return 'sql';
+  return 'java'; // general C/C++/Java highlighting
+};
 
 function BlogReader({ note, onClose }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -179,15 +239,16 @@ function BlogReader({ note, onClose }) {
             } else if (block.type === 'body') {
               return <p key={index} className="blog-p" dangerouslySetInnerHTML={{ __html: block.text }} />;
             } else if (block.type === 'code') {
+              const lang = detectLanguage(note.title);
               return (
                 <div key={index} className="blog-code-container">
                   <div className="blog-code-header">
-                    <span>Code Snippet</span>
+                    <span style={{ textTransform: 'uppercase', fontWeight: 600 }}>{lang} Snippet</span>
                     <button className="blog-copy-btn" onClick={() => handleCopyCode(block.text, index)}>
                       {copiedIndex === index ? 'Copied!' : 'Copy'}
                     </button>
                   </div>
-                  <pre className="blog-code-pre"><code>{block.text}</code></pre>
+                  <pre className="blog-code-pre"><code dangerouslySetInnerHTML={{ __html: highlightCode(block.text, lang) }} /></pre>
                 </div>
               );
             }
