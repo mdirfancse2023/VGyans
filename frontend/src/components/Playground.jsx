@@ -1838,10 +1838,6 @@ export default function Playground({ questions }) {
                       {stderr}
                     </div>
                   )}
-
-                  {!stdout && !stderr && !isRunning && !isSubmitting && !hasRun && (
-                    <p style={{ color: '#475569', fontSize: '0.85rem', fontStyle: 'italic', margin: 0 }}>Click "Run Code" or "Submit / Test All" to run against LeetCode test cases...</p>
-                  )}
                 </div>
               )}
             </div>
