@@ -4,49 +4,25 @@ export default function Footer({ setActiveTab }) {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <div className="footer-brand">
+        <div className="footer-left">
           <h3>Virtual Gyans</h3>
-          <p>
-            An educational initiative to help freshers navigate company onboarding, interview rounds, and tech requirements for top hiring entities.
-          </p>
+          <p className="footer-copyright">&copy; {new Date().getFullYear()} Virtual Gyans. All rights reserved.</p>
         </div>
         
-        <div className="footer-links">
-          <h4>Navigation</h4>
-          <ul>
-            <li><a href="#home" onClick={(e) => { e.preventDefault(); setActiveTab('home'); }}>Home</a></li>
-            <li><a href="#videos" onClick={(e) => { e.preventDefault(); setActiveTab('videos'); }}>Videos</a></li>
-            <li><a href="#guides" onClick={(e) => { e.preventDefault(); setActiveTab('guides'); }}>Placement</a></li>
-            <li><a href="#playground" onClick={(e) => { e.preventDefault(); setActiveTab('playground'); }}>Code</a></li>
-            <li><a href="#experiences" onClick={(e) => { e.preventDefault(); setActiveTab('experiences'); }}>Interviews</a></li>
-            <li><a href="#tools" onClick={(e) => { e.preventDefault(); setActiveTab('tools'); }}>Resume</a></li>
-          </ul>
+        <div className="footer-center">
+          <a href="#home" onClick={(e) => { e.preventDefault(); setActiveTab('home'); }}>Home</a>
+          <a href="#videos" onClick={(e) => { e.preventDefault(); setActiveTab('videos'); }}>Videos</a>
+          <a href="#guides" onClick={(e) => { e.preventDefault(); setActiveTab('guides'); }}>Placement</a>
+          <a href="#playground" onClick={(e) => { e.preventDefault(); setActiveTab('playground'); }}>Code</a>
+          <a href="#experiences" onClick={(e) => { e.preventDefault(); setActiveTab('experiences'); }}>Interviews</a>
+          <a href="#tools" onClick={(e) => { e.preventDefault(); setActiveTab('tools'); }}>Resume</a>
         </div>
-        
-        <div className="footer-links">
-          <h4>Connect</h4>
-          <ul>
-            <li>
-              <a href="https://www.youtube.com/c/virtualgyans" target="_blank" rel="noopener noreferrer">
-                YouTube Channel
-              </a>
-            </li>
-            <li>
-              <a href="https://t.me/virtualgyans" target="_blank" rel="noopener noreferrer">
-                Telegram Channel
-              </a>
-            </li>
-            <li>
-              <a href="mailto:virtualgyans@gmail.com">
-                Email: virtualgyans@gmail.com
-              </a>
-            </li>
-          </ul>
+
+        <div className="footer-right">
+          <a href="https://www.youtube.com/c/virtualgyans" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a href="https://t.me/virtualgyans" target="_blank" rel="noopener noreferrer">Telegram</a>
+          <a href="mailto:virtualgyans@gmail.com">Contact</a>
         </div>
-      </div>
-      
-      <div className="footer-bottom">
-        <div>&copy; {new Date().getFullYear()} Virtual Gyans. All rights reserved.</div>
       </div>
     </footer>
   );
