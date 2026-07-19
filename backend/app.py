@@ -553,10 +553,18 @@ def get_note_content(note_id: str):
         except Exception as e:
             print(f"Firestore get_note_content error, falling back: {e}")
             
-    notes = load_data().get("notes", [])
-    for note in notes:
-        if note.get("id") == note_id:
-            return note
+    # Load from the detailed backup file if database is offline
+    backup_path = os.path.join(DATA_DIR, "backup", "notes.json")
+    if os.path.exists(backup_path):
+        try:
+            with open(backup_path, "r", encoding="utf-8") as f:
+                notes = json.load(f)
+                for note in notes:
+                    if note.get("id") == note_id:
+                        return note
+        except Exception as e:
+            print(f"Failed to read detailed notes backup: {e}")
+            
     raise HTTPException(status_code=404, detail="Study note not found")
 
 @app.get("/api/questions")
@@ -579,10 +587,18 @@ def get_question_detail(question_id: str):
         except Exception as e:
             print(f"Firestore get_question_detail error, falling back: {e}")
             
-    questions = load_data().get("playground_questions", [])
-    for q in questions:
-        if q.get("id") == question_id:
-            return q
+    # Load from the detailed backup file if database is offline
+    backup_path = os.path.join(DATA_DIR, "backup", "playground_questions.json")
+    if os.path.exists(backup_path):
+        try:
+            with open(backup_path, "r", encoding="utf-8") as f:
+                questions = json.load(f)
+                for q in questions:
+                    if q.get("id") == question_id:
+                        return q
+        except Exception as e:
+            print(f"Failed to read detailed questions backup: {e}")
+            
     raise HTTPException(status_code=404, detail="Question details not found")
 
 class RunRequest(BaseModel):
