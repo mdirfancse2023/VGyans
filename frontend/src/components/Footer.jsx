@@ -36,8 +36,8 @@ export default function Footer({ setActiveTab }) {
               </a>
             </li>
             <li>
-              <a href="#" onClick={(e) => { e.preventDefault(); alert("Email: contact@virtualgyans.me"); }}>
-                Email: contact@virtualgyans.me
+              <a href="mailto:virtualgyans@gmail.com">
+                Email: virtualgyans@gmail.com
               </a>
             </li>
           </ul>
