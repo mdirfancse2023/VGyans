@@ -7,7 +7,7 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
     { id: 'videos', label: 'Videos' },
     { id: 'guides', label: 'Placement Prep' },
     { id: 'playground', label: 'Code' },
-    { id: 'experiences', label: 'Interview Logs' },
+    { id: 'experiences', label: 'Interviews' },
     { id: 'tools', label: 'Resume' }
   ];
 

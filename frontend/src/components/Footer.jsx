@@ -18,7 +18,7 @@ export default function Footer({ setActiveTab }) {
             <li><a href="#videos" onClick={(e) => { e.preventDefault(); setActiveTab('videos'); }}>Videos</a></li>
             <li><a href="#guides" onClick={(e) => { e.preventDefault(); setActiveTab('guides'); }}>Placement Guides</a></li>
             <li><a href="#playground" onClick={(e) => { e.preventDefault(); setActiveTab('playground'); }}>Code</a></li>
-            <li><a href="#experiences" onClick={(e) => { e.preventDefault(); setActiveTab('experiences'); }}>Interview Experiences</a></li>
+            <li><a href="#experiences" onClick={(e) => { e.preventDefault(); setActiveTab('experiences'); }}>Interviews</a></li>
             <li><a href="#tools" onClick={(e) => { e.preventDefault(); setActiveTab('tools'); }}>Resume</a></li>
           </ul>
         </div>
