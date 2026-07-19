@@ -5,9 +5,14 @@ const API_URL = import.meta.env.VITE_API_URL ||
     ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
 
 const SOURCE_COLORS = {
-  'Remotive':  { bg: 'rgba(52,211,153,0.12)',  border: 'rgba(52,211,153,0.3)',  color: '#34d399' },
-  'Arbeitnow': { bg: 'rgba(96,165,250,0.12)',  border: 'rgba(96,165,250,0.3)',  color: '#60a5fa' },
-  'The Muse':  { bg: 'rgba(167,139,250,0.12)', border: 'rgba(167,139,250,0.3)', color: '#a78bfa' },
+  'LinkedIn':  { bg: 'rgba(10,102,194,0.15)',  border: 'rgba(10,102,194,0.4)',  color: '#0a66c2' },
+  'Indeed':    { bg: 'rgba(0,114,235,0.12)',   border: 'rgba(0,114,235,0.35)',  color: '#0072eb' },
+  'Glassdoor': { bg: 'rgba(0,163,107,0.12)',  border: 'rgba(0,163,107,0.35)',  color: '#00a36b' },
+  'Naukri':    { bg: 'rgba(255,89,0,0.12)',   border: 'rgba(255,89,0,0.3)',    color: '#ff5900' },
+  'Remotive':  { bg: 'rgba(52,211,153,0.12)', border: 'rgba(52,211,153,0.3)', color: '#34d399' },
+  'Arbeitnow': { bg: 'rgba(96,165,250,0.12)', border: 'rgba(96,165,250,0.3)', color: '#60a5fa' },
+  'The Muse':  { bg: 'rgba(167,139,250,0.12)',border: 'rgba(167,139,250,0.3)',color: '#a78bfa' },
+  'JSearch':   { bg: 'rgba(251,191,36,0.1)',  border: 'rgba(251,191,36,0.3)', color: '#fbbf24' },
 };
 
 const TYPE_BADGE = {
@@ -162,7 +167,7 @@ export default function Jobs() {
     { id: 'remote', label: '🌐 Remote' },
     { id: 'onsite', label: '🏢 On-site' },
   ];
-  const SOURCES = ['All', 'Remotive', 'Arbeitnow', 'The Muse'];
+  const SOURCES = ['All', 'LinkedIn', 'Indeed', 'Glassdoor', 'Naukri', 'Remotive', 'Arbeitnow', 'The Muse'];
 
   return (
     <div style={{ marginBottom: '3rem' }}>

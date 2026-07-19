@@ -163,14 +163,16 @@ def submit_feedback(fb: FeedbackCreate):
 
 # ─── JOBS AGGREGATOR ───────────────────────────────────────────────────────────
 
+RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY", "")
+
 def _fetch_remotive() -> list:
     """Remote IT jobs from Remotive (free, no key)"""
     try:
-        categories = ["software-dev", "data", "devops-sysadmin", "qa", "product"]
+        categories = ["software-dev", "data", "devops-sysadmin", "qa"]
         jobs = []
         for cat in categories:
             r = requests.get(
-                f"https://remotive.com/api/remote-jobs?category={cat}&limit=15",
+                f"https://remotive.com/api/remote-jobs?category={cat}&limit=12",
                 timeout=10, headers={"User-Agent": "VirtualGyans/1.0"}
             )
             if r.status_code == 200:
@@ -233,7 +235,7 @@ def _fetch_arbeitnow() -> list:
         return []
 
 def _fetch_themuse() -> list:
-    """Tech jobs from The Muse (free, no key for basic)"""
+    """Tech jobs from The Muse (free, no key)"""
     try:
         r = requests.get(
             "https://www.themuse.com/api/public/jobs?category=Computer+%26+IT&page=1&descending=true",
@@ -267,6 +269,151 @@ def _fetch_themuse() -> list:
         print(f"TheMuse fetch error: {e}")
         return []
 
+def _fetch_jsearch(query: str = "software developer", location: str = "india") -> list:
+    """Fetch jobs from JSearch (LinkedIn + Indeed + Glassdoor) via RapidAPI"""
+    if not RAPIDAPI_KEY:
+        return []
+    try:
+        queries = [
+            ("software engineer", "india"),
+            ("backend developer", "india"),
+            ("frontend developer", "india"),
+            ("data engineer", "india"),
+            ("software developer", ""),
+        ]
+        jobs = []
+        for q, loc in queries:
+            params = {"query": q + (f" in {loc}" if loc else ""), "page": "1", "num_results": "10", "date_posted": "week"}
+            r = requests.get(
+                "https://jsearch.p.rapidapi.com/search",
+                headers={"X-RapidAPI-Key": RAPIDAPI_KEY, "X-RapidAPI-Host": "jsearch.p.rapidapi.com"},
+                params=params, timeout=12
+            )
+            if r.status_code != 200:
+                print(f"JSearch error {r.status_code}: {r.text[:200]}")
+                continue
+            for j in r.json().get("data", []):
+                employer = j.get("employer_name", "")
+                title    = j.get("job_title", "")
+                src_name = j.get("job_apply_link", "")
+                # Identify source from publisher
+                publisher = j.get("job_publisher", "").lower()
+                if "linkedin" in publisher:
+                    src = "LinkedIn"
+                elif "indeed" in publisher:
+                    src = "Indeed"
+                elif "glassdoor" in publisher:
+                    src = "Glassdoor"
+                elif "naukri" in publisher:
+                    src = "Naukri"
+                else:
+                    src = j.get("job_publisher", "JSearch")
+
+                # salary
+                min_sal = j.get("job_min_salary")
+                max_sal = j.get("job_max_salary")
+                cur     = j.get("job_salary_currency", "")
+                salary  = ""
+                if min_sal and max_sal:
+                    salary = f"{cur}{int(min_sal):,}–{cur}{int(max_sal):,}"
+                elif min_sal:
+                    salary = f"{cur}{int(min_sal):,}+"
+
+                city    = j.get("job_city", "")
+                country = j.get("job_country", "")
+                location_str = ", ".join(filter(None, [city, country])) or "Flexible"
+
+                posted = j.get("job_posted_at_datetime_utc", "") or j.get("job_posted_at_timestamp", "")
+                if isinstance(posted, (int, float)):
+                    posted = datetime.datetime.utcfromtimestamp(posted).isoformat() + "Z"
+
+                jobs.append({
+                    "id": f"jsearch-{j.get('job_id','')}",
+                    "title": title,
+                    "company": employer,
+                    "location": location_str,
+                    "type": j.get("job_employment_type", "Full Time").replace("_", " ").title(),
+                    "category": j.get("job_category", "Software Engineering") or "Software Engineering",
+                    "salary": salary,
+                    "tags": (j.get("job_required_skills") or [])[:5],
+                    "logo": j.get("employer_logo", ""),
+                    "url": j.get("job_apply_link", j.get("job_google_link", "")),
+                    "postedAt": posted,
+                    "source": src,
+                    "remote": bool(j.get("job_is_remote")),
+                })
+        return jobs
+    except Exception as e:
+        print(f"JSearch fetch error: {e}")
+        return []
+
+def _fetch_indeed_rss() -> list:
+    """Indeed job RSS feeds for India IT roles (free, no key)"""
+    try:
+        import xml.etree.ElementTree as ET
+        queries = ["software+engineer", "python+developer", "java+developer", "data+engineer"]
+        jobs = []
+        for q in queries:
+            url = f"https://www.indeed.com/rss?q={q}&l=India&sort=date&fromage=14"
+            r = requests.get(url, timeout=10, headers={"User-Agent": "Mozilla/5.0 (compatible; VirtualGyans/1.0)"})
+            if r.status_code != 200:
+                continue
+            root = ET.fromstring(r.content)
+            for item in root.findall(".//item"):
+                title_el   = item.find("title")
+                link_el    = item.find("link")
+                desc_el    = item.find("description")
+                pubdate_el = item.find("pubDate")
+                guid_el    = item.find("guid")
+
+                title = title_el.text if title_el is not None else ""
+                link  = link_el.text  if link_el  is not None else ""
+                desc  = desc_el.text  if desc_el  is not None else ""
+                pub   = pubdate_el.text if pubdate_el is not None else ""
+
+                # Extract company + location from description
+                company  = ""
+                location = "India"
+                if desc:
+                    import re as _re
+                    company_match = _re.search(r'<b>([^<]+)</b>', desc)
+                    if company_match:
+                        company = company_match.group(1)
+                    loc_match = _re.search(r'-\s*([A-Za-z ,]+?)(?:<|$)', desc)
+                    if loc_match:
+                        location = loc_match.group(1).strip()
+
+                # Parse pub date
+                posted_iso = ""
+                if pub:
+                    try:
+                        import email.utils
+                        tt = email.utils.parsedate_to_datetime(pub)
+                        posted_iso = tt.isoformat()
+                    except Exception:
+                        posted_iso = ""
+
+                if title and link:
+                    jobs.append({
+                        "id": f"indeed-{guid_el.text if guid_el is not None else link}",
+                        "title": title.split(" - ")[0].strip(),
+                        "company": company or title.split(" - ")[-1].strip(),
+                        "location": location,
+                        "type": "Full Time",
+                        "category": "Software Engineering",
+                        "salary": "",
+                        "tags": [],
+                        "logo": "",
+                        "url": link,
+                        "postedAt": posted_iso,
+                        "source": "Indeed",
+                        "remote": "remote" in title.lower() or "remote" in location.lower(),
+                    })
+        return jobs
+    except Exception as e:
+        print(f"Indeed RSS fetch error: {e}")
+        return []
+
 @app.get("/api/jobs")
 def get_jobs(
     search: Optional[str] = None,
@@ -274,17 +421,24 @@ def get_jobs(
     remote: Optional[bool] = None,
     source: Optional[str] = None,
 ):
-    """Aggregate real-time IT jobs from multiple free sources."""
+    """Aggregate real-time IT jobs from LinkedIn/Indeed/Glassdoor (JSearch), Remotive, Arbeitnow, The Muse, Indeed RSS."""
     from concurrent.futures import ThreadPoolExecutor
-    with ThreadPoolExecutor(max_workers=3) as ex:
+    with ThreadPoolExecutor(max_workers=5) as ex:
+        f_jsearch   = ex.submit(_fetch_jsearch)
+        f_indeed    = ex.submit(_fetch_indeed_rss)
         f_remotive  = ex.submit(_fetch_remotive)
         f_arbeitnow = ex.submit(_fetch_arbeitnow)
         f_themuse   = ex.submit(_fetch_themuse)
-        all_jobs = f_remotive.result() + f_arbeitnow.result() + f_themuse.result()
+        all_jobs = (
+            f_jsearch.result() +
+            f_indeed.result() +
+            f_remotive.result() +
+            f_arbeitnow.result() +
+            f_themuse.result()
+        )
 
     # Deduplicate by title+company
-    seen = set()
-    unique = []
+    seen, unique = set(), []
     for j in all_jobs:
         key = (j["title"].lower().strip(), j["company"].lower().strip())
         if key not in seen:
@@ -295,21 +449,22 @@ def get_jobs(
     if search:
         s = search.lower()
         unique = [j for j in unique if s in j["title"].lower() or s in j["company"].lower()
-                  or any(s in t.lower() for t in j.get("tags",[]))]
+                  or any(s in t.lower() for t in j.get("tags", []))]
     if category and category != "All":
-        unique = [j for j in unique if category.lower() in j.get("category","").lower()]
+        unique = [j for j in unique if category.lower() in j.get("category", "").lower()]
     if remote is not None:
         unique = [j for j in unique if j.get("remote") == remote]
     if source and source != "All":
-        unique = [j for j in unique if j.get("source","").lower() == source.lower()]
+        unique = [j for j in unique if j.get("source", "").lower() == source.lower()]
 
-    # Sort by postedAt desc
-    unique.sort(key=lambda x: x.get("postedAt",""), reverse=True)
+    unique.sort(key=lambda x: x.get("postedAt", ""), reverse=True)
 
+    active_sources = ["LinkedIn", "Indeed", "Glassdoor", "Naukri", "Remotive", "Arbeitnow", "The Muse"]
     return {
         "total": len(unique),
-        "jobs": unique[:100],
-        "sources": ["Remotive", "Arbeitnow", "The Muse"],
+        "jobs": unique[:150],
+        "sources": active_sources,
+        "jsearch_active": bool(RAPIDAPI_KEY),
     }
 
 
