@@ -39,6 +39,31 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
             </li>
           ))}
           <li>
+            <a 
+              href="https://www.youtube.com/@virtualgyans" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="nav-link"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+            >
+              <svg 
+                viewBox="0 0 24 24" 
+                width="16" 
+                height="16" 
+              >
+                <path 
+                  d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.507 9.388.507 9.388.507s7.518 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837z" 
+                  fill="#FF0000" 
+                />
+                <polygon 
+                  points="9.545 15.568 15.818 12 9.545 8.432" 
+                  fill="#FFFFFF" 
+                />
+              </svg>
+              Subscribe
+            </a>
+          </li>
+          <li>
             <button 
               onClick={toggleTheme}
               className="theme-toggle-btn"
@@ -76,31 +101,6 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
                 </svg>
               )}
             </button>
-          </li>
-          <li>
-            <a 
-              href="https://www.youtube.com/@virtualgyans" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="nav-link"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
-            >
-              <svg 
-                viewBox="0 0 24 24" 
-                width="16" 
-                height="16" 
-              >
-                <path 
-                  d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.507 9.388.507 9.388.507s7.518 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837z" 
-                  fill="#FF0000" 
-                />
-                <polygon 
-                  points="9.545 15.568 15.818 12 9.545 8.432" 
-                  fill="#FFFFFF" 
-                />
-              </svg>
-              Subscribe
-            </a>
           </li>
         </ul>
       </div>
