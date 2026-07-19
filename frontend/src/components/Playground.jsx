@@ -1556,7 +1556,7 @@ export default function Playground({ questions }) {
                   Explore Questions by Category
                 </h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                  {Object.entries(groupedProblems).slice(0, 6).map(([cat, items]) => (
+                  {Object.entries(groupedProblems).map(([cat, items]) => (
                     <button
                       key={cat}
                       onClick={() => selectQuestion(items[0])}
@@ -1583,23 +1583,6 @@ export default function Playground({ questions }) {
           ) : (
             <>
               <div className="sidebar-header" style={{ padding: '0.5rem 1.25rem', gap: '0.75rem', borderBottom: '1px solid var(--border-glass)', display: 'flex', alignItems: 'center' }}>
-                <button
-                  onClick={() => setActiveProblem(null)}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.06)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    color: '#cbd5e1',
-                    padding: '0.25rem 0.55rem',
-                    borderRadius: '5px',
-                    fontSize: '0.72rem',
-                    fontWeight: 600,
-                    cursor: 'pointer'
-                  }}
-                  title="Switch to Free Code Editor"
-                >
-                  ← Free Editor
-                </button>
-
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                   <button
                     onClick={() => setSidebarTab('problem')}
