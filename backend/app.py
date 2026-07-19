@@ -555,12 +555,22 @@ def run_code(req: RunRequest):
         if lang in ("mysql", "postgres"):
             try:
                 import sqlglot
+                from sqlglot.errors import ParseError
                 dialect = "mysql" if lang == "mysql" else "postgres"
                 try:
-                    transpiled_parts = sqlglot.transpile(code, read=dialect, write="sqlite")
+                    transpiled_parts = sqlglot.transpile(
+                        code, read=dialect, write="sqlite",
+                        error_level=sqlglot.ErrorLevel.RAISE
+                    )
                     code = ";\n".join(transpiled_parts)
+                except ParseError as pe:
+                    # Surface a clean syntax error to the user
+                    return {
+                        "stdout": "",
+                        "stderr": f"Syntax Error ({dialect.upper()}): {str(pe)}"
+                    }
                 except Exception:
-                    pass  # keep original SQL if transpilation fails
+                    pass  # non-parse failure — run original SQL as-is against SQLite
             except ImportError:
                 pass  # sqlglot not installed; run as-is
 
