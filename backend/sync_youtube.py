@@ -13,7 +13,8 @@ from firebase_admin import credentials, firestore
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY", "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo")
-CHANNEL_ID = os.getenv("CHANNEL_ID", "UCkViZeUiDCEof_t9--OgZkA")
+raw_chan_id = os.getenv("CHANNEL_ID", "")
+CHANNEL_ID = raw_chan_id if (raw_chan_id and raw_chan_id.startswith("UC")) else "UCkViZeUiDCEof_t9--OgZkA"
 CHANNEL_HANDLE = "@virtualgyans"
 RSS_URL = f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"
 CHANNEL_URL = f"https://www.youtube.com/{CHANNEL_HANDLE}"

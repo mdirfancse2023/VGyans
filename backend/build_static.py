@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY", "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo")
-# Channel ID for Virtual Gyans
-CHANNEL_ID = os.getenv("CHANNEL_ID", "UCkViZeUiDCEof_t9--OgZkA")
+raw_chan_id = os.getenv("CHANNEL_ID", "")
+CHANNEL_ID = raw_chan_id if (raw_chan_id and raw_chan_id.startswith("UC")) else "UCkViZeUiDCEof_t9--OgZkA"
 
 OUTPUT_PATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
