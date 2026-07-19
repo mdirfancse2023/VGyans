@@ -385,12 +385,12 @@ export default function Playground() {
   const lineNumbers = Array.from({ length: lineCount }, (_, i) => i + 1);
 
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: '0.5rem' }}>
       <style>{`
         .playground-container {
           display: grid;
           grid-template-columns: 320px 1fr;
-          height: calc(100vh - 120px);
+          height: calc(100vh - 110px);
           background: rgba(15, 23, 42, 0.4);
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 16px;

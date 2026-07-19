@@ -235,9 +235,9 @@ export default function App() {
         )}
 
         {activeTab === 'playground' && (
-          <section>
+          <div style={{ width: '100%', maxWidth: 'none', padding: '1rem 2rem 0', boxSizing: 'border-box' }}>
             <Playground />
-          </section>
+          </div>
         )}
 
         {activeTab === 'tools' && (
@@ -251,7 +251,7 @@ export default function App() {
         )}
       </main>
 
-      <Footer setActiveTab={setActiveTab} />
+      {activeTab !== 'playground' && <Footer setActiveTab={setActiveTab} />}
     </div>
   );
 }
