@@ -417,8 +417,7 @@ export default function Header({
                   </div>
                 </div>
 
-                <div style={{ padding: '0.35rem 0.6rem', borderRadius: '6px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span>Status:</span>
+                <div style={{ padding: '0.35rem 0.6rem', borderRadius: '6px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', fontSize: '0.72rem', marginBottom: '0.75rem', textAlign: 'center' }}>
                   <span style={{ color: '#10b981', fontWeight: 700 }}>● Active Learner</span>
                 </div>
 
