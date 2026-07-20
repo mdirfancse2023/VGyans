@@ -246,7 +246,7 @@ export default function ResumeBuilder() {
       <style>{`
         .resume-builder-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr 1.25fr;
           gap: 2rem;
           margin-top: 1rem;
         }
@@ -265,7 +265,7 @@ export default function ResumeBuilder() {
           background: #ffffff;
           color: #0f172a;
           border-radius: 8px;
-          padding: 3rem;
+          padding: 2rem 2.2rem;
           box-shadow: 0 10px 30px rgba(0,0,0,0.3);
           font-family: 'Arial', 'Helvetica', sans-serif;
           min-height: 800px;
@@ -683,11 +683,16 @@ export default function ResumeBuilder() {
             <p style={{ fontSize: sizes.title, fontWeight: 'bold', color: '#1e293b', margin: `0 0 ${sizes.gap} 0`, padding: 0, fontFamily: 'Arial, sans-serif' }}>
               {formData.title || 'Professional Title'}
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: sizes.gap, fontSize: sizes.info, color: '#334155', fontFamily: 'Arial, sans-serif' }}>
-              {formData.email && <span>{formData.email}</span>}
-              {formData.phone && <><span>|</span><span>{formData.phone}</span></>}
-              {formData.linkedin && <><span>|</span><span>{formData.linkedin}</span></>}
-              {formData.github && <><span>|</span><span>{formData.github}</span></>}
+            <div style={{ fontSize: sizes.info, color: '#334155', fontFamily: 'Arial, sans-serif', textAlign: 'center', lineHeight: 1.5 }}>
+              {(() => {
+                const parts = [];
+                if (formData.email) parts.push(<span key="email">{formData.email}</span>);
+                if (formData.phone) parts.push(<span key="phone">{formData.phone}</span>);
+                if (formData.linkedin) parts.push(<span key="li">{formData.linkedin}</span>);
+                if (formData.github) parts.push(<span key="gh">{formData.github}</span>);
+                
+                return parts.reduce((acc, x, i) => i === 0 ? [x] : [...acc, '  |  ', x], []);
+              })()}
             </div>
           </div>
 
