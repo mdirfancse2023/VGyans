@@ -79,17 +79,15 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
       {!hideTrigger && (
         <button
           onClick={() => setInternalOpen(true)}
+          className="feedback-trigger-btn"
           style={{
             position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
             display: 'flex', alignItems: 'center', gap: '8px',
-            background: 'rgba(15,23,42,0.92)', border: '1px solid rgba(255,255,255,0.12)',
             borderRadius: '50px', padding: '10px 20px', cursor: 'pointer',
-            color: '#f8fafc', fontSize: '0.875rem', fontWeight: 700,
-            backdropFilter: 'blur(12px)', boxShadow: '0 4px 24px rgba(0,0,0,0.45)',
+            fontSize: '0.875rem', fontWeight: 700,
+            backdropFilter: 'blur(12px)',
             transition: 'all 0.2s ease', fontFamily: 'inherit',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background='rgba(30,41,59,0.98)'; e.currentTarget.style.transform='translateY(-2px)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background='rgba(15,23,42,0.92)'; e.currentTarget.style.transform='translateY(0)'; }}
         >
           <span style={{ fontSize: '1rem' }}>💬</span>
           <span>Feedback</span>
@@ -104,36 +102,31 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
           display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end',
           padding: '70px 24px 24px', animation: 'fbFadeIn 0.2s ease',
         }}>
-          <div ref={panelRef} style={{
+          <div ref={panelRef} className="feedback-popover-card" style={{
             position: 'relative',
-            background: 'rgba(10,15,28,0.92)', border: '1px solid rgba(255,255,255,0.16)',
             borderRadius: '20px', width: '380px', maxWidth: 'calc(100vw - 32px)',
             backdropFilter: 'blur(28px) saturate(200%)',
             WebkitBackdropFilter: 'blur(28px) saturate(200%)',
-            boxShadow: '0 24px 70px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(255,255,255,0.2)',
             fontFamily: 'inherit', animation: 'fbSlideDown 0.25s cubic-bezier(0.16,1,0.3,1)',
           }}>
             {/* Pointer arrow attached to navbar button */}
-            <div style={{
+            <div className="feedback-pointer-arrow" style={{
               position: 'absolute',
               top: '-6px',
               right: '80px',
               width: '12px',
               height: '12px',
-              background: 'rgba(10,15,28,0.92)',
-              borderLeft: '1px solid rgba(255,255,255,0.16)',
-              borderTop: '1px solid rgba(255,255,255,0.16)',
               transform: 'rotate(45deg)',
               zIndex: 1
             }} />
 
             {/* Header */}
-            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 2 }}>
+            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid var(--border-glass)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 2 }}>
               <div>
-                <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#f8fafc' }}>Share Feedback</div>
-                <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Help us make Virtual Gyans better</div>
+                <div className="feedback-title" style={{ fontSize: '1.05rem', fontWeight: 800 }}>Share Feedback</div>
+                <div className="feedback-subtitle" style={{ fontSize: '0.78rem', marginTop: '2px' }}>Help us make Virtual Gyans better</div>
               </div>
-              <button onClick={handleClose} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', width: '32px', height: '32px', cursor: 'pointer', color: '#94a3b8', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'inherit' }}>✕</button>
+              <button onClick={handleClose} className="btn-ghost" style={{ borderRadius: '8px', width: '32px', height: '32px', cursor: 'pointer', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'inherit' }}>✕</button>
             </div>
 
             {/* Body */}
@@ -155,12 +148,9 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
                   <div style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '14px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>What's on your mind?</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {CATEGORIES.map(cat => (
-                      <button key={cat.id} onClick={() => { setSelectedCategory(cat); setStep(1); }} style={btnBase}
-                        onMouseEnter={e => { e.currentTarget.style.background='rgba(255,255,255,0.09)'; e.currentTarget.style.transform='translateX(4px)'; }}
-                        onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.04)'; e.currentTarget.style.transform='translateX(0)'; }}
-                      >
+                      <button key={cat.id} onClick={() => { setSelectedCategory(cat); setStep(1); }} className="feedback-cat-btn" style={btnBase}>
                         {cat.label}
-                        <span style={{ marginLeft: 'auto', color: '#475569' }}>→</span>
+                        <span style={{ marginLeft: 'auto', opacity: 0.7 }}>→</span>
                       </button>
                     ))}
                   </div>
@@ -171,18 +161,17 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
               {step === 1 && selectedCategory && (
                 <>
                   <button onClick={() => { setStep(0); setText(''); setRating(0); setError(''); }}
-                    style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600, padding: '0 0 14px', display: 'flex', alignItems: 'center', gap: '5px', fontFamily: 'inherit' }}>
+                    style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600, padding: '0 0 14px', display: 'flex', alignItems: 'center', gap: '5px', fontFamily: 'inherit' }}>
                     ← Back
                   </button>
 
-                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#f1f5f9', marginBottom: '10px' }}>{selectedCategory.label}</div>
+                  <div className="feedback-title" style={{ fontSize: '0.88rem', fontWeight: 700, marginBottom: '10px' }}>{selectedCategory.label}</div>
 
                   <textarea
+                    className="feedback-textarea"
                     value={text} onChange={e => setText(e.target.value)}
                     placeholder={selectedCategory.placeholder} maxLength={1000} autoFocus
-                    style={{ width: '100%', minHeight: '120px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px', color: '#f1f5f9', fontSize: '0.9rem', lineHeight: 1.6, resize: 'vertical', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}
-                    onFocus={e => e.target.style.borderColor='rgba(255,255,255,0.25)'}
-                    onBlur={e => e.target.style.borderColor='rgba(255,255,255,0.1)'}
+                    style={{ width: '100%', minHeight: '120px', borderRadius: '12px', padding: '14px', fontSize: '0.9rem', lineHeight: 1.6, resize: 'vertical', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}
                   />
                   <div style={{ fontSize: '0.75rem', color: '#475569', textAlign: 'right', marginTop: '4px' }}>{text.length}/1000</div>
 

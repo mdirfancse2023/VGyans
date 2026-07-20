@@ -123,6 +123,7 @@ export default function CareerCoach() {
         onClick={() => setOpen(true)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        className="copilot-trigger-btn"
         style={{
           position: 'fixed',
           bottom: '24px',
@@ -131,22 +132,16 @@ export default function CareerCoach() {
           display: 'flex',
           alignItems: 'center',
           gap: isHovered ? '10px' : '0px',
-          background: isHovered ? 'rgba(30, 41, 59, 0.92)' : 'rgba(15, 23, 42, 0.75)',
-          border: '1px solid rgba(255, 255, 255, 0.22)',
           borderRadius: '50px',
           padding: isHovered ? '11px 20px 11px 16px' : '12px',
           width: isHovered ? 'auto' : '48px',
           height: '48px',
           justifyContent: isHovered ? 'flex-start' : 'center',
           cursor: 'pointer',
-          color: '#ffffff',
           fontSize: '0.875rem',
           fontWeight: 700,
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          boxShadow: isHovered
-            ? '0 12px 40px 0 rgba(99, 102, 241, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.45)'
-            : '0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.3)',
           transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
           fontFamily: 'inherit',
           overflow: 'hidden',
@@ -173,7 +168,6 @@ export default function CareerCoach() {
           maxWidth: isHovered ? '140px' : '0px',
           transform: isHovered ? 'translateX(0)' : 'translateX(-10px)',
           transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-          textShadow: '0 1px 2px rgba(0,0,0,0.5)',
           overflow: 'hidden'
         }}>
           Gyans Copilot
@@ -197,9 +191,8 @@ export default function CareerCoach() {
         }}>
           <div
             ref={panelRef}
+            className="copilot-modal-card"
             style={{
-              background: 'rgba(10, 15, 30, 0.82)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
               borderRadius: '24px',
               width: '460px',
               maxWidth: 'calc(100vw - 32px)',
@@ -208,7 +201,6 @@ export default function CareerCoach() {
               flexDirection: 'column',
               backdropFilter: 'blur(28px) saturate(200%)',
               WebkitBackdropFilter: 'blur(28px) saturate(200%)',
-              boxShadow: '0 30px 90px rgba(0,0,0,0.85), inset 0 1px 0 0 rgba(255, 255, 255, 0.25)',
               overflow: 'hidden',
               fontFamily: 'inherit',
               animation: 'ccSlideUp 0.25s cubic-bezier(0.16,1,0.3,1)',
@@ -250,21 +242,19 @@ export default function CareerCoach() {
                   </svg>
                 </div>
                 <div>
-                  <div style={{ fontSize: '1.08rem', fontWeight: 800, color: '#f8fafc' }}>Gyans Copilot</div>
-                  <div style={{ fontSize: '0.78rem', color: '#a5b4fc', marginTop: '1px' }}>AI Placement Strategy & Guidance</div>
+                  <div className="copilot-header-title" style={{ fontSize: '1.08rem', fontWeight: 800 }}>Gyans Copilot</div>
+                  <div style={{ fontSize: '0.78rem', color: '#818cf8', marginTop: '1px' }}>AI Placement Strategy & Guidance</div>
                 </div>
               </div>
 
               <button
                 onClick={() => setOpen(false)}
+                className="btn-ghost"
                 style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.12)',
                   borderRadius: '10px',
                   width: '32px',
                   height: '32px',
                   cursor: 'pointer',
-                  color: '#94a3b8',
                   fontSize: '1rem',
                   display: 'flex',
                   alignItems: 'center',
@@ -396,17 +386,15 @@ export default function CareerCoach() {
                   </div>
 
                   <textarea
+                    className="copilot-textarea"
                     value={customQuestion}
                     onChange={e => setCustomQuestion(e.target.value)}
                     placeholder="e.g. How do I prepare for Cognizant GenC Elevate coding round?"
                     rows={3}
                     style={{
                       width: '100%',
-                      background: 'rgba(255,255,255,0.04)',
-                      border: '1px solid rgba(255,255,255,0.12)',
                       borderRadius: '12px',
                       padding: '12px',
-                      color: '#f8fafc',
                       fontSize: '0.88rem',
                       outline: 'none',
                       resize: 'none',
@@ -435,9 +423,9 @@ export default function CareerCoach() {
                   </button>
 
                   {customAnswer && (
-                    <div style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: '14px', padding: '14px', marginTop: '6px' }}>
+                    <div className="copilot-answer-bubble" style={{ borderRadius: '14px', padding: '14px', marginTop: '6px' }}>
                       <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#818cf8', marginBottom: '6px' }}>🤖 Career Coach Advice:</div>
-                      <div style={{ fontSize: '0.85rem', color: '#e2e8f0', lineHeight: 1.6 }}>{customAnswer}</div>
+                      <div className="copilot-answer-text" style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>{customAnswer}</div>
                     </div>
                   )}
                 </form>
