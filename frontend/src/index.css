@@ -1377,12 +1377,12 @@ body.light-theme .line-numbers {
 }
 
 body.light-theme .code-textarea {
-  color: #0f172a !important;
+  color: transparent !important;
   caret-color: #0f172a !important;
 }
 
 body.light-theme .highlight-overlay {
-  color: #0f172a !important;
+  color: #1e293b !important;
 }
 
 body.light-theme .console-panel {
