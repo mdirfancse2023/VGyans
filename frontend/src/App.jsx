@@ -253,13 +253,13 @@ export default function App() {
               {/* Popular Resources Preview */}
               <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem' }}>
                 <div>
-                  <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Recommended Blueprints</h3>
+                  <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Recommended Blueprints</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     {resources.slice(0, 2).map((res) => (
                       <div key={res.id} className="glass-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
                           <span className="badge badge-primary" style={{ marginBottom: '0.5rem' }}>{res.company}</span>
-                          <h4 style={{ color: '#fff', fontSize: '1.1rem' }}>{res.title}</h4>
+                          <h4 style={{ color: 'var(--text-primary)', fontSize: '1.1rem' }}>{res.title}</h4>
                           <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '0.25rem' }}>{res.description}</p>
                         </div>
                         <button className="btn btn-secondary" onClick={() => setActiveTab('guides')} style={{ padding: '0.4rem 1rem', fontSize: '0.8rem' }}>
@@ -270,11 +270,11 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="glass-card" style={{ background: 'rgba(139, 92, 246, 0.03)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div className="glass-card" style={{ background: 'var(--primary-glow)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <span className="badge badge-secondary" style={{ width: 'fit-content', marginBottom: '0.75rem' }}>Featured Experience</span>
                   {experiences[0] ? (
                     <>
-                      <h4 style={{ color: '#fff', fontSize: '1.15rem' }}>{experiences[0].role}</h4>
+                      <h4 style={{ color: 'var(--text-primary)', fontSize: '1.15rem' }}>{experiences[0].role}</h4>
                       <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: '0.25rem 0 1rem' }}>
                         Shared by {experiences[0].candidate} ({experiences[0].date})
                       </p>
