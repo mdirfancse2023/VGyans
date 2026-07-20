@@ -339,7 +339,7 @@ export default function App() {
         )}
       </main>
 
-      {activeTab !== 'playground' && <Footer setActiveTab={setActiveTab} />}
+      {activeTab !== 'playground' && <Footer />}
       <FeedbackButton isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} hideTrigger={true} />
       <CareerCoach />
     </div>
