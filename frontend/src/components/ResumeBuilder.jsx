@@ -8,16 +8,19 @@ export default function ResumeBuilder() {
     phone: '',
     linkedin: '',
     github: '',
+    summary: '',
+    skills: '',
     experience: [
       { company: '', role: '', duration: '', desc: '' }
-    ],
-    education: [
-      { school: '', degree: '', year: '', grade: '' }
     ],
     projects: [
       { name: '', tech: '', desc: '' }
     ],
-    skills: ''
+    certifications: '',
+    achievements: '',
+    education: [
+      { school: '', degree: '', year: '', grade: '' }
+    ]
   });
 
   const [activeStep, setActiveStep] = useState(0);
@@ -30,6 +33,8 @@ export default function ResumeBuilder() {
       phone: '+91 98765 43210',
       linkedin: 'linkedin.com/in/virtualgyans',
       github: 'github.com/mdirfancse2023',
+      summary: 'Results-driven Full Stack Software Engineer with expertise in React, Node.js, and FastAPI. Passionate about technical education, system architecture, and building optimized, accessible web applications. Experienced in designing structured databases and teaching technical concepts to 10k+ learners.',
+      skills: 'Languages: Java, Python, JavaScript, SQL, C++\nFrameworks: React.js, FastAPI, Node.js, Express\nDatabases: MySQL, PostgreSQL, MongoDB\nDeveloper Tools: Git, GitHub, Docker, VS Code',
       experience: [
         {
           company: 'Virtual Gyans (Tech Channel)',
@@ -44,14 +49,6 @@ export default function ResumeBuilder() {
           desc: 'Built responsive web platforms using React and CSS Grid. Optimized site performance, reducing LCP by 25% and improving accessibility scores.'
         }
       ],
-      education: [
-        {
-          school: 'ABC Technical University',
-          degree: 'B.Tech in Computer Science',
-          year: '2020 - 2024',
-          grade: '8.7 CGPA'
-        }
-      ],
       projects: [
         {
           name: 'Interactive Onboarding Timelines',
@@ -64,7 +61,16 @@ export default function ResumeBuilder() {
           desc: 'Designed a flashcard-based self-evaluation quiz with smooth card flip physics and custom result metrics.'
         }
       ],
-      skills: 'Java, Python, Javascript, React.js, FastAPI, SQL, Git, DSA, Agile, SDLC'
+      certifications: '• AWS Certified Cloud Practitioner — Amazon Web Services (2025)\n• Java SE 11 Developer Certification — Oracle (2024)\n• Meta Front-End Developer Professional Certificate — Coursera (2024)',
+      achievements: '• Secured Global Rank 254 out of 15,000+ participants in LeetCode Weekly Contest.\n• Winner of HackQuest Smart India Hackathon (College Round) for smart health-tracker app.\n• Built technical content community on YouTube with 10k+ active subscribers and 500k+ views.',
+      education: [
+        {
+          school: 'ABC Technical University',
+          degree: 'B.Tech in Computer Science',
+          year: '2020 - 2024',
+          grade: '8.7 CGPA'
+        }
+      ]
     });
   };
 
@@ -117,7 +123,6 @@ export default function ResumeBuilder() {
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
 
-    // Temporarily clean up styles for exact PDF rendering
     const originalShadow = element.style.boxShadow;
     const originalBorderRadius = element.style.borderRadius;
     const originalPadding = element.style.padding;
@@ -127,18 +132,51 @@ export default function ResumeBuilder() {
     element.style.padding = '0';
 
     window.html2pdf().from(element).set(opt).save().then(() => {
-      // Restore styles after rendering
       element.style.boxShadow = originalShadow;
       element.style.borderRadius = originalBorderRadius;
       element.style.padding = originalPadding;
     }).catch(err => {
       console.error("PDF generation failed:", err);
-      // Fallback
       window.print();
     });
   };
 
-  const steps = ['Personal Details', 'Experience', 'Education', 'Projects & Skills'];
+  const renderSkills = (skillsString) => {
+    if (!skillsString) return null;
+    const lines = skillsString.split(/[;\n]+/).map(line => line.trim()).filter(line => line.length > 0);
+    return lines.map((line, idx) => {
+      const colonIdx = line.indexOf(':');
+      if (colonIdx !== -1) {
+        const category = line.slice(0, colonIdx).trim();
+        const skills = line.slice(colonIdx + 1).trim();
+        return (
+          <div key={idx} style={{ fontSize: '10pt', marginBottom: '0.35rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+            <strong>{category}:</strong> {skills}
+          </div>
+        );
+      }
+      return (
+        <div key={idx} style={{ fontSize: '10pt', marginBottom: '0.35rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+          {line}
+        </div>
+      );
+    });
+  };
+
+  const renderListSection = (text) => {
+    if (!text) return null;
+    const items = text.split('\n').map(item => item.trim()).filter(item => item.length > 0);
+    return items.map((item, idx) => {
+      const displayItem = item.startsWith('•') || item.startsWith('-') || item.startsWith('*') ? item : `• ${item}`;
+      return (
+        <div key={idx} style={{ fontSize: '9.5pt', marginBottom: '0.25rem', color: '#111111', lineHeight: 1.4, fontFamily: 'Arial, sans-serif' }}>
+          {displayItem}
+        </div>
+      );
+    });
+  };
+
+  const steps = ['Personal Details & Summary', 'Skills & Experience', 'Personal Projects', 'Certifications, Achievements & Education'];
 
   return (
     <div className="resume-builder-wrapper">
@@ -203,16 +241,17 @@ export default function ResumeBuilder() {
           margin-bottom: 1.5rem;
           border-bottom: 1px solid var(--border-glass);
           padding-bottom: 1rem;
+          gap: 0.5rem;
         }
         .step-tab {
           background: none;
           border: none;
           color: var(--text-muted);
-          font-size: 0.85rem;
+          font-size: 0.8rem;
           font-weight: 600;
           cursor: pointer;
           position: relative;
-          padding: 0.25rem 0.5rem;
+          padding: 0.25rem 0.25rem;
         }
         .step-tab.active {
           color: var(--primary);
@@ -227,6 +266,34 @@ export default function ResumeBuilder() {
           background: var(--primary);
         }
         
+        /* Light Mode overrides */
+        body.light-theme .form-panel {
+          background: #ffffff !important;
+          border-color: #cbd5e1 !important;
+        }
+        body.light-theme .form-group label {
+          color: #334155 !important;
+        }
+        body.light-theme .form-group input, 
+        body.light-theme .form-group textarea {
+          background: #f8fafc !important;
+          border-color: #cbd5e1 !important;
+          color: #0f172a !important;
+        }
+        body.light-theme .form-group input:focus, 
+        body.light-theme .form-group textarea:focus {
+          border-color: #0284c7 !important;
+        }
+        body.light-theme .step-tab {
+          color: #64748b !important;
+        }
+        body.light-theme .step-tab.active {
+          color: #0284c7 !important;
+        }
+        body.light-theme .step-tab.active::after {
+          background: #0284c7 !important;
+        }
+
         /* Print Stylesheet integration */
         @media print {
           body * {
@@ -277,7 +344,7 @@ export default function ResumeBuilder() {
 
           {activeStep === 0 && (
             <div>
-              <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem' }}>Personal Contact Info</h4>
+              <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem' }}>Personal Contact Info & Summary</h4>
               <div className="form-group">
                 <label>Full Name</label>
                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="e.g. Md Irfan" />
@@ -306,13 +373,30 @@ export default function ResumeBuilder() {
                   <input type="text" name="github" value={formData.github} onChange={handleChange} placeholder="github.com/username" />
                 </div>
               </div>
+              <div className="form-group">
+                <label>Professional Summary</label>
+                <textarea rows="4" name="summary" value={formData.summary} onChange={handleChange} placeholder="Briefly describe your career objectives, experience, and key strengths..." />
+              </div>
             </div>
           )}
 
           {activeStep === 1 && (
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h4 style={{ color: 'var(--text-primary)' }}>Work Experience / Internships</h4>
+              <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem' }}>Technical Skills & Experience</h4>
+              
+              <div className="form-group">
+                <label>List Technical Skills (Category-wise)</label>
+                <textarea 
+                  rows="4" 
+                  name="skills" 
+                  value={formData.skills} 
+                  onChange={handleChange} 
+                  placeholder="Format: Category: Skill1, Skill2&#10;e.g.&#10;Languages: Java, Python, SQL&#10;Frameworks: React, FastAPI" 
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem', marginBottom: '1rem' }}>
+                <h4 style={{ color: 'var(--text-primary)', margin: 0 }}>Work Experience / Internships</h4>
                 <button 
                   className="btn btn-secondary" 
                   style={{ padding: '0.25rem 0.75rem', fontSize: '0.8rem' }}
@@ -359,7 +443,74 @@ export default function ResumeBuilder() {
           {activeStep === 2 && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h4 style={{ color: 'var(--text-primary)' }}>Education Details</h4>
+                <h4 style={{ color: 'var(--text-primary)' }}>Personal Projects</h4>
+                <button 
+                  className="btn btn-secondary" 
+                  style={{ padding: '0.25rem 0.75rem', fontSize: '0.8rem' }}
+                  onClick={() => addField('projects', { name: '', tech: '', desc: '' })}
+                >
+                  + Add Project
+                </button>
+              </div>
+
+              {formData.projects.map((proj, idx) => (
+                <div key={idx} style={{ border: '1px solid var(--border-glass)', borderRadius: '8px', padding: '1rem', marginBottom: '1rem', background: 'var(--bg-dark-secondary)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+                    <span style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.85rem' }}>Project #{idx + 1}</span>
+                    {formData.projects.length > 1 && (
+                      <button 
+                        style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', fontSize: '0.8rem' }}
+                        onClick={() => removeField('projects', idx)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <label>Project Name</label>
+                    <input type="text" value={proj.name} onChange={(e) => handleChange(e, 'projects', idx, 'name')} placeholder="e.g. Portfolio Website" />
+                  </div>
+                  <div className="form-group">
+                    <label>Technologies Used</label>
+                    <input type="text" value={proj.tech} onChange={(e) => handleChange(e, 'projects', idx, 'tech')} placeholder="e.g. React.js, Vite, CSS Grid" />
+                  </div>
+                  <div className="form-group">
+                    <label>Short Description</label>
+                    <textarea rows="2" value={proj.desc} onChange={(e) => handleChange(e, 'projects', idx, 'desc')} placeholder="Explain project core deliverables and metrics..." />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeStep === 3 && (
+            <div>
+              <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem' }}>Certifications, Achievements & Education</h4>
+              
+              <div className="form-group">
+                <label>Certifications (One per line)</label>
+                <textarea 
+                  rows="3" 
+                  name="certifications" 
+                  value={formData.certifications} 
+                  onChange={handleChange} 
+                  placeholder="e.g. AWS Certified Cloud Practitioner&#10;Oracle Java Certified SE 11" 
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Achievements (One per line)</label>
+                <textarea 
+                  rows="3" 
+                  name="achievements" 
+                  value={formData.achievements} 
+                  onChange={handleChange} 
+                  placeholder="e.g. Secured Rank 12 out of 5000+ candidates&#10;Winner of National Hackathon" 
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem', marginBottom: '1rem' }}>
+                <h4 style={{ color: 'var(--text-primary)', margin: 0 }}>Education Details</h4>
                 <button 
                   className="btn btn-secondary" 
                   style={{ padding: '0.25rem 0.75rem', fontSize: '0.8rem' }}
@@ -405,55 +556,6 @@ export default function ResumeBuilder() {
             </div>
           )}
 
-          {activeStep === 3 && (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h4 style={{ color: 'var(--text-primary)' }}>Key Projects</h4>
-                <button 
-                  className="btn btn-secondary" 
-                  style={{ padding: '0.25rem 0.75rem', fontSize: '0.8rem' }}
-                  onClick={() => addField('projects', { name: '', tech: '', desc: '' })}
-                >
-                  + Add Project
-                </button>
-              </div>
-
-              {formData.projects.map((proj, idx) => (
-                <div key={idx} style={{ border: '1px solid var(--border-glass)', borderRadius: '8px', padding: '1rem', marginBottom: '1rem', background: 'var(--bg-dark-secondary)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-                    <span style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.85rem' }}>Project #{idx + 1}</span>
-                    {formData.projects.length > 1 && (
-                      <button 
-                        style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', fontSize: '0.8rem' }}
-                        onClick={() => removeField('projects', idx)}
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <label>Project Name</label>
-                    <input type="text" value={proj.name} onChange={(e) => handleChange(e, 'projects', idx, 'name')} placeholder="e.g. Portfolio Website" />
-                  </div>
-                  <div className="form-group">
-                    <label>Technologies Used</label>
-                    <input type="text" value={proj.tech} onChange={(e) => handleChange(e, 'projects', idx, 'tech')} placeholder="e.g. React.js, Vite, CSS Grid" />
-                  </div>
-                  <div className="form-group">
-                    <label>Short Description</label>
-                    <textarea rows="2" value={proj.desc} onChange={(e) => handleChange(e, 'projects', idx, 'desc')} placeholder="Explain project core deliverables and metrics..." />
-                  </div>
-                </div>
-              ))}
-
-              <h4 style={{ color: 'var(--text-primary)', marginTop: '1.5rem', marginBottom: '1rem' }}>Technical Skills</h4>
-              <div className="form-group">
-                <label>List Skills (Comma Separated)</label>
-                <textarea rows="3" name="skills" value={formData.skills} onChange={handleChange} placeholder="e.g. Java, SQL, Python, Git, HTML, CSS" />
-              </div>
-            </div>
-          )}
-
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1.5rem' }}>
             <button 
               className="btn btn-secondary" 
@@ -478,82 +580,121 @@ export default function ResumeBuilder() {
         <div className="preview-panel">
           {/* Header */}
           <div style={{ textAlign: 'center', borderBottom: '1.5px solid #000000', paddingBottom: '0.75rem', marginBottom: '1.25rem' }}>
-            <h2 style={{ fontSize: '20pt', fontWeight: 'bold', margin: 0, color: '#000000', letterSpacing: '-0.02em', fontFamily: 'Arial, sans-serif' }}>
+            <h2 style={{ fontSize: '20pt', fontWeight: 'bold', margin: '0 0 0.25rem 0', color: '#000000', letterSpacing: '-0.02em', fontFamily: 'Arial, sans-serif' }}>
               {formData.name || 'YOUR NAME'}
             </h2>
-            <p style={{ fontSize: '11pt', fontWeight: 'bold', color: '#1e293b', margin: '0.2rem 0 0.4rem 0', fontFamily: 'Arial, sans-serif' }}>
-              {formData.title || 'Professional Title'}
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.75rem', fontSize: '9.5pt', color: '#334155', fontFamily: 'Arial, sans-serif' }}>
-              {formData.email && <span>{formData.email}</span>}
-              {formData.email && (formData.phone || formData.linkedin || formData.github) && <span>•</span>}
-              {formData.phone && <span>{formData.phone}</span>}
-              {formData.phone && (formData.linkedin || formData.github) && <span>•</span>}
-              {formData.linkedin && <span>{formData.linkedin}</span>}
-              {formData.linkedin && formData.github && <span>•</span>}
-              {formData.github && <span>{formData.github}</span>}
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', fontSize: '9.5pt', color: '#334155', fontFamily: 'Arial, sans-serif' }}>
+              <span style={{ fontWeight: 'bold', color: '#000000' }}>{formData.title || 'Professional Title'}</span>
+              {formData.email && <><span>|</span><span>{formData.email}</span></>}
+              {formData.phone && <><span>|</span><span>{formData.phone}</span></>}
+              {formData.linkedin && <><span>|</span><span>{formData.linkedin}</span></>}
+              {formData.github && <><span>|</span><span>{formData.github}</span></>}
             </div>
           </div>
 
-          {/* Education */}
-          <div style={{ marginBottom: '1.25rem' }}>
-            <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
-              Education
-            </h3>
-            {formData.education.map((edu, idx) => (
-              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10pt', marginBottom: '0.25rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
-                <div>
-                  <strong>{edu.school || 'School/University'}</strong> — {edu.degree || 'Degree'}
-                </div>
-                <div style={{ textAlign: 'right', fontSize: '9.5pt', color: '#334155' }}>
-                  <span>{edu.year || 'Duration'}</span> | <strong>{edu.grade || 'Grade'}</strong>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Work Experience */}
-          <div style={{ marginBottom: '1.25rem' }}>
-            <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
-              Experience
-            </h3>
-            {formData.experience.map((exp, idx) => (
-              <div key={idx} style={{ marginBottom: '0.75rem', fontSize: '10pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#000000' }}>
-                  <span>{exp.role || 'Job Role'}</span>
-                  <span style={{ fontWeight: 'normal', color: '#334155', fontSize: '9.5pt' }}>{exp.duration || 'Duration'}</span>
-                </div>
-                <div style={{ fontStyle: 'italic', color: '#334155', marginBottom: '0.25rem' }}>{exp.company || 'Company'}</div>
-                <p style={{ color: '#111111', margin: 0, lineHeight: 1.4 }}>{exp.desc || 'Responsibilities and highlights...'}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Projects */}
-          <div style={{ marginBottom: '1.25rem' }}>
-            <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
-              Key Projects
-            </h3>
-            {formData.projects.map((proj, idx) => (
-              <div key={idx} style={{ marginBottom: '0.75rem', fontSize: '10pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#000000' }}>
-                  <span>{proj.name || 'Project Name'}</span>
-                  <span style={{ fontStyle: 'italic', fontWeight: 'normal', color: '#334155', fontSize: '9.5pt' }}>{proj.tech || 'Technologies'}</span>
-                </div>
-                <p style={{ color: '#111111', margin: 0, lineHeight: 1.4 }}>{proj.desc || 'Project description and outcomes...'}</p>
-              </div>
-            ))}
-          </div>
+          {/* Professional Summary */}
+          {formData.summary && (
+            <div style={{ marginBottom: '1.25rem' }}>
+              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+                Professional Summary
+              </h3>
+              <p style={{ fontSize: '10pt', color: '#111111', margin: 0, lineHeight: 1.5, fontFamily: 'Arial, sans-serif', textAlign: 'justify' }}>
+                {formData.summary}
+              </p>
+            </div>
+          )}
 
           {/* Technical Skills */}
-          <div>
-            <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
-              Technical Skills
-            </h3>
-            <p style={{ fontSize: '10pt', color: '#111111', margin: 0, lineHeight: 1.4, fontFamily: 'Arial, sans-serif' }}>
-              {formData.skills || 'Java, Python, SQL, React.js...'}
-            </p>
-          </div>
+          {formData.skills && (
+            <div style={{ marginBottom: '1.25rem' }}>
+              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+                Technical Skills
+              </h3>
+              {renderSkills(formData.skills)}
+            </div>
+          )}
+
+          {/* Work Experience */}
+          {formData.experience && formData.experience.length > 0 && formData.experience[0].company && (
+            <div style={{ marginBottom: '1.25rem' }}>
+              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+                Work Experience
+              </h3>
+              {formData.experience.map((exp, idx) => (
+                <div key={idx} style={{ marginBottom: '0.75rem', fontSize: '10pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#000000' }}>
+                    <span>{exp.role || 'Role'} — {exp.company || 'Company'}</span>
+                    <span style={{ fontWeight: 'normal', fontSize: '9.5pt', color: '#334155' }}>{exp.duration || 'Duration'}</span>
+                  </div>
+                  {exp.desc && (
+                    <p style={{ margin: '0.25rem 0 0 0', fontSize: '9.5pt', color: '#334155', lineHeight: 1.45, whiteSpace: 'pre-line' }}>
+                      {exp.desc}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Personal Projects */}
+          {formData.projects && formData.projects.length > 0 && formData.projects[0].name && (
+            <div style={{ marginBottom: '1.25rem' }}>
+              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+                Personal Projects
+              </h3>
+              {formData.projects.map((proj, idx) => (
+                <div key={idx} style={{ marginBottom: '0.75rem', fontSize: '10pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#000000' }}>
+                    <span>{proj.name || 'Project Name'} {proj.tech && <span style={{ fontWeight: 'normal', fontSize: '9.5pt', color: '#334155' }}>({proj.tech})</span>}</span>
+                  </div>
+                  {proj.desc && (
+                    <p style={{ margin: '0.25rem 0 0 0', fontSize: '9.5pt', color: '#334155', lineHeight: 1.45, whiteSpace: 'pre-line' }}>
+                      {proj.desc}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Certifications */}
+          {formData.certifications && (
+            <div style={{ marginBottom: '1.25rem' }}>
+              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+                Certifications
+              </h3>
+              {renderListSection(formData.certifications)}
+            </div>
+          )}
+
+          {/* Achievements */}
+          {formData.achievements && (
+            <div style={{ marginBottom: '1.25rem' }}>
+              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+                Achievements
+              </h3>
+              {renderListSection(formData.achievements)}
+            </div>
+          )}
+
+          {/* Education */}
+          {formData.education && formData.education.length > 0 && formData.education[0].school && (
+            <div style={{ marginBottom: '1.25rem' }}>
+              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+                Education
+              </h3>
+              {formData.education.map((edu, idx) => (
+                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10pt', marginBottom: '0.25rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+                  <div>
+                    <strong>{edu.school || 'School/University'}</strong> — {edu.degree || 'Degree'}
+                  </div>
+                  <div style={{ textAlign: 'right', fontSize: '9.5pt', color: '#334155' }}>
+                    <span>{edu.year || 'Duration'}</span> | <strong>{edu.grade || 'Grade'}</strong>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
