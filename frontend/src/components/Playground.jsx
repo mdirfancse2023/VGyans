@@ -1538,25 +1538,22 @@ export default function Playground({ questions }) {
                 {Object.entries(groupedProblems).map(([cat, items]) => (
                   <button
                     key={cat}
+                    className="category-card-btn"
                     onClick={() => selectQuestion(items[0])}
                     style={{
-                      background: 'rgba(15, 23, 42, 0.75)',
-                      border: '1px solid rgba(255, 255, 255, 0.09)',
                       borderRadius: '10px',
                       padding: '0.85rem 1.1rem',
                       textAlign: 'left',
                       cursor: 'pointer',
-                      color: '#f8fafc',
                       fontSize: '0.94rem',
                       fontWeight: 700,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)'
                     }}
                   >
-                    <span style={{ color: '#f1f5f9', letterSpacing: '-0.01em' }}>{cat}</span>
+                    <span className="category-card-name" style={{ letterSpacing: '-0.01em' }}>{cat}</span>
                     <span style={{
                       color: '#38bdf8',
                       fontSize: '0.78rem',
@@ -1900,17 +1897,13 @@ export default function Playground({ questions }) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                   {/* Active Test Case Verification Details OR Free Playground STDOUT/STDERR */}
                   {activeProblem && testCases.length > 0 && selectedCaseIdx >= 0 && testCases[selectedCaseIdx] ? (
-                    <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '6px', padding: '0.65rem 0.75rem' }}>
+                    <div className="console-verification-card" style={{ borderRadius: '6px', padding: '0.65rem 0.75rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
                           {testCases[selectedCaseIdx].label} Verification
                         </span>
                         {testResults[selectedCaseIdx] && (
-                          <span style={{
-                            fontSize: '0.72rem',
-                            fontWeight: 700,
-                            color: testResults[selectedCaseIdx].passed ? '#4ade80' : '#f87171'
-                          }}>
+                          <span className={testResults[selectedCaseIdx].passed ? 'pass-status-text' : 'fail-status-text'} style={{ fontSize: '0.72rem', fontWeight: 700 }}>
                             {testResults[selectedCaseIdx].passed ? '✓ Passed' : '✗ Failed'}
                           </span>
                         )}
@@ -1918,16 +1911,16 @@ export default function Playground({ questions }) {
 
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.8rem', fontFamily: 'monospace' }}>
                         <div>
-                          <div style={{ color: '#64748b', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Input</div>
-                          <div style={{ background: 'rgba(0,0,0,0.25)', padding: '0.35rem 0.55rem', borderRadius: '4px', color: '#e2e8f0', whiteSpace: 'pre-wrap' }}>
+                          <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Input</div>
+                          <div className="console-code-box console-code-input" style={{ padding: '0.35rem 0.55rem', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
                             {testCases[selectedCaseIdx].input}
                           </div>
                         </div>
 
                         {(testResults[selectedCaseIdx]?.stdout !== undefined ? testResults[selectedCaseIdx].stdout : stdout) !== '' && (
                           <div>
-                            <div style={{ color: '#64748b', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Your Output</div>
-                            <div style={{ background: 'rgba(0,0,0,0.25)', padding: '0.35rem 0.55rem', borderRadius: '4px', color: testResults[selectedCaseIdx]?.passed === false ? '#f87171' : '#4ade80', whiteSpace: 'pre-wrap' }}>
+                            <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Your Output</div>
+                            <div className={`console-code-box ${testResults[selectedCaseIdx]?.passed === false ? 'console-code-fail' : 'console-code-pass'}`} style={{ padding: '0.35rem 0.55rem', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
                               {testResults[selectedCaseIdx]?.stdout !== undefined ? testResults[selectedCaseIdx].stdout : stdout}
                             </div>
                           </div>
@@ -1935,8 +1928,8 @@ export default function Playground({ questions }) {
 
                         {testCases[selectedCaseIdx].expectedOutput && (
                           <div>
-                            <div style={{ color: '#64748b', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Expected Output</div>
-                            <div style={{ background: 'rgba(0,0,0,0.25)', padding: '0.35rem 0.55rem', borderRadius: '4px', color: '#38bdf8', whiteSpace: 'pre-wrap' }}>
+                            <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Expected Output</div>
+                            <div className="console-code-box console-code-expected" style={{ padding: '0.35rem 0.55rem', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
                               {testCases[selectedCaseIdx].expectedOutput}
                             </div>
                           </div>
