@@ -13,6 +13,7 @@ import CareerCoach from './components/CareerCoach';
 import Songs from './components/Songs';
 import MiniPlayer from './components/MiniPlayer';
 import AuthModal from './components/AuthModal';
+import { verifyJWT } from './utils/jwtUtils';
 import defaultSongs from '../public/data/songs.json';
 
 const API_URL = import.meta.env.VITE_API_URL || (
@@ -67,6 +68,7 @@ export default function App() {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('vg_user');
+    localStorage.removeItem('vg_jwt_token');
     localStorage.removeItem('vg_access_token');
     localStorage.removeItem('vg_refresh_token');
     localStorage.removeItem('vg_token_expires');

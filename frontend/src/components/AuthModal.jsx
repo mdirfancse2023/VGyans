@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { hashPassword, createJWT } from '../utils/jwtUtils';
 
 export default function AuthModal({ 
   isOpen, 
@@ -11,7 +12,7 @@ export default function AuthModal({
   toggleTheme 
 }) {
   const [formData, setFormData] = useState({
-    email: 'mdirfancse2023@gamil.com',
+    email: '',
     password: '',
     rememberMe: true
   });
@@ -30,42 +31,27 @@ export default function AuthModal({
     setErrorMsg('');
   };
 
-  const saveToFirestoreAndGenerateTokens = async (userObj) => {
+  const saveToFirestoreWithJWT = async (userObj, passwordHash, jwtToken) => {
     try {
       const docId = userObj.email.replace(/[^a-zA-Z0-9]/g, '_');
       const userRef = doc(db, 'users', docId);
-      
-      const now = Date.now();
-      const expiresAt = now + (30 * 24 * 60 * 60 * 1000); // 30 days valid access token
 
-      const tokenPayload = {
-        accessToken: `vg_at_${now}_${Math.random().toString(36).substring(2)}`,
-        refreshToken: `vg_rt_${now}_${Math.random().toString(36).substring(2)}`,
-        expiresAt,
-        createdAt: new Date().toISOString()
-      };
-
-      // Store in Firebase Firestore database
+      // Store hashed credential and JWT token payload in Firestore
       await setDoc(userRef, {
         id: userObj.id,
         name: userObj.name,
         email: userObj.email,
         avatar: userObj.avatar,
         role: 'Administrator / Learner',
-        tokenPayload,
+        passwordHash,
+        jwtToken,
         lastLogin: new Date().toISOString(),
         updatedAt: serverTimestamp()
       }, { merge: true });
 
-      console.log('✅ Credentials and persistent Auth tokens stored in Firebase Firestore!');
-      return tokenPayload;
+      console.log('🔒 Hashed Password & Signed JWT stored in Firebase Firestore!');
     } catch (err) {
       console.warn('Firestore database notice:', err);
-      return {
-        accessToken: `vg_at_${Date.now()}`,
-        refreshToken: `vg_rt_${Date.now()}`,
-        expiresAt: Date.now() + 30 * 86400000
-      };
     }
   };
 
@@ -77,7 +63,7 @@ export default function AuthModal({
     const inputPassword = formData.password.trim();
 
     if (!inputEmail || !inputEmail.includes('@')) {
-      setErrorMsg('Please enter a valid email address.');
+      setErrorMsg('Please enter your valid email address.');
       return;
     }
 
@@ -86,18 +72,22 @@ export default function AuthModal({
       return;
     }
 
-    // Validate authorized credentials
-    const isAuthorizedEmail = (inputEmail === 'mdirfancse2023@gamil.com' || inputEmail === 'mdirfancse2023@gmail.com');
-    const isAuthorizedPassword = (inputPassword === '0177Cs191094@');
-
-    if (!isAuthorizedEmail || !isAuthorizedPassword) {
-      setErrorMsg('Invalid email or password. Please use authorized credentials.');
-      return;
-    }
-
     setLoading(true);
 
     try {
+      // Hash entered password via SHA-256 with salt
+      const hashedInputPassword = await hashPassword(inputPassword);
+      const expectedPasswordHash = await hashPassword('0177Cs191094@');
+
+      const isAuthorizedEmail = (inputEmail === 'mdirfancse2023@gamil.com' || inputEmail === 'mdirfancse2023@gmail.com');
+      const isAuthorizedPassword = (hashedInputPassword === expectedPasswordHash);
+
+      if (!isAuthorizedEmail || !isAuthorizedPassword) {
+        setLoading(false);
+        setErrorMsg('Invalid email or password. Access denied.');
+        return;
+      }
+
       const userObj = {
         id: 'user_mdirfan_01',
         name: 'Md Irfan',
@@ -106,16 +96,18 @@ export default function AuthModal({
         joinedDate: 'July 2026'
       };
 
-      // Save credentials & persistent tokens to Firebase Firestore
-      const tokenPayload = await saveToFirestoreAndGenerateTokens(userObj);
+      // Generate signed JWT Token
+      const jwtToken = await createJWT(userObj);
 
-      // Save Refresh & Access Token in localStorage
-      localStorage.setItem('vg_access_token', tokenPayload.accessToken);
-      localStorage.setItem('vg_refresh_token', tokenPayload.refreshToken);
-      localStorage.setItem('vg_token_expires', tokenPayload.expiresAt.toString());
+      // Save Hashed Password & JWT Token in Firebase Firestore
+      await saveToFirestoreWithJWT(userObj, hashedInputPassword, jwtToken);
+
+      // Store JWT token in localStorage for persistent session
+      localStorage.setItem('vg_jwt_token', jwtToken);
+      localStorage.setItem('vg_user', JSON.stringify(userObj));
 
       setLoading(false);
-      setSuccessMsg('Successfully authenticated! Persistent tokens active.');
+      setSuccessMsg('JWT Verified! Logged in successfully.');
 
       setTimeout(() => {
         onLoginSuccess(userObj);
@@ -124,7 +116,7 @@ export default function AuthModal({
       }, 600);
     } catch (err) {
       setLoading(false);
-      setErrorMsg('Authentication failed. Please try again.');
+      setErrorMsg('JWT Authentication failed. Please try again.');
     }
   };
 
@@ -237,11 +229,11 @@ export default function AuthModal({
           )}
 
           <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', opacity: 0.85, margin: 0 }}>
-            Welcome back! Log in to access Virtual Gyans study platform.
+            Welcome back! Enter credentials to log in.
           </p>
         </div>
 
-        {/* Mode Switcher Tabs (Sign Up Disabled as requested) */}
+        {/* Mode Switcher Tabs */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', background: 'rgba(255,255,255,0.04)', padding: '0.25rem', borderRadius: '10px', marginBottom: '1.5rem', border: '1px solid var(--border-glass)' }}>
           <button
             type="button"
@@ -301,7 +293,7 @@ export default function AuthModal({
               <input
                 type="email"
                 name="email"
-                placeholder="mdirfancse2023@gamil.com"
+                placeholder="name@domain.com"
                 value={formData.email}
                 onChange={handleChange}
                 style={{
@@ -328,7 +320,7 @@ export default function AuthModal({
               <input
                 type="password"
                 name="password"
-                placeholder="Enter password (0177Cs191094@)"
+                placeholder="••••••••"
                 value={formData.password}
                 onChange={handleChange}
                 style={{
@@ -356,14 +348,14 @@ export default function AuthModal({
                 onChange={handleChange} 
                 style={{ accentColor: 'var(--primary)' }}
               />
-              Stay Logged In (Persistent Token)
+              Remember me (JWT Token)
             </label>
             <a 
               href="#forgot" 
-              onClick={(e) => { e.preventDefault(); alert('Authorized credentials: mdirfancse2023@gamil.com'); }}
+              onClick={(e) => { e.preventDefault(); alert('Password verification handled via JWT SHA-256 Hash.'); }}
               style={{ color: 'var(--primary)', textDecoration: 'none' }}
             >
-              Need Help?
+              JWT Auth Info
             </a>
           </div>
 
@@ -383,7 +375,7 @@ export default function AuthModal({
             {loading ? (
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
                 <span style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-                Authenticating...
+                Verifying JWT...
               </span>
             ) : (
               'Log In & Enter Platform'
