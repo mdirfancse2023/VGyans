@@ -194,20 +194,17 @@ export default function Hero({ stats, setActiveTab }) {
 
          .hero2-btn-primary {
           display: inline-flex; align-items: center; gap: 0.55rem;
-          padding: 0.75rem 1.75rem;
-          background: rgba(255, 255, 255, 0.12);
+          padding: 0.73rem 1.75rem;
+          background: rgba(255,255,255,0.06);
           backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.25);
-          color: #fff; font-weight: 700; font-size: 0.95rem;
+          border: 1px solid rgba(255,255,255,0.14);
+          color: var(--text-primary); font-weight: 600; font-size: 0.95rem;
           border-radius: 100px; cursor: pointer;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-          transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+          transition: background 0.2s, transform 0.2s;
         }
         .hero2-btn-primary:hover { 
-          background: rgba(255, 255, 255, 0.22);
-          border-color: rgba(255, 255, 255, 0.4);
+          background: rgba(255,255,255,0.11); 
           transform: translateY(-2px); 
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); 
         }
 
         .hero2-btn-secondary {

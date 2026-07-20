@@ -1894,17 +1894,16 @@ body.light-theme .hero2-card-desc {
 }
 
 body.light-theme .hero2-btn-primary {
-  background: rgba(15, 23, 42, 0.08) !important;
-  border: 1px solid rgba(15, 23, 42, 0.2) !important;
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
   color: #0f172a !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05) !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
 }
 
 body.light-theme .hero2-btn-primary:hover {
-  background: rgba(15, 23, 42, 0.14) !important;
-  border-color: rgba(15, 23, 42, 0.38) !important;
-  color: #0f172a !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1) !important;
+  background: #f1f5f9 !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
 }
 
 body.light-theme .hero2-btn-secondary {
