@@ -2312,6 +2312,12 @@ body.light-theme .header-music-popover::before {
   border-color: #cbd5e1;
 }
 
+.full-dashboard-btn:hover {
+  background: rgba(6, 182, 212, 0.18) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
 /* Feedback Card Inner Styling */
 .feedback-success-title {
   color: #f8fafc;

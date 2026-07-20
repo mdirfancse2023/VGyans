@@ -10,7 +10,11 @@ export default function Header({
   currentSong,
   isPlaying,
   togglePlay,
-  nextSong
+  nextSong,
+  prevSong,
+  currentTime = 0,
+  duration = 0,
+  seek
 }) {
   const navItems = [
     { id: 'home', label: 'Home' },
@@ -21,6 +25,13 @@ export default function Header({
     { id: 'videos', label: 'Videos' },
     { id: 'jobs', label: 'Jobs' }
   ];
+
+  const formatTime = (secs) => {
+    if (isNaN(secs) || secs == null) return '0:00';
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
 
   return (
     <nav className="navbar">
@@ -152,7 +163,15 @@ export default function Header({
             {/* Attached Square Popover Modal (Shown ON HOVER ONLY) */}
             {currentSong && (
               <div className="header-music-popover">
-                <div style={{ position: 'relative', width: '80px', height: '80px', margin: '0 auto 0.6rem' }}>
+                {/* Category Badge */}
+                {currentSong.category && (
+                  <span className="badge badge-secondary" style={{ fontSize: '0.65rem', padding: '0.15rem 0.5rem', marginBottom: '0.45rem', display: 'inline-block', border: '1px solid var(--border-glass)' }}>
+                    {currentSong.category}
+                  </span>
+                )}
+
+                {/* Spinning Cover Art */}
+                <div style={{ position: 'relative', width: '84px', height: '84px', margin: '0 auto 0.5rem' }}>
                   <img 
                     src={currentSong.coverUrl} 
                     alt={currentSong.title} 
@@ -168,34 +187,92 @@ export default function Header({
                   />
                 </div>
 
-                <h4 style={{ fontSize: '0.85rem', color: 'var(--text-primary)', margin: '0 0 0.15rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 600 }}>
+                {/* Song Title & Artist */}
+                <h4 style={{ fontSize: '0.85rem', color: 'var(--text-primary)', margin: '0 0 0.15rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 700 }}>
                   {currentSong.title}
                 </h4>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '0 0 0.6rem', opacity: 0.8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '0 0 0.4rem', opacity: 0.8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {currentSong.artist}
                 </p>
 
-                {/* Animated Equalizer */}
+                {/* Bouncing Green Soundwave Equalizer */}
                 {isPlaying && (
-                  <div className="soundwave-container" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '3px', height: '14px', marginBottom: '0.6rem' }}>
+                  <div className="soundwave-green" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '3px', height: '12px', marginBottom: '0.45rem', width: '100%' }}>
                     <span className="wave-bar bar-1"></span>
                     <span className="wave-bar bar-2"></span>
                     <span className="wave-bar bar-3"></span>
                   </div>
                 )}
 
-                {/* Playback Controls */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem' }}>
+                {/* Live Music Progress Bar Line & Time Counters */}
+                <div style={{ width: '100%', margin: '0.35rem 0 0.15rem' }}>
+                  <div 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const clickX = e.clientX - rect.left;
+                      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+                      if (duration && seek) seek(pct * duration);
+                    }}
+                    style={{ 
+                      width: '100%', 
+                      height: '5px', 
+                      background: 'rgba(255, 255, 255, 0.1)', 
+                      borderRadius: '3px', 
+                      cursor: 'pointer', 
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}
+                    title="Click to seek position"
+                  >
+                    <div 
+                      style={{ 
+                        width: `${duration ? (currentTime / duration) * 100 : 0}%`, 
+                        height: '100%', 
+                        background: 'linear-gradient(90deg, #10b981, #06b6d4)', 
+                        borderRadius: '3px',
+                        transition: 'width 0.1s linear'
+                      }} 
+                    />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '0.25rem', fontFamily: 'monospace' }}>
+                    <span>{formatTime(currentTime)}</span>
+                    <span>{formatTime(duration || currentSong.duration)}</span>
+                  </div>
+                </div>
+
+                {/* Playback Controls (Prev, Play/Pause, Next) */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.55rem', margin: '0.45rem 0' }}>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); if (prevSong) prevSong(); }}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid var(--border-glass)',
+                      width: '30px',
+                      height: '30px',
+                      borderRadius: '50%',
+                      color: 'var(--text-primary)',
+                      fontSize: '0.85rem',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    title="Previous Track"
+                  >
+                    ⏮
+                  </button>
+
                   <button
                     onClick={(e) => { e.stopPropagation(); togglePlay(); }}
                     style={{
                       background: 'var(--primary)',
                       border: 'none',
-                      width: '32px',
-                      height: '32px',
+                      width: '34px',
+                      height: '34px',
                       borderRadius: '50%',
                       color: '#fff',
-                      fontSize: '0.9rem',
+                      fontSize: '0.95rem',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -212,11 +289,11 @@ export default function Header({
                     style={{
                       background: 'rgba(255, 255, 255, 0.08)',
                       border: '1px solid var(--border-glass)',
-                      width: '32px',
-                      height: '32px',
+                      width: '30px',
+                      height: '30px',
                       borderRadius: '50%',
                       color: 'var(--text-primary)',
-                      fontSize: '0.9rem',
+                      fontSize: '0.85rem',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -227,6 +304,26 @@ export default function Header({
                     ⏭
                   </button>
                 </div>
+
+                {/* Open Full Music Dashboard Button */}
+                <button
+                  onClick={(e) => { e.stopPropagation(); setActiveTab('songs'); }}
+                  style={{
+                    width: '100%',
+                    padding: '0.3rem',
+                    fontSize: '0.72rem',
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid var(--border-glass)',
+                    borderRadius: '6px',
+                    color: 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    marginTop: '0.15rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                  className="full-dashboard-btn"
+                >
+                  Full Dashboard ↗
+                </button>
               </div>
             )}
           </li>

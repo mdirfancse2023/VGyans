@@ -546,6 +546,10 @@ export default function App() {
         isPlaying={isPlaying}
         togglePlay={togglePlay}
         nextSong={nextSong}
+        prevSong={prevSong}
+        currentTime={currentTime}
+        duration={duration}
+        seek={seek}
       />
 
       <main style={{ flexGrow: 1 }}>
