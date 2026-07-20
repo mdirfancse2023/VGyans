@@ -317,7 +317,7 @@ export default function App() {
         )}
 
         {activeTab === 'playground' && (
-          <section>
+          <section className="playground-section">
             <Playground questions={playgroundQuestions} />
           </section>
         )}
