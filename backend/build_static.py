@@ -125,15 +125,7 @@ CURATED_RESOURCES = [
         "downloadUrl": "/notes/java-study-notes",
         "tags": ["Java", "OOPs", "JVM", "Streams"]
     },
-    {
-        "id": "system-design-study-notes",
-        "title": "System Design Fundamentals",
-        "category": "Technical",
-        "company": "All",
-        "description": "High-level architecture, scalability, load balancers, caching, databases (SQL vs NoSQL), and CAP theorem.",
-        "downloadUrl": "/notes/system-design-study-notes",
-        "tags": ["System Design", "Scalability", "Architecture", "Microservices"]
-    },
+
     {
         "id": "spring-boot-study-notes",
         "title": "Spring Boot Core Concepts",
@@ -198,6 +190,49 @@ CURATED_RESOURCES = [
         "tags": ["REST API", "API", "HTTP", "Backend"]
     }
 ]
+
+# Dynamically add the 28 System Design chapters to CURATED_RESOURCES
+SYSTEM_DESIGN_CHAPTERS_MAPPING = [
+    "Scale From Zero To Millions Of Users",
+    "Back-Of-The-Envelope Estimation",
+    "A Framework For System Design",
+    "Design A Rate Limiter",
+    "Design Consistent Hashing",
+    "Design A Key-Value Store",
+    "Design A Unique ID Generator In Distributed Systems",
+    "Design A URL Shortener",
+    "Design A Web Crawler",
+    "Design A Notification System",
+    "Design A News Feed System",
+    "Design A Chat System",
+    "Design A Search Autocomplete System",
+    "Design YouTube",
+    "Design Google Drive",
+    "Proximity Service",
+    "Nearby Friends",
+    "Google Maps",
+    "Distributed Message Queue",
+    "Metrics Monitoring And Alerting System",
+    "Ad Click Event Aggregation",
+    "Hotel Reservation System",
+    "Distributed Email Service",
+    "S3-like Object Storage",
+    "Real-time Gaming Leaderboard",
+    "Payment System",
+    "Digital Wallet",
+    "Stock Exchange"
+]
+
+for idx, ch_name in enumerate(SYSTEM_DESIGN_CHAPTERS_MAPPING, 1):
+    CURATED_RESOURCES.append({
+        "id": f"system-design-chapter-{idx}",
+        "title": f"System Design: Chapter {idx} - {ch_name}",
+        "category": "Technical",
+        "company": "All",
+        "description": f"Comprehensive study guide covering Chapter {idx} - {ch_name} with full explanations and architecture diagrams.",
+        "downloadUrl": f"/notes/system-design-chapter-{idx}",
+        "tags": ["System Design", "Scalability", "Architecture"]
+    })
 
 INTERVIEW_EXPERIENCES = [
     {
