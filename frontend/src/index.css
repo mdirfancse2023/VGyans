@@ -1092,38 +1092,40 @@ section {
 .footer {
   background: var(--bg-dark-secondary);
   border-top: 1px solid var(--border-glass);
-  padding: 1.5rem 2rem;
-  margin-top: 3rem;
+  padding: 0.65rem 1.5rem;
+  margin-top: 2rem;
 }
 
 .footer-container {
   width: 100%;
-  max-width: none;
-  margin: 0;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .footer-left {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .footer-left h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
+  white-space: nowrap;
 }
 
 .footer-copyright {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   margin: 0;
+  white-space: nowrap;
 }
 
 .footer-center, .footer-right {
