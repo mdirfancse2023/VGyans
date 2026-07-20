@@ -117,26 +117,29 @@ export default function ResumeBuilder() {
     if (!element) return;
 
     const opt = {
-      margin:       [0.2, 0.4, 0.2, 0.4],
+      margin:       [0.15, 0.4, 0.15, 0.4],
       filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2, useCORS: true, logging: false },
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-      pagebreak:    { mode: 'avoid-all' }
+      pagebreak:    { mode: ['css', 'legacy'] }
     };
 
     const originalShadow = element.style.boxShadow;
     const originalBorderRadius = element.style.borderRadius;
     const originalPadding = element.style.padding;
+    const originalMargin = element.style.margin;
     
     element.style.boxShadow = 'none';
     element.style.borderRadius = '0';
     element.style.padding = '0';
+    element.style.margin = '0';
 
     window.html2pdf().from(element).set(opt).save().then(() => {
       element.style.boxShadow = originalShadow;
       element.style.borderRadius = originalBorderRadius;
       element.style.padding = originalPadding;
+      element.style.margin = originalMargin;
     }).catch(err => {
       console.error("PDF generation failed:", err);
       window.print();
@@ -259,6 +262,10 @@ export default function ResumeBuilder() {
           position: sticky;
           top: 2rem;
           line-height: 1.4;
+        }
+        .preview-panel > div {
+          page-break-inside: avoid;
+          break-inside: avoid;
         }
         .form-group {
           margin-bottom: 1.25rem;
@@ -658,7 +665,7 @@ export default function ResumeBuilder() {
 
         {/* Live Preview Panel */}
         <div className="preview-panel">
-          <div style={{ textAlign: 'center', borderBottom: '1.5px solid #000000', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomSection }}>
+          <div style={{ textAlign: 'center', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomSection }}>
             <h2 style={{ fontSize: sizes.name, fontWeight: 'bold', margin: '0 0 0.15rem 0', color: '#000000', letterSpacing: '-0.02em', fontFamily: 'Arial, sans-serif' }}>
               {formData.name || 'YOUR NAME'}
             </h2>
