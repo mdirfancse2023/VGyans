@@ -321,6 +321,7 @@ body.light-theme .btn-accent:hover {
 }
 
 .nav-container {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0.65rem 1.5rem;
@@ -363,7 +364,11 @@ body.light-theme .btn-accent:hover {
 }
 
 .nav-middle {
-  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0;
   justify-content: center;
 }
 
