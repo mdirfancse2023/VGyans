@@ -136,7 +136,7 @@ export default function ResumeBuilder() {
     
     element.style.boxShadow = 'none';
     element.style.borderRadius = '0';
-    element.style.padding = '0';
+    element.style.padding = '0 6px 0 6px';
     element.style.margin = '0';
     element.style.minHeight = 'auto';
     element.style.height = 'auto';
@@ -734,7 +734,7 @@ export default function ResumeBuilder() {
                 <div key={idx} style={{ marginBottom: sizes.gap, fontSize: sizes.sectionBody, color: '#111111', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#000000' }}>
                     <span>{exp.role || 'Role'} — {exp.company || 'Company'}</span>
-                    <span style={{ fontWeight: 'normal', fontSize: sizes.sectionBodySmall, color: '#334155' }}>{exp.duration || 'Duration'}</span>
+                    <span style={{ fontWeight: 'normal', fontSize: sizes.sectionBodySmall, color: '#334155', paddingRight: '6px' }}>{exp.duration || 'Duration'}</span>
                   </div>
                   {exp.desc && (
                     <p style={{ margin: '0.15rem 0 0 0', fontSize: sizes.sectionBodySmall, color: '#334155', lineHeight: 1.4, whiteSpace: 'pre-line' }}>
@@ -798,7 +798,7 @@ export default function ResumeBuilder() {
                   <div>
                     <strong>{edu.school || 'School/University'}</strong> — {edu.degree || 'Degree'}
                   </div>
-                  <div style={{ textAlign: 'right', fontSize: sizes.sectionBodySmall, color: '#334155' }}>
+                  <div style={{ textAlign: 'right', fontSize: sizes.sectionBodySmall, color: '#334155', paddingRight: '6px' }}>
                     <span>{edu.year || 'Duration'}</span> | <strong>{edu.grade || 'Grade'}</strong>
                   </div>
                 </div>
