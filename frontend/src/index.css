@@ -362,6 +362,11 @@ body.light-theme .btn-accent:hover {
   align-items: center;
 }
 
+.nav-middle {
+  margin: 0 auto;
+  justify-content: center;
+}
+
 .nav-link {
   color: var(--text-secondary);
   text-decoration: none;

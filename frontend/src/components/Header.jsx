@@ -25,6 +25,7 @@ export default function Header({
   return (
     <nav className="navbar">
       <div className="nav-container">
+        {/* Left: Logo */}
         <a href="#home" className="logo" onClick={() => setActiveTab('home')} style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>
           <img 
             src="/logo.png" 
@@ -37,7 +38,8 @@ export default function Header({
           Virtual Gyans
         </a>
         
-        <ul className="nav-links" style={{ alignItems: 'center' }}>
+        {/* Middle: Navigation Text Tabs */}
+        <ul className="nav-links nav-middle" style={{ alignItems: 'center' }}>
           {navItems.map((item) => (
             <li key={item.id}>
               <button
@@ -49,19 +51,29 @@ export default function Header({
               </button>
             </li>
           ))}
-          
+        </ul>
+
+        {/* Right: Action Icon Buttons */}
+        <ul className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', listStyle: 'none', margin: 0, padding: 0 }}>
           {/* Music Navbar Item with Attached Floating Hover Popover Modal */}
           <li className="header-music-trigger-item">
             <button
               onClick={() => setActiveTab('songs')}
               className={`theme-toggle-btn ${activeTab === 'songs' ? 'active' : ''}`}
-              title="Focus Music Player"
+              title={currentSong && isPlaying ? `Now Playing: ${currentSong.title}` : "Focus Music Player"}
             >
               {currentSong && isPlaying ? (
                 <img 
                   src={currentSong.coverUrl} 
                   alt={currentSong.title} 
-                  style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover', animation: 'spinRecord 12s linear infinite' }}
+                  style={{ 
+                    width: '22px', 
+                    height: '22px', 
+                    borderRadius: '50%', 
+                    objectFit: 'cover', 
+                    animation: 'spinRecord 12s linear infinite',
+                    boxShadow: '0 0 6px rgba(6, 182, 212, 0.5)'
+                  }}
                 />
               ) : (
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -70,7 +82,7 @@ export default function Header({
               )}
             </button>
 
-            {/* Square Attached Popover Modal (Shown ON HOVER ONLY) */}
+            {/* Attached Square Popover Modal (Shown ON HOVER ONLY) */}
             {currentSong && (
               <div className="header-music-popover">
                 <div style={{ position: 'relative', width: '80px', height: '80px', margin: '0 auto 0.6rem' }}>
