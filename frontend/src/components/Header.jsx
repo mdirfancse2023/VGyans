@@ -25,7 +25,7 @@ export default function Header({
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <a href="#home" className="logo" onClick={() => setActiveTab('home')}>
+        <a href="#home" className="logo" onClick={() => setActiveTab('home')} style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>
           <img 
             src="/logo.png" 
             alt="Virtual Gyans Logo" 
@@ -37,84 +37,79 @@ export default function Header({
           Virtual Gyans
         </a>
 
-        {/* Compact Header Music Player (Shown between Virtual Gyans logo & tabs whenever playing) */}
+        {/* Ultra-Compact Header Music Pill (Only circular logo + play/pause + next icon) */}
         {currentSong && isPlaying && (
           <div 
-            className="header-music-player"
-            onClick={() => setActiveTab('songs')}
-            title="Click to view full Music Dashboard"
+            className="header-music-player-compact"
             style={{
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.55rem',
-              padding: '0.35rem 0.85rem',
+              gap: '0.35rem',
+              padding: '0.2rem 0.45rem',
               background: 'rgba(255, 255, 255, 0.05)',
               border: '1px solid var(--border-glass)',
-              borderRadius: '20px',
-              cursor: 'pointer',
-              fontSize: '0.8rem',
+              borderRadius: '16px',
               color: 'var(--text-primary)',
               backdropFilter: 'blur(10px)',
-              margin: '0 1rem'
+              margin: '0 0.5rem',
+              flexShrink: 0
             }}
+            title={`Now Playing: ${currentSong.title} - ${currentSong.artist}`}
           >
-            {/* Spinning Album Cover Art */}
+            {/* 1. Circular Album Logo */}
             <img 
               src={currentSong.coverUrl} 
               alt={currentSong.title} 
+              onClick={() => setActiveTab('songs')}
               style={{ 
-                width: '24px', 
-                height: '24px', 
+                width: '20px', 
+                height: '20px', 
                 borderRadius: '50%', 
                 objectFit: 'cover',
+                cursor: 'pointer',
                 animation: isPlaying ? 'spinRecord 12s linear infinite' : 'none',
-                boxShadow: '0 0 8px rgba(6, 182, 212, 0.4)'
+                boxShadow: '0 0 6px rgba(6, 182, 212, 0.4)',
+                flexShrink: 0
               }}
             />
 
-            {/* Song Title & Artist */}
-            <div style={{ maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{currentSong.title}</span>
-              <span style={{ opacity: 0.65, marginLeft: '0.35rem', fontSize: '0.75rem' }}>• {currentSong.artist}</span>
-            </div>
-
-            {/* Header Controls: Play/Pause & Next */}
-            <div 
-              style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginLeft: '0.2rem' }}
-              onClick={(e) => e.stopPropagation()}
+            {/* 2. Play / Pause Button */}
+            <button
+              onClick={togglePlay}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--primary)',
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                padding: '0 2px',
+                lineHeight: 1,
+                display: 'flex',
+                alignItems: 'center'
+              }}
+              title={isPlaying ? "Pause" : "Play"}
             >
-              <button
-                onClick={togglePlay}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'var(--primary)',
-                  fontSize: '0.9rem',
-                  cursor: 'pointer',
-                  padding: '2px 4px',
-                  lineHeight: 1
-                }}
-                title={isPlaying ? "Pause" : "Play"}
-              >
-                {isPlaying ? '⏸' : '▶'}
-              </button>
+              {isPlaying ? '⏸' : '▶'}
+            </button>
 
-              <button
-                onClick={nextSong}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'var(--text-secondary)',
-                  fontSize: '0.9rem',
-                  cursor: 'pointer',
-                  padding: '2px 4px',
-                  lineHeight: 1
-                }}
-                title="Next Track"
-              >
-                ⏭
-              </button>
-            </div>
+            {/* 3. Next Icon */}
+            <button
+              onClick={nextSong}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--text-secondary)',
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                padding: '0 2px',
+                lineHeight: 1,
+                display: 'flex',
+                alignItems: 'center'
+              }}
+              title="Next Track"
+            >
+              ⏭
+            </button>
           </div>
         )}
         
