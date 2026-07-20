@@ -619,6 +619,7 @@ export default function Playground({ questions }) {
   };
 
   const handleApplySolution = (lang, langCode) => {
+    isApplyingSolutionRef.current = true;
     const targetLang = (lang === 'cpp') ? 'cpp' : (lang === 'java') ? 'java' : (lang === 'mysql' || lang === 'postgres') ? 'sql' : 'python';
     const fullSolution = formatSolutionCode(lang, langCode);
     setActiveLang(targetLang);
@@ -699,9 +700,18 @@ export default function Playground({ questions }) {
 
   const codeAreaRef = useRef(null);
   const preRef = useRef(null);
+  const isApplyingSolutionRef = useRef(false);
 
   // Sync template on problem or language change
   useEffect(() => {
+    if (isApplyingSolutionRef.current) {
+      isApplyingSolutionRef.current = false;
+      setStdout('');
+      setStderr('');
+      setHasRun(false);
+      return;
+    }
+
     if (activeProblem) {
       const templates = activeProblem.templates || {};
       const template = templates[activeLang] || '';
