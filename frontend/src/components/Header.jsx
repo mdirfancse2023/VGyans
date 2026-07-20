@@ -1,7 +1,7 @@
 import React from 'react';
 import logoImg from '../assets/logo.png';
 
-export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) {
+export default function Header({ activeTab, setActiveTab, theme, toggleTheme, onOpenFeedback }) {
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'videos', label: 'Videos' },
@@ -39,6 +39,31 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme }) 
               </button>
             </li>
           ))}
+          <li>
+            <button
+              onClick={onOpenFeedback}
+              className="nav-link"
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                color: 'var(--text-secondary)',
+                borderRadius: '7px',
+                padding: '4px 10px',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                transition: 'all 0.2s ease',
+                outline: 'none'
+              }}
+              title="Share Feedback"
+            >
+              <span style={{ fontSize: '0.9rem' }}>💬</span>
+              <span>Feedback</span>
+            </button>
+          </li>
           <li>
             <a 
               href="https://www.youtube.com/@virtualgyans" 

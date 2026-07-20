@@ -9,6 +9,7 @@ import Playground from './components/Playground';
 import Footer from './components/Footer';
 import FeedbackButton from './components/FeedbackButton';
 import Jobs from './components/Jobs';
+import CareerCoach from './components/CareerCoach';
 
 const API_URL = import.meta.env.VITE_API_URL || (
   typeof window !== 'undefined' && window.location.hostname === 'localhost' 
@@ -26,6 +27,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
@@ -198,6 +200,7 @@ export default function App() {
         setActiveTab={setActiveTab} 
         theme={theme}
         toggleTheme={toggleTheme}
+        onOpenFeedback={() => setIsFeedbackOpen(true)}
       />
 
       <main style={{ flexGrow: 1 }}>
@@ -337,7 +340,8 @@ export default function App() {
       </main>
 
       {activeTab !== 'playground' && <Footer setActiveTab={setActiveTab} />}
-      <FeedbackButton />
+      <FeedbackButton isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} hideTrigger={true} />
+      <CareerCoach />
     </div>
   );
 }

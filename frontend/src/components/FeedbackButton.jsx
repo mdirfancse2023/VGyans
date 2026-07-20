@@ -11,8 +11,9 @@ const API_URL = import.meta.env.VITE_API_URL ||
     ? 'http://localhost:8000'
     : 'https://v-gyans.vercel.app');
 
-export default function FeedbackButton() {
-  const [open, setOpen] = useState(false);
+export default function FeedbackButton({ isOpen, onClose, hideTrigger = false }) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = isOpen !== undefined ? isOpen : internalOpen;
   const [step, setStep] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [text, setText] = useState('');
@@ -32,7 +33,11 @@ export default function FeedbackButton() {
   }, [open]);
 
   const handleClose = () => {
-    setOpen(false);
+    if (onClose) {
+      onClose();
+    } else {
+      setInternalOpen(false);
+    }
     setTimeout(() => { setStep(0); setSelectedCategory(null); setText(''); setRating(0); setHoverRating(0); setError(''); }, 300);
   };
 
@@ -70,24 +75,26 @@ export default function FeedbackButton() {
 
   return (
     <>
-      {/* Floating trigger button */}
-      <button
-        onClick={() => setOpen(true)}
-        style={{
-          position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
-          display: 'flex', alignItems: 'center', gap: '8px',
-          background: 'rgba(15,23,42,0.92)', border: '1px solid rgba(255,255,255,0.12)',
-          borderRadius: '50px', padding: '10px 20px', cursor: 'pointer',
-          color: '#f8fafc', fontSize: '0.875rem', fontWeight: 700,
-          backdropFilter: 'blur(12px)', boxShadow: '0 4px 24px rgba(0,0,0,0.45)',
-          transition: 'all 0.2s ease', fontFamily: 'inherit',
-        }}
-        onMouseEnter={e => { e.currentTarget.style.background='rgba(30,41,59,0.98)'; e.currentTarget.style.transform='translateY(-2px)'; }}
-        onMouseLeave={e => { e.currentTarget.style.background='rgba(15,23,42,0.92)'; e.currentTarget.style.transform='translateY(0)'; }}
-      >
-        <span style={{ fontSize: '1rem' }}>💬</span>
-        <span>Feedback</span>
-      </button>
+      {/* Floating trigger button (only if not hidden) */}
+      {!hideTrigger && (
+        <button
+          onClick={() => setInternalOpen(true)}
+          style={{
+            position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
+            display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'rgba(15,23,42,0.92)', border: '1px solid rgba(255,255,255,0.12)',
+            borderRadius: '50px', padding: '10px 20px', cursor: 'pointer',
+            color: '#f8fafc', fontSize: '0.875rem', fontWeight: 700,
+            backdropFilter: 'blur(12px)', boxShadow: '0 4px 24px rgba(0,0,0,0.45)',
+            transition: 'all 0.2s ease', fontFamily: 'inherit',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background='rgba(30,41,59,0.98)'; e.currentTarget.style.transform='translateY(-2px)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background='rgba(15,23,42,0.92)'; e.currentTarget.style.transform='translateY(0)'; }}
+        >
+          <span style={{ fontSize: '1rem' }}>💬</span>
+          <span>Feedback</span>
+        </button>
+      )}
 
       {/* Overlay + Panel */}
       {open && (
