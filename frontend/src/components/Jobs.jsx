@@ -173,23 +173,31 @@ export default function Jobs() {
   return (
     <div style={{ marginBottom: '3rem' }}>
 
-      {/* Section header — same as every other tab */}
-      <div className="section-header">
-        <div className="section-info">
+      {/* Section header — optimized space usage */}
+      <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+        <div className="section-info" style={{ flex: '1 1 300px' }}>
           <h2 className="section-title">
             IT <span className="text-gradient">Jobs Board</span>
           </h2>
-          <p className="section-desc" style={{ whiteSpace: 'nowrap', overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            Real-time listings aggregated from LinkedIn, Indeed, Glassdoor, Naukri, Remotive, Arbeitnow &amp; The Muse.{lastRefresh ? ` • refreshed ${timeAgo(lastRefresh.toISOString())}` : ''}
+          <p className="section-desc" style={{ marginTop: '0.25rem' }}>
+            Real-time listings aggregated from LinkedIn, Indeed, Glassdoor, Naukri, Remotive, Arbeitnow &amp; The Muse.
           </p>
         </div>
-        <button
-          onClick={fetchJobs}
-          className="btn btn-secondary"
-          style={{ padding: '0.4rem 1.2rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}
-        >
-          ↺ Refresh
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, marginTop: '0.5rem' }}>
+          {lastRefresh && (
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', opacity: 0.8, whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }}></span>
+              refreshed {timeAgo(lastRefresh.toISOString())}
+            </span>
+          )}
+          <button
+            onClick={fetchJobs}
+            className="btn btn-secondary"
+            style={{ padding: '0.4rem 1.2rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+          >
+            ↺ Refresh
+          </button>
+        </div>
       </div>
 
       {/* Filters — same pattern as VideoGrid */}
