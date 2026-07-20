@@ -1187,31 +1187,67 @@ section {
 /* Light Theme Variables and Overrides */
 body.light-theme {
   --bg-dark: #f8fafc;
-  --bg-dark-secondary: #f1f5f9;
-  --bg-glass: rgba(255, 255, 255, 0.7);
-  --bg-glass-hover: rgba(255, 255, 255, 0.95);
-  --border-glass: rgba(15, 23, 42, 0.08);
-  --border-glass-focus: rgba(6, 182, 212, 0.6);
+  --bg-dark-secondary: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-glass-hover: rgba(241, 245, 249, 0.95);
+  --border-glass: rgba(15, 23, 42, 0.12);
+  --border-glass-focus: rgba(8, 145, 178, 0.6);
   
-  --primary: #0891b2;
-  --primary-glow: rgba(8, 145, 178, 0.1);
-  --secondary: #7c3aed;
-  --secondary-glow: rgba(124, 58, 237, 0.1);
-  --accent: #db2777;
+  --primary: #0284c7;
+  --primary-glow: rgba(2, 132, 199, 0.12);
+  --secondary: #6d28d9;
+  --secondary-glow: rgba(109, 40, 217, 0.12);
+  --accent: #be185d;
   
   --text-primary: #0f172a;
-  --text-secondary: #475569;
+  --text-secondary: #334155;
   --text-muted: #64748b;
 }
 
 body.light-theme .blob {
-  opacity: 0.08;
+  opacity: 0.05;
 }
 
 body.light-theme .navbar {
-  background: rgba(248, 250, 252, 0.8);
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
 }
 
+body.light-theme .nav-link {
+  color: #334155 !important;
+}
+body.light-theme .nav-link:hover,
+body.light-theme .nav-link.active {
+  color: #0284c7 !important;
+}
+
+/* Glass Cards & Containers */
+body.light-theme .glass-card,
+body.light-theme .job-card,
+body.light-theme .video-card,
+body.light-theme .placement-card,
+body.light-theme .tool-card,
+body.light-theme .stat-card,
+body.light-theme .blog-card,
+body.light-theme .questions-drawer {
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06) !important;
+  color: #0f172a !important;
+}
+
+body.light-theme .glass-card:hover,
+body.light-theme .job-card:hover,
+body.light-theme .video-card:hover,
+body.light-theme .placement-card:hover,
+body.light-theme .tool-card:hover {
+  background: #ffffff !important;
+  border-color: rgba(2, 132, 199, 0.35) !important;
+  box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.12) !important;
+}
+
+/* Typography & Headings */
 body.light-theme .logo,
 body.light-theme h1,
 body.light-theme h2,
@@ -1222,90 +1258,243 @@ body.light-theme h6,
 body.light-theme .video-title,
 body.light-theme .modal-title,
 body.light-theme .step-title,
-body.light-theme .tracker-title {
-  color: var(--text-primary) !important;
+body.light-theme .tracker-title,
+body.light-theme .problem-title,
+body.light-theme .job-title,
+body.light-theme .tool-title,
+body.light-theme .company-name,
+body.light-theme .stat-number {
+  color: #0f172a !important;
 }
 
+/* Secondary & Muted Text */
+body.light-theme .section-desc,
+body.light-theme .hero-subtitle,
+body.light-theme .stat-label,
+body.light-theme .job-location,
+body.light-theme .job-salary,
+body.light-theme .video-channel,
+body.light-theme .video-views,
+body.light-theme .time-ago,
+body.light-theme .problem-desc,
+body.light-theme .topic-name,
+body.light-theme .question-item-title {
+  color: #334155 !important;
+}
+
+/* Filter Tabs & Buttons */
+body.light-theme .filter-tabs {
+  background: rgba(15, 23, 42, 0.05) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+body.light-theme .filter-tab {
+  color: #475569 !important;
+}
+
+body.light-theme .filter-tab.active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(2, 132, 199, 0.5) !important;
+}
+
+body.light-theme .btn-secondary {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.16) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+body.light-theme .btn-secondary:hover {
+  background: #f1f5f9 !important;
+  border-color: rgba(15, 23, 42, 0.28) !important;
+  color: #0f172a !important;
+}
+
+body.light-theme .btn-ghost {
+  color: #334155 !important;
+}
+body.light-theme .btn-ghost:hover {
+  background: rgba(15, 23, 42, 0.06) !important;
+  color: #0f172a !important;
+}
+
+/* Form Inputs & Selects */
 body.light-theme input,
 body.light-theme select,
 body.light-theme textarea,
 body.light-theme option {
   background: #ffffff !important;
   color: #0f172a !important;
-  border-color: rgba(15, 23, 42, 0.15) !important;
+  border-color: rgba(15, 23, 42, 0.18) !important;
 }
 
-body.light-theme .code-textarea {
-  caret-color: #0f172a !important;
+body.light-theme input::placeholder,
+body.light-theme textarea::placeholder {
+  color: #94a3b8 !important;
 }
-body.light-theme .highlight-overlay {
-  color: #0f172a !important;
-}
-body.light-theme .line-numbers {
+
+/* Tags & Badges */
+body.light-theme .tag,
+body.light-theme .job-tag,
+body.light-theme .tech-tag,
+body.light-theme .badge {
   background: rgba(15, 23, 42, 0.05) !important;
-  color: #64748b !important;
-  border-right-color: rgba(15, 23, 42, 0.08) !important;
+  color: #334155 !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
 }
+
+/* Code Playground & IDE */
+body.light-theme .playground-sidebar {
+  background: #f8fafc !important;
+  border-right-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+body.light-theme .sidebar-header,
+body.light-theme .ide-header {
+  background: #f1f5f9 !important;
+  border-bottom-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+body.light-theme .sidebar-section:not(:last-child) {
+  border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+}
+
 body.light-theme .editor-wrapper {
   background: #ffffff !important;
   border-bottom-color: rgba(15, 23, 42, 0.1) !important;
 }
-body.light-theme .console-panel {
+
+body.light-theme .line-numbers {
   background: #f1f5f9 !important;
-  border-top: 1px solid rgba(15, 23, 42, 0.06);
-}
-body.light-theme .console-tabs {
-  background: rgba(15, 23, 42, 0.04) !important;
-  border-bottom-color: rgba(15, 23, 42, 0.06);
-}
-body.light-theme .console-tab {
   color: #64748b !important;
+  border-right-color: rgba(15, 23, 42, 0.1) !important;
 }
+
+body.light-theme .code-textarea {
+  color: #0f172a !important;
+  caret-color: #0f172a !important;
+}
+
+body.light-theme .highlight-overlay {
+  color: #0f172a !important;
+}
+
+body.light-theme .console-panel {
+  background: #f8fafc !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.1) !important;
+}
+
+body.light-theme .console-tabs {
+  background: #f1f5f9 !important;
+  border-bottom-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+body.light-theme .console-tab {
+  color: #475569 !important;
+}
+
 body.light-theme .console-tab.active {
-  color: #0f172a !important;
   background: #ffffff !important;
-}
-body.light-theme .stdin-textarea {
-  background: rgba(15, 23, 42, 0.05) !important;
-  border-color: rgba(15, 23, 42, 0.08) !important;
   color: #0f172a !important;
 }
+
+body.light-theme .stdin-textarea {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
+
 body.light-theme .terminal-stdout {
-  color: #0f766e !important;
+  color: #047857 !important;
+  background: #f0fdf4 !important;
+  border: 1px solid #bbf7d0 !important;
+  border-radius: 8px !important;
+  padding: 10px !important;
 }
+
 body.light-theme .terminal-stderr {
-  color: #be123c !important;
+  color: #b91c1c !important;
+  background: #fef2f2 !important;
+  border: 1px solid #fecaca !important;
+  border-radius: 8px !important;
+  padding: 10px !important;
 }
-body.light-theme .blog-modal-container {
-  background: rgba(241, 245, 249, 0.95) !important;
+
+body.light-theme .diff-badge.diff-easy {
+  background: #dcfce7 !important;
+  color: #15803d !important;
+  border-color: #86efac !important;
+}
+
+body.light-theme .diff-badge.diff-medium {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+  border-color: #fde68a !important;
+}
+
+body.light-theme .diff-badge.diff-hard {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+  border-color: #fca5a5 !important;
+}
+
+body.light-theme .schema-details summary {
+  color: #0f172a !important;
+}
+
+body.light-theme .schema-table {
   border-color: rgba(15, 23, 42, 0.1) !important;
+  color: #0f172a !important;
 }
+
+body.light-theme .schema-table th {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+}
+
+body.light-theme .schema-table td {
+  border-top-color: rgba(15, 23, 42, 0.08) !important;
+  color: #0f172a !important;
+}
+
+body.light-theme .question-item {
+  color: #334155 !important;
+}
+body.light-theme .question-item:hover,
+body.light-theme .question-item.active {
+  background: rgba(2, 132, 199, 0.08) !important;
+  color: #0284c7 !important;
+}
+
+/* Modals & Popovers in Light Theme */
+body.light-theme .modal-content,
+body.light-theme .drawer-content,
+body.light-theme .blog-modal-container {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15) !important;
+}
+
 body.light-theme .blog-header {
-  background: rgba(248, 250, 252, 0.8) !important;
+  background: #f8fafc !important;
   border-bottom-color: rgba(15, 23, 42, 0.08) !important;
 }
 body.light-theme .blog-title {
   color: #0f172a !important;
 }
-body.light-theme .blog-control-btn {
-  background: rgba(15, 23, 42, 0.05) !important;
-  border-color: rgba(15, 23, 42, 0.08) !important;
-  color: #475569 !important;
-}
-body.light-theme .blog-control-btn:hover {
-  background: rgba(15, 23, 42, 0.1) !important;
-  color: #0f172a !important;
-}
 body.light-theme .blog-content-area {
   background: #ffffff !important;
+  color: #0f172a !important;
 }
 body.light-theme .blog-code-container {
   background: #f8fafc !important;
-  border-color: rgba(15, 23, 42, 0.08) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
 }
 body.light-theme .blog-code-header {
-  background: rgba(15, 23, 42, 0.03) !important;
-  border-bottom-color: rgba(15, 23, 42, 0.05) !important;
+  background: #f1f5f9 !important;
+  border-bottom-color: rgba(15, 23, 42, 0.08) !important;
 }
 body.light-theme .blog-code-pre {
   color: #0f172a !important;
