@@ -207,7 +207,7 @@ export default function ResumeBuilder() {
       `}</style>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h3 style={{ color: '#fff', fontSize: '1.25rem' }}>Dynamic Resume Builder</h3>
+        <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem' }}>Dynamic Resume Builder</h3>
         <div style={{ display: 'flex', gap: '0.75rem' }}>
           <button className="btn btn-secondary" onClick={loadSampleData} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem' }}>
             Load Sample Data
@@ -235,7 +235,7 @@ export default function ResumeBuilder() {
 
           {activeStep === 0 && (
             <div>
-              <h4 style={{ color: '#fff', marginBottom: '1rem' }}>Personal Contact Info</h4>
+              <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem' }}>Personal Contact Info</h4>
               <div className="form-group">
                 <label>Full Name</label>
                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="e.g. Md Irfan" />
@@ -270,7 +270,7 @@ export default function ResumeBuilder() {
           {activeStep === 1 && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h4 style={{ color: '#fff' }}>Work Experience / Internships</h4>
+                <h4 style={{ color: 'var(--text-primary)' }}>Work Experience / Internships</h4>
                 <button 
                   className="btn btn-secondary" 
                   style={{ padding: '0.25rem 0.75rem', fontSize: '0.8rem' }}
@@ -281,7 +281,7 @@ export default function ResumeBuilder() {
               </div>
 
               {formData.experience.map((exp, idx) => (
-                <div key={idx} style={{ border: '1px solid rgba(255,255,255,0.05)', borderRadius: '8px', padding: '1rem', marginBottom: '1rem', background: 'rgba(255,255,255,0.01)' }}>
+                <div key={idx} style={{ border: '1px solid var(--border-glass)', borderRadius: '8px', padding: '1rem', marginBottom: '1rem', background: 'var(--bg-dark-secondary)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                     <span style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.85rem' }}>Position #{idx + 1}</span>
                     {formData.experience.length > 1 && (
@@ -317,7 +317,7 @@ export default function ResumeBuilder() {
           {activeStep === 2 && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h4 style={{ color: '#fff' }}>Education Details</h4>
+                <h4 style={{ color: 'var(--text-primary)' }}>Education Details</h4>
                 <button 
                   className="btn btn-secondary" 
                   style={{ padding: '0.25rem 0.75rem', fontSize: '0.8rem' }}
@@ -328,7 +328,7 @@ export default function ResumeBuilder() {
               </div>
 
               {formData.education.map((edu, idx) => (
-                <div key={idx} style={{ border: '1px solid rgba(255,255,255,0.05)', borderRadius: '8px', padding: '1rem', marginBottom: '1rem', background: 'rgba(255,255,255,0.01)' }}>
+                <div key={idx} style={{ border: '1px solid var(--border-glass)', borderRadius: '8px', padding: '1rem', marginBottom: '1rem', background: 'var(--bg-dark-secondary)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                     <span style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.85rem' }}>Education #{idx + 1}</span>
                     {formData.education.length > 1 && (
@@ -366,7 +366,7 @@ export default function ResumeBuilder() {
           {activeStep === 3 && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h4 style={{ color: '#fff' }}>Key Projects</h4>
+                <h4 style={{ color: 'var(--text-primary)' }}>Key Projects</h4>
                 <button 
                   className="btn btn-secondary" 
                   style={{ padding: '0.25rem 0.75rem', fontSize: '0.8rem' }}
@@ -377,7 +377,7 @@ export default function ResumeBuilder() {
               </div>
 
               {formData.projects.map((proj, idx) => (
-                <div key={idx} style={{ border: '1px solid rgba(255,255,255,0.05)', borderRadius: '8px', padding: '1rem', marginBottom: '1rem', background: 'rgba(255,255,255,0.01)' }}>
+                <div key={idx} style={{ border: '1px solid var(--border-glass)', borderRadius: '8px', padding: '1rem', marginBottom: '1rem', background: 'var(--bg-dark-secondary)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                     <span style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.85rem' }}>Project #{idx + 1}</span>
                     {formData.projects.length > 1 && (
@@ -404,7 +404,7 @@ export default function ResumeBuilder() {
                 </div>
               ))}
 
-              <h4 style={{ color: '#fff', marginTop: '1.5rem', marginBottom: '1rem' }}>Technical Skills</h4>
+              <h4 style={{ color: 'var(--text-primary)', marginTop: '1.5rem', marginBottom: '1rem' }}>Technical Skills</h4>
               <div className="form-group">
                 <label>List Skills (Comma Separated)</label>
                 <textarea rows="3" name="skills" value={formData.skills} onChange={handleChange} placeholder="e.g. Java, SQL, Python, Git, HTML, CSS" />

@@ -403,7 +403,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
           ) : (
             <>
               <div className="tracker-select-row">
-                <h3 style={{ fontSize: '1.1rem', color: '#fff' }}>Select Company Journey:</h3>
+                <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>Select Company Journey:</h3>
                 <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                   {companyKeys.map((comp) => (
                     <button key={comp} className={`btn ${activeTrackerCompany === comp ? 'btn-primary' : 'btn-secondary'}`} style={{ padding: '0.4rem 1rem', fontSize: '0.9rem' }}
@@ -427,7 +427,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
                   <div className="badge badge-primary" style={{ marginBottom: '1rem', width: 'fit-content' }}>Stage Details & Advice</div>
                   {activeStages[currentStageIndex] && (
                     <>
-                      <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '0.5rem' }}>{activeStages[currentStageIndex].stage}</h3>
+                      <h3 style={{ color: 'var(--text-primary)', fontSize: '1.2rem', marginBottom: '0.5rem' }}>{activeStages[currentStageIndex].stage}</h3>
                       <div style={{ color: 'var(--primary)', fontSize: '0.9rem', fontWeight: '600', marginBottom: '1rem' }}>Duration: {activeStages[currentStageIndex].duration}</div>
                       <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>{activeStages[currentStageIndex].desc}</p>
                       <div style={{ background: 'rgba(6,182,212,0.05)', borderLeft: '3px solid var(--primary)', padding: '1rem', borderRadius: '0 8px 8px 0', fontSize: '0.85rem' }}>

@@ -265,7 +265,7 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
         }
       `}</style>
 
-      <h3 style={{ color: '#fff', fontSize: '1.25rem', marginBottom: '1.5rem' }}>AI Resume Analyzer (ATS Checker)</h3>
+      <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', marginBottom: '1.5rem' }}>AI Resume Analyzer (ATS Checker)</h3>
 
       <div className="analyzer-grid">
         {/* Input Text Area Panel */}
@@ -277,7 +277,8 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
             <select 
               value={targetCompany} 
               onChange={(e) => setTargetCompany(e.target.value)}
-              style={{ width: '100%', padding: '0.75rem 1rem', background: '#0a0d1a', border: '1px solid var(--border-glass)', borderRadius: '8px', color: '#fff', fontSize: '0.9rem' }}
+              className="lang-select"
+              style={{ width: '100%', padding: '0.75rem 1rem', fontSize: '0.9rem' }}
             >
               <option value="Cognizant">Cognizant GenC / Elevate</option>
               <option value="TCS">TCS NQT (Ninja/Digital/Prime)</option>
@@ -344,7 +345,7 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
                       <polyline points="14 2 14 8 20 8"></polyline>
                     </svg>
                     <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontSize: '0.9rem', color: '#fff', fontWeight: '500', maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: '500', maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {selectedFile.name}
                       </div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
@@ -369,7 +370,7 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
                 value={resumeText}
                 onChange={(e) => setResumeText(e.target.value)}
                 placeholder="Copy everything from your resume document (PDF or Word) and paste it here..."
-                style={{ width: '100%', flexGrow: 1, padding: '1rem', background: 'rgba(255, 255, 255, 0.01)', border: '1px solid var(--border-glass)', borderRadius: '8px', color: '#fff', fontSize: '0.85rem', lineHeight: 1.5, resize: 'none' }}
+                style={{ width: '100%', flexGrow: 1, padding: '1rem', background: 'var(--bg-dark-secondary)', border: '1px solid var(--border-glass)', borderRadius: '8px', color: 'var(--text-primary)', fontSize: '0.85rem', lineHeight: 1.5, resize: 'none' }}
               />
             </div>
           )}
@@ -389,7 +390,7 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
           {analyzing && (
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', alignItems: 'center', padding: '5rem 0' }}>
               <div style={{ width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.1)', borderTopColor: 'var(--primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', marginBottom: '1.5rem' }}></div>
-              <p style={{ color: '#fff', fontWeight: '500', fontSize: '0.95rem' }}>{analysisStep}</p>
+              <p style={{ color: 'var(--text-primary)', fontWeight: '500', fontSize: '0.95rem' }}>{analysisStep}</p>
             </div>
           )}
 
@@ -402,7 +403,7 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
                 <line x1="16" y1="17" x2="8" y2="17"></line>
                 <polyline points="10 9 9 9 8 9"></polyline>
               </svg>
-              <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '0.5rem' }}>No Analysis Performed</h4>
+              <h4 style={{ color: 'var(--text-primary)', fontSize: '1.1rem', marginBottom: '0.5rem' }}>No Analysis Performed</h4>
               <p style={{ fontSize: '0.85rem', maxWidth: '300px' }}>Upload your resume file (.pdf, .docx) or paste plain text on the left to evaluate your placement readiness score.</p>
             </div>
           )}
@@ -414,56 +415,56 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
                 <div className={`score-circle ${results.score < 55 ? 'low' : results.score < 80 ? 'med' : 'high'}`}>
                   {results.score}%
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: '700', color: '#fff' }}>ATS Score Estimate</div>
+                <div style={{ fontSize: '0.95rem', fontWeight: '700', color: 'var(--text-primary)' }}>ATS Score Estimate</div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
                   {results.score < 55 ? 'Critical adjustments needed' : results.score < 80 ? 'Good, minor fixes suggested' : 'Excellent placement readiness'}
                 </div>
               </div>
 
               {/* Sections Checklist */}
-              <h4 style={{ fontSize: '0.95rem', color: '#fff', borderBottom: '1px solid var(--border-glass)', paddingBottom: '0.5rem', marginBottom: '0.75rem' }}>Checklist Analysis</h4>
+              <h4 style={{ fontSize: '0.95rem', color: 'var(--text-primary)', borderBottom: '1px solid var(--border-glass)', paddingBottom: '0.5rem', marginBottom: '0.75rem' }}>Checklist Analysis</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginBottom: '1.5rem' }}>
                 <div>
                   <div className="checklist-item">
                     <span className={`checklist-icon ${results.hasEmail ? 'pass' : 'fail'}`}>{results.hasEmail ? '✓' : '✗'}</span>
-                    <span style={{ color: results.hasEmail ? '#fff' : 'var(--text-muted)' }}>Email Address</span>
+                    <span style={{ color: results.hasEmail ? 'var(--text-primary)' : 'var(--text-muted)' }}>Email Address</span>
                   </div>
                   <div className="checklist-item">
                     <span className={`checklist-icon ${results.hasPhone ? 'pass' : 'fail'}`}>{results.hasPhone ? '✓' : '✗'}</span>
-                    <span style={{ color: results.hasPhone ? '#fff' : 'var(--text-muted)' }}>Phone Number</span>
+                    <span style={{ color: results.hasPhone ? 'var(--text-primary)' : 'var(--text-muted)' }}>Phone Number</span>
                   </div>
                   <div className="checklist-item">
                     <span className={`checklist-icon ${results.hasLinkedIn ? 'pass' : 'fail'}`}>{results.hasLinkedIn ? '✓' : '✗'}</span>
-                    <span style={{ color: results.hasLinkedIn ? '#fff' : 'var(--text-muted)' }}>LinkedIn Link</span>
+                    <span style={{ color: results.hasLinkedIn ? 'var(--text-primary)' : 'var(--text-muted)' }}>LinkedIn Link</span>
                   </div>
                   <div className="checklist-item">
                     <span className={`checklist-icon ${results.hasGitHub ? 'pass' : 'fail'}`}>{results.hasGitHub ? '✓' : '✗'}</span>
-                    <span style={{ color: results.hasGitHub ? '#fff' : 'var(--text-muted)' }}>GitHub Link</span>
+                    <span style={{ color: results.hasGitHub ? 'var(--text-primary)' : 'var(--text-muted)' }}>GitHub Link</span>
                   </div>
                 </div>
 
                 <div>
                   <div className="checklist-item">
                     <span className={`checklist-icon ${results.hasEducation ? 'pass' : 'fail'}`}>{results.hasEducation ? '✓' : '✗'}</span>
-                    <span style={{ color: results.hasEducation ? '#fff' : 'var(--text-muted)' }}>Education Section</span>
+                    <span style={{ color: results.hasEducation ? 'var(--text-primary)' : 'var(--text-muted)' }}>Education Section</span>
                   </div>
                   <div className="checklist-item">
                     <span className={`checklist-icon ${results.hasExperience ? 'pass' : 'fail'}`}>{results.hasExperience ? '✓' : '✗'}</span>
-                    <span style={{ color: results.hasExperience ? '#fff' : 'var(--text-muted)' }}>Experience Block</span>
+                    <span style={{ color: results.hasExperience ? 'var(--text-primary)' : 'var(--text-muted)' }}>Experience Block</span>
                   </div>
                   <div className="checklist-item">
                     <span className={`checklist-icon ${results.hasProjects ? 'pass' : 'fail'}`}>{results.hasProjects ? '✓' : '✗'}</span>
-                    <span style={{ color: results.hasProjects ? '#fff' : 'var(--text-muted)' }}>Projects Section</span>
+                    <span style={{ color: results.hasProjects ? 'var(--text-primary)' : 'var(--text-muted)' }}>Projects Section</span>
                   </div>
                   <div className="checklist-item">
                     <span className={`checklist-icon ${results.hasSkills ? 'pass' : 'fail'}`}>{results.hasSkills ? '✓' : '✗'}</span>
-                    <span style={{ color: results.hasSkills ? '#fff' : 'var(--text-muted)' }}>Skills Section</span>
+                    <span style={{ color: results.hasSkills ? 'var(--text-primary)' : 'var(--text-muted)' }}>Skills Section</span>
                   </div>
                 </div>
               </div>
 
               {/* Action Plan */}
-              <h4 style={{ fontSize: '0.95rem', color: '#fff', borderBottom: '1px solid var(--border-glass)', paddingBottom: '0.5rem', marginBottom: '0.75rem' }}>Personalized Action Plan</h4>
+              <h4 style={{ fontSize: '0.95rem', color: 'var(--text-primary)', borderBottom: '1px solid var(--border-glass)', paddingBottom: '0.5rem', marginBottom: '0.75rem' }}>Personalized Action Plan</h4>
               {results.recommendations.length === 0 ? (
                 <div className="recommendation-item success-item">
                   ✓ Great job! Your resume contains all standard ATS checkpoints and matches core technical formatting guidelines.
@@ -479,7 +480,7 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
               )}
 
               {/* Company Specific Advice */}
-              <h4 style={{ fontSize: '0.95rem', color: '#fff', borderBottom: '1px solid var(--border-glass)', paddingBottom: '0.5rem', marginBottom: '0.75rem', marginTop: '1.5rem' }}>
+              <h4 style={{ fontSize: '0.95rem', color: 'var(--text-primary)', borderBottom: '1px solid var(--border-glass)', paddingBottom: '0.5rem', marginBottom: '0.75rem', marginTop: '1.5rem' }}>
                 Target Placement Strategy ({targetCompany})
               </h4>
               <div style={{ background: 'rgba(6, 182, 212, 0.05)', borderLeft: '3px solid var(--primary)', padding: '1rem', borderRadius: '0 8px 8px 0', fontSize: '0.85rem', lineHeight: 1.5, color: 'var(--text-secondary)' }}>
