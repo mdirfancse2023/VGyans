@@ -2311,6 +2311,6 @@ body.light-theme .copilot-answer-title {
 body.light-theme .copilot-answer-text {
   color: #0f172a !important;
 }.playground-section {
-  padding: 0.65rem 2rem !important;
+  padding: 0.3rem 2rem !important;
   box-sizing: border-box !important;
 }
