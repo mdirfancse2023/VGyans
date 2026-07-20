@@ -36,101 +36,6 @@ export default function Header({
           />
           Virtual Gyans
         </a>
-
-        {/* Header Music Pill (Wider base width + smooth details expansion on hover) */}
-        {currentSong && isPlaying && (
-          <div 
-            className="header-music-player-pill"
-            onClick={() => setActiveTab('songs')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.45rem',
-              padding: '0.3rem 0.65rem',
-              background: 'rgba(255, 255, 255, 0.06)',
-              border: '1px solid var(--border-glass)',
-              borderRadius: '20px',
-              color: 'var(--text-primary)',
-              backdropFilter: 'blur(12px)',
-              margin: '0 0.6rem',
-              cursor: 'pointer',
-              flexShrink: 0,
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              overflow: 'hidden'
-            }}
-            title={`Now Playing: ${currentSong.title} - ${currentSong.artist}`}
-          >
-            {/* 1. Spinning Album Cover Art */}
-            <img 
-              src={currentSong.coverUrl} 
-              alt={currentSong.title} 
-              style={{ 
-                width: '22px', 
-                height: '22px', 
-                borderRadius: '50%', 
-                objectFit: 'cover',
-                animation: isPlaying ? 'spinRecord 12s linear infinite' : 'none',
-                boxShadow: '0 0 8px rgba(6, 182, 212, 0.5)',
-                flexShrink: 0
-              }}
-            />
-
-            {/* 2. Equalizer Soundwave Animation */}
-            <div className="soundwave-container" style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '12px', width: '12px', flexShrink: 0 }}>
-              <span className="wave-bar bar-1"></span>
-              <span className="wave-bar bar-2"></span>
-              <span className="wave-bar bar-3"></span>
-            </div>
-
-            {/* 3. Controls (Play/Pause & Next) */}
-            <div 
-              style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={togglePlay}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'var(--primary)',
-                  fontSize: '0.85rem',
-                  cursor: 'pointer',
-                  padding: '0 2px',
-                  lineHeight: 1,
-                  display: 'flex',
-                  alignItems: 'center'
-                }}
-                title={isPlaying ? "Pause" : "Play"}
-              >
-                {isPlaying ? '⏸' : '▶'}
-              </button>
-
-              <button
-                onClick={nextSong}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'var(--text-secondary)',
-                  fontSize: '0.85rem',
-                  cursor: 'pointer',
-                  padding: '0 2px',
-                  lineHeight: 1,
-                  display: 'flex',
-                  alignItems: 'center'
-                }}
-                title="Next Track"
-              >
-                ⏭
-              </button>
-            </div>
-
-            {/* 4. Song Details (Revealed on hover via CSS) */}
-            <div className="header-song-details">
-              <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.85rem' }}>{currentSong.title}</span>
-              <span style={{ opacity: 0.7, marginLeft: '0.35rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>• {currentSong.artist}</span>
-            </div>
-          </div>
-        )}
         
         <ul className="nav-links" style={{ alignItems: 'center' }}>
           {navItems.map((item) => (
@@ -144,17 +49,109 @@ export default function Header({
               </button>
             </li>
           ))}
-          <li>
+          
+          {/* Music Navbar Item with Attached Floating Hover Popover Modal */}
+          <li className="header-music-trigger-item">
             <button
               onClick={() => setActiveTab('songs')}
               className={`theme-toggle-btn ${activeTab === 'songs' ? 'active' : ''}`}
-              title="Focus Music & Ambient Radio"
+              title="Focus Music Player"
             >
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-              </svg>
+              {currentSong && isPlaying ? (
+                <img 
+                  src={currentSong.coverUrl} 
+                  alt={currentSong.title} 
+                  style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover', animation: 'spinRecord 12s linear infinite' }}
+                />
+              ) : (
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+              )}
             </button>
+
+            {/* Square Attached Popover Modal (Shown ON HOVER ONLY) */}
+            {currentSong && (
+              <div className="header-music-popover">
+                <div style={{ position: 'relative', width: '80px', height: '80px', margin: '0 auto 0.6rem' }}>
+                  <img 
+                    src={currentSong.coverUrl} 
+                    alt={currentSong.title} 
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      borderRadius: '50%', 
+                      objectFit: 'cover', 
+                      animation: isPlaying ? 'spinRecord 15s linear infinite' : 'none', 
+                      boxShadow: '0 4px 15px rgba(6, 182, 212, 0.4)', 
+                      border: '2px solid var(--border-glass)' 
+                    }}
+                  />
+                </div>
+
+                <h4 style={{ fontSize: '0.85rem', color: 'var(--text-primary)', margin: '0 0 0.15rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 600 }}>
+                  {currentSong.title}
+                </h4>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '0 0 0.6rem', opacity: 0.8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {currentSong.artist}
+                </p>
+
+                {/* Animated Equalizer */}
+                {isPlaying && (
+                  <div className="soundwave-container" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '3px', height: '14px', marginBottom: '0.6rem' }}>
+                    <span className="wave-bar bar-1"></span>
+                    <span className="wave-bar bar-2"></span>
+                    <span className="wave-bar bar-3"></span>
+                  </div>
+                )}
+
+                {/* Playback Controls */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem' }}>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+                    style={{
+                      background: 'var(--primary)',
+                      border: 'none',
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      color: '#fff',
+                      fontSize: '0.9rem',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 2px 10px rgba(6, 182, 212, 0.4)'
+                    }}
+                    title={isPlaying ? "Pause" : "Play"}
+                  >
+                    {isPlaying ? '⏸' : '▶'}
+                  </button>
+
+                  <button
+                    onClick={(e) => { e.stopPropagation(); nextSong(); }}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid var(--border-glass)',
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      color: 'var(--text-primary)',
+                      fontSize: '0.9rem',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    title="Next Track"
+                  >
+                    ⏭
+                  </button>
+                </div>
+              </div>
+            )}
           </li>
+
           <li>
             <button
               onClick={onOpenFeedback}

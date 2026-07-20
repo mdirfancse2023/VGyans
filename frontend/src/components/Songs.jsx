@@ -48,12 +48,12 @@ export default function Songs({
   const currentProgressPercent = duration ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="songs-dashboard" style={{ maxWidth: '1200px', margin: '1.5rem auto 4rem', padding: '0 1rem 4rem' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem', minHeight: '560px' }}>
+    <div className="songs-dashboard" style={{ maxWidth: '1200px', margin: '1rem auto 0', padding: '0 1rem 1.5rem', height: 'calc(100vh - 105px)', boxSizing: 'border-box', overflow: 'hidden' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.5rem', height: '100%' }}>
         
         {/* Left Panel: Library & Browser */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+          <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
             
             {/* Search and Filters */}
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -108,17 +108,17 @@ export default function Songs({
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Try clearing your search query or choosing another category.</p>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flexGrow: 1, overflow: 'hidden' }}>
                 {/* Table Header */}
-                <div style={{ display: 'grid', gridTemplateColumns: '40px 1fr 120px 80px', padding: '0.5rem 1rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.05)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '40px 1fr 120px 80px', padding: '0.5rem 1rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.05)', letterSpacing: '0.05em', textTransform: 'uppercase', flexShrink: 0 }}>
                   <span>#</span>
                   <span>Title</span>
                   <span>Category</span>
                   <span style={{ textAlign: 'right' }}>Length</span>
                 </div>
 
-                {/* Table Body */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', maxHeight: '500px', overflowY: 'auto' }}>
+                {/* Table Body (Scrolls inside strict container) */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', overflowY: 'auto', flexGrow: 1, paddingRight: '0.25rem' }}>
                   {filteredSongs.map((song, index) => {
                     const isCurrent = currentSong && currentSong.id === song.id;
                     return (
@@ -191,11 +191,11 @@ export default function Songs({
           </div>
         </div>
 
-        {/* Right Panel: Playback Controls & Ambient Mixer */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        {/* Right Panel: Playback Controls */}
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
           
           {/* Now Playing Card */}
-          <div className="glass-panel" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
+          <div className="glass-panel" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto' }}>
             {currentSong ? (
               <>
                 {/* Album Cover Art */}
