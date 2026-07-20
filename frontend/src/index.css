@@ -1116,7 +1116,7 @@ section {
 .footer-left h3 {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -1881,6 +1881,29 @@ body.light-theme .drawer-close:hover {
   background: #e2e8f0 !important;
   color: #0f172a !important;
 }
+
+/* Light Theme Overrides for Footer */
+body.light-theme .footer {
+  background: #ffffff !important;
+  border-top: 1px solid #cbd5e1 !important;
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.03) !important;
+}
+body.light-theme .footer-left h3 {
+  color: #0f172a !important;
+}
+body.light-theme .footer-copyright {
+  color: #64748b !important;
+}
+body.light-theme .footer-center a,
+body.light-theme .footer-right a {
+  color: #334155 !important;
+  font-weight: 600 !important;
+}
+body.light-theme .footer-center a:hover,
+body.light-theme .footer-right a:hover {
+  color: #0284c7 !important;
+}
+
 
 
 
