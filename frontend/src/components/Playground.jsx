@@ -1842,10 +1842,10 @@ export default function Playground({ questions, onGoHome }) {
           ) : (
             <>
               <div className="sidebar-header" style={{ padding: '0.5rem 1.25rem', gap: '0.75rem', borderBottom: '1px solid var(--border-glass)', display: 'flex', alignItems: 'center' }}>
-                {/* Home icon — returns to site homepage */}
+                {/* Home icon — returns to free playground landing */}
                 <button
-                  onClick={() => onGoHome && onGoHome()}
-                  title="Back to Home"
+                  onClick={() => { setActiveProblem(null); setTimerSeconds(0); setTimerRunning(false); }}
+                  title="Back to Custom Code"
                   className="sidebar-home-btn"
                 >
                   <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
