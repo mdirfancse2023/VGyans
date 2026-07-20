@@ -318,7 +318,7 @@ export default function App() {
 
         {activeTab === 'playground' && (
           <section className="playground-section">
-            <Playground questions={playgroundQuestions} />
+            <Playground questions={playgroundQuestions} onGoHome={() => setActiveTab('home')} />
           </section>
         )}
 

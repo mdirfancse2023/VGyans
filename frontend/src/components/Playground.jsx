@@ -558,7 +558,7 @@ SELECT 'Hello, Virtual Gyans Playground!' AS message;`
 };
 
 
-export default function Playground({ questions }) {
+export default function Playground({ questions, onGoHome }) {
   const activeQuestions = (questions && questions.length > 0) ? questions : PROBLEMS;
   const [activeProblem, setActiveProblem] = useState(null);
   const [activeLang, setActiveLang] = useState('python');
@@ -1023,6 +1023,37 @@ export default function Playground({ questions }) {
           color: #94a3b8;
           letter-spacing: 0.08em;
           text-transform: uppercase;
+        }
+        .sidebar-home-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          border-radius: 7px;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.06);
+          color: #94a3b8;
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: all 0.18s;
+          outline: none;
+        }
+        .sidebar-home-btn:hover {
+          background: rgba(2, 132, 199, 0.15);
+          border-color: rgba(2, 132, 199, 0.45);
+          color: #38bdf8;
+          transform: scale(1.08);
+        }
+        body.light-theme .sidebar-home-btn {
+          background: #f1f5f9 !important;
+          border-color: #e2e8f0 !important;
+          color: #64748b !important;
+        }
+        body.light-theme .sidebar-home-btn:hover {
+          background: #e0f2fe !important;
+          border-color: #0284c7 !important;
+          color: #0284c7 !important;
         }
         .diff-badge {
           font-size: 0.7rem;
@@ -1811,6 +1842,16 @@ export default function Playground({ questions }) {
           ) : (
             <>
               <div className="sidebar-header" style={{ padding: '0.5rem 1.25rem', gap: '0.75rem', borderBottom: '1px solid var(--border-glass)', display: 'flex', alignItems: 'center' }}>
+                {/* Home icon — returns to site homepage */}
+                <button
+                  onClick={() => onGoHome && onGoHome()}
+                  title="Back to Home"
+                  className="sidebar-home-btn"
+                >
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                  </svg>
+                </button>
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                   <button
                     onClick={() => setSidebarTab('problem')}
