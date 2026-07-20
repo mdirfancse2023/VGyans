@@ -2132,6 +2132,12 @@ body.light-theme .footer-right a:hover {
   color: var(--text-primary);
 }
 
+.theme-toggle-btn.active {
+  background: rgba(6, 182, 212, 0.15) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
 body.light-theme .theme-toggle-btn {
   background: #ffffff !important;
   border: 1px solid #cbd5e1 !important;
@@ -2141,6 +2147,12 @@ body.light-theme .theme-toggle-btn {
 
 body.light-theme .theme-toggle-btn:hover {
   background: #f1f5f9 !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+}
+
+body.light-theme .theme-toggle-btn.active {
+  background: #e0f2fe !important;
   border-color: #0284c7 !important;
   color: #0284c7 !important;
 }
