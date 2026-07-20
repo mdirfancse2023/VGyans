@@ -2215,8 +2215,17 @@ body.light-theme .feedback-submit-btn:hover:not(:disabled) {
   color: #f1f5f9;
 }
 .copilot-btn-submit {
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.copilot-btn-submit:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
 }
 
 body.light-theme .copilot-header-container {
@@ -2286,8 +2295,15 @@ body.light-theme .copilot-qa-question {
   color: #0f172a !important;
 }
 body.light-theme .copilot-btn-submit {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
-  color: #ffffff !important;
+  background: rgba(15, 23, 42, 0.08) !important;
+  border: 1px solid rgba(15, 23, 42, 0.18) !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05) !important;
+}
+body.light-theme .copilot-btn-submit:hover {
+  background: rgba(15, 23, 42, 0.14) !important;
+  border-color: rgba(15, 23, 42, 0.35) !important;
+  color: #0f172a !important;
 }
 body.light-theme .copilot-answer-title {
   color: #4f46e5 !important;
