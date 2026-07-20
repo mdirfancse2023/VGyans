@@ -4,12 +4,12 @@ import logoImg from '../assets/logo.png';
 export default function Header({ activeTab, setActiveTab, theme, toggleTheme, onOpenFeedback }) {
   const navItems = [
     { id: 'home', label: 'Home' },
-    { id: 'videos', label: 'Videos' },
     { id: 'guides', label: 'Placement' },
-    { id: 'playground', label: 'Code' },
+    { id: 'tools', label: 'Resume' },
     { id: 'experiences', label: 'Interviews' },
-    { id: 'jobs', label: 'Jobs' },
-    { id: 'tools', label: 'Resume' }
+    { id: 'playground', label: 'Code' },
+    { id: 'videos', label: 'Videos' },
+    { id: 'jobs', label: 'Jobs' }
   ];
 
   return (
