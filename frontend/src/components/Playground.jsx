@@ -1521,69 +1521,92 @@ export default function Playground({ questions }) {
         .timer-widget {
           display: inline-flex;
           align-items: center;
-          gap: 0.3rem;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid var(--border-glass);
+          gap: 0.25rem;
+          background: rgba(15, 23, 42, 0.55);
+          border: 1px solid rgba(148, 163, 184, 0.25);
           border-radius: 8px;
-          padding: 0.3rem 0.6rem;
+          padding: 0.28rem 0.55rem 0.28rem 0.7rem;
           font-family: 'Courier New', monospace;
-          transition: border-color 0.2s;
+          transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+          backdrop-filter: blur(8px);
         }
         .timer-widget:has(.timer-display.running) {
-          border-color: rgba(16, 185, 129, 0.35);
+          background: rgba(16, 185, 129, 0.08);
+          border-color: rgba(16, 185, 129, 0.5);
+          box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
         }
         .timer-display {
-          font-size: 0.82rem;
-          font-weight: 700;
-          color: #94a3b8;
-          letter-spacing: 0.05em;
-          min-width: 2.8rem;
+          font-size: 0.88rem;
+          font-weight: 800;
+          color: #cbd5e1;
+          letter-spacing: 0.08em;
+          min-width: 3rem;
           text-align: center;
           transition: color 0.2s;
+          font-variant-numeric: tabular-nums;
         }
         .timer-display.running {
-          color: #10b981;
+          color: #34d399;
+          text-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
         }
         .timer-btn {
-          background: none;
-          border: none;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.1);
           cursor: pointer;
-          color: #64748b;
+          color: #94a3b8;
           display: flex;
           align-items: center;
-          padding: 0.1rem;
-          border-radius: 4px;
-          transition: color 0.2s, background 0.2s;
+          justify-content: center;
+          width: 22px;
+          height: 22px;
+          border-radius: 5px;
+          transition: all 0.15s;
           outline: none;
+          flex-shrink: 0;
         }
         .timer-btn:hover {
-          color: #e2e8f0;
-          background: rgba(255,255,255,0.08);
+          color: #f8fafc;
+          background: rgba(255,255,255,0.14);
+          border-color: rgba(255,255,255,0.22);
+        }
+        .timer-reset {
+          color: #64748b;
         }
         .timer-reset:hover {
-          color: #f87171 !important;
+          color: #fca5a5 !important;
+          background: rgba(239, 68, 68, 0.12) !important;
+          border-color: rgba(239, 68, 68, 0.3) !important;
         }
         body.light-theme .timer-widget {
-          background: rgba(15,23,42,0.04) !important;
-          border-color: rgba(15,23,42,0.1) !important;
+          background: #ffffff !important;
+          border: 1px solid #cbd5e1 !important;
+          box-shadow: 0 1px 4px rgba(15,23,42,0.08) !important;
         }
         body.light-theme .timer-widget:has(.timer-display.running) {
-          border-color: rgba(16, 185, 129, 0.4) !important;
+          background: #f0fdf4 !important;
+          border-color: #34d399 !important;
+          box-shadow: 0 0 8px rgba(52, 211, 153, 0.2) !important;
         }
         body.light-theme .timer-display {
-          color: #64748b !important;
+          color: #1e293b !important;
         }
         body.light-theme .timer-display.running {
           color: #059669 !important;
+          text-shadow: none !important;
         }
         body.light-theme .timer-btn {
-          color: #94a3b8 !important;
+          background: #f1f5f9 !important;
+          border-color: #e2e8f0 !important;
+          color: #475569 !important;
         }
         body.light-theme .timer-btn:hover {
+          background: #e2e8f0 !important;
+          border-color: #94a3b8 !important;
           color: #0f172a !important;
-          background: rgba(15,23,42,0.06) !important;
         }
         body.light-theme .timer-reset:hover {
+          background: #fee2e2 !important;
+          border-color: #fca5a5 !important;
           color: #dc2626 !important;
         }
         .copy-solution-btn {
