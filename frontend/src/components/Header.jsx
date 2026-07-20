@@ -304,26 +304,6 @@ export default function Header({
                     ⏭
                   </button>
                 </div>
-
-                {/* Open Full Music Dashboard Button */}
-                <button
-                  onClick={(e) => { e.stopPropagation(); setActiveTab('songs'); }}
-                  style={{
-                    width: '100%',
-                    padding: '0.3rem',
-                    fontSize: '0.72rem',
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid var(--border-glass)',
-                    borderRadius: '6px',
-                    color: 'var(--text-secondary)',
-                    cursor: 'pointer',
-                    marginTop: '0.15rem',
-                    transition: 'all 0.2s ease'
-                  }}
-                  className="full-dashboard-btn"
-                >
-                  Full Dashboard ↗
-                </button>
               </div>
             )}
           </li>
