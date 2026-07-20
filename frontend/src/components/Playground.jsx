@@ -1443,24 +1443,44 @@ export default function Playground({ questions }) {
           background: var(--bg-dark-secondary);
         }
         .copy-solution-btn {
-          position: absolute;
-          top: 0.5rem;
-          right: 0.5rem;
-          background: var(--bg-dark);
+          background: rgba(255, 255, 255, 0.06);
           border: 1px solid var(--border-glass);
-          border-radius: 4px;
-          color: var(--text-muted);
-          font-size: 0.72rem;
+          border-radius: 6px;
+          color: #cbd5e1;
+          font-size: 0.76rem;
           font-weight: 600;
-          padding: 0.25rem 0.55rem;
+          padding: 0.4rem 0.8rem;
           cursor: pointer;
           transition: all 0.2s;
-          z-index: 10;
           outline: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
         }
         .copy-solution-btn:hover {
-          color: var(--text-primary);
-          background: var(--primary);
+          background: rgba(255, 255, 255, 0.11);
+          border-color: rgba(255, 255, 255, 0.2);
+          color: #fff;
+        }
+        .copy-solution-btn.applied {
+          background: rgba(16, 185, 129, 0.1) !important;
+          border-color: rgba(16, 185, 129, 0.3) !important;
+          color: #10b981 !important;
+        }
+        body.light-theme .copy-solution-btn {
+          background: rgba(15, 23, 42, 0.04) !important;
+          border: 1px solid rgba(15, 23, 42, 0.08) !important;
+          color: #334155 !important;
+        }
+        body.light-theme .copy-solution-btn:hover {
+          background: rgba(15, 23, 42, 0.08) !important;
+          border-color: #0284c7 !important;
+          color: #0284c7 !important;
+        }
+        body.light-theme .copy-solution-btn.applied {
+          background: rgba(16, 185, 129, 0.1) !important;
+          border-color: rgba(16, 185, 129, 0.4) !important;
+          color: #047857 !important;
         }
         .console-panel {
           height: 200px;
@@ -1764,9 +1784,8 @@ export default function Playground({ questions }) {
                             <div className="solution-content">
                               <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
                                 <button 
-                                  className="copy-solution-btn"
+                                  className={`copy-solution-btn ${copiedLang === `applied_${lang}` ? 'applied' : ''}`}
                                   onClick={() => handleApplySolution(lang, code)}
-                                  style={{ position: 'static', background: 'var(--primary)', color: '#fff', borderColor: 'var(--primary)' }}
                                 >
                                   {copiedLang === `applied_${lang}` ? '✓ Loaded into Editor' : '⚡ Apply to Editor'}
                                 </button>
