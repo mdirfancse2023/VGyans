@@ -42,26 +42,25 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme, on
           <li>
             <button
               onClick={onOpenFeedback}
-              className="nav-link"
+              className="theme-toggle-btn"
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 color: 'var(--text-secondary)',
                 borderRadius: '7px',
-                padding: '4px 10px',
-                fontSize: '0.82rem',
-                fontWeight: 600,
+                width: '32px',
+                height: '32px',
                 cursor: 'pointer',
-                display: 'inline-flex',
+                display: 'flex',
                 alignItems: 'center',
-                gap: '0.35rem',
+                justifyContent: 'center',
                 transition: 'all 0.2s ease',
-                outline: 'none'
+                outline: 'none',
+                fontSize: '0.95rem'
               }}
               title="Share Feedback"
             >
-              <span style={{ fontSize: '0.9rem' }}>💬</span>
-              <span>Feedback</span>
+              💬
             </button>
           </li>
           <li>
@@ -69,13 +68,27 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme, on
               href="https://www.youtube.com/@virtualgyans" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="nav-link"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              className="theme-toggle-btn"
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                color: 'var(--text-secondary)',
+                borderRadius: '7px',
+                width: '32px',
+                height: '32px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s ease',
+                outline: 'none'
+              }}
+              title="Subscribe on YouTube"
             >
               <svg 
                 viewBox="0 0 24 24" 
-                width="16" 
-                height="16" 
+                width="18" 
+                height="18" 
               >
                 <path 
                   d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.507 9.388.507 9.388.507s7.518 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837z" 
@@ -86,7 +99,6 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme, on
                   fill="#FFFFFF" 
                 />
               </svg>
-              Subscribe
             </a>
           </li>
           <li>
