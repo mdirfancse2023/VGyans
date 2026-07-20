@@ -116,11 +116,12 @@ export default function ResumeBuilder() {
     if (!element) return;
 
     const opt = {
-      margin:       [0.4, 0.4, 0.4, 0.4],
+      margin:       [0.2, 0.4, 0.2, 0.4],
       filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2, useCORS: true, logging: false },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+      pagebreak:    { mode: 'avoid-all' }
     };
 
     const originalShadow = element.style.boxShadow;
@@ -579,13 +580,15 @@ export default function ResumeBuilder() {
         {/* Live Preview Panel */}
         <div className="preview-panel">
           {/* Header */}
-          <div style={{ textAlign: 'center', borderBottom: '1.5px solid #000000', paddingBottom: '0.75rem', marginBottom: '1.25rem' }}>
-            <h2 style={{ fontSize: '20pt', fontWeight: 'bold', margin: '0 0 0.25rem 0', color: '#000000', letterSpacing: '-0.02em', fontFamily: 'Arial, sans-serif' }}>
+          <div style={{ textAlign: 'center', borderBottom: '1.5px solid #000000', paddingBottom: '0.5rem', marginBottom: '0.8rem' }}>
+            <h2 style={{ fontSize: '18pt', fontWeight: 'bold', margin: '0 0 0.15rem 0', color: '#000000', letterSpacing: '-0.02em', fontFamily: 'Arial, sans-serif' }}>
               {formData.name || 'YOUR NAME'}
             </h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', fontSize: '9.5pt', color: '#334155', fontFamily: 'Arial, sans-serif' }}>
-              <span style={{ fontWeight: 'bold', color: '#000000' }}>{formData.title || 'Professional Title'}</span>
-              {formData.email && <><span>|</span><span>{formData.email}</span></>}
+            <p style={{ fontSize: '10.5pt', fontWeight: 'bold', color: '#1e293b', margin: '0 0 0.25rem 0', fontFamily: 'Arial, sans-serif' }}>
+              {formData.title || 'Professional Title'}
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '0.4rem', fontSize: '9pt', color: '#334155', fontFamily: 'Arial, sans-serif' }}>
+              {formData.email && <span>{formData.email}</span>}
               {formData.phone && <><span>|</span><span>{formData.phone}</span></>}
               {formData.linkedin && <><span>|</span><span>{formData.linkedin}</span></>}
               {formData.github && <><span>|</span><span>{formData.github}</span></>}
@@ -594,11 +597,11 @@ export default function ResumeBuilder() {
 
           {/* Professional Summary */}
           {formData.summary && (
-            <div style={{ marginBottom: '1.25rem' }}>
-              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: '0.8rem' }}>
+              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Professional Summary
               </h3>
-              <p style={{ fontSize: '10pt', color: '#111111', margin: 0, lineHeight: 1.5, fontFamily: 'Arial, sans-serif', textAlign: 'justify' }}>
+              <p style={{ fontSize: '9pt', color: '#111111', margin: 0, lineHeight: 1.4, fontFamily: 'Arial, sans-serif', textAlign: 'justify' }}>
                 {formData.summary}
               </p>
             </div>
@@ -606,8 +609,8 @@ export default function ResumeBuilder() {
 
           {/* Technical Skills */}
           {formData.skills && (
-            <div style={{ marginBottom: '1.25rem' }}>
-              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: '0.8rem' }}>
+              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Technical Skills
               </h3>
               {renderSkills(formData.skills)}
@@ -616,18 +619,18 @@ export default function ResumeBuilder() {
 
           {/* Work Experience */}
           {formData.experience && formData.experience.length > 0 && formData.experience[0].company && (
-            <div style={{ marginBottom: '1.25rem' }}>
-              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: '0.8rem' }}>
+              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Work Experience
               </h3>
               {formData.experience.map((exp, idx) => (
-                <div key={idx} style={{ marginBottom: '0.75rem', fontSize: '10pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+                <div key={idx} style={{ marginBottom: '0.5rem', fontSize: '9pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#000000' }}>
                     <span>{exp.role || 'Role'} — {exp.company || 'Company'}</span>
-                    <span style={{ fontWeight: 'normal', fontSize: '9.5pt', color: '#334155' }}>{exp.duration || 'Duration'}</span>
+                    <span style={{ fontWeight: 'normal', fontSize: '8.5pt', color: '#334155' }}>{exp.duration || 'Duration'}</span>
                   </div>
                   {exp.desc && (
-                    <p style={{ margin: '0.25rem 0 0 0', fontSize: '9.5pt', color: '#334155', lineHeight: 1.45, whiteSpace: 'pre-line' }}>
+                    <p style={{ margin: '0.15rem 0 0 0', fontSize: '8.5pt', color: '#334155', lineHeight: 1.4, whiteSpace: 'pre-line' }}>
                       {exp.desc}
                     </p>
                   )}
@@ -638,17 +641,17 @@ export default function ResumeBuilder() {
 
           {/* Personal Projects */}
           {formData.projects && formData.projects.length > 0 && formData.projects[0].name && (
-            <div style={{ marginBottom: '1.25rem' }}>
-              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: '0.8rem' }}>
+              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Personal Projects
               </h3>
               {formData.projects.map((proj, idx) => (
-                <div key={idx} style={{ marginBottom: '0.75rem', fontSize: '10pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+                <div key={idx} style={{ marginBottom: '0.5rem', fontSize: '9pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#000000' }}>
-                    <span>{proj.name || 'Project Name'} {proj.tech && <span style={{ fontWeight: 'normal', fontSize: '9.5pt', color: '#334155' }}>({proj.tech})</span>}</span>
+                    <span>{proj.name || 'Project Name'} {proj.tech && <span style={{ fontWeight: 'normal', fontSize: '8.5pt', color: '#334155' }}>({proj.tech})</span>}</span>
                   </div>
                   {proj.desc && (
-                    <p style={{ margin: '0.25rem 0 0 0', fontSize: '9.5pt', color: '#334155', lineHeight: 1.45, whiteSpace: 'pre-line' }}>
+                    <p style={{ margin: '0.15rem 0 0 0', fontSize: '8.5pt', color: '#334155', lineHeight: 1.4, whiteSpace: 'pre-line' }}>
                       {proj.desc}
                     </p>
                   )}
@@ -659,8 +662,8 @@ export default function ResumeBuilder() {
 
           {/* Certifications */}
           {formData.certifications && (
-            <div style={{ marginBottom: '1.25rem' }}>
-              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: '0.8rem' }}>
+              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Certifications
               </h3>
               {renderListSection(formData.certifications)}
@@ -669,8 +672,8 @@ export default function ResumeBuilder() {
 
           {/* Achievements */}
           {formData.achievements && (
-            <div style={{ marginBottom: '1.25rem' }}>
-              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: '0.8rem' }}>
+              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Achievements
               </h3>
               {renderListSection(formData.achievements)}
@@ -679,16 +682,16 @@ export default function ResumeBuilder() {
 
           {/* Education */}
           {formData.education && formData.education.length > 0 && formData.education[0].school && (
-            <div style={{ marginBottom: '1.25rem' }}>
-              <h3 style={{ fontSize: '12pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: '0.8rem' }}>
+              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Education
               </h3>
               {formData.education.map((edu, idx) => (
-                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10pt', marginBottom: '0.25rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9pt', marginBottom: '0.25rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
                   <div>
                     <strong>{edu.school || 'School/University'}</strong> — {edu.degree || 'Degree'}
                   </div>
-                  <div style={{ textAlign: 'right', fontSize: '9.5pt', color: '#334155' }}>
+                  <div style={{ textAlign: 'right', fontSize: '8.5pt', color: '#334155' }}>
                     <span>{edu.year || 'Duration'}</span> | <strong>{edu.grade || 'Grade'}</strong>
                   </div>
                 </div>
