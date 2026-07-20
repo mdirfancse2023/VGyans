@@ -117,7 +117,7 @@ export default function CareerCoach() {
 
   return (
     <>
-      {/* Floating Trigger Button (Bottom Right - In place of old feedback button) */}
+      {/* Floating Trigger Button (Bottom Right - Glassmorphism style) */}
       <button
         onClick={() => setOpen(true)}
         style={{
@@ -127,32 +127,50 @@ export default function CareerCoach() {
           zIndex: 9999,
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          background: 'linear-gradient(135deg, rgba(99,102,241,0.95), rgba(168,85,247,0.95))',
-          border: '1px solid rgba(255,255,255,0.2)',
+          gap: '10px',
+          background: 'rgba(15, 23, 42, 0.72)',
+          border: '1px solid rgba(255, 255, 255, 0.22)',
           borderRadius: '50px',
           padding: '11px 22px',
           cursor: 'pointer',
           color: '#ffffff',
           fontSize: '0.875rem',
           fontWeight: 700,
-          backdropFilter: 'blur(12px)',
-          boxShadow: '0 6px 28px rgba(99,102,241,0.45)',
-          transition: 'all 0.22s ease',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.3)',
+          transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
           fontFamily: 'inherit',
         }}
         onMouseEnter={e => {
+          e.currentTarget.style.background = 'rgba(30, 41, 59, 0.88)';
           e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
-          e.currentTarget.style.boxShadow = '0 8px 32px rgba(168,85,247,0.55)';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
+          e.currentTarget.style.boxShadow = '0 12px 40px 0 rgba(99, 102, 241, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.45)';
         }}
         onMouseLeave={e => {
+          e.currentTarget.style.background = 'rgba(15, 23, 42, 0.72)';
           e.currentTarget.style.transform = 'translateY(0) scale(1)';
-          e.currentTarget.style.boxShadow = '0 6px 28px rgba(99,102,241,0.45)';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.22)';
+          e.currentTarget.style.boxShadow = '0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.3)';
         }}
         title="Open AI Career Coach"
       >
-        <span style={{ fontSize: '1.1rem' }}>🛋️</span>
-        <span>Career Coach</span>
+        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8" stroke="url(#glassGradTrigger)" strokeWidth="2.2" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="url(#glassGradTrigger)" strokeWidth="2.5" />
+            <path d="M11 7a4 4 0 0 0-4 4" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" strokeLinecap="round" />
+            <defs>
+              <linearGradient id="glassGradTrigger" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#38bdf8" />
+                <stop offset="50%" stopColor="#818cf8" />
+                <stop offset="100%" stopColor="#c084fc" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>Career Coach</span>
       </button>
 
       {/* Modal / Drawer */}
@@ -161,8 +179,9 @@ export default function CareerCoach() {
           position: 'fixed',
           inset: 0,
           zIndex: 9998,
-          background: 'rgba(0,0,0,0.55)',
-          backdropFilter: 'blur(6px)',
+          background: 'rgba(0,0,0,0.65)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
           display: 'flex',
           alignItems: 'flex-end',
           justifyContent: 'flex-end',
@@ -172,15 +191,17 @@ export default function CareerCoach() {
           <div
             ref={panelRef}
             style={{
-              background: 'rgba(11,15,28,0.98)',
-              border: '1px solid rgba(255,255,255,0.12)',
+              background: 'rgba(10, 15, 30, 0.82)',
+              border: '1px solid rgba(255, 255, 255, 0.16)',
               borderRadius: '24px',
               width: '460px',
               maxWidth: 'calc(100vw - 32px)',
               maxHeight: '85vh',
               display: 'flex',
               flexDirection: 'column',
-              boxShadow: '0 24px 70px rgba(0,0,0,0.8)',
+              backdropFilter: 'blur(28px) saturate(200%)',
+              WebkitBackdropFilter: 'blur(28px) saturate(200%)',
+              boxShadow: '0 30px 90px rgba(0,0,0,0.85), inset 0 1px 0 0 rgba(255, 255, 255, 0.25)',
               overflow: 'hidden',
               fontFamily: 'inherit',
               animation: 'ccSlideUp 0.25s cubic-bezier(0.16,1,0.3,1)',
@@ -189,25 +210,37 @@ export default function CareerCoach() {
             {/* Header */}
             <div style={{
               padding: '20px 24px 16px',
-              background: 'linear-gradient(180deg, rgba(99,102,241,0.12), rgba(0,0,0,0))',
-              borderBottom: '1px solid rgba(255,255,255,0.08)',
+              background: 'linear-gradient(180deg, rgba(99,102,241,0.18), rgba(0,0,0,0))',
+              borderBottom: '1px solid rgba(255,255,255,0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{
-                  background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+                  background: 'rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(255,255,255,0.2)',
                   borderRadius: '12px',
-                  width: '38px',
-                  height: '38px',
+                  width: '40px',
+                  height: '40px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '1.2rem',
-                  boxShadow: '0 4px 14px rgba(99,102,241,0.35)'
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 0 rgba(255,255,255,0.3)',
+                  backdropFilter: 'blur(12px)'
                 }}>
-                  🛋️
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8" stroke="url(#glassGradHeader)" strokeWidth="2.2" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="url(#glassGradHeader)" strokeWidth="2.5" />
+                    <path d="M11 7a4 4 0 0 0-4 4" stroke="rgba(255,255,255,0.8)" strokeWidth="1.5" strokeLinecap="round" />
+                    <defs>
+                      <linearGradient id="glassGradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#38bdf8" />
+                        <stop offset="50%" stopColor="#818cf8" />
+                        <stop offset="100%" stopColor="#c084fc" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
                 </div>
                 <div>
                   <div style={{ fontSize: '1.08rem', fontWeight: 800, color: '#f8fafc' }}>Career Coach</div>
@@ -219,7 +252,7 @@ export default function CareerCoach() {
                 onClick={() => setOpen(false)}
                 style={{
                   background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.12)',
                   borderRadius: '10px',
                   width: '32px',
                   height: '32px',
@@ -229,7 +262,8 @@ export default function CareerCoach() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontFamily: 'inherit'
+                  fontFamily: 'inherit',
+                  transition: 'all 0.15s ease'
                 }}
               >
                 ✕
