@@ -552,7 +552,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/single-server-setup.png"
+        "text": "/system-design/chapter02/images/single-server-setup.png"
       },
       {
         "type": "body",
@@ -592,7 +592,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/database-separate-from-web.png"
+        "text": "/system-design/chapter02/images/database-separate-from-web.png"
       },
       {
         "type": "h1",
@@ -652,7 +652,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/load-balancer-example.png"
+        "text": "/system-design/chapter02/images/load-balancer-example.png"
       },
       {
         "type": "body",
@@ -676,7 +676,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/master-slave-replication.png"
+        "text": "/system-design/chapter02/images/master-slave-replication.png"
       },
       {
         "type": "body",
@@ -704,7 +704,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/master-slave-db-replication.png"
+        "text": "/system-design/chapter02/images/master-slave-db-replication.png"
       },
       {
         "type": "body",
@@ -744,7 +744,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/cache-tier.png"
+        "text": "/system-design/chapter02/images/cache-tier.png"
       },
       {
         "type": "body",
@@ -784,7 +784,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/cdn.png"
+        "text": "/system-design/chapter02/images/cdn.png"
       },
       {
         "type": "body",
@@ -792,7 +792,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/cdn-request-flow.png"
+        "text": "/system-design/chapter02/images/cdn-request-flow.png"
       },
       {
         "type": "body",
@@ -832,7 +832,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/web-app-design-after-cdn.png"
+        "text": "/system-design/chapter02/images/web-app-design-after-cdn.png"
       },
       {
         "type": "h1",
@@ -852,7 +852,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/stateful-servers.png"
+        "text": "/system-design/chapter02/images/stateful-servers.png"
       },
       {
         "type": "body",
@@ -864,7 +864,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/stateless-architecture.png"
+        "text": "/system-design/chapter02/images/stateless-architecture.png"
       },
       {
         "type": "body",
@@ -872,7 +872,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/web-app-architecture-updated.png"
+        "text": "/system-design/chapter02/images/web-app-architecture-updated.png"
       },
       {
         "type": "body",
@@ -884,7 +884,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/data-centers.png"
+        "text": "/system-design/chapter02/images/data-centers.png"
       },
       {
         "type": "body",
@@ -892,7 +892,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/data-center-failover.png"
+        "text": "/system-design/chapter02/images/data-center-failover.png"
       },
       {
         "type": "body",
@@ -920,7 +920,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/message-queue.png"
+        "text": "/system-design/chapter02/images/message-queue.png"
       },
       {
         "type": "body",
@@ -944,7 +944,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/photo-processing-queue.png"
+        "text": "/system-design/chapter02/images/photo-processing-queue.png"
       },
       {
         "type": "h1",
@@ -968,7 +968,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/sys-design-after-monitoring.png"
+        "text": "/system-design/chapter02/images/sys-design-after-monitoring.png"
       },
       {
         "type": "h1",
@@ -1008,7 +1008,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/vertical-vs-horizontal-scaling.png"
+        "text": "/system-design/chapter02/images/vertical-vs-horizontal-scaling.png"
       },
       {
         "type": "body",
@@ -1016,7 +1016,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/database-sharding.png"
+        "text": "/system-design/chapter02/images/database-sharding.png"
       },
       {
         "type": "body",
@@ -1024,7 +1024,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/user-data-in-shards.png"
+        "text": "/system-design/chapter02/images/user-data-in-shards.png"
       },
       {
         "type": "body",
@@ -1044,7 +1044,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter02/images/updated-system-design.png"
+        "text": "/system-design/chapter02/images/updated-system-design.png"
       },
       {
         "type": "h1",
@@ -1193,7 +1193,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter03/images/latency-numbers-visu.png"
+        "text": "/system-design/chapter03/images/latency-numbers-visu.png"
       },
       {
         "type": "body",
@@ -1229,7 +1229,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter03/images/sla-chart.png"
+        "text": "/system-design/chapter03/images/sla-chart.png"
       },
       {
         "type": "h1",
@@ -1462,7 +1462,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter04/images/feed-publishing.png"
+        "text": "/system-design/chapter04/images/feed-publishing.png"
       },
       {
         "type": "body",
@@ -1470,7 +1470,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter04/images/news-feed-building.png"
+        "text": "/system-design/chapter04/images/news-feed-building.png"
       },
       {
         "type": "h1",
@@ -1518,7 +1518,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter04/images/feed-publishing-deep-dive.png"
+        "text": "/system-design/chapter04/images/feed-publishing-deep-dive.png"
       },
       {
         "type": "body",
@@ -1526,7 +1526,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter04/images/news-feed-building-deep-dive.png"
+        "text": "/system-design/chapter04/images/news-feed-building-deep-dive.png"
       },
       {
         "type": "h1",
@@ -1767,7 +1767,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/server-side-rate-limiter.png"
+        "text": "/system-design/chapter05/images/server-side-rate-limiter.png"
       },
       {
         "type": "body",
@@ -1775,7 +1775,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/middleware-rate-limiter.png"
+        "text": "/system-design/chapter05/images/middleware-rate-limiter.png"
       },
       {
         "type": "body",
@@ -1783,7 +1783,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/middleware-rate-limiter-example.png"
+        "text": "/system-design/chapter05/images/middleware-rate-limiter-example.png"
       },
       {
         "type": "body",
@@ -1823,7 +1823,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/token-bucket-algo.png"
+        "text": "/system-design/chapter05/images/token-bucket-algo.png"
       },
       {
         "type": "body",
@@ -1851,7 +1851,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/token-bucket-algo-explained.png"
+        "text": "/system-design/chapter05/images/token-bucket-algo-explained.png"
       },
       {
         "type": "body",
@@ -1911,7 +1911,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/leaking-bucket-algo.png"
+        "text": "/system-design/chapter05/images/leaking-bucket-algo.png"
       },
       {
         "type": "body",
@@ -1963,7 +1963,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/fixed-window-counter-algo.png"
+        "text": "/system-design/chapter05/images/fixed-window-counter-algo.png"
       },
       {
         "type": "body",
@@ -1971,7 +1971,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/traffic-burst-problem.png"
+        "text": "/system-design/chapter05/images/traffic-burst-problem.png"
       },
       {
         "type": "body",
@@ -2019,7 +2019,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/sliding-window-log-algo.png"
+        "text": "/system-design/chapter05/images/sliding-window-log-algo.png"
       },
       {
         "type": "body",
@@ -2043,7 +2043,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/sliding-window-counter-algo.png"
+        "text": "/system-design/chapter05/images/sliding-window-counter-algo.png"
       },
       {
         "type": "body",
@@ -2083,7 +2083,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/high-level-architecture.png"
+        "text": "/system-design/chapter05/images/high-level-architecture.png"
       },
       {
         "type": "body",
@@ -2127,7 +2127,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/lyft-rate-limiting-rules.png"
+        "text": "/system-design/chapter05/images/lyft-rate-limiting-rules.png"
       },
       {
         "type": "body",
@@ -2135,7 +2135,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/lyft-rate-limiting-auth-rules.png"
+        "text": "/system-design/chapter05/images/lyft-rate-limiting-auth-rules.png"
       },
       {
         "type": "body",
@@ -2159,7 +2159,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/detailed-design.png"
+        "text": "/system-design/chapter05/images/detailed-design.png"
       },
       {
         "type": "body",
@@ -2195,7 +2195,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/race-condition.png"
+        "text": "/system-design/chapter05/images/race-condition.png"
       },
       {
         "type": "body",
@@ -2203,7 +2203,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/synchronization-issue.png"
+        "text": "/system-design/chapter05/images/synchronization-issue.png"
       },
       {
         "type": "body",
@@ -2211,7 +2211,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter05/images/redis-centralized-data-store.png"
+        "text": "/system-design/chapter05/images/redis-centralized-data-store.png"
       },
       {
         "type": "h1",
@@ -2360,7 +2360,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/hash-ring.png"
+        "text": "/system-design/chapter06/images/hash-ring.png"
       },
       {
         "type": "h1",
@@ -2372,7 +2372,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/hash-servers.png"
+        "text": "/system-design/chapter06/images/hash-servers.png"
       },
       {
         "type": "h1",
@@ -2384,7 +2384,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/hash-keys.png"
+        "text": "/system-design/chapter06/images/hash-keys.png"
       },
       {
         "type": "h1",
@@ -2396,7 +2396,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/server-lookup.png"
+        "text": "/system-design/chapter06/images/server-lookup.png"
       },
       {
         "type": "h1",
@@ -2408,7 +2408,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/add-server-scenario.png"
+        "text": "/system-design/chapter06/images/add-server-scenario.png"
       },
       {
         "type": "h1",
@@ -2420,7 +2420,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/remove-server-scenario.png"
+        "text": "/system-design/chapter06/images/remove-server-scenario.png"
       },
       {
         "type": "h1",
@@ -2432,7 +2432,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/hash-partitions.png"
+        "text": "/system-design/chapter06/images/hash-partitions.png"
       },
       {
         "type": "body",
@@ -2440,7 +2440,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/uneven-request-distribution.png"
+        "text": "/system-design/chapter06/images/uneven-request-distribution.png"
       },
       {
         "type": "h1",
@@ -2452,7 +2452,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/virtual-nodes.png"
+        "text": "/system-design/chapter06/images/virtual-nodes.png"
       },
       {
         "type": "body",
@@ -2460,7 +2460,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter06/images/virtual-node-request-mapping.png"
+        "text": "/system-design/chapter06/images/virtual-node-request-mapping.png"
       },
       {
         "type": "body",
@@ -2633,7 +2633,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/cap-theorem.png"
+        "text": "/system-design/chapter07/images/cap-theorem.png"
       },
       {
         "type": "body",
@@ -2641,7 +2641,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/example-distributed-system.png"
+        "text": "/system-design/chapter07/images/example-distributed-system.png"
       },
       {
         "type": "body",
@@ -2649,7 +2649,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/network-partition-example.png"
+        "text": "/system-design/chapter07/images/network-partition-example.png"
       },
       {
         "type": "body",
@@ -2681,7 +2681,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/consistent-hashing.png"
+        "text": "/system-design/chapter07/images/consistent-hashing.png"
       },
       {
         "type": "body",
@@ -2705,7 +2705,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/data-replication.png"
+        "text": "/system-design/chapter07/images/data-replication.png"
       },
       {
         "type": "body",
@@ -2733,7 +2733,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/write-quorum-example.png"
+        "text": "/system-design/chapter07/images/write-quorum-example.png"
       },
       {
         "type": "body",
@@ -2785,7 +2785,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/inconsistency-example.png"
+        "text": "/system-design/chapter07/images/inconsistency-example.png"
       },
       {
         "type": "body",
@@ -2793,7 +2793,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/inconsistency-resolution.png"
+        "text": "/system-design/chapter07/images/inconsistency-resolution.png"
       },
       {
         "type": "body",
@@ -2849,7 +2849,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/multicasting.png"
+        "text": "/system-design/chapter07/images/multicasting.png"
       },
       {
         "type": "body",
@@ -2877,7 +2877,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/gossip-protocol.png"
+        "text": "/system-design/chapter07/images/gossip-protocol.png"
       },
       {
         "type": "body",
@@ -2901,7 +2901,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/merkle-tree.png"
+        "text": "/system-design/chapter07/images/merkle-tree.png"
       },
       {
         "type": "body",
@@ -2921,7 +2921,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/architecture-diagram.png"
+        "text": "/system-design/chapter07/images/architecture-diagram.png"
       },
       {
         "type": "body",
@@ -2953,7 +2953,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/node-responsibilities.png"
+        "text": "/system-design/chapter07/images/node-responsibilities.png"
       },
       {
         "type": "h1",
@@ -2961,7 +2961,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/write-pth.png"
+        "text": "/system-design/chapter07/images/write-pth.png"
       },
       {
         "type": "body",
@@ -2985,7 +2985,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/read-path-in-memory.png"
+        "text": "/system-design/chapter07/images/read-path-in-memory.png"
       },
       {
         "type": "body",
@@ -2993,7 +2993,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter07/images/read-path-not-in-memory.png"
+        "text": "/system-design/chapter07/images/read-path-not-in-memory.png"
       },
       {
         "type": "body",
@@ -3106,7 +3106,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter08/images/multi-master-replication.png"
+        "text": "/system-design/chapter08/images/multi-master-replication.png"
       },
       {
         "type": "body",
@@ -3162,7 +3162,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter08/images/ticket-server.png"
+        "text": "/system-design/chapter08/images/ticket-server.png"
       },
       {
         "type": "body",
@@ -3194,7 +3194,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter08/images/twitter-snowflake.png"
+        "text": "/system-design/chapter08/images/twitter-snowflake.png"
       },
       {
         "type": "body",
@@ -3363,7 +3363,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter09/images/tinyurl-example.png"
+        "text": "/system-design/chapter09/images/tinyurl-example.png"
       },
       {
         "type": "body",
@@ -3403,7 +3403,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter09/images/url-table.png"
+        "text": "/system-design/chapter09/images/url-table.png"
       },
       {
         "type": "h1",
@@ -3415,7 +3415,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter09/images/hash-collision-mechanism.png"
+        "text": "/system-design/chapter09/images/hash-collision-mechanism.png"
       },
       {
         "type": "body",
@@ -3431,7 +3431,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter09/images/url-shortening-deep-dive.png"
+        "text": "/system-design/chapter09/images/url-shortening-deep-dive.png"
       },
       {
         "type": "body",
@@ -3447,7 +3447,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter09/images/url-redirection-deep-dive.png"
+        "text": "/system-design/chapter09/images/url-redirection-deep-dive.png"
       },
       {
         "type": "body",
@@ -3532,7 +3532,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter10/images/web-crawler-example.png"
+        "text": "/system-design/chapter10/images/web-crawler-example.png"
       },
       {
         "type": "body",
@@ -3652,7 +3652,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter10/images/high-level-design.png"
+        "text": "/system-design/chapter10/images/high-level-design.png"
       },
       {
         "type": "body",
@@ -3704,7 +3704,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter10/images/web-crawler-workflow.png"
+        "text": "/system-design/chapter10/images/web-crawler-workflow.png"
       },
       {
         "type": "body",
@@ -3776,7 +3776,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter10/images/download-queue.png"
+        "text": "/system-design/chapter10/images/download-queue.png"
       },
       {
         "type": "body",
@@ -3788,7 +3788,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter10/images/mapping-table.png"
+        "text": "/system-design/chapter10/images/mapping-table.png"
       },
       {
         "type": "body",
@@ -3812,7 +3812,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter10/images/prioritizer.png"
+        "text": "/system-design/chapter10/images/prioritizer.png"
       },
       {
         "type": "body",
@@ -3872,7 +3872,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter10/images/distributed-crawl.png"
+        "text": "/system-design/chapter10/images/distributed-crawl.png"
       },
       {
         "type": "body",
@@ -3920,7 +3920,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter10/images/extendable-crawler.png"
+        "text": "/system-design/chapter10/images/extendable-crawler.png"
       },
       {
         "type": "body",
@@ -4089,7 +4089,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/ios-push-notifications.png"
+        "text": "/system-design/chapter11/images/ios-push-notifications.png"
       },
       {
         "type": "body",
@@ -4125,7 +4125,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/android-push-notifications.png"
+        "text": "/system-design/chapter11/images/android-push-notifications.png"
       },
       {
         "type": "h1",
@@ -4137,7 +4137,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/sms-messages.png"
+        "text": "/system-design/chapter11/images/sms-messages.png"
       },
       {
         "type": "h1",
@@ -4149,7 +4149,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/email-sending.png"
+        "text": "/system-design/chapter11/images/email-sending.png"
       },
       {
         "type": "body",
@@ -4157,7 +4157,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/notification-providers-design.png"
+        "text": "/system-design/chapter11/images/notification-providers-design.png"
       },
       {
         "type": "h1",
@@ -4169,7 +4169,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/contact-info-gathering.png"
+        "text": "/system-design/chapter11/images/contact-info-gathering.png"
       },
       {
         "type": "body",
@@ -4177,7 +4177,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/contact-info-db.png"
+        "text": "/system-design/chapter11/images/contact-info-db.png"
       },
       {
         "type": "h1",
@@ -4189,7 +4189,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/high-level-design.png"
+        "text": "/system-design/chapter11/images/high-level-design.png"
       },
       {
         "type": "body",
@@ -4241,7 +4241,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/high-level-design-improved.png"
+        "text": "/system-design/chapter11/images/high-level-design-improved.png"
       },
       {
         "type": "body",
@@ -4329,7 +4329,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/notification-log-db.png"
+        "text": "/system-design/chapter11/images/notification-log-db.png"
       },
       {
         "type": "body",
@@ -4397,7 +4397,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/notifications-queue.png"
+        "text": "/system-design/chapter11/images/notifications-queue.png"
       },
       {
         "type": "h1",
@@ -4409,7 +4409,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/notification-events.png"
+        "text": "/system-design/chapter11/images/notification-events.png"
       },
       {
         "type": "h1",
@@ -4421,7 +4421,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter11/images/final-design.png"
+        "text": "/system-design/chapter11/images/final-design.png"
       },
       {
         "type": "body",
@@ -4582,7 +4582,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter12/images/feed-publishign.png"
+        "text": "/system-design/chapter12/images/feed-publishign.png"
       },
       {
         "type": "body",
@@ -4614,7 +4614,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter12/images/newsfeed-building.png"
+        "text": "/system-design/chapter12/images/newsfeed-building.png"
       },
       {
         "type": "body",
@@ -4650,7 +4650,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter12/images/feed-publishing-deep-dive.png"
+        "text": "/system-design/chapter12/images/feed-publishing-deep-dive.png"
       },
       {
         "type": "h1",
@@ -4698,7 +4698,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter12/images/fanout-service.png"
+        "text": "/system-design/chapter12/images/fanout-service.png"
       },
       {
         "type": "body",
@@ -4722,7 +4722,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter12/images/news-feed-retrieval-deep-dive.png"
+        "text": "/system-design/chapter12/images/news-feed-retrieval-deep-dive.png"
       },
       {
         "type": "body",
@@ -4762,7 +4762,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter12/images/cache-layer.png"
+        "text": "/system-design/chapter12/images/cache-layer.png"
       },
       {
         "type": "body",
@@ -4975,7 +4975,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/store-relay-message.png"
+        "text": "/system-design/chapter13/images/store-relay-message.png"
       },
       {
         "type": "body",
@@ -4991,7 +4991,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/polling.png"
+        "text": "/system-design/chapter13/images/polling.png"
       },
       {
         "type": "body",
@@ -5003,7 +5003,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/long-polling.png"
+        "text": "/system-design/chapter13/images/long-polling.png"
       },
       {
         "type": "body",
@@ -5027,7 +5027,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/web-sockets.png"
+        "text": "/system-design/chapter13/images/web-sockets.png"
       },
       {
         "type": "body",
@@ -5043,7 +5043,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/high-level-design.png"
+        "text": "/system-design/chapter13/images/high-level-design.png"
       },
       {
         "type": "h1",
@@ -5079,7 +5079,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/refined-high-level-design.png"
+        "text": "/system-design/chapter13/images/refined-high-level-design.png"
       },
       {
         "type": "body",
@@ -5155,7 +5155,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/one-on-one-chat-table.png"
+        "text": "/system-design/chapter13/images/one-on-one-chat-table.png"
       },
       {
         "type": "body",
@@ -5163,7 +5163,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/group-chat-table.png"
+        "text": "/system-design/chapter13/images/group-chat-table.png"
       },
       {
         "type": "body",
@@ -5195,7 +5195,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/service-discovery.png"
+        "text": "/system-design/chapter13/images/service-discovery.png"
       },
       {
         "type": "body",
@@ -5227,7 +5227,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/one-on-one-chat-flow.png"
+        "text": "/system-design/chapter13/images/one-on-one-chat-flow.png"
       },
       {
         "type": "body",
@@ -5263,7 +5263,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/message-sync.png"
+        "text": "/system-design/chapter13/images/message-sync.png"
       },
       {
         "type": "body",
@@ -5287,7 +5287,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/group-chat-flow.png"
+        "text": "/system-design/chapter13/images/group-chat-flow.png"
       },
       {
         "type": "body",
@@ -5303,7 +5303,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/recipient-group-chat.png"
+        "text": "/system-design/chapter13/images/recipient-group-chat.png"
       },
       {
         "type": "h1",
@@ -5315,7 +5315,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/user-login-online.png"
+        "text": "/system-design/chapter13/images/user-login-online.png"
       },
       {
         "type": "body",
@@ -5323,7 +5323,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/user-logout-offline.png"
+        "text": "/system-design/chapter13/images/user-logout-offline.png"
       },
       {
         "type": "body",
@@ -5331,7 +5331,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/user-heartbeat.png"
+        "text": "/system-design/chapter13/images/user-heartbeat.png"
       },
       {
         "type": "body",
@@ -5339,7 +5339,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter13/images/presence-status-fanout.png"
+        "text": "/system-design/chapter13/images/presence-status-fanout.png"
       },
       {
         "type": "body",
@@ -5424,7 +5424,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/google-search.png"
+        "text": "/system-design/chapter14/images/google-search.png"
       },
       {
         "type": "h1",
@@ -5556,7 +5556,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/frequency-table.png"
+        "text": "/system-design/chapter14/images/frequency-table.png"
       },
       {
         "type": "h1",
@@ -5568,7 +5568,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/query-service-example.png"
+        "text": "/system-design/chapter14/images/query-service-example.png"
       },
       {
         "type": "body",
@@ -5576,7 +5576,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/query-service-sql-query.png"
+        "text": "/system-design/chapter14/images/query-service-sql-query.png"
       },
       {
         "type": "body",
@@ -5620,7 +5620,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/trie-example-with-frequency.png"
+        "text": "/system-design/chapter14/images/trie-example-with-frequency.png"
       },
       {
         "type": "body",
@@ -5640,7 +5640,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/trie-algorithm.png"
+        "text": "/system-design/chapter14/images/trie-algorithm.png"
       },
       {
         "type": "body",
@@ -5664,7 +5664,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/caching-top-search-results.png"
+        "text": "/system-design/chapter14/images/caching-top-search-results.png"
       },
       {
         "type": "body",
@@ -5688,7 +5688,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/data-gathering-service.png"
+        "text": "/system-design/chapter14/images/data-gathering-service.png"
       },
       {
         "type": "body",
@@ -5696,7 +5696,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/analytics-log.png"
+        "text": "/system-design/chapter14/images/analytics-log.png"
       },
       {
         "type": "body",
@@ -5704,7 +5704,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/weekly-aggredated-data.png"
+        "text": "/system-design/chapter14/images/weekly-aggredated-data.png"
       },
       {
         "type": "body",
@@ -5720,7 +5720,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/trie-as-hashmap.png"
+        "text": "/system-design/chapter14/images/trie-as-hashmap.png"
       },
       {
         "type": "h1",
@@ -5732,7 +5732,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/query-service-improved.png"
+        "text": "/system-design/chapter14/images/query-service-improved.png"
       },
       {
         "type": "body",
@@ -5752,7 +5752,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/google-browser-caching.png"
+        "text": "/system-design/chapter14/images/google-browser-caching.png"
       },
       {
         "type": "h1",
@@ -5788,7 +5788,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/update-trie.png"
+        "text": "/system-design/chapter14/images/update-trie.png"
       },
       {
         "type": "h1",
@@ -5800,7 +5800,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/filter-layer.png"
+        "text": "/system-design/chapter14/images/filter-layer.png"
       },
       {
         "type": "body",
@@ -5816,7 +5816,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter14/images/sharding.png"
+        "text": "/system-design/chapter14/images/sharding.png"
       },
       {
         "type": "h1",
@@ -6013,7 +6013,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/high-level-sys-design.png"
+        "text": "/system-design/chapter15/images/high-level-sys-design.png"
       },
       {
         "type": "body",
@@ -6033,7 +6033,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/video-uploading-flow.png"
+        "text": "/system-design/chapter15/images/video-uploading-flow.png"
       },
       {
         "type": "body",
@@ -6081,7 +6081,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/video-uploading-flow.png"
+        "text": "/system-design/chapter15/images/video-uploading-flow.png"
       },
       {
         "type": "body",
@@ -6109,7 +6109,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/metadata-update-flow.png"
+        "text": "/system-design/chapter15/images/metadata-update-flow.png"
       },
       {
         "type": "body",
@@ -6125,7 +6125,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/video-streaming-flow.png"
+        "text": "/system-design/chapter15/images/video-streaming-flow.png"
       },
       {
         "type": "body",
@@ -6197,7 +6197,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/dag-model.png"
+        "text": "/system-design/chapter15/images/dag-model.png"
       },
       {
         "type": "body",
@@ -6221,7 +6221,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/video-encodings.png"
+        "text": "/system-design/chapter15/images/video-encodings.png"
       },
       {
         "type": "h1",
@@ -6229,7 +6229,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/video-transcoding-architecture.png"
+        "text": "/system-design/chapter15/images/video-transcoding-architecture.png"
       },
       {
         "type": "h1",
@@ -6237,7 +6237,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/preprocessor.png"
+        "text": "/system-design/chapter15/images/preprocessor.png"
       },
       {
         "type": "body",
@@ -6257,7 +6257,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/dag-config-example.png"
+        "text": "/system-design/chapter15/images/dag-config-example.png"
       },
       {
         "type": "h1",
@@ -6265,7 +6265,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/dag-scheduler.png"
+        "text": "/system-design/chapter15/images/dag-scheduler.png"
       },
       {
         "type": "body",
@@ -6273,7 +6273,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/dag-split-example.png"
+        "text": "/system-design/chapter15/images/dag-split-example.png"
       },
       {
         "type": "body",
@@ -6285,7 +6285,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/resource-manager.png"
+        "text": "/system-design/chapter15/images/resource-manager.png"
       },
       {
         "type": "body",
@@ -6293,7 +6293,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/resource-manager-deep-dive.png"
+        "text": "/system-design/chapter15/images/resource-manager-deep-dive.png"
       },
       {
         "type": "body",
@@ -6333,7 +6333,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/task-workers.png"
+        "text": "/system-design/chapter15/images/task-workers.png"
       },
       {
         "type": "body",
@@ -6341,7 +6341,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/task-workers-example.png"
+        "text": "/system-design/chapter15/images/task-workers-example.png"
       },
       {
         "type": "h1",
@@ -6349,7 +6349,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/temporary-storage.png"
+        "text": "/system-design/chapter15/images/temporary-storage.png"
       },
       {
         "type": "body",
@@ -6361,7 +6361,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/encoded-video.png"
+        "text": "/system-design/chapter15/images/encoded-video.png"
       },
       {
         "type": "body",
@@ -6385,7 +6385,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/video-uploading-optimization.png"
+        "text": "/system-design/chapter15/images/video-uploading-optimization.png"
       },
       {
         "type": "body",
@@ -6397,7 +6397,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/upload-centers.png"
+        "text": "/system-design/chapter15/images/upload-centers.png"
       },
       {
         "type": "body",
@@ -6413,7 +6413,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/no-parralelism-components.png"
+        "text": "/system-design/chapter15/images/no-parralelism-components.png"
       },
       {
         "type": "body",
@@ -6421,7 +6421,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/parralelism-components.png"
+        "text": "/system-design/chapter15/images/parralelism-components.png"
       },
       {
         "type": "h1",
@@ -6433,7 +6433,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/presigned-upload-url.png"
+        "text": "/system-design/chapter15/images/presigned-upload-url.png"
       },
       {
         "type": "body",
@@ -6481,7 +6481,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter15/images/cdn-optimization.png"
+        "text": "/system-design/chapter15/images/cdn-optimization.png"
       },
       {
         "type": "body",
@@ -6766,7 +6766,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/storage-example.png"
+        "text": "/system-design/chapter16/images/storage-example.png"
       },
       {
         "type": "h1",
@@ -6826,7 +6826,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/sharding-example.png"
+        "text": "/system-design/chapter16/images/sharding-example.png"
       },
       {
         "type": "body",
@@ -6834,7 +6834,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/amazon-s3.png"
+        "text": "/system-design/chapter16/images/amazon-s3.png"
       },
       {
         "type": "body",
@@ -6858,7 +6858,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/updated-simple-design.png"
+        "text": "/system-design/chapter16/images/updated-simple-design.png"
       },
       {
         "type": "h1",
@@ -6870,7 +6870,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/sync-conflict.png"
+        "text": "/system-design/chapter16/images/sync-conflict.png"
       },
       {
         "type": "body",
@@ -6878,7 +6878,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/sync-conflict-example.png"
+        "text": "/system-design/chapter16/images/sync-conflict-example.png"
       },
       {
         "type": "h1",
@@ -6886,7 +6886,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/high-level-design.png"
+        "text": "/system-design/chapter16/images/high-level-design.png"
       },
       {
         "type": "body",
@@ -6978,7 +6978,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/block-servers-deep-dive.png"
+        "text": "/system-design/chapter16/images/block-servers-deep-dive.png"
       },
       {
         "type": "body",
@@ -6986,7 +6986,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/delta-sync.png"
+        "text": "/system-design/chapter16/images/delta-sync.png"
       },
       {
         "type": "h1",
@@ -7014,7 +7014,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/metadata-db-deep-dive.png"
+        "text": "/system-design/chapter16/images/metadata-db-deep-dive.png"
       },
       {
         "type": "body",
@@ -7046,7 +7046,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/upload-flow.png"
+        "text": "/system-design/chapter16/images/upload-flow.png"
       },
       {
         "type": "body",
@@ -7106,7 +7106,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter16/images/download-flow.png"
+        "text": "/system-design/chapter16/images/download-flow.png"
       },
       {
         "type": "body",
@@ -7415,7 +7415,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/business-table.png"
+        "text": "/system-design/chapter17/images/business-table.png"
       },
       {
         "type": "body",
@@ -7431,7 +7431,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/high-level-deisgn.png"
+        "text": "/system-design/chapter17/images/high-level-deisgn.png"
       },
       {
         "type": "body",
@@ -7471,7 +7471,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/2d-search.png"
+        "text": "/system-design/chapter17/images/2d-search.png"
       },
       {
         "type": "body",
@@ -7487,7 +7487,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/2d-query-problem.png"
+        "text": "/system-design/chapter17/images/2d-query-problem.png"
       },
       {
         "type": "body",
@@ -7495,7 +7495,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/2d-index-options.png"
+        "text": "/system-design/chapter17/images/2d-index-options.png"
       },
       {
         "type": "body",
@@ -7511,7 +7511,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/evenly-divided-grid.png"
+        "text": "/system-design/chapter17/images/evenly-divided-grid.png"
       },
       {
         "type": "body",
@@ -7527,7 +7527,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/geohash-example.png"
+        "text": "/system-design/chapter17/images/geohash-example.png"
       },
       {
         "type": "body",
@@ -7543,7 +7543,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/geohash-precision.png"
+        "text": "/system-design/chapter17/images/geohash-precision.png"
       },
       {
         "type": "body",
@@ -7551,7 +7551,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/geohash-substrint.png"
+        "text": "/system-design/chapter17/images/geohash-substrint.png"
       },
       {
         "type": "body",
@@ -7559,7 +7559,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/boundary-issue-geohash.png"
+        "text": "/system-design/chapter17/images/boundary-issue-geohash.png"
       },
       {
         "type": "body",
@@ -7567,7 +7567,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/geohash-boundary-issue-2.png"
+        "text": "/system-design/chapter17/images/geohash-boundary-issue-2.png"
       },
       {
         "type": "body",
@@ -7575,7 +7575,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/geohash-expansion.png"
+        "text": "/system-design/chapter17/images/geohash-expansion.png"
       },
       {
         "type": "body",
@@ -7591,7 +7591,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/quadtree-example.png"
+        "text": "/system-design/chapter17/images/quadtree-example.png"
       },
       {
         "type": "body",
@@ -7599,7 +7599,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/quadtree-concept.png"
+        "text": "/system-design/chapter17/images/quadtree-concept.png"
       },
       {
         "type": "body",
@@ -7631,7 +7631,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/denver-quadtree.png"
+        "text": "/system-design/chapter17/images/denver-quadtree.png"
       },
       {
         "type": "h1",
@@ -7643,7 +7643,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/hilbert-curbe.png"
+        "text": "/system-design/chapter17/images/hilbert-curbe.png"
       },
       {
         "type": "body",
@@ -7651,7 +7651,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/geofence-example.png"
+        "text": "/system-design/chapter17/images/geofence-example.png"
       },
       {
         "type": "body",
@@ -7667,7 +7667,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/company-adoptions.png"
+        "text": "/system-design/chapter17/images/company-adoptions.png"
       },
       {
         "type": "body",
@@ -7723,7 +7723,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/geohash-table-example.png"
+        "text": "/system-design/chapter17/images/geohash-table-example.png"
       },
       {
         "type": "body",
@@ -7763,7 +7763,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/cross-dc-deployment.png"
+        "text": "/system-design/chapter17/images/cross-dc-deployment.png"
       },
       {
         "type": "body",
@@ -7783,7 +7783,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter17/images/final-design.png"
+        "text": "/system-design/chapter17/images/final-design.png"
       },
       {
         "type": "body",
@@ -7984,7 +7984,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/fan-out-backend.png"
+        "text": "/system-design/chapter18/images/fan-out-backend.png"
       },
       {
         "type": "body",
@@ -8004,7 +8004,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/simple-high-level-design.png"
+        "text": "/system-design/chapter18/images/simple-high-level-design.png"
       },
       {
         "type": "body",
@@ -8036,7 +8036,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/redis-pubsub-usage.png"
+        "text": "/system-design/chapter18/images/redis-pubsub-usage.png"
       },
       {
         "type": "body",
@@ -8052,7 +8052,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/periodic-location-update.png"
+        "text": "/system-design/chapter18/images/periodic-location-update.png"
       },
       {
         "type": "body",
@@ -8084,7 +8084,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/detailed-periodic-location-update.png"
+        "text": "/system-design/chapter18/images/detailed-periodic-location-update.png"
       },
       {
         "type": "body",
@@ -8176,7 +8176,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/channel-distribution-data.png"
+        "text": "/system-design/chapter18/images/channel-distribution-data.png"
       },
       {
         "type": "body",
@@ -8196,7 +8196,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/consistent-hashing.png"
+        "text": "/system-design/chapter18/images/consistent-hashing.png"
       },
       {
         "type": "h1",
@@ -8224,7 +8224,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/geohash-pubsub.png"
+        "text": "/system-design/chapter18/images/geohash-pubsub.png"
       },
       {
         "type": "body",
@@ -8232,7 +8232,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/location-updates-geohash.png"
+        "text": "/system-design/chapter18/images/location-updates-geohash.png"
       },
       {
         "type": "body",
@@ -8240,7 +8240,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter18/images/geohash-borders.png"
+        "text": "/system-design/chapter18/images/geohash-borders.png"
       },
       {
         "type": "h1",
@@ -8397,7 +8397,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/partitioning-system.png"
+        "text": "/system-design/chapter19/images/partitioning-system.png"
       },
       {
         "type": "h1",
@@ -8409,7 +8409,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/map-projections.png"
+        "text": "/system-design/chapter19/images/map-projections.png"
       },
       {
         "type": "body",
@@ -8433,7 +8433,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/geohashing.png"
+        "text": "/system-design/chapter19/images/geohashing.png"
       },
       {
         "type": "h1",
@@ -8453,7 +8453,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/road-representation.png"
+        "text": "/system-design/chapter19/images/road-representation.png"
       },
       {
         "type": "body",
@@ -8461,7 +8461,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/routing-tiles.png"
+        "text": "/system-design/chapter19/images/routing-tiles.png"
       },
       {
         "type": "body",
@@ -8469,7 +8469,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/map-routing-hierarchical.png"
+        "text": "/system-design/chapter19/images/map-routing-hierarchical.png"
       },
       {
         "type": "body",
@@ -8493,7 +8493,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/high-level-design.png"
+        "text": "/system-design/chapter19/images/high-level-design.png"
       },
       {
         "type": "h1",
@@ -8501,7 +8501,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/location-service.png"
+        "text": "/system-design/chapter19/images/location-service.png"
       },
       {
         "type": "body",
@@ -8517,7 +8517,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/location-update-batches.png"
+        "text": "/system-design/chapter19/images/location-update-batches.png"
       },
       {
         "type": "body",
@@ -8569,7 +8569,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/static-map-tiles.png"
+        "text": "/system-design/chapter19/images/static-map-tiles.png"
       },
       {
         "type": "body",
@@ -8577,7 +8577,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/cdn-vs-no-cdn.png"
+        "text": "/system-design/chapter19/images/cdn-vs-no-cdn.png"
       },
       {
         "type": "body",
@@ -8593,7 +8593,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/map-tile-url-calculation.png"
+        "text": "/system-design/chapter19/images/map-tile-url-calculation.png"
       },
       {
         "type": "h1",
@@ -8625,7 +8625,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/user-location-data-torw.png"
+        "text": "/system-design/chapter19/images/user-location-data-torw.png"
       },
       {
         "type": "h1",
@@ -8645,7 +8645,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/precomputed-map-tile-image.png"
+        "text": "/system-design/chapter19/images/precomputed-map-tile-image.png"
       },
       {
         "type": "h1",
@@ -8661,7 +8661,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/location-service-diagram.png"
+        "text": "/system-design/chapter19/images/location-service-diagram.png"
       },
       {
         "type": "body",
@@ -8669,7 +8669,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/user-location-row-example.png"
+        "text": "/system-design/chapter19/images/user-location-row-example.png"
       },
       {
         "type": "body",
@@ -8681,7 +8681,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/location-update-streaming.png"
+        "text": "/system-design/chapter19/images/location-update-streaming.png"
       },
       {
         "type": "h1",
@@ -8693,7 +8693,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/zoom-level-increases.png"
+        "text": "/system-design/chapter19/images/zoom-level-increases.png"
       },
       {
         "type": "body",
@@ -8709,7 +8709,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/navigation-service.png"
+        "text": "/system-design/chapter19/images/navigation-service.png"
       },
       {
         "type": "body",
@@ -8741,7 +8741,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/shortest-path-service.png"
+        "text": "/system-design/chapter19/images/shortest-path-service.png"
       },
       {
         "type": "body",
@@ -8769,7 +8769,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/adaptive-eta-data-storage.png"
+        "text": "/system-design/chapter19/images/adaptive-eta-data-storage.png"
       },
       {
         "type": "body",
@@ -8805,7 +8805,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter19/images/final-design.png"
+        "text": "/system-design/chapter19/images/final-design.png"
       },
       {
         "type": "body",
@@ -8958,7 +8958,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/message-queue-components.png"
+        "text": "/system-design/chapter20/images/message-queue-components.png"
       },
       {
         "type": "body",
@@ -8986,7 +8986,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/point-to-point-model.png"
+        "text": "/system-design/chapter20/images/point-to-point-model.png"
       },
       {
         "type": "body",
@@ -9006,7 +9006,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/publish-subscribe-model.png"
+        "text": "/system-design/chapter20/images/publish-subscribe-model.png"
       },
       {
         "type": "body",
@@ -9026,7 +9026,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/partitions.png"
+        "text": "/system-design/chapter20/images/partitions.png"
       },
       {
         "type": "body",
@@ -9066,7 +9066,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/consumer-groups.png"
+        "text": "/system-design/chapter20/images/consumer-groups.png"
       },
       {
         "type": "body",
@@ -9094,7 +9094,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/high-level-architecture.png"
+        "text": "/system-design/chapter20/images/high-level-architecture.png"
       },
       {
         "type": "body",
@@ -9178,7 +9178,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/wal-example.png"
+        "text": "/system-design/chapter20/images/wal-example.png"
       },
       {
         "type": "body",
@@ -9194,7 +9194,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/message-structure.png"
+        "text": "/system-design/chapter20/images/message-structure.png"
       },
       {
         "type": "body",
@@ -9258,7 +9258,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/routing-layer.png"
+        "text": "/system-design/chapter20/images/routing-layer.png"
       },
       {
         "type": "body",
@@ -9286,7 +9286,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/routing-layer-producer.png"
+        "text": "/system-design/chapter20/images/routing-layer-producer.png"
       },
       {
         "type": "body",
@@ -9302,7 +9302,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/batch-size-throughput-vs-latency.png"
+        "text": "/system-design/chapter20/images/batch-size-throughput-vs-latency.png"
       },
       {
         "type": "body",
@@ -9322,7 +9322,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/consumer-example.png"
+        "text": "/system-design/chapter20/images/consumer-example.png"
       },
       {
         "type": "body",
@@ -9362,7 +9362,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/consumer-flow.png"
+        "text": "/system-design/chapter20/images/consumer-flow.png"
       },
       {
         "type": "body",
@@ -9402,7 +9402,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/consumer-rebalancing.png"
+        "text": "/system-design/chapter20/images/consumer-rebalancing.png"
       },
       {
         "type": "body",
@@ -9418,7 +9418,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/consumer-rebalance-example.png"
+        "text": "/system-design/chapter20/images/consumer-rebalance-example.png"
       },
       {
         "type": "body",
@@ -9426,7 +9426,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/consumer-join-group-usecase.png"
+        "text": "/system-design/chapter20/images/consumer-join-group-usecase.png"
       },
       {
         "type": "body",
@@ -9454,7 +9454,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/consumer-leaves-group-usecase.png"
+        "text": "/system-design/chapter20/images/consumer-leaves-group-usecase.png"
       },
       {
         "type": "body",
@@ -9474,7 +9474,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/consumer-no-heartbeat-usecase.png"
+        "text": "/system-design/chapter20/images/consumer-no-heartbeat-usecase.png"
       },
       {
         "type": "h1",
@@ -9486,7 +9486,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/state-storage.png"
+        "text": "/system-design/chapter20/images/state-storage.png"
       },
       {
         "type": "body",
@@ -9526,7 +9526,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/zookeeper.png"
+        "text": "/system-design/chapter20/images/zookeeper.png"
       },
       {
         "type": "body",
@@ -9542,7 +9542,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/replication-example.png"
+        "text": "/system-design/chapter20/images/replication-example.png"
       },
       {
         "type": "body",
@@ -9578,7 +9578,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/in-sync-replicas-example.png"
+        "text": "/system-design/chapter20/images/in-sync-replicas-example.png"
       },
       {
         "type": "body",
@@ -9610,7 +9610,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/ack-all.png"
+        "text": "/system-design/chapter20/images/ack-all.png"
       },
       {
         "type": "body",
@@ -9618,7 +9618,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/ack-1.png"
+        "text": "/system-design/chapter20/images/ack-1.png"
       },
       {
         "type": "body",
@@ -9626,7 +9626,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/ack-0.png"
+        "text": "/system-design/chapter20/images/ack-0.png"
       },
       {
         "type": "body",
@@ -9686,7 +9686,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/broker-failure-recovery.png"
+        "text": "/system-design/chapter20/images/broker-failure-recovery.png"
       },
       {
         "type": "body",
@@ -9714,7 +9714,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/broker-replica-redistribution.png"
+        "text": "/system-design/chapter20/images/broker-replica-redistribution.png"
       },
       {
         "type": "body",
@@ -9734,7 +9734,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/partition-exmaple.png"
+        "text": "/system-design/chapter20/images/partition-exmaple.png"
       },
       {
         "type": "body",
@@ -9742,7 +9742,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/partition-decrease.png"
+        "text": "/system-design/chapter20/images/partition-decrease.png"
       },
       {
         "type": "body",
@@ -9782,7 +9782,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/at-most-once.png"
+        "text": "/system-design/chapter20/images/at-most-once.png"
       },
       {
         "type": "body",
@@ -9802,7 +9802,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/at-least-once.png"
+        "text": "/system-design/chapter20/images/at-least-once.png"
       },
       {
         "type": "body",
@@ -9830,7 +9830,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/exactly-once.png"
+        "text": "/system-design/chapter20/images/exactly-once.png"
       },
       {
         "type": "h1",
@@ -9874,7 +9874,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/message-filtering.png"
+        "text": "/system-design/chapter20/images/message-filtering.png"
       },
       {
         "type": "h1",
@@ -9886,7 +9886,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter20/images/delayed-message-implementation.png"
+        "text": "/system-design/chapter20/images/delayed-message-implementation.png"
       },
       {
         "type": "body",
@@ -10087,7 +10087,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/metrics-monitoring-core-components.png"
+        "text": "/system-design/chapter21/images/metrics-monitoring-core-components.png"
       },
       {
         "type": "body",
@@ -10119,7 +10119,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/metrics-example-1.png"
+        "text": "/system-design/chapter21/images/metrics-example-1.png"
       },
       {
         "type": "body",
@@ -10127,7 +10127,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/metrics-example-1-data.png"
+        "text": "/system-design/chapter21/images/metrics-example-1-data.png"
       },
       {
         "type": "body",
@@ -10143,7 +10143,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/time-series-data-example.png"
+        "text": "/system-design/chapter21/images/time-series-data-example.png"
       },
       {
         "type": "body",
@@ -10151,7 +10151,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/time-series-data-viz.png"
+        "text": "/system-design/chapter21/images/time-series-data-viz.png"
       },
       {
         "type": "body",
@@ -10187,7 +10187,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/influxdb-scale.png"
+        "text": "/system-design/chapter21/images/influxdb-scale.png"
       },
       {
         "type": "body",
@@ -10199,7 +10199,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/high-level-design.png"
+        "text": "/system-design/chapter21/images/high-level-design.png"
       },
       {
         "type": "body",
@@ -10243,7 +10243,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/metrics-collection.png"
+        "text": "/system-design/chapter21/images/metrics-collection.png"
       },
       {
         "type": "body",
@@ -10251,7 +10251,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/pull-model-example.png"
+        "text": "/system-design/chapter21/images/pull-model-example.png"
       },
       {
         "type": "body",
@@ -10259,7 +10259,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/service-discovery-example.png"
+        "text": "/system-design/chapter21/images/service-discovery-example.png"
       },
       {
         "type": "body",
@@ -10267,7 +10267,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/metrics-collection-flow.png"
+        "text": "/system-design/chapter21/images/metrics-collection-flow.png"
       },
       {
         "type": "body",
@@ -10287,7 +10287,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/consistent-hash-ring.png"
+        "text": "/system-design/chapter21/images/consistent-hash-ring.png"
       },
       {
         "type": "body",
@@ -10295,7 +10295,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/push-model-example.png"
+        "text": "/system-design/chapter21/images/push-model-example.png"
       },
       {
         "type": "body",
@@ -10303,7 +10303,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/metrics-collector-agent.png"
+        "text": "/system-design/chapter21/images/metrics-collector-agent.png"
       },
       {
         "type": "body",
@@ -10323,7 +10323,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/metrics-transmission-pipeline.png"
+        "text": "/system-design/chapter21/images/metrics-transmission-pipeline.png"
       },
       {
         "type": "body",
@@ -10331,7 +10331,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/queuing-mechanism.png"
+        "text": "/system-design/chapter21/images/queuing-mechanism.png"
       },
       {
         "type": "body",
@@ -10355,7 +10355,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/metrics-collection-kafka.png"
+        "text": "/system-design/chapter21/images/metrics-collection-kafka.png"
       },
       {
         "type": "body",
@@ -10391,7 +10391,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/cache-layer-query-service.png"
+        "text": "/system-design/chapter21/images/cache-layer-query-service.png"
       },
       {
         "type": "body",
@@ -10419,7 +10419,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/double-delta-encoding.png"
+        "text": "/system-design/chapter21/images/double-delta-encoding.png"
       },
       {
         "type": "body",
@@ -10443,7 +10443,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/alerting-system.png"
+        "text": "/system-design/chapter21/images/alerting-system.png"
       },
       {
         "type": "body",
@@ -10479,7 +10479,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/grafana-dashboard.png"
+        "text": "/system-design/chapter21/images/grafana-dashboard.png"
       },
       {
         "type": "body",
@@ -10495,7 +10495,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter21/images/final-design.png"
+        "text": "/system-design/chapter21/images/final-design.png"
       }
     ]
   },
@@ -10516,7 +10516,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/digital-advertising-example.png"
+        "text": "/system-design/chapter22/images/digital-advertising-example.png"
       },
       {
         "type": "body",
@@ -10796,7 +10796,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/high-level-design-1.png"
+        "text": "/system-design/chapter22/images/high-level-design-1.png"
       },
       {
         "type": "body",
@@ -10804,7 +10804,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/high-level-design-2.png"
+        "text": "/system-design/chapter22/images/high-level-design-2.png"
       },
       {
         "type": "body",
@@ -10812,7 +10812,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/atomic-commit.png"
+        "text": "/system-design/chapter22/images/atomic-commit.png"
       },
       {
         "type": "body",
@@ -10820,11 +10820,11 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/ad-count-map-reduce.png"
+        "text": "/system-design/chapter22/images/ad-count-map-reduce.png"
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/top-100-map-reduce.png"
+        "text": "/system-design/chapter22/images/top-100-map-reduce.png"
       },
       {
         "type": "body",
@@ -10832,7 +10832,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/map-node.png"
+        "text": "/system-design/chapter22/images/map-node.png"
       },
       {
         "type": "body",
@@ -10840,7 +10840,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/reduce-node.png"
+        "text": "/system-design/chapter22/images/reduce-node.png"
       },
       {
         "type": "body",
@@ -10848,7 +10848,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/use-case-1.png"
+        "text": "/system-design/chapter22/images/use-case-1.png"
       },
       {
         "type": "body",
@@ -10856,7 +10856,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/use-case-2.png"
+        "text": "/system-design/chapter22/images/use-case-2.png"
       },
       {
         "type": "body",
@@ -10896,7 +10896,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/lambda-architecture.png"
+        "text": "/system-design/chapter22/images/lambda-architecture.png"
       },
       {
         "type": "body",
@@ -10904,7 +10904,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/kappa-architecture.png"
+        "text": "/system-design/chapter22/images/kappa-architecture.png"
       },
       {
         "type": "body",
@@ -10924,7 +10924,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/recalculation-example.png"
+        "text": "/system-design/chapter22/images/recalculation-example.png"
       },
       {
         "type": "h1",
@@ -10952,7 +10952,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/watermark-technique.png"
+        "text": "/system-design/chapter22/images/watermark-technique.png"
       },
       {
         "type": "body",
@@ -10960,7 +10960,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/watermark-2.png"
+        "text": "/system-design/chapter22/images/watermark-2.png"
       },
       {
         "type": "body",
@@ -10996,7 +10996,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/tumbling-window.png"
+        "text": "/system-design/chapter22/images/tumbling-window.png"
       },
       {
         "type": "body",
@@ -11004,7 +11004,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/sliding-window.png"
+        "text": "/system-design/chapter22/images/sliding-window.png"
       },
       {
         "type": "h1",
@@ -11040,7 +11040,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/data-duplication-example.png"
+        "text": "/system-design/chapter22/images/data-duplication-example.png"
       },
       {
         "type": "body",
@@ -11048,7 +11048,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/data-duplication-example-2.png"
+        "text": "/system-design/chapter22/images/data-duplication-example-2.png"
       },
       {
         "type": "body",
@@ -11056,7 +11056,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/data-duplication-example-3.png"
+        "text": "/system-design/chapter22/images/data-duplication-example-3.png"
       },
       {
         "type": "body",
@@ -11092,7 +11092,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/scale-consumers.png"
+        "text": "/system-design/chapter22/images/scale-consumers.png"
       },
       {
         "type": "body",
@@ -11100,7 +11100,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/aggregation-service-scaling.png"
+        "text": "/system-design/chapter22/images/aggregation-service-scaling.png"
       },
       {
         "type": "body",
@@ -11124,7 +11124,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/multi-threading-example.png"
+        "text": "/system-design/chapter22/images/multi-threading-example.png"
       },
       {
         "type": "body",
@@ -11144,7 +11144,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/cassandra-scalability.png"
+        "text": "/system-design/chapter22/images/cassandra-scalability.png"
       },
       {
         "type": "body",
@@ -11152,7 +11152,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/hotspot-issue.png"
+        "text": "/system-design/chapter22/images/hotspot-issue.png"
       },
       {
         "type": "body",
@@ -11188,7 +11188,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/fault-tolerance-example.png"
+        "text": "/system-design/chapter22/images/fault-tolerance-example.png"
       },
       {
         "type": "body",
@@ -11196,7 +11196,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/fault-tolerance-recovery-example.png"
+        "text": "/system-design/chapter22/images/fault-tolerance-recovery-example.png"
       },
       {
         "type": "h1",
@@ -11220,7 +11220,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/reconciliation-flow.png"
+        "text": "/system-design/chapter22/images/reconciliation-flow.png"
       },
       {
         "type": "h1",
@@ -11232,7 +11232,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter22/images/alternative-design.png"
+        "text": "/system-design/chapter22/images/alternative-design.png"
       },
       {
         "type": "h1",
@@ -11393,7 +11393,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/qps-estimation.png"
+        "text": "/system-design/chapter23/images/qps-estimation.png"
       },
       {
         "type": "h1",
@@ -11509,7 +11509,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/schema-design.png"
+        "text": "/system-design/chapter23/images/schema-design.png"
       },
       {
         "type": "body",
@@ -11517,7 +11517,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/status-state-machine.png"
+        "text": "/system-design/chapter23/images/status-state-machine.png"
       },
       {
         "type": "body",
@@ -11533,7 +11533,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/high-level-design.png"
+        "text": "/system-design/chapter23/images/high-level-design.png"
       },
       {
         "type": "body",
@@ -11617,7 +11617,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/updated-schema.png"
+        "text": "/system-design/chapter23/images/updated-schema.png"
       },
       {
         "type": "body",
@@ -11709,7 +11709,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/double-booking-single-user.png"
+        "text": "/system-design/chapter23/images/double-booking-single-user.png"
       },
       {
         "type": "body",
@@ -11725,7 +11725,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/idempotency.png"
+        "text": "/system-design/chapter23/images/idempotency.png"
       },
       {
         "type": "body",
@@ -11749,7 +11749,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/unique-constraint-violation.png"
+        "text": "/system-design/chapter23/images/unique-constraint-violation.png"
       },
       {
         "type": "body",
@@ -11757,7 +11757,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/double-booking-multiple-users.png"
+        "text": "/system-design/chapter23/images/double-booking-multiple-users.png"
       },
       {
         "type": "body",
@@ -11813,7 +11813,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/pessimistic-locking.png"
+        "text": "/system-design/chapter23/images/pessimistic-locking.png"
       },
       {
         "type": "body",
@@ -11849,7 +11849,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/optimistic-locking.png"
+        "text": "/system-design/chapter23/images/optimistic-locking.png"
       },
       {
         "type": "body",
@@ -11897,7 +11897,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/database-constraint.png"
+        "text": "/system-design/chapter23/images/database-constraint.png"
       },
       {
         "type": "body",
@@ -11933,7 +11933,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/database-sharding.png"
+        "text": "/system-design/chapter23/images/database-sharding.png"
       },
       {
         "type": "body",
@@ -11941,7 +11941,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/inventory-cache.png"
+        "text": "/system-design/chapter23/images/inventory-cache.png"
       },
       {
         "type": "body",
@@ -11977,7 +11977,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/microservices-vs-monolith.png"
+        "text": "/system-design/chapter23/images/microservices-vs-monolith.png"
       },
       {
         "type": "body",
@@ -11985,7 +11985,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/atomicity-monolith.png"
+        "text": "/system-design/chapter23/images/atomicity-monolith.png"
       },
       {
         "type": "body",
@@ -11993,7 +11993,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter23/images/microservice-non-atomic-operation.png"
+        "text": "/system-design/chapter23/images/microservice-non-atomic-operation.png"
       },
       {
         "type": "body",
@@ -12158,7 +12158,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/dns-lookup.png"
+        "text": "/system-design/chapter24/images/dns-lookup.png"
       },
       {
         "type": "body",
@@ -12174,7 +12174,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/traditional-mail-server.png"
+        "text": "/system-design/chapter24/images/traditional-mail-server.png"
       },
       {
         "type": "body",
@@ -12190,7 +12190,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/local-dir-storage.png"
+        "text": "/system-design/chapter24/images/local-dir-storage.png"
       },
       {
         "type": "body",
@@ -12234,7 +12234,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/high-level-architecture.png"
+        "text": "/system-design/chapter24/images/high-level-architecture.png"
       },
       {
         "type": "body",
@@ -12266,7 +12266,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/email-sending-flow.png"
+        "text": "/system-design/chapter24/images/email-sending-flow.png"
       },
       {
         "type": "body",
@@ -12306,7 +12306,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/email-receiving-flkow.png"
+        "text": "/system-design/chapter24/images/email-receiving-flkow.png"
       },
       {
         "type": "body",
@@ -12402,7 +12402,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/legend.png"
+        "text": "/system-design/chapter24/images/legend.png"
       },
       {
         "type": "body",
@@ -12410,7 +12410,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/folders-table.png"
+        "text": "/system-design/chapter24/images/folders-table.png"
       },
       {
         "type": "body",
@@ -12418,7 +12418,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/emails-table.png"
+        "text": "/system-design/chapter24/images/emails-table.png"
       },
       {
         "type": "body",
@@ -12426,7 +12426,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/attachments.png"
+        "text": "/system-design/chapter24/images/attachments.png"
       },
       {
         "type": "body",
@@ -12434,7 +12434,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/read-unread-emails.png"
+        "text": "/system-design/chapter24/images/read-unread-emails.png"
       },
       {
         "type": "body",
@@ -12490,7 +12490,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/elasticsearch.png"
+        "text": "/system-design/chapter24/images/elasticsearch.png"
       },
       {
         "type": "body",
@@ -12498,7 +12498,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/lsm-tree.png"
+        "text": "/system-design/chapter24/images/lsm-tree.png"
       },
       {
         "type": "body",
@@ -12526,7 +12526,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter24/images/multi-dc-example.png"
+        "text": "/system-design/chapter24/images/multi-dc-example.png"
       },
       {
         "type": "h1",
@@ -12583,7 +12583,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/storage-comparison.png"
+        "text": "/system-design/chapter25/images/storage-comparison.png"
       },
       {
         "type": "body",
@@ -12723,7 +12723,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/object-store-vs-unix.png"
+        "text": "/system-design/chapter25/images/object-store-vs-unix.png"
       },
       {
         "type": "body",
@@ -12731,7 +12731,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/bucket-and-object.png"
+        "text": "/system-design/chapter25/images/bucket-and-object.png"
       },
       {
         "type": "h1",
@@ -12739,7 +12739,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/high-level-design.png"
+        "text": "/system-design/chapter25/images/high-level-design.png"
       },
       {
         "type": "body",
@@ -12767,7 +12767,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/uploading-object.png"
+        "text": "/system-design/chapter25/images/uploading-object.png"
       },
       {
         "type": "body",
@@ -12815,7 +12815,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/download-object.png"
+        "text": "/system-design/chapter25/images/download-object.png"
       },
       {
         "type": "body",
@@ -12847,7 +12847,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/data-store-interactions.png"
+        "text": "/system-design/chapter25/images/data-store-interactions.png"
       },
       {
         "type": "body",
@@ -12855,7 +12855,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/data-store-main-components.png"
+        "text": "/system-design/chapter25/images/data-store-main-components.png"
       },
       {
         "type": "body",
@@ -12875,7 +12875,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/virtual-cluster-map.png"
+        "text": "/system-design/chapter25/images/virtual-cluster-map.png"
       },
       {
         "type": "body",
@@ -12895,7 +12895,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/data-persistence-flow.png"
+        "text": "/system-design/chapter25/images/data-persistence-flow.png"
       },
       {
         "type": "body",
@@ -12923,7 +12923,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/consistency-vs-latency.png"
+        "text": "/system-design/chapter25/images/consistency-vs-latency.png"
       },
       {
         "type": "h1",
@@ -12943,7 +12943,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/wal-optimization.png"
+        "text": "/system-design/chapter25/images/wal-optimization.png"
       },
       {
         "type": "body",
@@ -12987,7 +12987,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/updated-data-persistence-flow.png"
+        "text": "/system-design/chapter25/images/updated-data-persistence-flow.png"
       },
       {
         "type": "body",
@@ -13011,7 +13011,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/failure-domain-isolation.png"
+        "text": "/system-design/chapter25/images/failure-domain-isolation.png"
       },
       {
         "type": "body",
@@ -13019,7 +13019,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/erasure-coding.png"
+        "text": "/system-design/chapter25/images/erasure-coding.png"
       },
       {
         "type": "body",
@@ -13027,7 +13027,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/erasure-coding-across-failure-domains.png"
+        "text": "/system-design/chapter25/images/erasure-coding-across-failure-domains.png"
       },
       {
         "type": "body",
@@ -13035,7 +13035,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/erasure-coding-vs-replication.png"
+        "text": "/system-design/chapter25/images/erasure-coding-vs-replication.png"
       },
       {
         "type": "body",
@@ -13063,7 +13063,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/checksums-for-correctness.png"
+        "text": "/system-design/chapter25/images/checksums-for-correctness.png"
       },
       {
         "type": "body",
@@ -13079,7 +13079,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/metadata-data-model.png"
+        "text": "/system-design/chapter25/images/metadata-data-model.png"
       },
       {
         "type": "body",
@@ -13135,7 +13135,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/object-versioning.png"
+        "text": "/system-design/chapter25/images/object-versioning.png"
       },
       {
         "type": "body",
@@ -13143,7 +13143,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/deleting-versioned-object.png"
+        "text": "/system-design/chapter25/images/deleting-versioned-object.png"
       },
       {
         "type": "h1",
@@ -13155,7 +13155,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/multipart-upload.png"
+        "text": "/system-design/chapter25/images/multipart-upload.png"
       },
       {
         "type": "body",
@@ -13215,7 +13215,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter25/images/compaction.png"
+        "text": "/system-design/chapter25/images/compaction.png"
       },
       {
         "type": "h1",
@@ -13260,7 +13260,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/leaderboard.png"
+        "text": "/system-design/chapter26/images/leaderboard.png"
       },
       {
         "type": "h1",
@@ -13416,7 +13416,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/high-level-architecture.png"
+        "text": "/system-design/chapter26/images/high-level-architecture.png"
       },
       {
         "type": "body",
@@ -13436,7 +13436,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/alternative-design.png"
+        "text": "/system-design/chapter26/images/alternative-design.png"
       },
       {
         "type": "body",
@@ -13444,7 +13444,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/message-queue-based-comm.png"
+        "text": "/system-design/chapter26/images/message-queue-based-comm.png"
       },
       {
         "type": "h1",
@@ -13464,7 +13464,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/leaderboard-table.png"
+        "text": "/system-design/chapter26/images/leaderboard-table.png"
       },
       {
         "type": "body",
@@ -13472,7 +13472,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/user-wins-point.png"
+        "text": "/system-design/chapter26/images/user-wins-point.png"
       },
       {
         "type": "body",
@@ -13496,7 +13496,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/find-leaderboard-position.png"
+        "text": "/system-design/chapter26/images/find-leaderboard-position.png"
       },
       {
         "type": "body",
@@ -13528,7 +13528,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/sorted-set.png"
+        "text": "/system-design/chapter26/images/sorted-set.png"
       },
       {
         "type": "body",
@@ -13544,7 +13544,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/skip-list.png"
+        "text": "/system-design/chapter26/images/skip-list.png"
       },
       {
         "type": "body",
@@ -13552,7 +13552,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/skip-list-performance.png"
+        "text": "/system-design/chapter26/images/skip-list-performance.png"
       },
       {
         "type": "body",
@@ -13608,7 +13608,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/leaderboard-position-of-user.png"
+        "text": "/system-design/chapter26/images/leaderboard-position-of-user.png"
       },
       {
         "type": "body",
@@ -13668,7 +13668,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/manage-services-ourselves.png"
+        "text": "/system-design/chapter26/images/manage-services-ourselves.png"
       },
       {
         "type": "body",
@@ -13676,7 +13676,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/api-gateway-mapping.png"
+        "text": "/system-design/chapter26/images/api-gateway-mapping.png"
       },
       {
         "type": "body",
@@ -13684,7 +13684,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/user-scoring-point-lambda.png"
+        "text": "/system-design/chapter26/images/user-scoring-point-lambda.png"
       },
       {
         "type": "body",
@@ -13692,7 +13692,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/user-retrieve-leaderboard.png"
+        "text": "/system-design/chapter26/images/user-retrieve-leaderboard.png"
       },
       {
         "type": "body",
@@ -13708,7 +13708,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/range-partition.png"
+        "text": "/system-design/chapter26/images/range-partition.png"
       },
       {
         "type": "body",
@@ -13716,7 +13716,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/hash-partition.png"
+        "text": "/system-design/chapter26/images/hash-partition.png"
       },
       {
         "type": "body",
@@ -13724,7 +13724,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/top-10-players-calculation.png"
+        "text": "/system-design/chapter26/images/top-10-players-calculation.png"
       },
       {
         "type": "body",
@@ -13768,7 +13768,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/dynamo-db.png"
+        "text": "/system-design/chapter26/images/dynamo-db.png"
       },
       {
         "type": "body",
@@ -13776,7 +13776,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/chess-game-leaderboard-table-1.png"
+        "text": "/system-design/chapter26/images/chess-game-leaderboard-table-1.png"
       },
       {
         "type": "body",
@@ -13784,7 +13784,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/chess-game-leaderboard-table-2.png"
+        "text": "/system-design/chapter26/images/chess-game-leaderboard-table-2.png"
       },
       {
         "type": "body",
@@ -13792,7 +13792,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/chess-game-leaderboard-table-3.png"
+        "text": "/system-design/chapter26/images/chess-game-leaderboard-table-3.png"
       },
       {
         "type": "body",
@@ -13808,7 +13808,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter26/images/scatter-gather-2.png"
+        "text": "/system-design/chapter26/images/scatter-gather-2.png"
       },
       {
         "type": "body",
@@ -13957,7 +13957,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/high-level-flow.png"
+        "text": "/system-design/chapter27/images/high-level-flow.png"
       },
       {
         "type": "h1",
@@ -13969,7 +13969,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/payin-flow-high-level.png"
+        "text": "/system-design/chapter27/images/payin-flow-high-level.png"
       },
       {
         "type": "body",
@@ -14173,7 +14173,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/hosted-payment-page.png"
+        "text": "/system-design/chapter27/images/hosted-payment-page.png"
       },
       {
         "type": "h1",
@@ -14221,7 +14221,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/hosted-payment-page-workflow.png"
+        "text": "/system-design/chapter27/images/hosted-payment-page-workflow.png"
       },
       {
         "type": "body",
@@ -14273,7 +14273,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/settlement-report.png"
+        "text": "/system-design/chapter27/images/settlement-report.png"
       },
       {
         "type": "body",
@@ -14341,7 +14341,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/single-receiver.png"
+        "text": "/system-design/chapter27/images/single-receiver.png"
       },
       {
         "type": "body",
@@ -14349,7 +14349,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/multiple-receiver.png"
+        "text": "/system-design/chapter27/images/multiple-receiver.png"
       },
       {
         "type": "body",
@@ -14377,7 +14377,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/failed-payments.png"
+        "text": "/system-design/chapter27/images/failed-payments.png"
       },
       {
         "type": "h1",
@@ -14389,7 +14389,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/retry-mechanism.png"
+        "text": "/system-design/chapter27/images/retry-mechanism.png"
       },
       {
         "type": "body",
@@ -14425,7 +14425,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter27/images/idempotency-example.png"
+        "text": "/system-design/chapter27/images/idempotency-example.png"
       },
       {
         "type": "body",
@@ -14542,7 +14542,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/digital-wallet.png"
+        "text": "/system-design/chapter28/images/digital-wallet.png"
       },
       {
         "type": "h1",
@@ -14658,7 +14658,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/wallet-service.png"
+        "text": "/system-design/chapter28/images/wallet-service.png"
       },
       {
         "type": "body",
@@ -14674,7 +14674,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/distributed-transactions-relational-dbs.png"
+        "text": "/system-design/chapter28/images/distributed-transactions-relational-dbs.png"
       },
       {
         "type": "body",
@@ -14682,7 +14682,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/2pc-protocol.png"
+        "text": "/system-design/chapter28/images/2pc-protocol.png"
       },
       {
         "type": "body",
@@ -14726,7 +14726,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/try-phase.png"
+        "text": "/system-design/chapter28/images/try-phase.png"
       },
       {
         "type": "body",
@@ -14738,7 +14738,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/confirm-phase.png"
+        "text": "/system-design/chapter28/images/confirm-phase.png"
       },
       {
         "type": "body",
@@ -14750,7 +14750,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/cancel-phase.png"
+        "text": "/system-design/chapter28/images/cancel-phase.png"
       },
       {
         "type": "body",
@@ -14778,7 +14778,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/phase-status-tables.png"
+        "text": "/system-design/chapter28/images/phase-status-tables.png"
       },
       {
         "type": "body",
@@ -14806,7 +14806,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/unbalanced-state.png"
+        "text": "/system-design/chapter28/images/unbalanced-state.png"
       },
       {
         "type": "body",
@@ -14814,7 +14814,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/out-of-order-execution.png"
+        "text": "/system-design/chapter28/images/out-of-order-execution.png"
       },
       {
         "type": "body",
@@ -14842,7 +14842,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/saga.png"
+        "text": "/system-design/chapter28/images/saga.png"
       },
       {
         "type": "body",
@@ -14918,7 +14918,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/event-sourcing.png"
+        "text": "/system-design/chapter28/images/event-sourcing.png"
       },
       {
         "type": "body",
@@ -14926,7 +14926,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/dynamic-event-sourcing.png"
+        "text": "/system-design/chapter28/images/dynamic-event-sourcing.png"
       },
       {
         "type": "body",
@@ -14934,7 +14934,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/command-queue.png"
+        "text": "/system-design/chapter28/images/command-queue.png"
       },
       {
         "type": "body",
@@ -14942,7 +14942,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/wallet-service-state-macghine.png"
+        "text": "/system-design/chapter28/images/wallet-service-state-macghine.png"
       },
       {
         "type": "body",
@@ -14962,7 +14962,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/historical-states.png"
+        "text": "/system-design/chapter28/images/historical-states.png"
       },
       {
         "type": "body",
@@ -14982,7 +14982,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/cqrs-architecture.png"
+        "text": "/system-design/chapter28/images/cqrs-architecture.png"
       },
       {
         "type": "h1",
@@ -15002,7 +15002,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/mmap-optimization.png"
+        "text": "/system-design/chapter28/images/mmap-optimization.png"
       },
       {
         "type": "body",
@@ -15010,7 +15010,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/rocks-db-approach.png"
+        "text": "/system-design/chapter28/images/rocks-db-approach.png"
       },
       {
         "type": "body",
@@ -15018,7 +15018,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/snapshot-approach.png"
+        "text": "/system-design/chapter28/images/snapshot-approach.png"
       },
       {
         "type": "h1",
@@ -15050,7 +15050,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/raft-replication.png"
+        "text": "/system-design/chapter28/images/raft-replication.png"
       },
       {
         "type": "body",
@@ -15074,7 +15074,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/polling-approach.png"
+        "text": "/system-design/chapter28/images/polling-approach.png"
       },
       {
         "type": "body",
@@ -15082,7 +15082,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/reverse-proxy.png"
+        "text": "/system-design/chapter28/images/reverse-proxy.png"
       },
       {
         "type": "body",
@@ -15090,7 +15090,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/push-state-machines.png"
+        "text": "/system-design/chapter28/images/push-state-machines.png"
       },
       {
         "type": "body",
@@ -15098,7 +15098,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter28/images/sharded-raft-groups.png"
+        "text": "/system-design/chapter28/images/sharded-raft-groups.png"
       },
       {
         "type": "body",
@@ -15195,7 +15195,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/world-stock-exchanges.png"
+        "text": "/system-design/chapter29/images/world-stock-exchanges.png"
       },
       {
         "type": "h1",
@@ -15331,7 +15331,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/l1-price.png"
+        "text": "/system-design/chapter29/images/l1-price.png"
       },
       {
         "type": "body",
@@ -15339,7 +15339,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/l2-price.png"
+        "text": "/system-design/chapter29/images/l2-price.png"
       },
       {
         "type": "body",
@@ -15347,7 +15347,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/l3-price.png"
+        "text": "/system-design/chapter29/images/l3-price.png"
       },
       {
         "type": "body",
@@ -15355,7 +15355,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/candlestick.png"
+        "text": "/system-design/chapter29/images/candlestick.png"
       },
       {
         "type": "body",
@@ -15371,7 +15371,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/high-level-design.png"
+        "text": "/system-design/chapter29/images/high-level-design.png"
       },
       {
         "type": "body",
@@ -15451,7 +15451,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/sequencer.png"
+        "text": "/system-design/chapter29/images/sequencer.png"
       },
       {
         "type": "body",
@@ -15487,7 +15487,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/client-gateway.png"
+        "text": "/system-design/chapter29/images/client-gateway.png"
       },
       {
         "type": "body",
@@ -15495,7 +15495,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/client-gateways.png"
+        "text": "/system-design/chapter29/images/client-gateways.png"
       },
       {
         "type": "h1",
@@ -15507,7 +15507,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/market-data.png"
+        "text": "/system-design/chapter29/images/market-data.png"
       },
       {
         "type": "h1",
@@ -15519,7 +15519,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/reporting-flow.png"
+        "text": "/system-design/chapter29/images/reporting-flow.png"
       },
       {
         "type": "body",
@@ -15739,7 +15739,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/product-order-execution-data-model.png"
+        "text": "/system-design/chapter29/images/product-order-execution-data-model.png"
       },
       {
         "type": "body",
@@ -15783,7 +15783,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/order-book-execution.png"
+        "text": "/system-design/chapter29/images/order-book-execution.png"
       },
       {
         "type": "body",
@@ -15811,7 +15811,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/order-book-impl.png"
+        "text": "/system-design/chapter29/images/order-book-impl.png"
       },
       {
         "type": "body",
@@ -15867,7 +15867,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/mmap-bus.png"
+        "text": "/system-design/chapter29/images/mmap-bus.png"
       },
       {
         "type": "body",
@@ -15875,7 +15875,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/application-loop.png"
+        "text": "/system-design/chapter29/images/application-loop.png"
       },
       {
         "type": "body",
@@ -15891,7 +15891,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/event-sourcing.png"
+        "text": "/system-design/chapter29/images/event-sourcing.png"
       },
       {
         "type": "body",
@@ -15903,7 +15903,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/design-so-far.png"
+        "text": "/system-design/chapter29/images/design-so-far.png"
       },
       {
         "type": "body",
@@ -15923,7 +15923,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/sequencer-deep-dive.png"
+        "text": "/system-design/chapter29/images/sequencer-deep-dive.png"
       },
       {
         "type": "h1",
@@ -15943,7 +15943,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/leader-election.png"
+        "text": "/system-design/chapter29/images/leader-election.png"
       },
       {
         "type": "body",
@@ -15987,7 +15987,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/replication-across-servers.png"
+        "text": "/system-design/chapter29/images/replication-across-servers.png"
       },
       {
         "type": "body",
@@ -15995,7 +15995,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/leader-election-terms.png"
+        "text": "/system-design/chapter29/images/leader-election-terms.png"
       },
       {
         "type": "body",
@@ -16027,7 +16027,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/determinism.png"
+        "text": "/system-design/chapter29/images/determinism.png"
       },
       {
         "type": "body",
@@ -16043,7 +16043,7 @@
       },
       {
         "type": "image",
-        "text": "https://raw.githubusercontent.com/presmihaylov/booknotes/master/system-design/system-design-interview/chapter29/images/market-data-publisher.png"
+        "text": "/system-design/chapter29/images/market-data-publisher.png"
       },
       {
         "type": "body",
