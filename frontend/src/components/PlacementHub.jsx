@@ -233,6 +233,64 @@ function BlogReader({ note, onClose }) {
           color: #cbd5e1;
           margin-bottom: 1.25rem;
         }
+        body.light-theme .blog-p {
+          color: #1e293b !important;
+        }
+        body.light-theme .blog-p b {
+          color: #0f172a !important;
+        }
+        body.light-theme .blog-p code {
+          background: #e2e8f0 !important;
+          color: #0369a1 !important;
+          border: 1px solid #cbd5e1 !important;
+          padding: 0.15rem 0.4rem !important;
+          border-radius: 4px !important;
+        }
+        body.light-theme .blog-modal-container {
+          background: #ffffff !important;
+          border-color: rgba(15, 23, 42, 0.12) !important;
+          box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15) !important;
+        }
+        body.light-theme .blog-header {
+          background: #f8fafc !important;
+          border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+        }
+        body.light-theme .blog-title {
+          color: #0f172a !important;
+        }
+        body.light-theme .blog-sidebar {
+          background: #f8fafc !important;
+          border-right-color: rgba(15, 23, 42, 0.08) !important;
+        }
+        body.light-theme .blog-sidebar-title {
+          color: #64748b !important;
+          border-bottom-color: rgba(15, 23, 42, 0.06) !important;
+        }
+        body.light-theme .blog-sidebar-item {
+          color: #475569 !important;
+          border-bottom-color: rgba(15, 23, 42, 0.04) !important;
+        }
+        body.light-theme .blog-sidebar-item:hover {
+          background: rgba(15, 23, 42, 0.04) !important;
+          color: #0f172a !important;
+        }
+        body.light-theme .blog-sidebar-item.active {
+          background: #e0f2fe !important;
+          color: #0369a1 !important;
+          border-left-color: #0284c7 !important;
+        }
+        body.light-theme .blog-content-area {
+          background: #ffffff !important;
+          color: #1e293b !important;
+        }
+        body.light-theme .blog-h1 {
+          color: #0369a1 !important;
+          border-left-color: #0284c7 !important;
+        }
+        body.light-theme .blog-image-container {
+          background: #f8fafc !important;
+          border-color: rgba(15, 23, 42, 0.08) !important;
+        }
         .blog-image-container {
           text-align: center;
           margin: 2rem 0;
