@@ -450,32 +450,34 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
     'Angular'
   ];
 
-  const filteredResources = resources.filter(res => {
-    if (selectedResourceTab === 'All') return true;
-    const query = selectedResourceTab.toLowerCase();
-    
-    // Check if tags match exactly or as substring
-    if (res.tags && res.tags.some(tag => tag.toLowerCase().includes(query) || query.includes(tag.toLowerCase()))) return true;
+  const filteredResources = resources
+    .filter(res => res && res.downloadUrl && res.downloadUrl !== '#')
+    .filter(res => {
+      if (selectedResourceTab === 'All') return true;
+      const query = selectedResourceTab.toLowerCase();
+      
+      // Check if tags match exactly or as substring
+      if (res.tags && res.tags.some(tag => tag.toLowerCase().includes(query) || query.includes(tag.toLowerCase()))) return true;
 
-    // Check if title or description contains the query
-    if (res.title && res.title.toLowerCase().includes(query)) return true;
-    if (res.description && res.description.toLowerCase().includes(query)) return true;
+      // Check if title or description contains the query
+      if (res.title && res.title.toLowerCase().includes(query)) return true;
+      if (res.description && res.description.toLowerCase().includes(query)) return true;
 
-    // Check if category matches
-    if (res.category && res.category.toLowerCase().includes(query)) return true;
+      // Check if category matches
+      if (res.category && res.category.toLowerCase().includes(query)) return true;
 
-    // Special matching rules for Rest API
-    if (query === 'rest api') {
-      const isRest = res.tags && res.tags.some(tag => {
-        const t = tag.toLowerCase();
-        return t === 'rest' || t === 'api' || t === 'rest api' || t === 'rest-api';
-      });
-      if (isRest) return true;
-      if (res.title && (res.title.toLowerCase().includes('rest') || res.title.toLowerCase().includes('api'))) return true;
-    }
-    
-    return false;
-  });
+      // Special matching rules for Rest API
+      if (query === 'rest api') {
+        const isRest = res.tags && res.tags.some(tag => {
+          const t = tag.toLowerCase();
+          return t === 'rest' || t === 'api' || t === 'rest api' || t === 'rest-api';
+        });
+        if (isRest) return true;
+        if (res.title && (res.title.toLowerCase().includes('rest') || res.title.toLowerCase().includes('api'))) return true;
+      }
+      
+      return false;
+    });
 
   return (
     <div style={{ marginBottom: '3rem' }}>
