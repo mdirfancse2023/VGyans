@@ -117,7 +117,7 @@ export default function ResumeBuilder() {
     if (!element) return;
 
     const opt = {
-      margin:       [0.15, 0.4, 0.15, 0.4],
+      margin:       [0.05, 0.4, 0.05, 0.4],
       filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2, useCORS: true, logging: false },
@@ -665,11 +665,11 @@ export default function ResumeBuilder() {
 
         {/* Live Preview Panel */}
         <div className="preview-panel">
-          <div style={{ textAlign: 'center', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomSection }}>
-            <h2 style={{ fontSize: sizes.name, fontWeight: 'bold', margin: '0 0 0.15rem 0', color: '#000000', letterSpacing: '-0.02em', fontFamily: 'Arial, sans-serif' }}>
+          <div style={{ textAlign: 'center', margin: 0, padding: 0, paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomSection }}>
+            <h2 style={{ fontSize: sizes.name, fontWeight: 'bold', margin: 0, marginTop: 0, paddingTop: 0, color: '#000000', letterSpacing: '-0.02em', fontFamily: 'Arial, sans-serif' }}>
               {formData.name || 'YOUR NAME'}
             </h2>
-            <p style={{ fontSize: sizes.title, fontWeight: 'bold', color: '#1e293b', margin: `0 0 ${sizes.gap} 0`, fontFamily: 'Arial, sans-serif' }}>
+            <p style={{ fontSize: sizes.title, fontWeight: 'bold', color: '#1e293b', margin: `0 0 ${sizes.gap} 0`, padding: 0, fontFamily: 'Arial, sans-serif' }}>
               {formData.title || 'Professional Title'}
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: sizes.gap, fontSize: sizes.info, color: '#334155', fontFamily: 'Arial, sans-serif' }}>
