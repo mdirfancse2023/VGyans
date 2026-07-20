@@ -1,110 +1,92 @@
 [
   {
-    "id": "song-1",
-    "title": "Ambient Study Drift",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    "id": "bollywood-1",
+    "title": "Tum Hi Ho",
+    "artist": "Arijit Singh (Aashiqui 2)",
+    "url": "https://archive.org/download/hindinepalisongs/01.%20Tum%20Hi%20Ho%20-%20Aashiqui%202.mp3",
     "coverUrl": "https://images.unsplash.com/photo-1518173946687-a4c8a383392e?w=500",
-    "category": "Ambient",
-    "duration": 372
+    "category": "Bollywood",
+    "duration": 262
   },
   {
-    "id": "song-2",
-    "title": "Deep Focus Beats",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-    "coverUrl": "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=500",
-    "category": "Focus",
-    "duration": 423
-  },
-  {
-    "id": "song-3",
-    "title": "Library Café Lounge",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    "id": "bollywood-2",
+    "title": "Tum Mile (Title Track)",
+    "artist": "Neeraj Shridhar & Pritam",
+    "url": "https://archive.org/download/tum-mile-emraan-hashmi-1/Tum%20Mile%20-%20Emraan%20Hashmi%20%281%29.mp3",
     "coverUrl": "https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=500",
-    "category": "Chill",
-    "duration": 344
+    "category": "Bollywood",
+    "duration": 342
   },
   {
-    "id": "song-4",
-    "title": "Late Night Syntax",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
-    "coverUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500",
-    "category": "Energy",
-    "duration": 502
-  },
-  {
-    "id": "song-5",
-    "title": "Rainy Window Meditations",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
-    "coverUrl": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500",
-    "category": "Ambient",
-    "duration": 481
-  },
-  {
-    "id": "song-6",
-    "title": "Acoustic Sunbeams",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
-    "coverUrl": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=500",
-    "category": "Chill",
-    "duration": 398
-  },
-  {
-    "id": "song-7",
-    "title": "Ethereal Dreamscapes",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
-    "coverUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=500",
-    "category": "Ambient",
-    "duration": 512
-  },
-  {
-    "id": "song-8",
-    "title": "Zen Keyboard Vibes",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
-    "coverUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500",
-    "category": "Focus",
-    "duration": 456
-  },
-  {
-    "id": "song-9",
-    "title": "Cyber Ambient Stream",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+    "id": "bollywood-3",
+    "title": "Yeh Dosti (Remix)",
+    "artist": "Kishore Kumar & Manna Dey (Sholay)",
+    "url": "https://archive.org/download/hindinepalisongs/07%20Sholay%20-%20Yeh%20Dosti%28DJ%20Shadow%20Dubai%20Remix%29%5B%20%7B%20%28%20nn%40%24%20%29%20%7D%20%5D.mp3",
     "coverUrl": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500",
-    "category": "Energy",
-    "duration": 430
+    "category": "Bollywood",
+    "duration": 284
   },
   {
-    "id": "song-10",
-    "title": "Mellow Code Review",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
-    "coverUrl": "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=500",
-    "category": "Chill",
-    "duration": 382
+    "id": "bollywood-4",
+    "title": "Best of Arijit Singh Jukebox",
+    "artist": "Arijit Singh",
+    "url": "https://archive.org/download/BestOfArijitSingh46Hits/Best%20of%20Arijit%20Singh(46%20Hits).mp3",
+    "coverUrl": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500",
+    "category": "Bollywood",
+    "duration": 7200
   },
   {
-    "id": "song-11",
-    "title": "Lofi Skyline",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3",
+    "id": "hollywood-1",
+    "title": "A Thousand Years",
+    "artist": "Christina Perri",
+    "url": "https://archive.org/download/JhePlalist/A%20Thousand%20Years%20-%20Christina%20Perri.mp3",
+    "coverUrl": "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=500",
+    "category": "Hollywood",
+    "duration": 285
+  },
+  {
+    "id": "hollywood-2",
+    "title": "The Scientist",
+    "artist": "Coldplay",
+    "url": "https://archive.org/download/JhePlalist/Coldplay-%20The%20Scientist.mp3",
     "coverUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500",
-    "category": "Jazz",
-    "duration": 411
+    "category": "Hollywood",
+    "duration": 309
   },
   {
-    "id": "song-12",
-    "title": "Retro Synth Wave",
-    "artist": "SoundHelix",
-    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3",
+    "id": "hollywood-3",
+    "title": "Versace on the Floor",
+    "artist": "Bruno Mars",
+    "url": "https://archive.org/download/JhePlalist/Bruno%20Mars%20-%20Versace%20on%20The%20Floor%20%28lyrics%29.mp3",
+    "coverUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500",
+    "category": "Hollywood",
+    "duration": 286
+  },
+  {
+    "id": "hollywood-4",
+    "title": "Despacito",
+    "artist": "Justin Bieber ft. Luis Fonsi & Daddy Yankee",
+    "url": "https://archive.org/download/JhePlalist/Justin%20Bieber%20%E2%80%93%20Despacito%20%28Lyrics%29%20ft.%20Luis%20Fonsi%20%26%20Daddy%20Yankee%20%5BPop%5D.mp3",
+    "coverUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=500",
+    "category": "Hollywood",
+    "duration": 228
+  },
+  {
+    "id": "hollywood-5",
+    "title": "Havana",
+    "artist": "Camila Cabello ft. Young Thug",
+    "url": "https://archive.org/download/JhePlalist/CamilaCabello-Havanalyricsft.YoungThug.mp3",
     "coverUrl": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500",
-    "category": "Energy",
-    "duration": 464
+    "category": "Hollywood",
+    "duration": 217
+  },
+  {
+    "id": "hollywood-6",
+    "title": "21 Guns",
+    "artist": "Green Day",
+    "url": "https://archive.org/download/JhePlalist/21%20guns%20-%20greenday.mp3",
+    "coverUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500",
+    "category": "Hollywood",
+    "duration": 321
   }
 ]

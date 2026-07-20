@@ -680,10 +680,19 @@ def get_songs(category: Optional[str] = None):
     if db is not None:
         try:
             songs_ref = db.collection("songs")
-            docs = list(songs_ref.limit(1).stream())
-            if not docs:
-                print("Seeding songs in Firestore...")
-                local_songs = load_data().get("songs", [])
+            docs = list(songs_ref.stream())
+            local_songs = load_data().get("songs", [])
+            local_ids = {s["id"] for s in local_songs}
+            db_ids = {doc.id for doc in docs}
+            
+            # If DB is empty, or only contains old tracks (no intersection with new IDs)
+            if not db_ids or not db_ids.intersection(local_ids):
+                print("Seeding new Bollywood and Hollywood songs in Firestore...")
+                # Delete any old documents
+                for doc in docs:
+                    songs_ref.document(doc.id).delete()
+                
+                # Set new documents
                 for song in local_songs:
                     songs_ref.document(song["id"]).set(song)
                 print("Seeding songs complete!")
