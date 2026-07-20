@@ -179,7 +179,7 @@ export default function Jobs() {
             IT <span className="text-gradient">Jobs Board</span>
           </h2>
           <p className="section-desc">
-            Real-time listings aggregated from Remotive, Arbeitnow &amp; The Muse.
+            Real-time listings aggregated from LinkedIn, Indeed, Glassdoor, Naukri, Remotive, Arbeitnow &amp; The Muse.
             {lastRefresh && (
               <span style={{ marginLeft: '10px', opacity: 0.6 }}>
                 • refreshed {timeAgo(lastRefresh.toISOString())}
@@ -291,7 +291,7 @@ export default function Jobs() {
       {/* Footer attribution */}
       {!loading && jobs.length > 0 && (
         <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--text-secondary)', fontSize: '0.8rem', opacity: 0.6 }}>
-          Jobs sourced from Remotive · Arbeitnow · The Muse · Click any card to apply
+          Jobs sourced from LinkedIn · Indeed · Glassdoor · Naukri · Remotive · Arbeitnow · The Muse · Click any card to apply
         </p>
       )}
     </div>
