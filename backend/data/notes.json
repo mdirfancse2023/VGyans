@@ -418,40 +418,1384 @@
       "Architecture",
       "Microservices"
     ],
-    "description": "High-level architecture, scalability, load balancers, caching, databases (SQL vs NoSQL), and CAP theorem.",
+    "description": "Comprehensive summary of System Design Interview book notes, covering scaling, framework, rate limiters, and consistent hashing.",
     "category": "Technical",
     "content": [
       {
-        "text": "1. Scalability: Scale Up vs Scale Out",
-        "type": "h1"
+        "type": "h1",
+        "text": "📚 Chapter 1: Scale From Zero To Millions Of Users"
       },
       {
-        "text": "<b>Vertical Scaling (Scale Up):</b> Adding resources (RAM, CPU) to a single machine. Hard limits apply and creates a Single Point of Failure (SPOF).<br/><b>Horizontal Scaling (Scale Out):</b> Adding more servers to the cluster. Indefinite scalability, but requires load balancers and complex data sync.",
-        "type": "body"
+        "type": "body",
+        "text": "Here, we're building a system that supports a few users & gradually scale it to support millions."
       },
       {
-        "text": "2. Load Balancers",
-        "type": "h1"
+        "type": "h1",
+        "text": "Single server setup"
       },
       {
-        "text": "Load Balancers distribute user traffic across servers to optimize availability. Common algorithms include Round Robin, Weighted Round Robin, Least Connections, and IP Hashing.",
-        "type": "body"
+        "type": "body",
+        "text": "To start off, we're going to put everything on a single server - web app, database, cache, etc.<br/>What's the request flow in there?"
       },
       {
-        "text": "3. Caching & Redis",
-        "type": "h1"
+        "type": "body",
+        "text": "• User asks DNS server for the IP of my site (ie <code>api.mysite.com -> 15.125.23.214</code>). Usually, DNS is provided by third-parties instead of hosting it yourself."
       },
       {
-        "text": "Caching stores high-frequency data in memory (Redis, Memcached) to reduce database read pressure. Common patterns include:<br/>- <b>Cache-Aside:</b> Application checks cache; if miss, fetches from database and writes back to cache.<br/>- <b>Write-Through:</b> Application writes to cache, cache writes to database synchronously.<br/>- <b>Write-Behind (Write-Back):</b> Application writes to cache, database is updated asynchronously (fastest, but risk of data loss).",
-        "type": "body"
+        "type": "body",
+        "text": "• HTTP requests are sent directly to server (via its IP) from your device"
       },
       {
-        "text": "4. Databases: SQL vs NoSQL",
-        "type": "h1"
+        "type": "body",
+        "text": "• Server returns HTML pages or JSON payloads, used for rendering.<br/>Traffic to web server comes from either a web application or a mobile application:"
       },
       {
-        "text": "- <b>SQL (Relational):</b> Schema-enforced, structured tables, supports ACID transactions. Scaled vertically. Ideal for payments and billing.<br/>- <b>NoSQL (Non-Relational):</b> Flexible schema, Key-Value (Redis), Document (MongoDB), Column (Cassandra), Graph (Neo4j). Scaled horizontally. Ideal for social feeds, chat logs.",
-        "type": "body"
+        "type": "body",
+        "text": "• Web applications use a combo of server-side languages (ie Java, Python) to handle business logic & storage. Client-side languages (ie HTML, JS) are used for presentation."
+      },
+      {
+        "type": "body",
+        "text": "• Mobile apps use the HTTP protocol for communication between mobile & the web server. JSON is used for formatting transmitted data. Example payload:"
+      },
+      {
+        "type": "code",
+        "text": "{\n  \"id\":12,\n  \"firstName\":\"John\",\n  \"lastName\":\"Smith\",\n  \"address\":{\n     \"streetAddress\":\"21 2nd Street\",\n     \"city\":\"New York\",\n     \"state\":\"NY\",\n     \"postalCode\":10021\n  },\n  \"phoneNumbers\":[\n     \"212 555-1234\",\n     \"646 555-4567\"\n  ]\n}"
+      },
+      {
+        "type": "h1",
+        "text": "Database"
+      },
+      {
+        "type": "body",
+        "text": "As the user base grows, storing everything on a single server is insufficient.<br/>We can separate our database on another server so that it can be scaled independently from the web tier:"
+      },
+      {
+        "type": "h1",
+        "text": "Which databases to use?"
+      },
+      {
+        "type": "body",
+        "text": "You can choose either a traditional relational database or a non-relational (NoSQL) one."
+      },
+      {
+        "type": "body",
+        "text": "• Most popular relational DBs - MySQL, Oracle, PostgreSQL."
+      },
+      {
+        "type": "body",
+        "text": "• Most popular NoSQL DBs - CouchDB, Neo4J, Cassandra, HBase, DynamoDB<br/>Relational databases represent & store data in tables & rows. You can join different tables to represent aggregate objects.<br/>NoSQL databases are grouped into four categories - key-value stores, graph stores, column stores & document stores. Join operations are generally not supported.<br/>For most use-cases, relational databases are the best option as they've been around the most & have worked quite well historically.<br/>If not suitable though, it might be worth exploring NoSQL databases. They might be a better option if:"
+      },
+      {
+        "type": "body",
+        "text": "• Application requires super-low latency."
+      },
+      {
+        "type": "body",
+        "text": "• Data is unstructured or you don't need any relational data."
+      },
+      {
+        "type": "body",
+        "text": "• You only need to serialize/deserialize data (JSON, XML, YAML, etc)."
+      },
+      {
+        "type": "body",
+        "text": "• You need to store a massive amount of data."
+      },
+      {
+        "type": "h1",
+        "text": "Vertical scaling vs. horizontal scaling"
+      },
+      {
+        "type": "body",
+        "text": "Vertical scaling == scale up. This means adding more power to your servers - CPU, RAM, etc.<br/>Horizontal scaling == scale out. Add more servers to your pool of resources.<br/>Vertical scaling is great when traffic is low. Simplicity is its main advantage, but it has limitations:"
+      },
+      {
+        "type": "body",
+        "text": "• It has a hard limit. Impossible to add unlimited CPU/RAM to a single server."
+      },
+      {
+        "type": "body",
+        "text": "• Lack of fail over and redundancy. If server goes down, whole app/website goes down with it.<br/>Horizontal scaling is more appropriate for larger applications due to vertical scaling's limitations. Its main disadvantage is that it's harder to get right.<br/>In design so far, the server going down (ie due to failure or overload) means the whole application goes down with it.<br/>A good solution for this problem is to use a load balancer."
+      },
+      {
+        "type": "h1",
+        "text": "Load balancer"
+      },
+      {
+        "type": "body",
+        "text": "A load balancer evenly distributes incoming traffic among web servers in a load-balanced set:<br/>Clients connect to the public IP of the load balancer. Web servers are unreachable by clients directly.<br/>Instead, they have private IPs, which the load balancer has access to.<br/>By adding a load balancer, we successfully made our web tier more available and we also added possibility for fail over.<br/>How it works?"
+      },
+      {
+        "type": "body",
+        "text": "• If server 1 goes down, all traffic will be routed to server 2. This prevents website from going offline. We'll also add a fresh new server to balance the load."
+      },
+      {
+        "type": "body",
+        "text": "• If website traffic spikes and two servers are not sufficient to handle traffic, load balancer can handle this gracefully by adding more servers to the pool.<br/>Web tier looks lit now. But what about the data tier?"
+      },
+      {
+        "type": "h1",
+        "text": "Database replication"
+      },
+      {
+        "type": "body",
+        "text": "Database replication can usually be achieved via master/slave replication (side note - nowadays, it's usually referred to as primary/secondary replication).<br/>A master database generally only supports writes. Slave databases store copies of the data from the master & only support read operations.<br/>This setup works well for most applications as there's usually a higher read to write ratio. Reads can easily be scaled by adding more slave instances.<br/>Advantages:"
+      },
+      {
+        "type": "body",
+        "text": "• Better performance - enables more read queries to be processed in parallel."
+      },
+      {
+        "type": "body",
+        "text": "• Reliability - If one database gets destroyed, data is still preserved."
+      },
+      {
+        "type": "body",
+        "text": "• High availability - Data is accessible as long as one instance is not offline.<br/>So what if one database goes offline?"
+      },
+      {
+        "type": "body",
+        "text": "• If slave database goes offline, read operations are routed to the master/other slaves temporarily."
+      },
+      {
+        "type": "body",
+        "text": "• If master goes down, a slave instance will be promoted to the new master. A new slave instance will replace the old master.<br/>Here's the refined request lifecycle:"
+      },
+      {
+        "type": "body",
+        "text": "• user gets IP address of load balancer from DNS"
+      },
+      {
+        "type": "body",
+        "text": "• user connects to load balancer via IP"
+      },
+      {
+        "type": "body",
+        "text": "• HTTP request is routed to server 1 or server 2"
+      },
+      {
+        "type": "body",
+        "text": "• web server reads user data from a slave database instance or routes data modifications to the master instance.<br/>Sweet, let's now improve the load/response time by adding a cache & shifting static content to a CDN."
+      },
+      {
+        "type": "h1",
+        "text": "Cache"
+      },
+      {
+        "type": "body",
+        "text": "Cache is a temporary storage which stores frequently accessed data or results of expensive computations.<br/>In our web application, every time a web page is loaded, expensive queries are sent to the database.<br/>We can mitigate this using a cache."
+      },
+      {
+        "type": "h1",
+        "text": "Cache tier"
+      },
+      {
+        "type": "body",
+        "text": "The cache tier is a temporary storage layer, from which results are fetched much more rapidly than from within a database.<br/>It can also be scaled independently from the database.<br/>The example above is a read-through cache - server checks if data is available in the cache. If not, data is fetched from the database."
+      },
+      {
+        "type": "h1",
+        "text": "Considerations for using cache"
+      },
+      {
+        "type": "body",
+        "text": "• When to use it - usually useful when data is read frequently but modified infrequently. Caches usually don't preserve data upon restart so it's not a good persistence layer."
+      },
+      {
+        "type": "body",
+        "text": "• Expiration policy - controls whether (and when) cached data expires and is removed from it. Make it too short - DB will be queried frequently. Make it too long - data will become stale."
+      },
+      {
+        "type": "body",
+        "text": "• Consistency - How in sync should the data store & cache be? Inconsistency happens if data is changed in DB, but cache is not updated."
+      },
+      {
+        "type": "body",
+        "text": "• Mitigating failures - A single cache server could be a single point of failure (SPOF). Consider over-provisioning it with a lot of memory and/or provisioning servers in multiple locations."
+      },
+      {
+        "type": "body",
+        "text": "• Eviction policy - What happens when you want to add items to a cache, but it's full? Cache eviction policy controls that. Common policies - LRU, LFU, FIFO."
+      },
+      {
+        "type": "h1",
+        "text": "Content Delivery Network (CDN)"
+      },
+      {
+        "type": "body",
+        "text": "CDN == network of geographically dispersed servers, used for delivering static content - eg images, HTML, CSS, JS files.<br/>Whenever a user requests some static content, the CDN server closest to the user serves it:<br/>Here's the request flow:"
+      },
+      {
+        "type": "body",
+        "text": "• User tries fetching an image via URL. URLs are provided by the CDN, eg <code>https://mysite.cloudfront.net/logo.jpg</code>"
+      },
+      {
+        "type": "body",
+        "text": "• If the image is not in the cache, the CDN requests the file from the origin - eg web server, S3 bucket, etc."
+      },
+      {
+        "type": "body",
+        "text": "• Origin returns the image to the CDN with an optional TTL (time to live) parameter, which controls how long that static resource is to be cached."
+      },
+      {
+        "type": "body",
+        "text": "• Subsequent users fetch the image from the CDN without any requests reaching the origin as long as it's within the TTL."
+      },
+      {
+        "type": "h1",
+        "text": "Considerations of using CDN"
+      },
+      {
+        "type": "body",
+        "text": "• Cost - CDNs are managed by third-parties for which you pay a fee. Be careful not to store infrequently accessed data in there."
+      },
+      {
+        "type": "body",
+        "text": "• Cache expiry - consider appropriate cache expiry. Too short - frequent requests to origin. Too long - data becomes stale."
+      },
+      {
+        "type": "body",
+        "text": "• CDN fallback - clients should be able to workaround the CDN provider if there is a temporary outage on their end."
+      },
+      {
+        "type": "body",
+        "text": "• Invalidation - can be done via an API call or by passing object versions.<br/>Refined design of our web application:"
+      },
+      {
+        "type": "h1",
+        "text": "Stateless web tier"
+      },
+      {
+        "type": "body",
+        "text": "In order to scale our web tier, we need to make it stateless.<br/>In order to do that, we can store user session data in persistent data storage such as our relational database or a NoSQL database."
+      },
+      {
+        "type": "h1",
+        "text": "Stateful architecture"
+      },
+      {
+        "type": "body",
+        "text": "Stateful servers remember client data across different requests. Stateless servers don't.<br/>In the above case, users are coupled to the server which stores their session data. If they make a request to another server, it won't have access to the user's session.<br/>This can be solved via sticky sessions, which most load balancers support, but it adds overhead.<br/>Adding/removing servers is much more challenging, which limits our options in case of server failures."
+      },
+      {
+        "type": "h1",
+        "text": "Stateless architecture"
+      },
+      {
+        "type": "body",
+        "text": "In this scenario, servers don't store any user data themselves.<br/>Instead, they store it in a shared data store, which all servers have access to.<br/>This way, HTTP requests from users can be served by any web server.<br/>Updated web application architecture:<br/>The user session data store could either be a relational database or a NoSQL data store, which is easier to scale for this kind of data.<br/>The next step in the app's evolution is supporting multiple data centers."
+      },
+      {
+        "type": "h1",
+        "text": "Data centers"
+      },
+      {
+        "type": "body",
+        "text": "In the above example, clients are geo-routed to the nearest data center based on the IP address.<br/>In the event of an outage, we route all traffic to the healthy data center:<br/>To achieve this multi-datacenter setup, there are several issues we need to address:"
+      },
+      {
+        "type": "body",
+        "text": "• traffic redirection - tooling for correctly directing traffic to the right data center. GeoDNS can be used in this case."
+      },
+      {
+        "type": "body",
+        "text": "• data synchronization - in case of failover, users from DC1 go to DC2. A challenge is whether their user data is there."
+      },
+      {
+        "type": "body",
+        "text": "• test and deployment - automated deployment & testing is crucial to keep deployments consistent across DCs.<br/>To further scale the system, we need to decouple different system components so they can scale independently."
+      },
+      {
+        "type": "h1",
+        "text": "Message queues"
+      },
+      {
+        "type": "body",
+        "text": "Message queues are durable components, which enable asynchronous communication.<br/>Basic architecture:"
+      },
+      {
+        "type": "body",
+        "text": "• Producers create messages."
+      },
+      {
+        "type": "body",
+        "text": "• Consumers/Subscribers subscribe to new messages and consume them.<br/>Message queues enable producers to be decoupled from consumers.<br/>If a consumer is down, a producer can still publish a message and the consumer will receive it at a later point.<br/>Example use-case in our application - photo processing:"
+      },
+      {
+        "type": "body",
+        "text": "• Web servers publish \"photo processing tasks\" to a message queue"
+      },
+      {
+        "type": "body",
+        "text": "• A variable number of workers (can be scaled up or down) subscribe to the queue and process those tasks."
+      },
+      {
+        "type": "h1",
+        "text": "Logging, metrics, automation"
+      },
+      {
+        "type": "body",
+        "text": "Once your web application grows beyond a given point, investing in monitoring tooling is critical."
+      },
+      {
+        "type": "body",
+        "text": "• Logging - error logs can be emitted to a data store, which can later be read by service operators."
+      },
+      {
+        "type": "body",
+        "text": "• Metrics - collecting various types of metrics helps us collect business insight & monitor the health of the system."
+      },
+      {
+        "type": "body",
+        "text": "• Automation - investing in continuous integration such as automated build, test, deployment can detect various problems early and also increases developer productivity.<br/>Updated system design:"
+      },
+      {
+        "type": "h1",
+        "text": "Database scaling"
+      },
+      {
+        "type": "body",
+        "text": "There are two approaches to database scaling - vertical and horizontal."
+      },
+      {
+        "type": "h1",
+        "text": "Vertical scaling"
+      },
+      {
+        "type": "body",
+        "text": "Also known as scaling up, it means adding more physical resources to your database nodes - CPU, RAM, HDD, etc.<br/>In Amazon RDS, for example, you can get a database node with 24 TB of RAM.<br/>This kind of database can handle lots of data - eg stackoverflow in 2013 had 10mil monthly unique visitors \\w a single database node.<br/>Vertical scaling has some drawbacks, though:"
+      },
+      {
+        "type": "body",
+        "text": "• There are hardware limits to the amount of resources you can add to a node."
+      },
+      {
+        "type": "body",
+        "text": "• You still have a single point of failure."
+      },
+      {
+        "type": "body",
+        "text": "• Overall cost is high - the price of powerful servers is high."
+      },
+      {
+        "type": "h1",
+        "text": "Horizontal scaling"
+      },
+      {
+        "type": "body",
+        "text": "Instead of adding bigger servers, you can add more of them:<br/>Sharding is a type of database horizontal scaling which separates large data sets into smaller ones.<br/>Each shard shares the same schema, but the actual data is different.<br/>One way to shard the database is based on some key, which is equally distributed on all shards using the modulo operator:<br/>Here's how the user data looks like in this example:<br/>The sharding key (aka partition key) is the most important factor to consider when using sharding.<br/>In particular, the key should be chosen in a way that distributes the data as evenly as possible.<br/>Although a useful technique, it introduces a lot of complexities in the system:"
+      },
+      {
+        "type": "body",
+        "text": "• Resharding data - you need to do it if a single shard grows too big. This can happen rather quickly if data is distributed unevenly. Consistent hashing helps to avoid moving too much data around."
+      },
+      {
+        "type": "body",
+        "text": "• Celebrity problem (aka hotspot) - one shard could be accessed much more frequently than others and can lead to server overload. We may have to resort to using separate shards for certain celebrities."
+      },
+      {
+        "type": "body",
+        "text": "• Join and de-normalization - It is hard to perform join operations across shards. A common workaround is to de-normalize your tables to avoid making joins.<br/>Here's how our application architecture looks like after introducing sharding and a NoSQL database for some of the non-relational data:"
+      },
+      {
+        "type": "h1",
+        "text": "Millions of users and beyond"
+      },
+      {
+        "type": "body",
+        "text": "Scaling a system is iterative.<br/>What we've learned so far can get us far, but we might need to apply even more sophisticated techniques to scale the application beyond millions of users.<br/>The techniques we saw so far can offer a good foundation to start from.<br/>Here's a summary:"
+      },
+      {
+        "type": "body",
+        "text": "• Keep web tier stateless"
+      },
+      {
+        "type": "body",
+        "text": "• Build redundancy at every layer"
+      },
+      {
+        "type": "body",
+        "text": "• Cache frequently accessed data"
+      },
+      {
+        "type": "body",
+        "text": "• Support multiple data centers"
+      },
+      {
+        "type": "body",
+        "text": "• Host static assets in CDNs"
+      },
+      {
+        "type": "body",
+        "text": "• Scale your data tier via sharding"
+      },
+      {
+        "type": "body",
+        "text": "• Split your big application into multiple services"
+      },
+      {
+        "type": "body",
+        "text": "• Monitor your system & use automation"
+      },
+      {
+        "type": "h1",
+        "text": "📚 Chapter 3: A Framework For System Design"
+      },
+      {
+        "type": "body",
+        "text": "System design interviews are intimidating.<br/>How could you possible design a popular system in an hour when it has taken other people decades?"
+      },
+      {
+        "type": "body",
+        "text": "• It is about the problem solving aspect, not the final solution you came up with."
+      },
+      {
+        "type": "body",
+        "text": "• Goal is to demonstrate your design skills, defend your choices, respond to feedback constructively.<br/>What's the goal of a system design interview?"
+      },
+      {
+        "type": "body",
+        "text": "• It is much more than evaluating a person's technical design skills."
+      },
+      {
+        "type": "body",
+        "text": "• It is also about evaluating collaboration skills, working under pressure, resolving ambiguity, asking good questions."
+      },
+      {
+        "type": "body",
+        "text": "• Catching red flags - over-engineering, narrow mindedness, stubborness, etc."
+      },
+      {
+        "type": "h1",
+        "text": "A 4-step process for effective system design interview"
+      },
+      {
+        "type": "body",
+        "text": "Although every interview is different, there are some steps to cover in any interview."
+      },
+      {
+        "type": "h1",
+        "text": "Step 1 - understand the problem and establish design scope"
+      },
+      {
+        "type": "body",
+        "text": "Don't rush to give answers before understanding the problem well enough first.<br/>In fact, this might be a red flag - answering without a thorough understanding of requirements.<br/>Don't jump to solutions. Ask questions to clarify requirements and assumptions.<br/>We have a tendency as engineers to jump ahead and solve a hard problem. But that often leads to designing the wrong system.<br/>When you get your answers (or you're asked to make assumptions yourself), write them down on the whiteboard to not forget.<br/>What kind of questions to ask? - to understand the exact requirements. Some examples:"
+      },
+      {
+        "type": "body",
+        "text": "• What specific features do we need to design?"
+      },
+      {
+        "type": "body",
+        "text": "• How many users does the product have?"
+      },
+      {
+        "type": "body",
+        "text": "• How fast is the company anticipated to scale up? - in 3, 6, 12 months?"
+      },
+      {
+        "type": "body",
+        "text": "• What is the company's tech stack? What existing services can you leverage to simplify the design?<br/>For example, say you have to design a news feed. Here's an example conversation:"
+      },
+      {
+        "type": "body",
+        "text": "• Candidate: Is it mobile, web, both?"
+      },
+      {
+        "type": "body",
+        "text": "• Interviewer: both."
+      },
+      {
+        "type": "body",
+        "text": "• C: What's the most important features?"
+      },
+      {
+        "type": "body",
+        "text": "• I: Ability to make posts & see friends' news feed."
+      },
+      {
+        "type": "body",
+        "text": "• C: How is the feed sorted? Just chronologically or based on eg some weight to posts from close friends."
+      },
+      {
+        "type": "body",
+        "text": "• I: To keep things simple, assume posts are sorted chronologically."
+      },
+      {
+        "type": "body",
+        "text": "• C: Max friends on a user?"
+      },
+      {
+        "type": "body",
+        "text": "• I: 5000"
+      },
+      {
+        "type": "body",
+        "text": "• C: What's the traffic volume?"
+      },
+      {
+        "type": "body",
+        "text": "• I: 10mil daily active users (DAU)"
+      },
+      {
+        "type": "body",
+        "text": "• C: Is there any media in the feed? - images, video?"
+      },
+      {
+        "type": "body",
+        "text": "• I: It can contain media files, including video & images."
+      },
+      {
+        "type": "h1",
+        "text": "Step 2 - Propose high-level design and get buy-in"
+      },
+      {
+        "type": "body",
+        "text": "The goal of this step is to develop a high-level design, while collaborating with the interviewer."
+      },
+      {
+        "type": "body",
+        "text": "• Come up with a blueprint, ask for feedback. Many good interviewers involve the interviewer."
+      },
+      {
+        "type": "body",
+        "text": "• Draw boxes on the whiteboard with key components - clients, APIs, web servers, data stores, cache, cdn, message queue, etc."
+      },
+      {
+        "type": "body",
+        "text": "• Do back-of-the-envelope calculations to evaluate if the blueprint fits the scale constraints. Communicate with interviewer if this type of estimation is required beforehand.<br/>You could go through some concrete use-cases, which can help you refine the design. It might help you uncover edge cases.<br/>Should we include API schema and database design? Depends on the problem. For larger scale systems, this might be too low level.<br/>Communicate with the interviewer to figure this out.<br/>Example - designing a news feed.<br/>High-level features:"
+      },
+      {
+        "type": "body",
+        "text": "• feed publishing - user creates a post and that post is written in cache/database, after which it gets populated in other news feeds."
+      },
+      {
+        "type": "body",
+        "text": "• news feed building - news feed is built by aggregating friends' posts in chronological order.<br/>Example diagram - feed publishing:<br/>Example diagram - news feed building:"
+      },
+      {
+        "type": "h1",
+        "text": "Step 3 - Design deep dive"
+      },
+      {
+        "type": "body",
+        "text": "Objectives you should have achieved so far:"
+      },
+      {
+        "type": "body",
+        "text": "• Agreed on overall goals & features"
+      },
+      {
+        "type": "body",
+        "text": "• Sketched out a high-level blueprint of the design"
+      },
+      {
+        "type": "body",
+        "text": "• Obtained feedback about the high-level design"
+      },
+      {
+        "type": "body",
+        "text": "• Received initial ideas on areas you need to focus on in the deep dive<br/>At this stage, you should work with interviewer to prioritize which components you should focus on.<br/>Example things you might have to focus on:"
+      },
+      {
+        "type": "body",
+        "text": "• High-level design."
+      },
+      {
+        "type": "body",
+        "text": "• System performance characteristics."
+      },
+      {
+        "type": "body",
+        "text": "• In most cases, dig into the details of some system component.<br/>What details could you dig into? Some examples:"
+      },
+      {
+        "type": "body",
+        "text": "• For URL shortener - the hash function which converts long URLs into small ones"
+      },
+      {
+        "type": "body",
+        "text": "• For Chat system - reducing latency and supporting online/offline status<br/>Time management is essential - don't get carried away with details which don't show off your skills.<br/>For example, don't get carried away about how facebook's EdgeRank algorithm works as it doesn't demonstrate your design skills.<br/>Example design deep dive for feed publishing:<br/>Example design deep dive for news feed building:"
+      },
+      {
+        "type": "h1",
+        "text": "Step 4 - Wrap up"
+      },
+      {
+        "type": "body",
+        "text": "At this stage, the interviewer might ask you some follow-up questions or give you the freedom to discuss anything you want.<br/>A few directions to follow:"
+      },
+      {
+        "type": "body",
+        "text": "• Identify system bottlenecks and discuss improvements. No design is perfect, there are always things to improve."
+      },
+      {
+        "type": "body",
+        "text": "• Give a recap of your design."
+      },
+      {
+        "type": "body",
+        "text": "• Failure modes - server failure, network loss, etc."
+      },
+      {
+        "type": "body",
+        "text": "• Operational issues - monitoring, alerting, rolling out the system."
+      },
+      {
+        "type": "body",
+        "text": "• What needs to change to support the next scale curve? Eg 1mil -> 10mil users"
+      },
+      {
+        "type": "body",
+        "text": "• Propose other refinements.<br/>Do's:"
+      },
+      {
+        "type": "body",
+        "text": "• Ask for clarification, don't assume your assumption is correct."
+      },
+      {
+        "type": "body",
+        "text": "• Understand problem requirements."
+      },
+      {
+        "type": "body",
+        "text": "• There is no right or perfect answer. A solution for a small company is different from one for a larger one."
+      },
+      {
+        "type": "body",
+        "text": "• Let interviewer know what you're thinking."
+      },
+      {
+        "type": "body",
+        "text": "• Suggest multiple approaches."
+      },
+      {
+        "type": "body",
+        "text": "• Agree on blueprint and then design the most critical components first."
+      },
+      {
+        "type": "body",
+        "text": "• Share ideas with interviewer. They should work with you.<br/>Dont's:"
+      },
+      {
+        "type": "body",
+        "text": "• Come unprepared for typical interview questions."
+      },
+      {
+        "type": "body",
+        "text": "• Jump into a solution without understanding the requirements first."
+      },
+      {
+        "type": "body",
+        "text": "• Don't go into too much details on a single component at first. Design at a high-level initially."
+      },
+      {
+        "type": "body",
+        "text": "• Feel free to ask for hints if you get stuck."
+      },
+      {
+        "type": "body",
+        "text": "• Communicate, don't think silently."
+      },
+      {
+        "type": "h1",
+        "text": "Time allocation on each step"
+      },
+      {
+        "type": "body",
+        "text": "45 minutes are not enough to cover any design into sufficient detail.<br/>Here's a rough guide on how much time you should spend on each step:"
+      },
+      {
+        "type": "body",
+        "text": "• Understand problem & establish design scope - 3-10m"
+      },
+      {
+        "type": "body",
+        "text": "• Propose high-level design & get buy-in - 10-15m"
+      },
+      {
+        "type": "body",
+        "text": "• Design deep dive - 10-25m"
+      },
+      {
+        "type": "body",
+        "text": "• Wrap-up - 3-5m"
+      },
+      {
+        "type": "h1",
+        "text": "📚 Chapter 4: Design A Rate Limiter"
+      },
+      {
+        "type": "body",
+        "text": "The rate limiter's purpose in a distributed system is to control the rate of traffic sent from clients to a given server.<br/>It controls the maximum number of requests allowed in a given time period.<br/>If the number of requests exceeds the threshold, the extra requests are dropped by the rate limiter.<br/>Examples:"
+      },
+      {
+        "type": "body",
+        "text": "• User can write no more than 2 posts per second."
+      },
+      {
+        "type": "body",
+        "text": "• You can create 10 accounts max per day from the same IP."
+      },
+      {
+        "type": "body",
+        "text": "• You can claim rewards max 10 times per week.<br/>Almost all APIs have some sort of rate limiting - eg Twitter allows 300 tweets per 3h max.<br/>What are the benefits of using a rate limiter?"
+      },
+      {
+        "type": "body",
+        "text": "• Prevents DoS attacks."
+      },
+      {
+        "type": "body",
+        "text": "• Reduces cost - fewer servers are allocated to lower priority APIs.<br/>Also, you might have a downstream dependency which charges you on a per-call basis, eg making a payment, retrieving health records, etc."
+      },
+      {
+        "type": "body",
+        "text": "• Prevents servers from getting overloaded."
+      },
+      {
+        "type": "h1",
+        "text": "Step 1 - Understand the problem and establish design scope"
+      },
+      {
+        "type": "body",
+        "text": "There are multiple techniques which you can use to implement a rate limiter, each with its pros and cons.<br/>Example Candidate-Interviewer conversation:"
+      },
+      {
+        "type": "body",
+        "text": "• C: What kind of rate limiter are we designing? Client-side or server-side?"
+      },
+      {
+        "type": "body",
+        "text": "• I: Server-side"
+      },
+      {
+        "type": "body",
+        "text": "• C: Does the rate limiter throttle API requests based on IP, user ID or anything else?"
+      },
+      {
+        "type": "body",
+        "text": "• I: The system should be flexible enough to support different throttling rules."
+      },
+      {
+        "type": "body",
+        "text": "• C: What's the scale of the system? Startup or big company?"
+      },
+      {
+        "type": "body",
+        "text": "• I: It should handle a large number of requests."
+      },
+      {
+        "type": "body",
+        "text": "• C: Will the system work in a distributed environment?"
+      },
+      {
+        "type": "body",
+        "text": "• I: Yes."
+      },
+      {
+        "type": "body",
+        "text": "• C: Should it be a separate service or a library?"
+      },
+      {
+        "type": "body",
+        "text": "• I: Up to you."
+      },
+      {
+        "type": "body",
+        "text": "• C: Do we need to inform throttled users?"
+      },
+      {
+        "type": "body",
+        "text": "• I: Yes.<br/>Summary of requirements:"
+      },
+      {
+        "type": "body",
+        "text": "• Accurately limit excess requests"
+      },
+      {
+        "type": "body",
+        "text": "• Low latency & as little memory as possible"
+      },
+      {
+        "type": "body",
+        "text": "• Distributed rate limiting."
+      },
+      {
+        "type": "body",
+        "text": "• Exception handling"
+      },
+      {
+        "type": "body",
+        "text": "• High fault tolerance - if cache server goes down, rate limiter should continue functioning."
+      },
+      {
+        "type": "h1",
+        "text": "Step 2 - Propose high-level design and get buy-in"
+      },
+      {
+        "type": "body",
+        "text": "We'll stick with a simple client-server model for simplicity."
+      },
+      {
+        "type": "h1",
+        "text": "Where to put the rate limiter?"
+      },
+      {
+        "type": "body",
+        "text": "It can be implemented either client-side, server-side or as a middleware.<br/>Client-side - Unreliable, because client requests can easily be forged by malicious actors. We also might not have control over client implementation.<br/>Server-side:<br/>As a middleware between client and server:<br/>How it works, assuming 2 requests per second are allowed:<br/>In cloud microservices, rate limiting is usually implemented in the API Gateway.<br/>This service supports rate limiting, ssl termination, authentication, IP whitelisting, serving static content, etc.<br/>So where should the rate limiter be implemented? On the server-side or in the API gateway?<br/>It depends on several things:"
+      },
+      {
+        "type": "body",
+        "text": "• Current tech stack - if you're implementing it server-side, then your language should be sufficient enough to support it."
+      },
+      {
+        "type": "body",
+        "text": "• If implemented on the server-side, you have control over the rate limiting algorithm."
+      },
+      {
+        "type": "body",
+        "text": "• If you already have an API gateway, you might as well add the rate limiter in there."
+      },
+      {
+        "type": "body",
+        "text": "• Building your own rate limiter takes time. If you don't have sufficient resources, consider using an off-the-shelf third-party solution instead."
+      },
+      {
+        "type": "h1",
+        "text": "Algorithms for rate limiting"
+      },
+      {
+        "type": "body",
+        "text": "There are multiple algorithms for rate limiting, each with its pros and cons.<br/>Some of the popular algorithms - token bucket, leaking bucket, fixed window counter, sliding window log, sliding window counter."
+      },
+      {
+        "type": "h1",
+        "text": "Token bucket algorithm"
+      },
+      {
+        "type": "body",
+        "text": "Simple, well understood and commonly used by popular companies. Amazon and Stripe use it for throttling their APIs.<br/>It works as follows:"
+      },
+      {
+        "type": "body",
+        "text": "• There's a container with predefined capacity"
+      },
+      {
+        "type": "body",
+        "text": "• Tokens are periodically put in the bucket"
+      },
+      {
+        "type": "body",
+        "text": "• Once full, no more tokens are added"
+      },
+      {
+        "type": "body",
+        "text": "• Each request consumes a single token"
+      },
+      {
+        "type": "body",
+        "text": "• If no tokens left, request is dropped<br/>There are two parameters for this algorithm:"
+      },
+      {
+        "type": "body",
+        "text": "• Bucket size - maximum number of tokens allowed in the bucket"
+      },
+      {
+        "type": "body",
+        "text": "• Refill rate - number of tokens put into the bucket every second<br/>How many buckets do we need? - depends on the requirements:"
+      },
+      {
+        "type": "body",
+        "text": "• We might need different buckets per API endpoints if we need to support 3 tweets per second, 5 posts per second, etc."
+      },
+      {
+        "type": "body",
+        "text": "• Different buckets per IP if we want to make IP-based throttling."
+      },
+      {
+        "type": "body",
+        "text": "• A single global bucket if we want to globally setup 10k requests per second max.<br/>Pros:"
+      },
+      {
+        "type": "body",
+        "text": "• Easy to implement"
+      },
+      {
+        "type": "body",
+        "text": "• Memory efficient"
+      },
+      {
+        "type": "body",
+        "text": "• Throttling gets activated in the event of sustained high traffic only. If bucket size is large, this algorithm supports short bursts in traffic as long as they're not prolonged.<br/>Cons:"
+      },
+      {
+        "type": "body",
+        "text": "• Parameters might be challenging to tune properly"
+      },
+      {
+        "type": "h1",
+        "text": "Leaking bucket algorithm"
+      },
+      {
+        "type": "body",
+        "text": "Similar to token bucket algorithm, but requests are processed at a fixed rate.<br/>How it works:"
+      },
+      {
+        "type": "body",
+        "text": "• When request arrives, system checks if queue is full. If not, request is added to the queue, otherwise, it is dropped."
+      },
+      {
+        "type": "body",
+        "text": "• Requests are pulled from the queue and processed at regular intervals.<br/>Parameters:"
+      },
+      {
+        "type": "body",
+        "text": "• Bucket size - aka the queue size. It specifies how many requests will be held to be processed at fixed intervals."
+      },
+      {
+        "type": "body",
+        "text": "• Outflow rate - how many requests to be processed at fixed intervals.<br/>Shopify uses leaking bucket for rate-limiting.<br/>Pros:"
+      },
+      {
+        "type": "body",
+        "text": "• Memory efficient"
+      },
+      {
+        "type": "body",
+        "text": "• Requests processed at fixed interval. Useful for use-cases where a stable outflow rate is required.<br/>Cons:"
+      },
+      {
+        "type": "body",
+        "text": "• A burst of traffic fills up the queue with old requests. Recent requests will be rate limited."
+      },
+      {
+        "type": "body",
+        "text": "• Parameters might not be easy to tune."
+      },
+      {
+        "type": "h1",
+        "text": "Fixed window counter algorithm"
+      },
+      {
+        "type": "body",
+        "text": "How it works:"
+      },
+      {
+        "type": "body",
+        "text": "• Time is divided in fix windows with a counter for each one"
+      },
+      {
+        "type": "body",
+        "text": "• Each request increments the counter"
+      },
+      {
+        "type": "body",
+        "text": "• Once the counter reaches the threshold, subsequent requests in that window are dropped<br/>One major problem with this approach is that a burst of traffic in the edges can allow more requests than allowed to pass through:<br/>Pros:"
+      },
+      {
+        "type": "body",
+        "text": "• Memory efficient"
+      },
+      {
+        "type": "body",
+        "text": "• Easy to understand"
+      },
+      {
+        "type": "body",
+        "text": "• Resetting available quota at the end of a unit of time fits certain use cases<br/>Cons:"
+      },
+      {
+        "type": "body",
+        "text": "• Spike in traffic could cause more requests than allowed to go through a given time window"
+      },
+      {
+        "type": "h1",
+        "text": "Sliding window log algorithm"
+      },
+      {
+        "type": "body",
+        "text": "To resolve the previous algorithm's issue, we could use a sliding time window instead of a fixed one.<br/>How it works:"
+      },
+      {
+        "type": "body",
+        "text": "• Algorithm keeps track of request timestamps. Timestamp data is usually kept in a cache, such as Redis sorted set."
+      },
+      {
+        "type": "body",
+        "text": "• When a request comes in, remove outdated timestamps."
+      },
+      {
+        "type": "body",
+        "text": "• Add timestamp of the new request in the log."
+      },
+      {
+        "type": "body",
+        "text": "• If the log size is same or lower than threshold, request is allowed, otherwise, it is rejected.<br/>Note that the 3rd request in this example is rejected, but timestamp is still recorded in the log:<br/>Pros:"
+      },
+      {
+        "type": "body",
+        "text": "• Rate limiting accuracy is very high<br/>Cons:"
+      },
+      {
+        "type": "body",
+        "text": "• Memory footprint is very high"
+      },
+      {
+        "type": "h1",
+        "text": "Sliding window counter algorithm"
+      },
+      {
+        "type": "body",
+        "text": "A hybrid approach which combines the fixed window + sliding window log algorithms.<br/>How it works:"
+      },
+      {
+        "type": "body",
+        "text": "• Maintain a counter for each time window. Increment for given time window on each request."
+      },
+      {
+        "type": "body",
+        "text": "• Derive sliding window counter = <code>prev_window * prev_window_overlap + curr_window * curr_window_overlap</code> (see screenshot above)"
+      },
+      {
+        "type": "body",
+        "text": "• If counter exceeds threshold, request is rejected, otherwise it is accepted.<br/>Pros:"
+      },
+      {
+        "type": "body",
+        "text": "• Smooths out spikes in traffic as rate is based on average rate of previous window"
+      },
+      {
+        "type": "body",
+        "text": "• Memory efficient<br/>Cons:"
+      },
+      {
+        "type": "body",
+        "text": "• Not very accurate rate limiting, as it's based on overlaps. But experiments show that only ~0.003% of requests are inaccurately accepted."
+      },
+      {
+        "type": "h1",
+        "text": "High-level architecture"
+      },
+      {
+        "type": "body",
+        "text": "We'll use an in-memory cache as it's more efficient than a database for storing the rate limiting buckets - eg Redis.<br/>How it works:"
+      },
+      {
+        "type": "body",
+        "text": "• Client sends request to rate limiting middleware"
+      },
+      {
+        "type": "body",
+        "text": "• Rate limiter fetches counter from corresponding bucket & checks if request is to be let through"
+      },
+      {
+        "type": "body",
+        "text": "• If request is let through, it reaches the API servers"
+      },
+      {
+        "type": "h1",
+        "text": "Step 3 - Design deep dive"
+      },
+      {
+        "type": "body",
+        "text": "What wasn't answered in the high-level design:"
+      },
+      {
+        "type": "body",
+        "text": "• How are rate limiting rules created?"
+      },
+      {
+        "type": "body",
+        "text": "• How to handle rate-limited requests?<br/>Let's check those topics out, along with some other topics."
+      },
+      {
+        "type": "h1",
+        "text": "Rate limiting rules"
+      },
+      {
+        "type": "body",
+        "text": "Example rate limiting rules, used by Lyft for 5 marketing messages per day:<br/>Another example \\w max login attempts in a minute:<br/>Rules like these are generally written in config files and saved on disk."
+      },
+      {
+        "type": "h1",
+        "text": "Exceeding the rate limit"
+      },
+      {
+        "type": "body",
+        "text": "When a request is rate limited, a 429 (too many requests) error code is returned.<br/>In some cases, the rate-limited requests can be enqueued for future processing.<br/>We could also include some additional HTTP headers to provide additional metadata info to clients:"
+      },
+      {
+        "type": "code",
+        "text": "X-Ratelimit-Remaining: The remaining number of allowed requests within the window.\nX-Ratelimit-Limit: It indicates how many calls the client can make per time window.\nX-Ratelimit-Retry-After: The number of seconds to wait until you can make a request again without being throttled."
+      },
+      {
+        "type": "h1",
+        "text": "Detailed design"
+      },
+      {
+        "type": "body",
+        "text": "• Rules are stored on disk, workers populate them periodically in an in-memory cache."
+      },
+      {
+        "type": "body",
+        "text": "• Rate limiting middleware intercepts client requests."
+      },
+      {
+        "type": "body",
+        "text": "• Middleware loads the rules from the cache. It also fetches counters from the redis cache."
+      },
+      {
+        "type": "body",
+        "text": "• If request is allowed, it proceeds to API servers. If not, a 429 HTTP status code is returned. Then, request is either dropped or enqueued."
+      },
+      {
+        "type": "h1",
+        "text": "Rate limiter in a distributed environment"
+      },
+      {
+        "type": "body",
+        "text": "How will we scale the rate limited beyond a single server?<br/>There are several challenges to consider:"
+      },
+      {
+        "type": "body",
+        "text": "• Race condition"
+      },
+      {
+        "type": "body",
+        "text": "• Synchronization<br/>In case of race conditions, the counter might not be updated correctly when mutated by multiple instances:<br/>Locks are a typical way to solve this issue, but they are costly.<br/>Alternatively, one could use Lua scripts or Redis sorted sets, which solve the race conditions.<br/>If we maintain user information within the application memory, the rate limiter is stateful and we'll need to use sticky sessions to make sure requests from the same user is handled by the same rate limiter instance.<br/>To solve this issue, we can use a centralized data store (eg Redis) so that the rate limiter instances are stateless."
+      },
+      {
+        "type": "h1",
+        "text": "Performance optimization"
+      },
+      {
+        "type": "body",
+        "text": "There are two things we can do as a performance optimization for our rate limiters:"
+      },
+      {
+        "type": "body",
+        "text": "• Multi-data center setup - so that users interact with instances geographically close to them."
+      },
+      {
+        "type": "body",
+        "text": "• Use eventual consistency as a synchronization model to avoid excessive locking."
+      },
+      {
+        "type": "h1",
+        "text": "Monitoring"
+      },
+      {
+        "type": "body",
+        "text": "After the rate limiter is deployed, we'd want to monitor if it's effective.<br/>To do so, we need to track:"
+      },
+      {
+        "type": "body",
+        "text": "• If the rate limiting algorithm is effective"
+      },
+      {
+        "type": "body",
+        "text": "• If the rate limiting rules are effective<br/>If too many requests are dropped, we might have to tune some of the rules or the algorithm parameters."
+      },
+      {
+        "type": "h1",
+        "text": "Step 4 - Wrap up"
+      },
+      {
+        "type": "body",
+        "text": "We discussed a bunch of rate-limiting algorithms:"
+      },
+      {
+        "type": "body",
+        "text": "• Token bucket - good for supporting traffic bursts."
+      },
+      {
+        "type": "body",
+        "text": "• Leaking bucket - good for ensuring consistent inbound request flow to downstream services"
+      },
+      {
+        "type": "body",
+        "text": "• Fixed window - good for specific use-cases where you want time divided in explicit windows"
+      },
+      {
+        "type": "body",
+        "text": "• Sliding window log - good when you want high rate-limiting accuracy at the expense of memory footprint."
+      },
+      {
+        "type": "body",
+        "text": "• Sliding window counter - good when you don't want 100% accuracy with a very low memory footprint.<br/>Additional talking points if time permits:"
+      },
+      {
+        "type": "body",
+        "text": "• Hard vs. soft rate limiting"
+      },
+      {
+        "type": "body",
+        "text": "• Hard - requests cannot exceed the specified threshold"
+      },
+      {
+        "type": "body",
+        "text": "• Soft - requests can exceed threshold for some limited time"
+      },
+      {
+        "type": "body",
+        "text": "• Rate limiting at different layers - L7 (application) vs L3 (network)"
+      },
+      {
+        "type": "body",
+        "text": "• Client-side measures to avoid being rate limited:"
+      },
+      {
+        "type": "body",
+        "text": "• Client-side cache to avoid excessive calls"
+      },
+      {
+        "type": "body",
+        "text": "• Understand limit and avoid sending too many requests in a small time frame"
+      },
+      {
+        "type": "body",
+        "text": "• Gracefully handle exceptions due to being rate limited"
+      },
+      {
+        "type": "body",
+        "text": "• Add sufficient back-off and retry logic"
+      },
+      {
+        "type": "h1",
+        "text": "📚 Chapter 5: Design Consistent Hashing"
+      },
+      {
+        "type": "body",
+        "text": "For horizontal scaling, it is important to distribute requests across servers efficiently.<br/>Consistent hashing is a common approach to achieve this."
+      },
+      {
+        "type": "h1",
+        "text": "The rehashing problem"
+      },
+      {
+        "type": "body",
+        "text": "One way to determine which server a request gets routed to is by applying a simple hash+module formula:"
+      },
+      {
+        "type": "code",
+        "text": "serverIndex = hash(key) % N, where N is the number of servers"
+      },
+      {
+        "type": "body",
+        "text": "This makes it so requests are distributed uniformly across all servers.<br/>However, whenever new servers are added or removed, the result of the above equation is very different, meaning that a lot of requests will get rerouted across servers.<br/>This causes a lot of cache misses as clients will be connected to new instances which will have to fetch the user data from cache all over again."
+      },
+      {
+        "type": "h1",
+        "text": "Consistent hashing"
+      },
+      {
+        "type": "body",
+        "text": "Consistent hashing is a technique which allows only a K/N servers to be remapped whenever N changes, where K is the number of keys.<br/>For example, K=100, N=10 -> 10 re-mappings, compared to close to 100 in the normal scenario."
+      },
+      {
+        "type": "h1",
+        "text": "Hash space and hash ring"
+      },
+      {
+        "type": "body",
+        "text": "A hash ring is a visualization of the possible key space of a given hash algorithm, which is combined into a ring-like structure:"
+      },
+      {
+        "type": "h1",
+        "text": "Hash servers"
+      },
+      {
+        "type": "body",
+        "text": "Using the same hash function for the requests, we map the servers based on server IP or name onto the hash ring:"
+      },
+      {
+        "type": "h1",
+        "text": "Hash keys"
+      },
+      {
+        "type": "body",
+        "text": "The hashes of the requests also get resolved somewhere along the hash ring. Notice that we're not using the modulo operator in this case:"
+      },
+      {
+        "type": "h1",
+        "text": "Server lookup"
+      },
+      {
+        "type": "body",
+        "text": "Now, to determine which server is going to serve each request, we go clockwise from the request's hash until we reach the first server hash:"
+      },
+      {
+        "type": "h1",
+        "text": "Add a server"
+      },
+      {
+        "type": "body",
+        "text": "Via this approach, adding a new server causes only one of the requests to get remapped to a new server:"
+      },
+      {
+        "type": "h1",
+        "text": "Remove a server"
+      },
+      {
+        "type": "body",
+        "text": "Likewise, removing a server causes only a single request to get remapped:"
+      },
+      {
+        "type": "h1",
+        "text": "Two issues in the basic approach"
+      },
+      {
+        "type": "body",
+        "text": "The first problem with this approach is that hash partitions can be uneven across servers:<br/>The second problem derives from the first - it is possible that requests are unevenly distributed across servers:"
+      },
+      {
+        "type": "h1",
+        "text": "Virtual nodes"
+      },
+      {
+        "type": "body",
+        "text": "To solve this issue, we can map a servers on the hash ring multiple times, creating virtual nodes and assigning multiple partitions to the same server:<br/>Now, a request is mapped to the closest virtual node on the hash ring:<br/>The more virtual nodes we have, the more evenly distributed the requests will be.<br/>An experiment showed that between 100-200 virtual nodes leads to a standard deviation between 5-10%."
+      },
+      {
+        "type": "h1",
+        "text": "Wrap up"
+      },
+      {
+        "type": "body",
+        "text": "Benefits of consistent hashing:"
+      },
+      {
+        "type": "body",
+        "text": "• Very low number of keys are distributed in a re-balancing event"
+      },
+      {
+        "type": "body",
+        "text": "• Easy to scale horizontally as data is uniformly distributed"
+      },
+      {
+        "type": "body",
+        "text": "• Hotspot issue is mitigated by uniformly distributing data, related to eg a celebrity, which is often accessed<br/>Examples of real-world applications of consistent hashing:"
+      },
+      {
+        "type": "body",
+        "text": "• Amazon's DynamoDB partitioning component"
+      },
+      {
+        "type": "body",
+        "text": "• Data partitioning in Cassandra"
+      },
+      {
+        "type": "body",
+        "text": "• Discord chat application"
+      },
+      {
+        "type": "body",
+        "text": "• Akamai CDN"
+      },
+      {
+        "type": "body",
+        "text": "• Maglev network load balancer"
       }
     ]
   },
