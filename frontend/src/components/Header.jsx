@@ -26,16 +26,18 @@ export default function Header({
     <nav className="navbar">
       <div className="nav-container">
         {/* Left: Logo */}
-        <a href="#home" className="logo" onClick={() => setActiveTab('home')} style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>
-          <img 
-            src="/logo.png" 
-            alt="Virtual Gyans Logo" 
-            style={{ width: '26px', height: '26px', objectFit: 'contain' }} 
-            loading="eager"
-            fetchpriority="high"
-            decoding="sync"
-          />
-          Virtual Gyans
+        <a href="#home" className="logo" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.55rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
+          <div className="theme-toggle-btn" style={{ width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+            <img 
+              src="/logo.png" 
+              alt="Virtual Gyans Logo" 
+              style={{ width: '20px', height: '20px', objectFit: 'contain' }} 
+              loading="eager"
+              fetchpriority="high"
+              decoding="sync"
+            />
+          </div>
+          <span style={{ fontWeight: 800, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>Virtual Gyans</span>
         </a>
         
         {/* Middle: Navigation Text Tabs */}
