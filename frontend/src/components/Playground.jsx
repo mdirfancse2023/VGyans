@@ -253,8 +253,12 @@ const highlightCode = (codeText, lang) => {
   }
 
   const pythonKeywords = new Set(['def', 'class', 'import', 'from', 'as', 'return', 'if', 'elif', 'else', 'for', 'in', 'while', 'try', 'except', 'pass', 'print', 'and', 'or', 'not', 'is', 'lambda', 'with', 'yield', 'None', 'True', 'False']);
-  const cppKeywords = new Set(['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'do', 'void', 'int', 'double', 'float', 'char', 'boolean', 'long', 'static', 'final', 'new', 'this', 'super', 'override', 'include', 'using', 'namespace', 'cout', 'cin', 'endl', 'vector', 'unordered_map', 'string', 'const', 'virtual']);
-  const sqlKeywords = new Set(['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'ON', 'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'SUM', 'MAX', 'MIN', 'AVG', 'COUNT', 'AS', 'AND', 'OR', 'IN', 'INSERT', 'INTO', 'VALUES', 'CREATE', 'TABLE', 'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES']);
+  const pythonBuiltins = new Set(['len', 'range', 'list', 'dict', 'set', 'str', 'int', 'float', 'bool', 'type', 'sum', 'min', 'max', 'abs', 'enumerate', 'zip', 'map', 'filter', 'sorted', 'open', 'input']);
+  
+  const cppKeywords = new Set(['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'do', 'void', 'int', 'double', 'float', 'char', 'boolean', 'long', 'static', 'final', 'new', 'this', 'super', 'override', 'include', 'using', 'namespace', 'const', 'virtual', 'auto']);
+  const cppBuiltins = new Set(['cout', 'cin', 'endl', 'vector', 'unordered_map', 'map', 'string', 'set', 'pair', 'queue', 'stack', 'System', 'out', 'println', 'print', 'main', 'std']);
+  
+  const sqlKeywords = new Set(['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'ON', 'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'SUM', 'MAX', 'MIN', 'AVG', 'COUNT', 'AS', 'AND', 'OR', 'IN', 'INSERT', 'INTO', 'VALUES', 'CREATE', 'TABLE', 'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES', 'UPDATE', 'DELETE', 'SET']);
 
   const tokens = escaped.match(tokenRegex) || [escaped];
   
@@ -276,14 +280,23 @@ const highlightCode = (codeText, lang) => {
     if (lang === 'python' && pythonKeywords.has(rawToken)) {
       return `<span class="code-token-keyword">${token}</span>`;
     }
+    if (lang === 'python' && pythonBuiltins.has(rawToken)) {
+      return `<span class="code-token-builtin">${token}</span>`;
+    }
     if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(rawToken)) {
       return `<span class="code-token-keyword">${token}</span>`;
+    }
+    if ((lang === 'java' || lang === 'cpp') && cppBuiltins.has(rawToken)) {
+      return `<span class="code-token-builtin">${token}</span>`;
     }
     if (lang === 'sql' || lang === 'mysql' || lang === 'postgres') {
       const upperToken = rawToken.toUpperCase();
       if (sqlKeywords.has(upperToken)) {
         return `<span class="code-token-keyword">${token}</span>`;
       }
+    }
+    if (/^[=+\-*/%<>&|!~:;(){}\[\]]+$/.test(rawToken)) {
+      return `<span class="code-token-operator">${token}</span>`;
     }
     return token;
   }).join('');
