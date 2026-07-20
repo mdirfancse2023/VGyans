@@ -107,7 +107,7 @@ export default function AuthModal({
       localStorage.setItem('vg_user', JSON.stringify(userObj));
 
       setLoading(false);
-      setSuccessMsg('JWT Verified! Logged in successfully.');
+      setSuccessMsg('Logged in successfully!');
 
       setTimeout(() => {
         onLoginSuccess(userObj);
@@ -116,7 +116,7 @@ export default function AuthModal({
       }, 600);
     } catch (err) {
       setLoading(false);
-      setErrorMsg('JWT Authentication failed. Please try again.');
+      setErrorMsg('Authentication failed. Please try again.');
     }
   };
 
@@ -348,14 +348,14 @@ export default function AuthModal({
                 onChange={handleChange} 
                 style={{ accentColor: 'var(--primary)' }}
               />
-              Remember me (JWT Token)
+              Remember me
             </label>
             <a 
               href="#forgot" 
-              onClick={(e) => { e.preventDefault(); alert('Password verification handled via JWT SHA-256 Hash.'); }}
+              onClick={(e) => { e.preventDefault(); alert('Please contact administrator if you forgot your password.'); }}
               style={{ color: 'var(--primary)', textDecoration: 'none' }}
             >
-              JWT Auth Info
+              Forgot Password?
             </a>
           </div>
 
@@ -375,7 +375,7 @@ export default function AuthModal({
             {loading ? (
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
                 <span style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-                Verifying JWT...
+                Authenticating...
               </span>
             ) : (
               'Log In & Enter Platform'
