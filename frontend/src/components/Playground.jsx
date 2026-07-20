@@ -1031,29 +1031,34 @@ export default function Playground({ questions, onGoHome }) {
           width: 28px;
           height: 28px;
           border-radius: 7px;
-          border: 1px solid rgba(255,255,255,0.12);
-          background: rgba(255,255,255,0.06);
-          color: #94a3b8;
+          border: 1px solid rgba(255,255,255,0.08);
+          background: transparent;
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          color: rgba(148, 163, 184, 0.6);
           cursor: pointer;
           flex-shrink: 0;
-          transition: all 0.18s;
+          transition: all 0.18s ease;
           outline: none;
         }
         .sidebar-home-btn:hover {
-          background: rgba(2, 132, 199, 0.15);
-          border-color: rgba(2, 132, 199, 0.45);
+          background: rgba(56, 189, 248, 0.08);
+          border-color: rgba(56, 189, 248, 0.3);
           color: #38bdf8;
-          transform: scale(1.08);
+          transform: scale(1.1);
+          box-shadow: 0 0 8px rgba(56, 189, 248, 0.15);
         }
         body.light-theme .sidebar-home-btn {
-          background: #f1f5f9 !important;
-          border-color: #e2e8f0 !important;
-          color: #64748b !important;
+          background: transparent !important;
+          border-color: rgba(15,23,42,0.12) !important;
+          color: rgba(100, 116, 139, 0.55) !important;
+          backdrop-filter: blur(8px) !important;
         }
         body.light-theme .sidebar-home-btn:hover {
-          background: #e0f2fe !important;
-          border-color: #0284c7 !important;
+          background: rgba(2, 132, 199, 0.07) !important;
+          border-color: rgba(2, 132, 199, 0.3) !important;
           color: #0284c7 !important;
+          box-shadow: 0 0 8px rgba(2, 132, 199, 0.1) !important;
         }
         .diff-badge {
           font-size: 0.7rem;
