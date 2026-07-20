@@ -117,7 +117,7 @@ export default function ResumeBuilder() {
     if (!element) return;
 
     const opt = {
-      margin:       [0.15, 0.4, 0.15, 0.4],
+      margin:       [0.4, 0.4, 0.4, 0.4],
       filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2, useCORS: true, logging: false },
