@@ -941,7 +941,7 @@ export default function Playground({ questions }) {
           background: var(--bg-dark-secondary);
           border: 1px solid var(--border-glass);
           border-radius: 12px;
-          height: 100%;
+          height: calc(100vh - 150px);
           overflow: hidden;
           box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
           position: relative;
