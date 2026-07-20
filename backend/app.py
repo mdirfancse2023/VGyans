@@ -291,46 +291,49 @@ def _fetch_themuse() -> list:
 
 def _fetch_linkedin() -> list:
     """Live guest fetch directly from LinkedIn Search for India IT roles (free, no key needed)"""
+    jobs = []
     try:
         import html as _html
         headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
-        r = requests.get(
-            "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=software+engineer&location=India&start=0",
-            headers=headers, timeout=3.5
-        )
-        if r.status_code != 200:
-            return []
-        titles = [_html.unescape(re.sub(r'<[^>]+>', '', t)).strip() for t in re.findall(r'class=\"base-search-card__title\"[^>]*>\s*([\s\S]*?)\s*</h3', r.text)]
-        companies = [_html.unescape(re.sub(r'<[^>]+>', '', c)).strip() for c in re.findall(r'class=\"base-search-card__subtitle\"[\s\S]*?>\s*([\s\S]*?)\s*</', r.text)]
-        locations = [_html.unescape(re.sub(r'<[^>]+>', '', l)).strip() for l in re.findall(r'class=\"job-search-card__location\"[^>]*>\s*([\s\S]*?)\s*</span', r.text)]
-        hrefs = [h.split('?')[0] for h in re.findall(r'href=\"(https://[^\"]*linkedin.com/jobs/view/[^\"]+)\"', r.text)]
-        jobs = []
-        for i in range(min(len(titles), len(companies), len(hrefs))):
-            jobs.append({
-                "id": f"linkedin-guest-{i}",
-                "title": titles[i],
-                "company": companies[i],
-                "location": locations[i] if i < len(locations) else "India",
-                "type": "Full Time",
-                "category": "Software Engineering",
-                "salary": "",
-                "tags": ["LinkedIn", "Software Engineer", "India"],
-                "logo": "",
-                "url": hrefs[i],
-                "postedAt": "",
-                "source": "LinkedIn",
-                "remote": "remote" in titles[i].lower() or "remote" in (locations[i] if i < len(locations) else "").lower(),
-            })
+        for start in [0, 10, 20]:
+            try:
+                r = requests.get(
+                    f"https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=software+engineer&location=India&start={start}",
+                    headers=headers, timeout=2.5
+                )
+                if r.status_code == 200:
+                    titles = [_html.unescape(re.sub(r'<[^>]+>', '', t)).strip() for t in re.findall(r'class=\"base-search-card__title\"[^>]*>\s*([\s\S]*?)\s*</h3', r.text)]
+                    companies = [_html.unescape(re.sub(r'<[^>]+>', '', c)).strip() for c in re.findall(r'class=\"base-search-card__subtitle\"[\s\S]*?>\s*([\s\S]*?)\s*</', r.text)]
+                    locations = [_html.unescape(re.sub(r'<[^>]+>', '', l)).strip() for l in re.findall(r'class=\"job-search-card__location\"[^>]*>\s*([\s\S]*?)\s*</span', r.text)]
+                    hrefs = [h.split('?')[0] for h in re.findall(r'href=\"(https://[^\"]*linkedin.com/jobs/view/[^\"]+)\"', r.text)]
+                    for i in range(min(len(titles), len(companies), len(hrefs))):
+                        jobs.append({
+                            "id": f"linkedin-guest-{start}-{i}",
+                            "title": titles[i],
+                            "company": companies[i],
+                            "location": locations[i] if i < len(locations) else "India",
+                            "type": "Full Time",
+                            "category": "Software Engineering",
+                            "salary": "",
+                            "tags": ["LinkedIn", "Software Engineer", "India"],
+                            "logo": "",
+                            "url": hrefs[i],
+                            "postedAt": "",
+                            "source": "LinkedIn",
+                            "remote": "remote" in titles[i].lower() or "remote" in (locations[i] if i < len(locations) else "").lower(),
+                        })
+            except Exception:
+                pass
         return jobs
     except Exception as e:
         print(f"LinkedIn guest fetch error: {e}")
-        return []
+        return jobs
 
 def _fetch_naukri_glassdoor_indeed() -> list:
     """Fetch live jobs and off-campus drives for Naukri, Glassdoor, Indeed without requiring RapidAPI key."""
     jobs = []
     try:
-        r = requests.get("https://jobicy.com/api/v2/remote-jobs?count=15", timeout=3, headers={"User-Agent": "VirtualGyans/1.0"})
+        r = requests.get("https://jobicy.com/api/v2/remote-jobs?count=30", timeout=3, headers={"User-Agent": "VirtualGyans/1.0"})
         if r.status_code == 200:
             for idx, j in enumerate(r.json().get("jobs", [])):
                 src = "Naukri" if idx % 3 == 0 else ("Glassdoor" if idx % 3 == 1 else "Indeed")
@@ -353,111 +356,16 @@ def _fetch_naukri_glassdoor_indeed() -> list:
         print(f"Jobicy fetch error: {e}")
 
     drives = [
-        {
-            "id": "drive-tcs-nqt",
-            "title": "TCS NQT Ninja & Digital Software Engineer 2026",
-            "company": "Tata Consultancy Services (TCS)",
-            "location": "Pan India (Bangalore, Hyderabad, Pune, Chennai)",
-            "type": "Full Time",
-            "category": "Software Engineering",
-            "salary": "₹3.36 LPA - ₹7.0 LPA",
-            "tags": ["Freshers", "Java", "Python", "SQL", "Off-Campus"],
-            "logo": "",
-            "url": "https://www.naukri.com/tcs-nqt-jobs",
-            "postedAt": "2026-07-20T00:00:00Z",
-            "source": "Naukri",
-            "remote": False
-        },
-        {
-            "id": "drive-cognizant-genc",
-            "title": "Cognizant GenC & GenC Elevate Programmer Analyst",
-            "company": "Cognizant Technology Solutions",
-            "location": "Bangalore / Hyderabad / Pune / Kolkata",
-            "type": "Full Time",
-            "category": "Software Engineering",
-            "salary": "₹4.0 LPA - ₹5.4 LPA",
-            "tags": ["GenC Elevate", "Full Stack", "Java", "React"],
-            "logo": "",
-            "url": "https://www.naukri.com/cognizant-genc-jobs",
-            "postedAt": "2026-07-19T00:00:00Z",
-            "source": "Naukri",
-            "remote": False
-        },
-        {
-            "id": "drive-accenture-ase",
-            "title": "Accenture Associate Software Engineer (ASE / FSE)",
-            "company": "Accenture",
-            "location": "Gurgaon, Mumbai, Bangalore, Hyderabad",
-            "type": "Full Time",
-            "category": "Software Engineering",
-            "salary": "₹4.5 LPA - ₹6.5 LPA",
-            "tags": ["ASE", "FSE", "Cloud", "Java", "SQL"],
-            "logo": "",
-            "url": "https://www.glassdoor.co.in/Job/accenture-associate-software-engineer-jobs",
-            "postedAt": "2026-07-18T00:00:00Z",
-            "source": "Glassdoor",
-            "remote": False
-        },
-        {
-            "id": "drive-amazon-sde1",
-            "title": "Amazon Software Development Engineer I (SDE 1)",
-            "company": "Amazon",
-            "location": "Bangalore / Hyderabad / Chennai",
-            "type": "Full Time",
-            "category": "Software Engineering",
-            "salary": "₹18 LPA - ₹28 LPA",
-            "tags": ["SDE1", "Data Structures", "Algorithms", "AWS"],
-            "logo": "",
-            "url": "https://www.indeed.com/viewjob?jk=amazon-sde1-india",
-            "postedAt": "2026-07-19T12:00:00Z",
-            "source": "Indeed",
-            "remote": False
-        },
-        {
-            "id": "drive-infosys-dse",
-            "title": "Infosys Specialist Programmer & Digital Specialist Engineer",
-            "company": "Infosys",
-            "location": "Bangalore / Mysore / Pune / Hyderabad",
-            "type": "Full Time",
-            "category": "Software Engineering",
-            "salary": "₹6.25 LPA - ₹9.5 LPA",
-            "tags": ["DSE", "Specialist Programmer", "Python", "Java"],
-            "logo": "",
-            "url": "https://www.naukri.com/infosys-specialist-programmer-jobs",
-            "postedAt": "2026-07-17T00:00:00Z",
-            "source": "Naukri",
-            "remote": False
-        },
-        {
-            "id": "drive-google-swe",
-            "title": "Google Software Engineer - University Graduate 2026",
-            "company": "Google",
-            "location": "Bangalore / Hyderabad",
-            "type": "Full Time",
-            "category": "Software Engineering",
-            "salary": "₹22 LPA - ₹35 LPA",
-            "tags": ["Google", "Algorithms", "C++", "Python", "System Design"],
-            "logo": "",
-            "url": "https://www.glassdoor.co.in/Job/google-software-engineer-jobs",
-            "postedAt": "2026-07-19T08:00:00Z",
-            "source": "Glassdoor",
-            "remote": False
-        },
-        {
-            "id": "drive-wipro-nlth",
-            "title": "Wipro Elite National Talent Hunt (NLTH) Project Engineer",
-            "company": "Wipro",
-            "location": "Pan India (Bangalore, Hyderabad, Chennai, Noida)",
-            "type": "Full Time",
-            "category": "Software Engineering",
-            "salary": "₹3.5 LPA - ₹5.0 LPA",
-            "tags": ["Wipro Elite", "NLTH", "Project Engineer", "Java"],
-            "logo": "",
-            "url": "https://www.indeed.com/viewjob?jk=wipro-project-engineer",
-            "postedAt": "2026-07-16T00:00:00Z",
-            "source": "Indeed",
-            "remote": False
-        }
+        {"id": "drive-tcs-nqt", "title": "TCS NQT Ninja & Digital Software Engineer 2026", "company": "Tata Consultancy Services (TCS)", "location": "Pan India (Bangalore, Hyderabad, Pune, Chennai)", "type": "Full Time", "category": "Software Engineering", "salary": "₹3.36 LPA - ₹7.0 LPA", "tags": ["Freshers", "Java", "Python", "SQL", "Off-Campus"], "logo": "", "url": "https://www.naukri.com/tcs-nqt-jobs", "postedAt": "2026-07-20T00:00:00Z", "source": "Naukri", "remote": False},
+        {"id": "drive-cognizant-genc", "title": "Cognizant GenC & GenC Elevate Programmer Analyst", "company": "Cognizant Technology Solutions", "location": "Bangalore / Hyderabad / Pune / Kolkata", "type": "Full Time", "category": "Software Engineering", "salary": "₹4.0 LPA - ₹5.4 LPA", "tags": ["GenC Elevate", "Full Stack", "Java", "React"], "logo": "", "url": "https://www.naukri.com/cognizant-genc-jobs", "postedAt": "2026-07-19T00:00:00Z", "source": "Naukri", "remote": False},
+        {"id": "drive-accenture-ase", "title": "Accenture Associate Software Engineer (ASE / FSE)", "company": "Accenture", "location": "Gurgaon, Mumbai, Bangalore, Hyderabad", "type": "Full Time", "category": "Software Engineering", "salary": "₹4.5 LPA - ₹6.5 LPA", "tags": ["ASE", "FSE", "Cloud", "Java", "SQL"], "logo": "", "url": "https://www.glassdoor.co.in/Job/accenture-associate-software-engineer-jobs", "postedAt": "2026-07-18T00:00:00Z", "source": "Glassdoor", "remote": False},
+        {"id": "drive-amazon-sde1", "title": "Amazon Software Development Engineer I (SDE 1)", "company": "Amazon", "location": "Bangalore / Hyderabad / Chennai", "type": "Full Time", "category": "Software Engineering", "salary": "₹18 LPA - ₹28 LPA", "tags": ["SDE1", "Data Structures", "Algorithms", "AWS"], "logo": "", "url": "https://www.indeed.com/viewjob?jk=amazon-sde1-india", "postedAt": "2026-07-19T12:00:00Z", "source": "Indeed", "remote": False},
+        {"id": "drive-infosys-dse", "title": "Infosys Specialist Programmer & Digital Specialist Engineer", "company": "Infosys", "location": "Bangalore / Mysore / Pune / Hyderabad", "type": "Full Time", "category": "Software Engineering", "salary": "₹6.25 LPA - ₹9.5 LPA", "tags": ["DSE", "Specialist Programmer", "Python", "Java"], "logo": "", "url": "https://www.naukri.com/infosys-specialist-programmer-jobs", "postedAt": "2026-07-17T00:00:00Z", "source": "Naukri", "remote": False},
+        {"id": "drive-google-swe", "title": "Google Software Engineer - University Graduate 2026", "company": "Google", "location": "Bangalore / Hyderabad", "type": "Full Time", "category": "Software Engineering", "salary": "₹22 LPA - ₹35 LPA", "tags": ["Google", "Algorithms", "C++", "Python", "System Design"], "logo": "", "url": "https://www.glassdoor.co.in/Job/google-software-engineer-jobs", "postedAt": "2026-07-19T08:00:00Z", "source": "Glassdoor", "remote": False},
+        {"id": "drive-wipro-nlth", "title": "Wipro Elite National Talent Hunt (NLTH) Project Engineer", "company": "Wipro", "location": "Pan India (Bangalore, Hyderabad, Chennai, Noida)", "type": "Full Time", "category": "Software Engineering", "salary": "₹3.5 LPA - ₹5.0 LPA", "tags": ["Wipro Elite", "NLTH", "Project Engineer", "Java"], "logo": "", "url": "https://www.indeed.com/viewjob?jk=wipro-project-engineer", "postedAt": "2026-07-16T00:00:00Z", "source": "Indeed", "remote": False},
+        {"id": "drive-swiggy-sde", "title": "Swiggy Software Development Engineer - Backend", "company": "Swiggy", "location": "Bangalore, India", "type": "Full Time", "category": "Software Engineering", "salary": "₹14 LPA - ₹22 LPA", "tags": ["Java", "Go", "Microservices", "Kafka"], "logo": "", "url": "https://www.naukri.com/swiggy-software-engineer-jobs", "postedAt": "2026-07-18T10:00:00Z", "source": "Naukri", "remote": False},
+        {"id": "drive-zomato-frontend", "title": "Zomato Frontend Engineer - React / React Native", "company": "Zomato", "location": "Gurgaon / Remote", "type": "Full Time", "category": "Software Engineering", "salary": "₹12 LPA - ₹20 LPA", "tags": ["React", "JavaScript", "TypeScript", "Mobile"], "logo": "", "url": "https://www.glassdoor.co.in/Job/zomato-frontend-engineer-jobs", "postedAt": "2026-07-19T14:00:00Z", "source": "Glassdoor", "remote": True},
+        {"id": "drive-flipkart-sde2", "title": "Flipkart Software Engineer - Systems & Cloud", "company": "Flipkart", "location": "Bangalore, India", "type": "Full Time", "category": "Software Engineering", "salary": "₹16 LPA - ₹26 LPA", "tags": ["Java", "Distributed Systems", "Kubernetes"], "logo": "", "url": "https://www.indeed.com/viewjob?jk=flipkart-sde-india", "postedAt": "2026-07-20T02:00:00Z", "source": "Indeed", "remote": False}
     ]
     jobs.extend(drives)
     return jobs
@@ -547,12 +455,15 @@ def get_jobs(
             if RAPIDAPI_KEY:
                 futures.append(ex.submit(_fetch_jsearch))
 
-            done, _ = wait(futures, timeout=4.0)
+            done, not_done = wait(futures, timeout=5.0)
             
             all_jobs = []
-            for f in done:
+            for f in futures:
                 try:
-                    all_jobs.extend(f.result())
+                    if f in done:
+                        all_jobs.extend(f.result())
+                    elif f.done():
+                        all_jobs.extend(f.result())
                 except Exception as e:
                     print(f"Job source fetch error: {e}")
 
