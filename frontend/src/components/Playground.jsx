@@ -354,7 +354,7 @@ const getHiddenDriverCode = (originalTemplate) => {
   return null;
 };
 
-const reconstructFullCode = (userEditedCode, originalTemplate) => {
+const reconstructFullCode = (userEditedCode, originalTemplate, lang) => {
   if (!userEditedCode || !userEditedCode.trim()) return userEditedCode;
 
   const driverInfo = getHiddenDriverCode(originalTemplate || '');
@@ -363,7 +363,7 @@ const reconstructFullCode = (userEditedCode, originalTemplate) => {
   if (driverInfo) {
     const { startMarker, endMarker, hiddenContent } = driverInfo;
     
-    if (originalTemplate.includes('public class Main')) {
+    if (lang === 'java' || (originalTemplate && originalTemplate.includes('public class Main'))) {
       if (userEditedCode.includes('public static void main(')) {
         return userEditedCode;
       }
@@ -386,7 +386,7 @@ const reconstructFullCode = (userEditedCode, originalTemplate) => {
   // 2. Fallback: If originalTemplate has no driver tags or is missing, dynamically generate driver code!
   
   // Java Dynamic Driver Fallback
-  if (userEditedCode.includes('public static') || userEditedCode.includes('class Main') || userEditedCode.includes('int ') || userEditedCode.includes('boolean ') || userEditedCode.includes('void ')) {
+  if (lang === 'java') {
     if (userEditedCode.includes('public static void main(')) {
       return userEditedCode;
     }
@@ -434,7 +434,7 @@ const reconstructFullCode = (userEditedCode, originalTemplate) => {
   }
 
   // Python Dynamic Driver Fallback
-  if (userEditedCode.includes('def ')) {
+  if (lang === 'python') {
     const match = userEditedCode.match(/def\s+(\w+)\s*\(/);
     if (match) {
       const funcName = match[1];
@@ -812,7 +812,7 @@ export default function Playground({ questions }) {
         },
         body: JSON.stringify({
           language: activeLang,
-          code: reconstructFullCode(code, activeProblem?.templates?.[activeLang]),
+          code: reconstructFullCode(code, activeProblem?.templates?.[activeLang], activeLang),
           input: activeInput
         })
       });
@@ -869,7 +869,7 @@ export default function Playground({ questions }) {
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
-      const fullCode = reconstructFullCode(code, activeProblem.templates[activeLang]);
+      const fullCode = reconstructFullCode(code, activeProblem.templates[activeLang], activeLang);
 
       for (let i = 0; i < testCases.length; i++) {
         const tc = testCases[i];
