@@ -12,10 +12,20 @@ from typing import Optional, List
 from fastapi import FastAPI, HTTPException, Body, File, UploadFile, Form, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from pypdf import PdfReader
-from Crypto.Cipher import AES
-from Crypto.Util import Counter
-import docx
+try:
+    from pypdf import PdfReader
+except ImportError:
+    PdfReader = None
+try:
+    from Crypto.Cipher import AES
+    from Crypto.Util import Counter
+except ImportError:
+    AES = None
+    Counter = None
+try:
+    import docx
+except ImportError:
+    docx = None
 
 app = FastAPI(
     title="Virtual Gyans API Server",
@@ -107,11 +117,10 @@ def save_data(data):
     except Exception as e:
         print(f"Warning: Skipped local file write on serverless environment: {e}")
 
-import firebase_admin
-from firebase_admin import credentials, firestore
-
 db = None
 try:
+    import firebase_admin
+    from firebase_admin import credentials, firestore
     if not firebase_admin._apps:
         firebase_creds_json = os.getenv("FIREBASE_SERVICE_ACCOUNT")
         if firebase_creds_json:
@@ -130,7 +139,8 @@ try:
                 print("Firebase initialized with default credentials.")
     db = firestore.client()
 except Exception as e:
-    print(f"Warning: Failed to initialize Firebase connection: {e}")
+    print(f"Firebase initialization skipped or failed: {e}")
+    db = None
 
 def load_firestore_collection(collection_name: str) -> list:
     if db is not None:

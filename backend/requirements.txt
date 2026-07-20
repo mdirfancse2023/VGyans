@@ -5,9 +5,8 @@ python-dotenv
 pydantic
 pypdf
 python-docx
-python-multipart
+python-multipart>=0.0.12
 tenacity>=9.0.0
 pycryptodome
 firebase-admin
 sqlglot
-
