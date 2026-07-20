@@ -43,21 +43,6 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme, on
             <button
               onClick={onOpenFeedback}
               className="theme-toggle-btn"
-              style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                color: 'var(--text-secondary)',
-                borderRadius: '7px',
-                width: '32px',
-                height: '32px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s ease',
-                outline: 'none',
-                fontSize: '0.95rem'
-              }}
               title="Share Feedback"
             >
               💬
@@ -69,20 +54,6 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme, on
               target="_blank" 
               rel="noopener noreferrer" 
               className="theme-toggle-btn"
-              style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                color: 'var(--text-secondary)',
-                borderRadius: '7px',
-                width: '32px',
-                height: '32px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s ease',
-                outline: 'none'
-              }}
               title="Subscribe on YouTube"
             >
               <svg 
@@ -105,20 +76,6 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme, on
             <button 
               onClick={toggleTheme}
               className="theme-toggle-btn"
-              style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                color: 'var(--text-secondary)',
-                borderRadius: '7px',
-                width: '32px',
-                height: '32px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s ease',
-                outline: 'none'
-              }}
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {theme === 'dark' ? (
