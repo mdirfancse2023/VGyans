@@ -24,6 +24,7 @@ export default function ResumeBuilder() {
   });
 
   const [activeStep, setActiveStep] = useState(0);
+  const [fontSizeSetting, setFontSizeSetting] = useState('medium');
 
   const loadSampleData = () => {
     setFormData({
@@ -142,6 +143,53 @@ export default function ResumeBuilder() {
     });
   };
 
+  const getSizes = () => {
+    switch (fontSizeSetting) {
+      case 'small':
+        return {
+          name: '15pt',
+          title: '9.5pt',
+          info: '8.2pt',
+          sectionHeader: '9.5pt',
+          sectionBody: '8.2pt',
+          sectionBodySmall: '8pt',
+          marginBottomSection: '0.45rem',
+          marginBottomItem: '0.2rem',
+          paddingBottomHeader: '0.04rem',
+          gap: '0.3rem'
+        };
+      case 'large':
+        return {
+          name: '21pt',
+          title: '11.5pt',
+          info: '10pt',
+          sectionHeader: '12pt',
+          sectionBody: '10pt',
+          sectionBodySmall: '9.5pt',
+          marginBottomSection: '1.1rem',
+          marginBottomItem: '0.65rem',
+          paddingBottomHeader: '0.15rem',
+          gap: '0.6rem'
+        };
+      case 'medium':
+      default:
+        return {
+          name: '18pt',
+          title: '10.5pt',
+          info: '9pt',
+          sectionHeader: '11pt',
+          sectionBody: '9pt',
+          sectionBodySmall: '8.5pt',
+          marginBottomSection: '0.8rem',
+          marginBottomItem: '0.5rem',
+          paddingBottomHeader: '0.1rem',
+          gap: '0.4rem'
+        };
+    }
+  };
+
+  const sizes = getSizes();
+
   const renderSkills = (skillsString) => {
     if (!skillsString) return null;
     const lines = skillsString.split(/[;\n]+/).map(line => line.trim()).filter(line => line.length > 0);
@@ -151,13 +199,13 @@ export default function ResumeBuilder() {
         const category = line.slice(0, colonIdx).trim();
         const skills = line.slice(colonIdx + 1).trim();
         return (
-          <div key={idx} style={{ fontSize: '10pt', marginBottom: '0.35rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+          <div key={idx} style={{ fontSize: sizes.sectionBody, marginBottom: '0.25rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
             <strong>{category}:</strong> {skills}
           </div>
         );
       }
       return (
-        <div key={idx} style={{ fontSize: '10pt', marginBottom: '0.35rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+        <div key={idx} style={{ fontSize: sizes.sectionBody, marginBottom: '0.25rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
           {line}
         </div>
       );
@@ -170,7 +218,7 @@ export default function ResumeBuilder() {
     return items.map((item, idx) => {
       const displayItem = item.startsWith('•') || item.startsWith('-') || item.startsWith('*') ? item : `• ${item}`;
       return (
-        <div key={idx} style={{ fontSize: '9.5pt', marginBottom: '0.25rem', color: '#111111', lineHeight: 1.4, fontFamily: 'Arial, sans-serif' }}>
+        <div key={idx} style={{ fontSize: sizes.sectionBodySmall, marginBottom: '0.15rem', color: '#111111', lineHeight: 1.35, fontFamily: 'Arial, sans-serif' }}>
           {displayItem}
         </div>
       );
@@ -294,6 +342,16 @@ export default function ResumeBuilder() {
         body.light-theme .step-tab.active::after {
           background: #0284c7 !important;
         }
+        body.light-theme .font-size-select {
+          background: #ffffff !important;
+          border-color: #cbd5e1 !important;
+          color: #334155 !important;
+        }
+        body.light-theme .font-size-select:hover {
+          background: #f1f5f9 !important;
+          border-color: #0284c7 !important;
+          color: #0284c7 !important;
+        }
 
         /* Print Stylesheet integration */
         @media print {
@@ -316,13 +374,34 @@ export default function ResumeBuilder() {
         }
       `}</style>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem' }}>Dynamic Resume Builder</h3>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <button className="btn btn-secondary" onClick={loadSampleData} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', margin: 0 }}>Dynamic Resume Builder</h3>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          <select 
+            value={fontSizeSetting} 
+            onChange={(e) => setFontSizeSetting(e.target.value)}
+            style={{ 
+              padding: '0.4rem 0.75rem', 
+              fontSize: '0.85rem', 
+              borderRadius: '8px',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              color: 'var(--text-secondary)',
+              cursor: 'pointer',
+              outline: 'none',
+              transition: 'all 0.2s ease',
+              height: '32px'
+            }}
+            className="font-size-select"
+          >
+            <option value="small" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Small Font</option>
+            <option value="medium" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Medium Font</option>
+            <option value="large" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Large Font</option>
+          </select>
+          <button className="btn btn-secondary" onClick={loadSampleData} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
             Load Sample Data
           </button>
-          <button className="btn btn-primary" onClick={handlePrint} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem' }}>
+          <button className="btn btn-primary" onClick={handlePrint} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
             Download PDF
           </button>
         </div>
@@ -579,15 +658,14 @@ export default function ResumeBuilder() {
 
         {/* Live Preview Panel */}
         <div className="preview-panel">
-          {/* Header */}
-          <div style={{ textAlign: 'center', borderBottom: '1.5px solid #000000', paddingBottom: '0.5rem', marginBottom: '0.8rem' }}>
-            <h2 style={{ fontSize: '18pt', fontWeight: 'bold', margin: '0 0 0.15rem 0', color: '#000000', letterSpacing: '-0.02em', fontFamily: 'Arial, sans-serif' }}>
+          <div style={{ textAlign: 'center', borderBottom: '1.5px solid #000000', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomSection }}>
+            <h2 style={{ fontSize: sizes.name, fontWeight: 'bold', margin: '0 0 0.15rem 0', color: '#000000', letterSpacing: '-0.02em', fontFamily: 'Arial, sans-serif' }}>
               {formData.name || 'YOUR NAME'}
             </h2>
-            <p style={{ fontSize: '10.5pt', fontWeight: 'bold', color: '#1e293b', margin: '0 0 0.25rem 0', fontFamily: 'Arial, sans-serif' }}>
+            <p style={{ fontSize: sizes.title, fontWeight: 'bold', color: '#1e293b', margin: `0 0 ${sizes.gap} 0`, fontFamily: 'Arial, sans-serif' }}>
               {formData.title || 'Professional Title'}
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '0.4rem', fontSize: '9pt', color: '#334155', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: sizes.gap, fontSize: sizes.info, color: '#334155', fontFamily: 'Arial, sans-serif' }}>
               {formData.email && <span>{formData.email}</span>}
               {formData.phone && <><span>|</span><span>{formData.phone}</span></>}
               {formData.linkedin && <><span>|</span><span>{formData.linkedin}</span></>}
@@ -597,11 +675,11 @@ export default function ResumeBuilder() {
 
           {/* Professional Summary */}
           {formData.summary && (
-            <div style={{ marginBottom: '0.8rem' }}>
-              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: sizes.marginBottomSection }}>
+              <h3 style={{ fontSize: sizes.sectionHeader, fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomItem, color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Professional Summary
               </h3>
-              <p style={{ fontSize: '9pt', color: '#111111', margin: 0, lineHeight: 1.4, fontFamily: 'Arial, sans-serif', textAlign: 'justify' }}>
+              <p style={{ fontSize: sizes.sectionBody, color: '#111111', margin: 0, lineHeight: 1.4, fontFamily: 'Arial, sans-serif', textAlign: 'justify' }}>
                 {formData.summary}
               </p>
             </div>
@@ -609,8 +687,8 @@ export default function ResumeBuilder() {
 
           {/* Technical Skills */}
           {formData.skills && (
-            <div style={{ marginBottom: '0.8rem' }}>
-              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: sizes.marginBottomSection }}>
+              <h3 style={{ fontSize: sizes.sectionHeader, fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomItem, color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Technical Skills
               </h3>
               {renderSkills(formData.skills)}
@@ -619,18 +697,18 @@ export default function ResumeBuilder() {
 
           {/* Work Experience */}
           {formData.experience && formData.experience.length > 0 && formData.experience[0].company && (
-            <div style={{ marginBottom: '0.8rem' }}>
-              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: sizes.marginBottomSection }}>
+              <h3 style={{ fontSize: sizes.sectionHeader, fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomItem, color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Work Experience
               </h3>
               {formData.experience.map((exp, idx) => (
-                <div key={idx} style={{ marginBottom: '0.5rem', fontSize: '9pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+                <div key={idx} style={{ marginBottom: sizes.gap, fontSize: sizes.sectionBody, color: '#111111', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#000000' }}>
                     <span>{exp.role || 'Role'} — {exp.company || 'Company'}</span>
-                    <span style={{ fontWeight: 'normal', fontSize: '8.5pt', color: '#334155' }}>{exp.duration || 'Duration'}</span>
+                    <span style={{ fontWeight: 'normal', fontSize: sizes.sectionBodySmall, color: '#334155' }}>{exp.duration || 'Duration'}</span>
                   </div>
                   {exp.desc && (
-                    <p style={{ margin: '0.15rem 0 0 0', fontSize: '8.5pt', color: '#334155', lineHeight: 1.4, whiteSpace: 'pre-line' }}>
+                    <p style={{ margin: '0.15rem 0 0 0', fontSize: sizes.sectionBodySmall, color: '#334155', lineHeight: 1.4, whiteSpace: 'pre-line' }}>
                       {exp.desc}
                     </p>
                   )}
@@ -641,17 +719,17 @@ export default function ResumeBuilder() {
 
           {/* Personal Projects */}
           {formData.projects && formData.projects.length > 0 && formData.projects[0].name && (
-            <div style={{ marginBottom: '0.8rem' }}>
-              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: sizes.marginBottomSection }}>
+              <h3 style={{ fontSize: sizes.sectionHeader, fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomItem, color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Personal Projects
               </h3>
               {formData.projects.map((proj, idx) => (
-                <div key={idx} style={{ marginBottom: '0.5rem', fontSize: '9pt', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+                <div key={idx} style={{ marginBottom: sizes.gap, fontSize: sizes.sectionBody, color: '#111111', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: '#000000' }}>
-                    <span>{proj.name || 'Project Name'} {proj.tech && <span style={{ fontWeight: 'normal', fontSize: '8.5pt', color: '#334155' }}>({proj.tech})</span>}</span>
+                    <span>{proj.name || 'Project Name'} {proj.tech && <span style={{ fontWeight: 'normal', fontSize: sizes.sectionBodySmall, color: '#334155' }}>({proj.tech})</span>}</span>
                   </div>
                   {proj.desc && (
-                    <p style={{ margin: '0.15rem 0 0 0', fontSize: '8.5pt', color: '#334155', lineHeight: 1.4, whiteSpace: 'pre-line' }}>
+                    <p style={{ margin: '0.15rem 0 0 0', fontSize: sizes.sectionBodySmall, color: '#334155', lineHeight: 1.4, whiteSpace: 'pre-line' }}>
                       {proj.desc}
                     </p>
                   )}
@@ -662,8 +740,8 @@ export default function ResumeBuilder() {
 
           {/* Certifications */}
           {formData.certifications && (
-            <div style={{ marginBottom: '0.8rem' }}>
-              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: sizes.marginBottomSection }}>
+              <h3 style={{ fontSize: sizes.sectionHeader, fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomItem, color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Certifications
               </h3>
               {renderListSection(formData.certifications)}
@@ -672,8 +750,8 @@ export default function ResumeBuilder() {
 
           {/* Achievements */}
           {formData.achievements && (
-            <div style={{ marginBottom: '0.8rem' }}>
-              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.1rem', marginBottom: '0.3rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: sizes.marginBottomSection }}>
+              <h3 style={{ fontSize: sizes.sectionHeader, fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomItem, color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Achievements
               </h3>
               {renderListSection(formData.achievements)}
@@ -682,16 +760,16 @@ export default function ResumeBuilder() {
 
           {/* Education */}
           {formData.education && formData.education.length > 0 && formData.education[0].school && (
-            <div style={{ marginBottom: '0.8rem' }}>
-              <h3 style={{ fontSize: '11pt', fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: '0.15rem', marginBottom: '0.5rem', color: '#000000', fontFamily: 'Arial, sans-serif' }}>
+            <div style={{ marginBottom: sizes.marginBottomSection }}>
+              <h3 style={{ fontSize: sizes.sectionHeader, fontWeight: 'bold', textTransform: 'uppercase', borderBottom: '1px solid #000000', paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomItem, color: '#000000', fontFamily: 'Arial, sans-serif' }}>
                 Education
               </h3>
               {formData.education.map((edu, idx) => (
-                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9pt', marginBottom: '0.25rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
+                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: sizes.sectionBody, marginBottom: '0.25rem', color: '#111111', fontFamily: 'Arial, sans-serif' }}>
                   <div>
                     <strong>{edu.school || 'School/University'}</strong> — {edu.degree || 'Degree'}
                   </div>
-                  <div style={{ textAlign: 'right', fontSize: '8.5pt', color: '#334155' }}>
+                  <div style={{ textAlign: 'right', fontSize: sizes.sectionBodySmall, color: '#334155' }}>
                     <span>{edu.year || 'Duration'}</span> | <strong>{edu.grade || 'Grade'}</strong>
                   </div>
                 </div>
