@@ -136,11 +136,54 @@ export default function App() {
           if (liveData.videos && Array.isArray(liveData.videos) && liveData.videos.length > 0) {
             setVideos(sortVideosNewestFirst(liveData.videos));
           }
-          if (liveData.resources) setResources(liveData.resources);
+          if (liveData.resources) {
+            setResources(prev => {
+              const merged = [...liveData.resources];
+              const liveIds = new Set(merged.map(r => r.id));
+              prev.forEach(localRes => {
+                if (!liveIds.has(localRes.id)) merged.push(localRes);
+              });
+              return merged;
+            });
+          }
           if (liveData.experiences) setExperiences(liveData.experiences);
-          if (liveData.flashcards) setFlashcards(liveData.flashcards);
+          if (liveData.flashcards) {
+            setFlashcards(prev => {
+              const merged = liveData.flashcards.map(liveFc => {
+                if (!liveFc.question || !liveFc.answer) {
+                  const local = prev.find(f => f.id === liveFc.id);
+                  if (local && local.question && local.answer) {
+                    return { ...liveFc, question: local.question, answer: local.answer };
+                  }
+                }
+                return liveFc;
+              });
+              const liveIds = new Set(merged.map(f => f.id));
+              prev.forEach(localFc => {
+                if (!liveIds.has(localFc.id)) merged.push(localFc);
+              });
+              return merged;
+            });
+          }
           if (liveData.onboardingStages) setOnboardingStages(liveData.onboardingStages);
-          if (liveData.notes) setNotes(liveData.notes);
+          if (liveData.notes) {
+            setNotes(prev => {
+              const merged = liveData.notes.map(liveNote => {
+                if (!liveNote.content || liveNote.content.length === 0) {
+                  const local = prev.find(n => n.id === liveNote.id);
+                  if (local && local.content) {
+                    return { ...liveNote, content: local.content };
+                  }
+                }
+                return liveNote;
+              });
+              const liveIds = new Set(merged.map(n => n.id));
+              prev.forEach(localNote => {
+                if (!liveIds.has(localNote.id)) merged.push(localNote);
+              });
+              return merged;
+            });
+          }
           if (liveData.playground_questions) setPlaygroundQuestions(liveData.playground_questions);
         }
       } catch (err) {
