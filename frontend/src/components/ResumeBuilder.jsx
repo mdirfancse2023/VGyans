@@ -125,47 +125,32 @@ export default function ResumeBuilder() {
       pagebreak:    { mode: ['css', 'legacy'] }
     };
 
-    const originalShadow = element.style.boxShadow;
-    const originalBorderRadius = element.style.borderRadius;
-    const originalPadding = element.style.padding;
-    const originalMargin = element.style.margin;
-    const originalMinHeight = element.style.minHeight;
-    const originalHeight = element.style.height;
-    const originalPosition = element.style.position;
-    const originalTop = element.style.top;
-    
-    element.style.boxShadow = 'none';
-    element.style.borderRadius = '0';
-    element.style.padding = '0 6px 0 6px';
-    element.style.margin = '0';
-    element.style.minHeight = 'auto';
-    element.style.height = 'auto';
-    element.style.position = 'static';
-    element.style.top = 'auto';
+    // Create a clean clone to render in isolation, avoiding CSS Grid stretch & scroll bugs
+    const clone = element.cloneNode(true);
+    clone.style.boxShadow = 'none';
+    clone.style.borderRadius = '0';
+    clone.style.padding = '0 6px 0 6px';
+    clone.style.margin = '0';
+    clone.style.minHeight = 'auto';
+    clone.style.height = 'auto';
+    clone.style.position = 'absolute';
+    clone.style.top = '-9999px';
+    clone.style.left = '-9999px';
+    clone.style.width = '7.7in';
+    clone.style.background = '#ffffff';
+    clone.style.color = '#000000';
 
-    setTimeout(() => {
-      window.html2pdf().from(element).set(opt).save().then(() => {
-        element.style.boxShadow = originalShadow;
-        element.style.borderRadius = originalBorderRadius;
-        element.style.padding = originalPadding;
-        element.style.margin = originalMargin;
-        element.style.minHeight = originalMinHeight;
-        element.style.height = originalHeight;
-        element.style.position = originalPosition;
-        element.style.top = originalTop;
-      }).catch(err => {
-        console.error("PDF generation failed:", err);
-        element.style.boxShadow = originalShadow;
-        element.style.borderRadius = originalBorderRadius;
-        element.style.padding = originalPadding;
-        element.style.margin = originalMargin;
-        element.style.minHeight = originalMinHeight;
-        element.style.height = originalHeight;
-        element.style.position = originalPosition;
-        element.style.top = originalTop;
-        window.print();
-      });
-    }, 150);
+    document.body.appendChild(clone);
+
+    window.html2pdf().from(clone).set(opt).save().then(() => {
+      document.body.removeChild(clone);
+    }).catch(err => {
+      console.error("PDF generation failed:", err);
+      if (clone.parentNode) {
+        document.body.removeChild(clone);
+      }
+      window.print();
+    });
   };
 
   const getSizes = () => {
