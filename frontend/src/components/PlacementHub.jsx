@@ -453,27 +453,25 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
       {/* ── ONBOARDING TRACKER ── */}
 
       {activeSection === 'tracker' && (
-        <div className="glass-panel tracker-container">
-          {companyKeys.length === 0 ? (
-            <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '2rem' }}>No onboarding data available.</p>
-          ) : (
-            <>
-              <div className="tracker-select-row" style={{ marginBottom: '1.5rem' }}>
-                <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)', marginBottom: '0.75rem' }}>Select Company Journey:</h3>
-                <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {companyKeys.map((comp) => (
-                    <button
-                      key={comp}
-                      className={`filter-tab ${activeTrackerCompany === comp ? 'active' : ''}`}
-                      onClick={() => { setTrackerCompany(comp); setCurrentStageIndex(0); }}
-                      style={{ fontSize: '0.85rem', fontWeight: 600 }}
-                    >
-                      {comp}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem', marginTop: '2rem' }}>
+        <>
+          <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2rem', justifyContent: 'flex-start' }}>
+            {companyKeys.map((comp) => (
+              <button
+                key={comp}
+                className={`filter-tab ${activeTrackerCompany === comp ? 'active' : ''}`}
+                onClick={() => { setTrackerCompany(comp); setCurrentStageIndex(0); }}
+                style={{ fontSize: '0.85rem', fontWeight: 600 }}
+              >
+                {comp}
+              </button>
+            ))}
+          </div>
+
+          <div className="glass-panel tracker-container">
+            {companyKeys.length === 0 ? (
+              <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '2rem' }}>No onboarding data available.</p>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem' }}>
                 <div className="timeline">
                   {activeStages.map((stage, idx) => (
                     <div key={idx} className="timeline-item" style={{ cursor: 'pointer', opacity: currentStageIndex === idx ? 1 : 0.6 }} onClick={() => setCurrentStageIndex(idx)}>
@@ -497,20 +495,30 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
                   )}
                 </div>
               </div>
-            </>
-          )}
+            )
+          }
         </div>
+      </>
       )}
 
       {/* ── FLASHCARDS ── */}
       {activeSection === 'flashcards' && (
-        <div className="glass-panel flashcards-container">
-          <div className="flashcard-categories">
+        <>
+          <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2rem', justifyContent: 'flex-start' }}>
             {fcCategories.map((cat) => (
-              <button key={cat} className={`filter-tab ${selectedCategory === cat ? 'active' : ''}`} onClick={() => handleCatChange(cat)}>{cat}</button>
+              <button
+                key={cat}
+                className={`filter-tab ${selectedCategory === cat ? 'active' : ''}`}
+                onClick={() => handleCatChange(cat)}
+                style={{ fontSize: '0.85rem', fontWeight: 600 }}
+              >
+                {cat}
+              </button>
             ))}
           </div>
-          {filteredCards.length === 0 ? (
+
+          <div className="glass-panel flashcards-container">
+            {filteredCards.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>No flashcards found for this category.</div>
           ) : (
             <>
@@ -536,6 +544,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
             </>
           )}
         </div>
+      </>
       )}
 
       {activePdf && <PDFViewer url={activePdf.url} title={activePdf.title} onClose={() => setActivePdf(null)} />}
