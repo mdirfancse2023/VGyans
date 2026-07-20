@@ -93,23 +93,6 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
     }
   };
 
-  const handleQuickDemoLogin = async () => {
-    setLoading(true);
-    const demoUser = {
-      id: 'user_demo_77',
-      name: 'Student Learner',
-      email: 'learner@virtualgyans.com',
-      avatar: 'S',
-      joinedDate: 'July 2026'
-    };
-
-    await saveToFirestore(demoUser);
-
-    setLoading(false);
-    onLoginSuccess(demoUser);
-    if (onClose) onClose();
-  };
-
   return (
     <div 
       className="modal-backdrop" 
@@ -371,37 +354,6 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
             )}
           </button>
         </form>
-
-        {/* Divider */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: '1.25rem 0 1rem' }}>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.08)' }} />
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>OR</span>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.08)' }} />
-        </div>
-
-        {/* Quick Demo Login Option */}
-        <button
-          type="button"
-          onClick={handleQuickDemoLogin}
-          style={{
-            width: '100%',
-            padding: '0.65rem',
-            background: 'rgba(6, 182, 212, 0.08)',
-            border: '1px solid rgba(6, 182, 212, 0.3)',
-            borderRadius: '8px',
-            color: 'var(--primary)',
-            fontWeight: 600,
-            fontSize: '0.85rem',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.5rem',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          ⚡ 1-Click Demo Sign In (Quick Test)
-        </button>
       </div>
     </div>
   );
