@@ -200,8 +200,8 @@ def _fetch_remotive() -> list:
     """Remote IT jobs from Remotive (free, no key)"""
     try:
         r = requests.get(
-            "https://remotive.com/api/remote-jobs?category=software-dev&limit=25",
-            timeout=3, headers={"User-Agent": "VirtualGyans/1.0"}
+            "https://remotive.com/api/remote-jobs?category=software-dev&limit=60",
+            timeout=5, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
         )
         if r.status_code == 200:
             jobs = []
@@ -232,7 +232,7 @@ def _fetch_arbeitnow() -> list:
     try:
         r = requests.get(
             "https://arbeitnow.com/api/job-board-api?page=1",
-            timeout=3, headers={"User-Agent": "VirtualGyans/1.0"}
+            timeout=4, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
         )
         if r.status_code != 200:
             return []
@@ -265,35 +265,36 @@ def _fetch_arbeitnow() -> list:
         return []
 
 def _fetch_themuse() -> list:
-    """Tech jobs from The Muse (free, no key)"""
+    """Tech & Engineering jobs from The Muse (free, no key)"""
     try:
-        r = requests.get(
-            "https://www.themuse.com/api/public/jobs?category=Computer+%26+IT&page=1&descending=true",
-            timeout=3, headers={"User-Agent": "VirtualGyans/1.0"}
-        )
-        if r.status_code != 200:
-            return []
         jobs = []
-        for j in r.json().get("results", []):
-            locs = j.get("locations", [])
-            loc = locs[0].get("name","") if locs else "Flexible"
-            levels = j.get("levels", [])
-            lvl = levels[0].get("name","") if levels else ""
-            jobs.append({
-                "id": f"themuse-{j.get('id')}",
-                "title": j.get("name",""),
-                "company": j.get("company",{}).get("name",""),
-                "location": loc,
-                "type": lvl or "Full Time",
-                "category": "Computer & IT",
-                "salary": "",
-                "tags": [],
-                "logo": "",
-                "url": j.get("refs",{}).get("landing_page",""),
-                "postedAt": j.get("publication_date",""),
-                "source": "The Muse",
-                "remote": "remote" in loc.lower() or "flexible" in loc.lower(),
-            })
+        for page in [1, 2]:
+            r = requests.get(
+                f"https://www.themuse.com/api/public/jobs?page={page}",
+                timeout=4, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
+            )
+            if r.status_code != 200:
+                continue
+            for j in r.json().get("results", []):
+                locs = j.get("locations", [])
+                loc = locs[0].get("name","") if locs else "Flexible"
+                levels = j.get("levels", [])
+                lvl = levels[0].get("name","") if levels else ""
+                jobs.append({
+                    "id": f"themuse-{j.get('id')}",
+                    "title": j.get("name",""),
+                    "company": j.get("company",{}).get("name",""),
+                    "location": loc,
+                    "type": lvl or "Full Time",
+                    "category": "Software Engineering",
+                    "salary": "",
+                    "tags": ["The Muse", "Tech"],
+                    "logo": "",
+                    "url": j.get("refs",{}).get("landing_page",""),
+                    "postedAt": j.get("publication_date",""),
+                    "source": "The Muse",
+                    "remote": "remote" in loc.lower() or "flexible" in loc.lower(),
+                })
         return jobs
     except Exception as e:
         print(f"TheMuse fetch error: {e}")
