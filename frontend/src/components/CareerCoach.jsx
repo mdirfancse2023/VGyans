@@ -118,61 +118,63 @@ export default function CareerCoach() {
 
   return (
     <>
-      {/* Floating Trigger Button (Bottom Right - Hover Expandable Glass Icon) */}
-      <button
-        onClick={() => setOpen(true)}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className="copilot-trigger-btn"
-        style={{
-          position: 'fixed',
-          bottom: '24px',
-          right: '24px',
-          zIndex: 9999,
-          display: 'flex',
-          alignItems: 'center',
-          gap: isHovered ? '10px' : '0px',
-          borderRadius: '50px',
-          padding: isHovered ? '11px 20px 11px 16px' : '12px',
-          width: isHovered ? 'auto' : '48px',
-          height: '48px',
-          justifyContent: isHovered ? 'flex-start' : 'center',
-          cursor: 'pointer',
-          fontSize: '0.875rem',
-          fontWeight: 700,
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-          fontFamily: 'inherit',
-          overflow: 'hidden',
-          whiteSpace: 'nowrap'
-        }}
-        title="Gyans Copilot - AI Placement Strategy & Guidance"
-      >
-        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-            <path d="M12 2L14.5 8.5L21 11L14.5 13.5L12 20L9.5 13.5L3 11L9.5 8.5L12 2Z" fill="url(#aiSparkleGrad)" />
-            <path d="M19 1.5L20.2 4.8L23.5 6L20.2 7.2L19 10.5L17.8 7.2L14.5 6L17.8 4.8L19 1.5Z" fill="url(#aiSparkleGrad)" opacity="0.8" />
-            <path d="M4 16L4.8 18.2L7 19L4.8 19.8L4 22L3.2 19.8L1 19L3.2 18.2L4 16Z" fill="url(#aiSparkleGrad)" opacity="0.7" />
-            <defs>
-              <linearGradient id="aiSparkleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38bdf8" />
-                <stop offset="50%" stopColor="#818cf8" />
-                <stop offset="100%" stopColor="#c084fc" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </span>
-        <span style={{
-          opacity: isHovered ? 1 : 0,
-          maxWidth: isHovered ? '140px' : '0px',
-          transform: isHovered ? 'translateX(0)' : 'translateX(-10px)',
-          transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-          overflow: 'hidden'
-        }}>
-          Gyans Copilot
-        </span>
-      </button>
+      {/* Floating Trigger Button (Bottom Right - Hover Expandable Glass Icon) - Hidden when modal is open */}
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="copilot-trigger-btn"
+          style={{
+            position: 'fixed',
+            bottom: '24px',
+            right: '24px',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            gap: isHovered ? '10px' : '0px',
+            borderRadius: '50px',
+            padding: isHovered ? '11px 20px 11px 16px' : '12px',
+            width: isHovered ? 'auto' : '48px',
+            height: '48px',
+            justifyContent: isHovered ? 'flex-start' : 'center',
+            cursor: 'pointer',
+            fontSize: '0.875rem',
+            fontWeight: 700,
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            fontFamily: 'inherit',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
+          }}
+          title="Gyans Copilot - AI Placement Strategy & Guidance"
+        >
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+              <path d="M12 2L14.5 8.5L21 11L14.5 13.5L12 20L9.5 13.5L3 11L9.5 8.5L12 2Z" fill="url(#aiSparkleGrad)" />
+              <path d="M19 1.5L20.2 4.8L23.5 6L20.2 7.2L19 10.5L17.8 7.2L14.5 6L17.8 4.8L19 1.5Z" fill="url(#aiSparkleGrad)" opacity="0.8" />
+              <path d="M4 16L4.8 18.2L7 19L4.8 19.8L4 22L3.2 19.8L1 19L3.2 18.2L4 16Z" fill="url(#aiSparkleGrad)" opacity="0.7" />
+              <defs>
+                <linearGradient id="aiSparkleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#38bdf8" />
+                  <stop offset="50%" stopColor="#818cf8" />
+                  <stop offset="100%" stopColor="#c084fc" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </span>
+          <span style={{
+            opacity: isHovered ? 1 : 0,
+            maxWidth: isHovered ? '140px' : '0px',
+            transform: isHovered ? 'translateX(0)' : 'translateX(-10px)',
+            transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+            overflow: 'hidden'
+          }}>
+            Gyans Copilot
+          </span>
+        </button>
+      )}
 
       {/* Modal / Drawer */}
       {open && (
