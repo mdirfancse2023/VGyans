@@ -492,7 +492,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
       </div>
 
       {/* Section Tab Switcher */}
-      <div className="filters-wrapper" style={{ marginBottom: '2rem' }}>
+      <div className="filters-wrapper" style={{ marginBottom: '0.5rem' }}>
         <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
           <button
             className={`filter-tab ${activeSection === 'resources' ? 'active' : ''}`}
