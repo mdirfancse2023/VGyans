@@ -1,16 +1,10 @@
 {
   "version": 2,
   "functions": {
-    "backend/app.py": {
+    "api/index.py": {
       "maxDuration": 15
     }
   },
-  "builds": [
-    {
-      "src": "backend/app.py",
-      "use": "@vercel/python"
-    }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
@@ -22,14 +16,10 @@
       ]
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "backend/app.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "backend/app.py"
+      "source": "/api/(.*)",
+      "destination": "/api/index.py"
     }
   ]
 }
