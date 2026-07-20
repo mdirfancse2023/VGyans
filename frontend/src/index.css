@@ -1377,6 +1377,7 @@ body.light-theme .line-numbers {
 }
 
 body.light-theme .code-textarea {
+  background: transparent !important;
   color: transparent !important;
   caret-color: #0f172a !important;
 }
