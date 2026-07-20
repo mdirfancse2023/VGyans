@@ -181,16 +181,7 @@ export default function VideoGrid({ videos }) {
               )}
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
-              <a 
-                href={selectedVideo.videoUrl} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="btn btn-primary"
-              >
-                Watch on YouTube
-              </a>
-            </div>
+
 
             <h4 style={{ marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Video Notes & Description</h4>
             <pre className="modal-desc">{selectedVideo.description}</pre>
