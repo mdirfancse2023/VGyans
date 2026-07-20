@@ -5,12 +5,6 @@
       "maxDuration": 15
     }
   },
-  "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -22,10 +16,10 @@
       ]
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "app.py"
+      "source": "/(.*)",
+      "destination": "/app.py"
     }
   ]
 }

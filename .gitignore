@@ -6,11 +6,11 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
 # Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 backend/.venv/
-backend/__pycache__/
-backend/*.pyc
-backend/*.pyo
-backend/*.pyd
 backend/.env
 
 # Local Environment Variables
