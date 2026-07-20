@@ -521,13 +521,12 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
       {/* ── RESOURCES ── */}
       {activeSection === 'resources' && (
         <>
-          <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2rem', justifyContent: 'flex-start' }}>
+          <div className="sub-filter-tabs" style={{ flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.5rem', justifyContent: 'flex-start' }}>
             {resourceCategories.map((cat) => (
               <button
                 key={cat}
-                className={`filter-tab ${selectedResourceTab === cat ? 'active' : ''}`}
+                className={`sub-filter-tab ${selectedResourceTab === cat ? 'active' : ''}`}
                 onClick={() => setSelectedResourceTab(cat)}
-                style={{ fontSize: '0.85rem', fontWeight: 600 }}
               >
                 {cat}
               </button>
@@ -570,13 +569,12 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
 
       {activeSection === 'tracker' && (
         <>
-          <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2rem', justifyContent: 'flex-start' }}>
+          <div className="sub-filter-tabs" style={{ flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.5rem', justifyContent: 'flex-start' }}>
             {companyKeys.map((comp) => (
               <button
                 key={comp}
-                className={`filter-tab ${activeTrackerCompany === comp ? 'active' : ''}`}
+                className={`sub-filter-tab ${activeTrackerCompany === comp ? 'active' : ''}`}
                 onClick={() => { setTrackerCompany(comp); setCurrentStageIndex(0); }}
-                style={{ fontSize: '0.85rem', fontWeight: 600 }}
               >
                 {comp}
               </button>
@@ -620,13 +618,12 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
       {/* ── FLASHCARDS ── */}
       {activeSection === 'flashcards' && (
         <>
-          <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2rem', justifyContent: 'flex-start' }}>
+          <div className="sub-filter-tabs" style={{ flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.5rem', justifyContent: 'flex-start' }}>
             {fcCategories.map((cat) => (
               <button
                 key={cat}
-                className={`filter-tab ${selectedCategory === cat ? 'active' : ''}`}
+                className={`sub-filter-tab ${selectedCategory === cat ? 'active' : ''}`}
                 onClick={() => handleCatChange(cat)}
-                style={{ fontSize: '0.85rem', fontWeight: 600 }}
               >
                 {cat}
               </button>
