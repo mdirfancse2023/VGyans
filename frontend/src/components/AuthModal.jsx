@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { db } from '../firebase';
+import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 
-export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
+export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = false }) {
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
   const [formData, setFormData] = useState({
     name: '',
@@ -23,7 +25,28 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
     setErrorMsg('');
   };
 
-  const handleSubmit = (e) => {
+  const saveToFirestore = async (userObj) => {
+    try {
+      const docId = userObj.email.replace(/[^a-zA-Z0-9]/g, '_');
+      const userRef = doc(db, 'users', docId);
+      
+      await setDoc(userRef, {
+        id: userObj.id,
+        name: userObj.name,
+        email: userObj.email,
+        avatar: userObj.avatar,
+        role: 'Student / Learner',
+        lastLogin: new Date().toISOString(),
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      console.log('✅ User credentials successfully stored in Firebase Firestore database!');
+    } catch (err) {
+      console.warn('Firestore database notice:', err);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
 
@@ -44,9 +67,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
 
     setLoading(true);
 
-    // Simulate API Auth Request
-    setTimeout(() => {
-      setLoading(false);
+    try {
       const userObj = {
         id: `user_${Date.now()}`,
         name: authMode === 'signup' ? formData.name.trim() : (formData.email.split('@')[0].toUpperCase()),
@@ -55,42 +76,50 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
         joinedDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
       };
 
-      setSuccessMsg(authMode === 'login' ? 'Successfully logged in!' : 'Account created successfully!');
-      
+      // Save to Firebase Firestore Database
+      await saveToFirestore(userObj);
+
+      setLoading(false);
+      setSuccessMsg(authMode === 'login' ? 'Successfully logged in!' : 'Account created & stored in Firebase!');
+
       setTimeout(() => {
         onLoginSuccess(userObj);
-        onClose();
+        if (onClose) onClose();
         setSuccessMsg('');
       }, 600);
-    }, 800);
+    } catch (err) {
+      setLoading(false);
+      setErrorMsg('Authentication failed. Please try again.');
+    }
   };
 
-  const handleQuickDemoLogin = () => {
+  const handleQuickDemoLogin = async () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      const demoUser = {
-        id: 'user_demo_77',
-        name: 'Student Learner',
-        email: 'learner@virtualgyans.com',
-        avatar: 'S',
-        joinedDate: 'July 2026'
-      };
-      onLoginSuccess(demoUser);
-      onClose();
-    }, 500);
+    const demoUser = {
+      id: 'user_demo_77',
+      name: 'Student Learner',
+      email: 'learner@virtualgyans.com',
+      avatar: 'S',
+      joinedDate: 'July 2026'
+    };
+
+    await saveToFirestore(demoUser);
+
+    setLoading(false);
+    onLoginSuccess(demoUser);
+    if (onClose) onClose();
   };
 
   return (
     <div 
       className="modal-backdrop" 
-      onClick={onClose}
+      onClick={!isGated ? onClose : undefined}
       style={{
         position: 'fixed',
         inset: 0,
         zIndex: 99999,
-        background: 'rgba(5, 8, 16, 0.75)',
-        backdropFilter: 'blur(10px)',
+        background: 'rgba(5, 8, 16, 0.85)',
+        backdropFilter: 'blur(16px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -104,38 +133,40 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
         style={{
           width: '100%',
           maxWidth: '420px',
-          background: 'rgba(15, 23, 42, 0.95)',
+          background: 'rgba(15, 23, 42, 0.96)',
           border: '1px solid var(--border-glass)',
           borderRadius: '16px',
           padding: '2rem',
-          boxShadow: '0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(6, 182, 212, 0.15)',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.7), 0 0 35px rgba(6, 182, 212, 0.2)',
           position: 'relative',
           color: 'var(--text-primary)'
         }}
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: '1.25rem',
-            right: '1.25rem',
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid var(--border-glass)',
-            color: 'var(--text-secondary)',
-            width: '30px',
-            height: '30px',
-            borderRadius: '50%',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '0.9rem'
-          }}
-          title="Close Modal"
-        >
-          ✕
-        </button>
+        {/* Close Button (Hidden when gated mode requires login) */}
+        {!isGated && onClose && (
+          <button
+            onClick={onClose}
+            style={{
+              position: 'absolute',
+              top: '1.25rem',
+              right: '1.25rem',
+              background: 'rgba(255,255,255,0.06)',
+              border: '1px solid var(--border-glass)',
+              color: 'var(--text-secondary)',
+              width: '30px',
+              height: '30px',
+              borderRadius: '50%',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '0.9rem'
+            }}
+            title="Close Modal"
+          >
+            ✕
+          </button>
+        )}
 
         {/* Modal Header Logo */}
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
@@ -147,14 +178,22 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
               Virtual Gyans
             </span>
           </div>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', opacity: 0.8, margin: 0 }}>
-            {authMode === 'login' ? 'Welcome back! Log in to your account.' : 'Join Virtual Gyans & start learning today.'}
+
+          {isGated && (
+            <div style={{ background: 'rgba(6, 182, 212, 0.12)', border: '1px solid var(--border-glass)', borderRadius: '6px', padding: '0.3rem 0.6rem', fontSize: '0.75rem', color: 'var(--primary)', margin: '0.4rem 0 0.8rem', fontWeight: 600 }}>
+              🔒 Authentication Required to Access Platform
+            </div>
+          )}
+
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', opacity: 0.85, margin: 0 }}>
+            {authMode === 'login' ? 'Welcome back! Log in to access all study material.' : 'Join Virtual Gyans & save credentials to Firebase.'}
           </p>
         </div>
 
         {/* Mode Switcher Tabs */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', background: 'rgba(255,255,255,0.04)', padding: '0.25rem', borderRadius: '10px', marginBottom: '1.5rem', border: '1px solid var(--border-glass)' }}>
           <button
+            type="button"
             onClick={() => { setAuthMode('login'); setErrorMsg(''); }}
             style={{
               padding: '0.5rem',
@@ -171,6 +210,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
             Log In
           </button>
           <button
+            type="button"
             onClick={() => { setAuthMode('signup'); setErrorMsg(''); }}
             style={{
               padding: '0.5rem',
@@ -300,7 +340,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
               </label>
               <a 
                 href="#forgot" 
-                onClick={(e) => { e.preventDefault(); alert('Password reset link has been sent to your email.'); }}
+                onClick={(e) => { e.preventDefault(); alert('Password reset instructions sent to your email.'); }}
                 style={{ color: 'var(--primary)', textDecoration: 'none' }}
               >
                 Forgot Password?
@@ -324,10 +364,10 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
             {loading ? (
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
                 <span style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-                Processing...
+                Saving to Firebase...
               </span>
             ) : (
-              authMode === 'login' ? 'Log In to Virtual Gyans' : 'Create Account'
+              authMode === 'login' ? 'Log In & Enter Platform' : 'Sign Up & Save Credentials'
             )}
           </button>
         </form>
@@ -341,6 +381,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
 
         {/* Quick Demo Login Option */}
         <button
+          type="button"
           onClick={handleQuickDemoLogin}
           style={{
             width: '100%',

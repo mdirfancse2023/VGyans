@@ -741,9 +741,10 @@ export default function App() {
       <FeedbackButton isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} hideTrigger={true} />
       <CareerCoach />
       
-      {/* Auth Login / Sign Up Modal */}
+      {/* Mandatory Auth Modal for Unauthenticated Visitors (Stores in Firebase Firestore) */}
       <AuthModal 
-        isOpen={isAuthOpen} 
+        isOpen={!user || isAuthOpen} 
+        isGated={!user}
         onClose={() => setIsAuthOpen(false)} 
         onLoginSuccess={handleLoginSuccess} 
       />
