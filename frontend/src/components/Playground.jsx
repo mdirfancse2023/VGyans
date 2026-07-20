@@ -581,6 +581,11 @@ export default function Playground({ questions }) {
   const [submitResult, setSubmitResult] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // ── Timer ──
+  const [timerSeconds, setTimerSeconds] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const timerIntervalRef = useRef(null);
+
   useEffect(() => {
     // Prevent document body scrolling while in playground
     document.body.style.overflow = 'hidden';
@@ -588,6 +593,33 @@ export default function Playground({ questions }) {
       document.body.style.overflow = '';
     };
   }, []);
+
+  // Timer tick
+  useEffect(() => {
+    if (timerRunning) {
+      timerIntervalRef.current = setInterval(() => {
+        setTimerSeconds(s => s + 1);
+      }, 1000);
+    } else {
+      clearInterval(timerIntervalRef.current);
+    }
+    return () => clearInterval(timerIntervalRef.current);
+  }, [timerRunning]);
+
+  // Reset timer when problem changes
+  useEffect(() => {
+    setTimerSeconds(0);
+    setTimerRunning(false);
+  }, [activeProblem]);
+
+  const formatTimer = (secs) => {
+    const m = String(Math.floor(secs / 60)).padStart(2, '0');
+    const s = String(secs % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  };
+
+  const handleTimerToggle = () => setTimerRunning(r => !r);
+  const handleTimerReset = () => { setTimerRunning(false); setTimerSeconds(0); };
 
   useEffect(() => {
     if (activeProblem) {
@@ -1452,6 +1484,75 @@ export default function Playground({ questions }) {
           position: relative;
           background: var(--bg-dark-secondary);
         }
+        /* ── Timer ── */
+        .timer-widget {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.3rem;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid var(--border-glass);
+          border-radius: 8px;
+          padding: 0.3rem 0.6rem;
+          font-family: 'Courier New', monospace;
+          transition: border-color 0.2s;
+        }
+        .timer-widget:has(.timer-display.running) {
+          border-color: rgba(16, 185, 129, 0.35);
+        }
+        .timer-display {
+          font-size: 0.82rem;
+          font-weight: 700;
+          color: #94a3b8;
+          letter-spacing: 0.05em;
+          min-width: 2.8rem;
+          text-align: center;
+          transition: color 0.2s;
+        }
+        .timer-display.running {
+          color: #10b981;
+        }
+        .timer-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: #64748b;
+          display: flex;
+          align-items: center;
+          padding: 0.1rem;
+          border-radius: 4px;
+          transition: color 0.2s, background 0.2s;
+          outline: none;
+        }
+        .timer-btn:hover {
+          color: #e2e8f0;
+          background: rgba(255,255,255,0.08);
+        }
+        .timer-reset:hover {
+          color: #f87171 !important;
+        }
+        body.light-theme .timer-widget {
+          background: rgba(15,23,42,0.04) !important;
+          border-color: rgba(15,23,42,0.1) !important;
+        }
+        body.light-theme .timer-widget:has(.timer-display.running) {
+          border-color: rgba(16, 185, 129, 0.4) !important;
+        }
+        body.light-theme .timer-display {
+          color: #64748b !important;
+        }
+        body.light-theme .timer-display.running {
+          color: #059669 !important;
+        }
+        body.light-theme .timer-btn {
+          color: #94a3b8 !important;
+        }
+        body.light-theme .timer-btn:hover {
+          color: #0f172a !important;
+          background: rgba(15,23,42,0.06) !important;
+        }
+        body.light-theme .timer-reset:hover {
+          color: #dc2626 !important;
+        }
         .copy-solution-btn {
           background: rgba(255, 255, 255, 0.06);
           border: 1px solid var(--border-glass);
@@ -1846,7 +1947,23 @@ export default function Playground({ questions }) {
               </select>
             </div>
 
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              {/* ── Timer ── */}
+              <div className="timer-widget">
+                <span className={`timer-display ${timerRunning ? 'running' : ''}`}>{formatTimer(timerSeconds)}</span>
+                <button className="timer-btn" onClick={handleTimerToggle} title={timerRunning ? 'Pause timer' : 'Start timer'}>
+                  {timerRunning ? (
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  )}
+                </button>
+                {timerSeconds > 0 && (
+                  <button className="timer-btn timer-reset" onClick={handleTimerReset} title="Reset timer">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                  </button>
+                )}
+              </div>
               <button 
                 className="btn btn-secondary"
                 style={{ padding: '0.45rem 1rem', gap: '0.4rem', cursor: 'pointer', background: 'rgba(255,255,255,0.06)', color: '#cbd5e1', border: '1px solid var(--border-glass)', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 600 }}
