@@ -1829,6 +1829,60 @@ body.light-theme .hero2-eyebrow {
   color: #0369a1 !important;
 }
 
+/* PDF Viewer & Drawer Toggle Light Theme Overrides */
+.pdf-viewer-overlay {
+  background-color: rgba(7, 10, 19, 0.85);
+  color: #fff;
+}
+.pdf-viewer-viewport {
+  background: rgba(5, 8, 16, 0.6);
+}
+.pdf-viewer-toolbar {
+  background: rgba(15, 23, 42, 0.7);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pdf-viewer-title {
+  color: #fff;
+}
+
+body.light-theme .pdf-viewer-overlay {
+  background-color: rgba(248, 250, 252, 0.96) !important;
+  color: #0f172a !important;
+}
+body.light-theme .pdf-viewer-viewport {
+  background: #f1f5f9 !important;
+}
+body.light-theme .pdf-viewer-toolbar {
+  background: #ffffff !important;
+  border-top: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.06) !important;
+}
+body.light-theme .pdf-viewer-title {
+  color: #0f172a !important;
+}
+
+/* Question Drawer Toggle & Close Buttons */
+body.light-theme .drawer-toggle {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12) !important;
+}
+body.light-theme .drawer-toggle-icon {
+  color: #0f172a !important;
+}
+body.light-theme .drawer-close {
+  color: #0f172a !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+body.light-theme .drawer-close:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+
 
 
 

@@ -1940,13 +1940,13 @@ export default function Playground({ questions }) {
                     <>
                       {stdout && (
                         <div className="terminal-stdout">
-                          <pre style={{ margin: 0, padding: '0.4rem 0.6rem', background: 'rgba(0,0,0,0.3)', borderRadius: '4px', color: '#4ade80', fontFamily: 'monospace', fontSize: '0.82rem', whiteSpace: 'pre-wrap' }}>{stdout}</pre>
+                          <pre className="console-code-box console-code-pass" style={{ margin: 0, padding: '0.4rem 0.6rem', borderRadius: '4px', fontFamily: 'monospace', fontSize: '0.82rem', whiteSpace: 'pre-wrap' }}>{stdout}</pre>
                         </div>
                       )}
                       {stderr && (
                         <div className="terminal-stderr">
-                          <div style={{ color: '#64748b', fontSize: '0.72rem', marginBottom: '0.3rem', fontFamily: 'sans-serif', fontWeight: 600, textTransform: 'uppercase' }}>STDERR / COMPILE ERROR</div>
-                          <pre style={{ margin: 0, padding: '0.4rem 0.6rem', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '4px', color: '#f87171', fontFamily: 'monospace', fontSize: '0.82rem', whiteSpace: 'pre-wrap' }}>{stderr}</pre>
+                          <div style={{ color: 'var(--text-muted)', fontSize: '0.72rem', marginBottom: '0.3rem', fontFamily: 'sans-serif', fontWeight: 600, textTransform: 'uppercase' }}>STDERR / COMPILE ERROR</div>
+                          <pre className="console-code-box console-code-fail" style={{ margin: 0, padding: '0.4rem 0.6rem', borderRadius: '4px', fontFamily: 'monospace', fontSize: '0.82rem', whiteSpace: 'pre-wrap' }}>{stderr}</pre>
                         </div>
                       )}
                       {!stdout && !stderr && !isRunning && hasRun && (

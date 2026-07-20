@@ -129,13 +129,13 @@ export default function PDFViewer({ url, title, onClose }) {
 
   return (
     <div 
+      className="pdf-viewer-overlay"
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100vw',
         height: '100vh',
-        backgroundColor: 'rgba(7, 10, 19, 0.85)',
         backdropFilter: 'blur(16px)',
         zIndex: 9999,
         display: 'flex',
@@ -143,7 +143,6 @@ export default function PDFViewer({ url, title, onClose }) {
         alignItems: 'center',
         justifyContent: 'center',
         fontFamily: 'var(--font-heading)',
-        color: '#fff',
         userSelect: 'none',
         WebkitUserSelect: 'none'
       }}
@@ -159,10 +158,10 @@ export default function PDFViewer({ url, title, onClose }) {
       `}</style>
       {/* Viewport */}
       <div 
+        className="pdf-viewer-viewport"
         style={{
           flex: 1,
           width: '100%',
-          background: 'rgba(5, 8, 16, 0.6)',
           overflow: 'auto',
           display: 'flex',
           justifyContent: 'center',
@@ -238,14 +237,13 @@ export default function PDFViewer({ url, title, onClose }) {
       {/* Unified Toolbar / Controls (One-Line Footer) */}
       {!loading && !error && (
         <div 
+          className="pdf-viewer-toolbar"
           style={{
             width: '100%',
             padding: '0.75rem 1.5rem',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-            background: 'rgba(15, 23, 42, 0.7)',
             backdropFilter: 'blur(10px)',
             boxSizing: 'border-box',
             gap: '1rem',
@@ -254,7 +252,7 @@ export default function PDFViewer({ url, title, onClose }) {
         >
           {/* Left: Title */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 600, color: '#fff', letterSpacing: '0.02em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '250px' }}>
+            <h3 className="pdf-viewer-title" style={{ margin: 0, fontSize: '0.95rem', fontWeight: 600, letterSpacing: '0.02em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '250px' }}>
               {title || 'View Resource'}
             </h3>
           </div>
