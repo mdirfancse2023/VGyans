@@ -1629,29 +1629,81 @@ body.light-theme .blog-header {
 body.light-theme .blog-title {
   color: #0f172a !important;
 }
-body.light-theme .blog-content-area {
-  background: #ffffff !important;
-  color: #0f172a !important;
-}
-body.light-theme .blog-code-container {
-  background: #f8fafc !important;
+body.light-theme .blog-control-btn {
+  background: rgba(15, 23, 42, 0.04) !important;
   border-color: rgba(15, 23, 42, 0.1) !important;
-}
-body.light-theme .blog-code-header {
-  background: #f1f5f9 !important;
-  border-bottom-color: rgba(15, 23, 42, 0.08) !important;
-}
-body.light-theme .blog-code-pre {
-  color: #0f172a !important;
-}
-body.light-theme .blog-copy-btn {
-  background: rgba(15, 23, 42, 0.05) !important;
-  border-color: rgba(15, 23, 42, 0.08) !important;
   color: #475569 !important;
 }
-body.light-theme .blog-copy-btn:hover {
-  background: rgba(15, 23, 42, 0.1) !important;
+body.light-theme .blog-control-btn:hover {
+  background: rgba(15, 23, 42, 0.08) !important;
   color: #0f172a !important;
+}
+body.light-theme .blog-sidebar {
+  background: #f8fafc !important;
+  border-right-color: rgba(15, 23, 42, 0.08) !important;
+}
+body.light-theme .blog-sidebar-title {
+  color: #64748b !important;
+  border-bottom-color: rgba(15, 23, 42, 0.06) !important;
+}
+body.light-theme .blog-sidebar-item {
+  color: #475569 !important;
+  border-bottom-color: rgba(15, 23, 42, 0.04) !important;
+}
+body.light-theme .blog-sidebar-item:hover {
+  background: rgba(15, 23, 42, 0.04) !important;
+  color: #0f172a !important;
+}
+body.light-theme .blog-sidebar-item.active {
+  background: #e0f2fe !important;
+  color: #0369a1 !important;
+  border-left-color: #0284c7 !important;
+}
+body.light-theme .blog-content-area {
+  background: #ffffff !important;
+  color: #1e293b !important;
+}
+body.light-theme .blog-h1 {
+  color: #0369a1 !important;
+  border-left-color: #0284c7 !important;
+}
+body.light-theme .blog-p {
+  color: #334155 !important;
+}
+body.light-theme .blog-p b {
+  color: #0f172a !important;
+}
+body.light-theme .blog-p code {
+  background: #f1f5f9 !important;
+  color: #0284c7 !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 0.15rem 0.4rem !important;
+  border-radius: 4px !important;
+}
+body.light-theme .blog-image-container {
+  background: #f8fafc !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+body.light-theme .blog-code-container {
+  background: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
+body.light-theme .blog-code-header {
+  background: #1e293b !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  color: #94a3b8 !important;
+}
+body.light-theme .blog-code-pre {
+  color: #f8fafc !important;
+}
+body.light-theme .blog-copy-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #94a3b8 !important;
+}
+body.light-theme .blog-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
 }
 /* Base styles for Category buttons & Console boxes */
 .category-card-btn {
