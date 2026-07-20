@@ -131,6 +131,8 @@ export default function ResumeBuilder() {
     const originalMargin = element.style.margin;
     const originalMinHeight = element.style.minHeight;
     const originalHeight = element.style.height;
+    const originalPosition = element.style.position;
+    const originalTop = element.style.top;
     
     element.style.boxShadow = 'none';
     element.style.borderRadius = '0';
@@ -138,18 +140,32 @@ export default function ResumeBuilder() {
     element.style.margin = '0';
     element.style.minHeight = 'auto';
     element.style.height = 'auto';
+    element.style.position = 'static';
+    element.style.top = 'auto';
 
-    window.html2pdf().from(element).set(opt).save().then(() => {
-      element.style.boxShadow = originalShadow;
-      element.style.borderRadius = originalBorderRadius;
-      element.style.padding = originalPadding;
-      element.style.margin = originalMargin;
-      element.style.minHeight = originalMinHeight;
-      element.style.height = originalHeight;
-    }).catch(err => {
-      console.error("PDF generation failed:", err);
-      window.print();
-    });
+    setTimeout(() => {
+      window.html2pdf().from(element).set(opt).save().then(() => {
+        element.style.boxShadow = originalShadow;
+        element.style.borderRadius = originalBorderRadius;
+        element.style.padding = originalPadding;
+        element.style.margin = originalMargin;
+        element.style.minHeight = originalMinHeight;
+        element.style.height = originalHeight;
+        element.style.position = originalPosition;
+        element.style.top = originalTop;
+      }).catch(err => {
+        console.error("PDF generation failed:", err);
+        element.style.boxShadow = originalShadow;
+        element.style.borderRadius = originalBorderRadius;
+        element.style.padding = originalPadding;
+        element.style.margin = originalMargin;
+        element.style.minHeight = originalMinHeight;
+        element.style.height = originalHeight;
+        element.style.position = originalPosition;
+        element.style.top = originalTop;
+        window.print();
+      });
+    }, 150);
   };
 
   const getSizes = () => {
