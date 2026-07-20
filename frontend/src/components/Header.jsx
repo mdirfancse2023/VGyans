@@ -1,7 +1,17 @@
 import React from 'react';
 import logoImg from '../assets/logo.png';
 
-export default function Header({ activeTab, setActiveTab, theme, toggleTheme, onOpenFeedback }) {
+export default function Header({ 
+  activeTab, 
+  setActiveTab, 
+  theme, 
+  toggleTheme, 
+  onOpenFeedback,
+  currentSong,
+  isPlaying,
+  togglePlay,
+  nextSong
+}) {
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'guides', label: 'Placement' },
@@ -26,6 +36,87 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme, on
           />
           Virtual Gyans
         </a>
+
+        {/* Compact Header Music Player (Shown between Virtual Gyans logo & tabs whenever playing) */}
+        {currentSong && isPlaying && (
+          <div 
+            className="header-music-player"
+            onClick={() => setActiveTab('songs')}
+            title="Click to view full Music Dashboard"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.55rem',
+              padding: '0.35rem 0.85rem',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid var(--border-glass)',
+              borderRadius: '20px',
+              cursor: 'pointer',
+              fontSize: '0.8rem',
+              color: 'var(--text-primary)',
+              backdropFilter: 'blur(10px)',
+              margin: '0 1rem'
+            }}
+          >
+            {/* Spinning Album Cover Art */}
+            <img 
+              src={currentSong.coverUrl} 
+              alt={currentSong.title} 
+              style={{ 
+                width: '24px', 
+                height: '24px', 
+                borderRadius: '50%', 
+                objectFit: 'cover',
+                animation: isPlaying ? 'spinRecord 12s linear infinite' : 'none',
+                boxShadow: '0 0 8px rgba(6, 182, 212, 0.4)'
+              }}
+            />
+
+            {/* Song Title & Artist */}
+            <div style={{ maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{currentSong.title}</span>
+              <span style={{ opacity: 0.65, marginLeft: '0.35rem', fontSize: '0.75rem' }}>• {currentSong.artist}</span>
+            </div>
+
+            {/* Header Controls: Play/Pause & Next */}
+            <div 
+              style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginLeft: '0.2rem' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={togglePlay}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--primary)',
+                  fontSize: '0.9rem',
+                  cursor: 'pointer',
+                  padding: '2px 4px',
+                  lineHeight: 1
+                }}
+                title={isPlaying ? "Pause" : "Play"}
+              >
+                {isPlaying ? '⏸' : '▶'}
+              </button>
+
+              <button
+                onClick={nextSong}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-secondary)',
+                  fontSize: '0.9rem',
+                  cursor: 'pointer',
+                  padding: '2px 4px',
+                  lineHeight: 1
+                }}
+                title="Next Track"
+              >
+                ⏭
+              </button>
+            </div>
+          </div>
+        )}
         
         <ul className="nav-links" style={{ alignItems: 'center' }}>
           {navItems.map((item) => (

@@ -49,18 +49,6 @@ export default function Songs({
 
   return (
     <div className="songs-dashboard" style={{ maxWidth: '1200px', margin: '2rem auto', padding: '0 1rem' }}>
-      {/* Hero Banner */}
-      <div className="glass-panel songs-hero" style={{ padding: '2.5rem', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <span className="badge badge-primary" style={{ textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.75rem' }}>Study Space</span>
-          <h1 style={{ fontSize: '2.5rem', marginTop: '0.5rem', color: 'var(--text-primary)' }}>Focus Radio & Lo-Fi Beats</h1>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', fontSize: '1.05rem', marginTop: '0.5rem' }}>
-            Elevate your study sessions. Mix high-quality instrumental beats with custom ambient sounds to create your perfect deep-work environment.
-          </p>
-        </div>
-        <div className="hero-glow-blob" style={{ position: 'absolute', right: '-10%', top: '-20%', width: '300px', height: '300px', background: 'radial-gradient(circle, var(--primary-glow) 0%, transparent 70%)', filter: 'blur(30px)' }}></div>
-      </div>
-
       <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem' }}>
         
         {/* Left Panel: Library & Browser */}
@@ -389,6 +377,21 @@ export default function Songs({
                     🔁
                   </button>
                 </div>
+
+                {/* Volume Slider */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', width: '100%', maxWidth: '240px', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                  <span>🔊</span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={volume}
+                    onChange={(e) => setVolume(parseFloat(e.target.value))}
+                    style={{ flexGrow: 1, accentColor: 'var(--primary)', cursor: 'pointer' }}
+                  />
+                  <span style={{ fontSize: '0.75rem', width: '32px', textAlign: 'right' }}>{Math.round(volume * 100)}%</span>
+                </div>
               </>
             ) : (
               <div style={{ padding: '3rem 0', color: 'var(--text-secondary)' }}>
@@ -397,76 +400,6 @@ export default function Songs({
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Select a track from the library on the left to start playing.</p>
               </div>
             )}
-          </div>
-
-          {/* Audio Mixer (Music & Ambient Sound Board) */}
-          <div className="glass-panel" style={{ padding: '1.75rem' }}>
-            <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', marginBottom: '1.25rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span>🎛</span> Study Sound Mixer
-            </h3>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              {/* Music Player Volume */}
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <span>🎧</span> Music
-                  </span>
-                  <span>{Math.round(volume * 100)}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={volume}
-                  onChange={(e) => setVolume(parseFloat(e.target.value))}
-                  style={{ width: '100%', accentColor: 'var(--primary)', cursor: 'pointer' }}
-                />
-              </div>
-
-              {/* Ambient Rain Volume */}
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <span>🌧</span> Ambient Rain
-                  </span>
-                  <span>{Math.round(ambientSounds.rain * 100)}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={ambientSounds.rain}
-                  onChange={(e) => setAmbientSoundVolume('rain', parseFloat(e.target.value))}
-                  style={{ width: '100%', accentColor: 'var(--primary)', cursor: 'pointer' }}
-                />
-              </div>
-
-              {/* Ambient Forest Wind Volume */}
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <span>🍃</span> Forest Wind
-                  </span>
-                  <span>{Math.round(ambientSounds.wind * 100)}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={ambientSounds.wind}
-                  onChange={(e) => setAmbientSoundVolume('wind', parseFloat(e.target.value))}
-                  style={{ width: '100%', accentColor: 'var(--primary)', cursor: 'pointer' }}
-                />
-              </div>
-            </div>
-
-            <div style={{ marginTop: '1.25rem', padding: '0.75rem', background: 'rgba(6, 182, 212, 0.03)', border: '1px solid rgba(6, 182, 212, 0.1)', borderRadius: '8px', fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-              💡 <strong>Tip:</strong> Combining lo-fi beats with the "Forest Wind" or "Ambient Rain" synth noise mimics pink/brown noise and helps block out distracting environmental frequencies!
-            </div>
           </div>
 
         </div>

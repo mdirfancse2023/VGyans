@@ -542,6 +542,10 @@ export default function App() {
         theme={theme}
         toggleTheme={toggleTheme}
         onOpenFeedback={() => setIsFeedbackOpen(true)}
+        currentSong={currentSong}
+        isPlaying={isPlaying}
+        togglePlay={togglePlay}
+        nextSong={nextSong}
       />
 
       <main style={{ flexGrow: 1 }}>
@@ -714,18 +718,6 @@ export default function App() {
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={handleSongEnded}
       />
-
-      {/* Floating Background Player widget */}
-      {activeTab !== 'songs' && currentSong && (
-        <MiniPlayer 
-          currentSong={currentSong}
-          isPlaying={isPlaying}
-          togglePlay={togglePlay}
-          nextSong={nextSong}
-          onOpenMusicTab={() => setActiveTab('songs')}
-          onClose={closePlayer}
-        />
-      )}
     </div>
   );
 }
