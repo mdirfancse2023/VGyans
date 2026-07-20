@@ -93,7 +93,49 @@ export default function ResumeBuilder() {
   };
 
   const handlePrint = () => {
-    window.print();
+    if (!window.html2pdf) {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+      script.onload = () => {
+        generatePDF();
+      };
+      document.body.appendChild(script);
+    } else {
+      generatePDF();
+    }
+  };
+
+  const generatePDF = () => {
+    const element = document.querySelector('.preview-panel');
+    if (!element) return;
+
+    const opt = {
+      margin:       [0.4, 0.4, 0.4, 0.4],
+      filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, logging: false },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    // Temporarily clean up styles for exact PDF rendering
+    const originalShadow = element.style.boxShadow;
+    const originalBorderRadius = element.style.borderRadius;
+    const originalPadding = element.style.padding;
+    
+    element.style.boxShadow = 'none';
+    element.style.borderRadius = '0';
+    element.style.padding = '0';
+
+    window.html2pdf().from(element).set(opt).save().then(() => {
+      // Restore styles after rendering
+      element.style.boxShadow = originalShadow;
+      element.style.borderRadius = originalBorderRadius;
+      element.style.padding = originalPadding;
+    }).catch(err => {
+      console.error("PDF generation failed:", err);
+      // Fallback
+      window.print();
+    });
   };
 
   const steps = ['Personal Details', 'Experience', 'Education', 'Projects & Skills'];
@@ -213,7 +255,7 @@ export default function ResumeBuilder() {
             Load Sample Data
           </button>
           <button className="btn btn-primary" onClick={handlePrint} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem' }}>
-            Download PDF / Print
+            Download PDF
           </button>
         </div>
       </div>
