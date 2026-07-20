@@ -26,14 +26,16 @@ app = FastAPI(
 # Enable CORS for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust in production
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 @app.middleware("http")
 async def block_ai_agents(request, call_next):
+    if request.method == "OPTIONS":
+        return await call_next(request)
     user_agent = request.headers.get("user-agent", "")
     ua_lower = user_agent.lower()
     ai_agents = [
@@ -42,8 +44,27 @@ async def block_ai_agents(request, call_next):
         "cohere", "ccbot", "diffbot", "omgili", "bytespider"
     ]
     if any(agent in ua_lower for agent in ai_agents):
-        return Response(content="Access denied for AI/LLM agents.", status_code=403)
+        return Response(
+            content="Access denied for AI/LLM agents.",
+            status_code=403,
+            headers={
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*",
+                "Access-Control-Allow-Headers": "*",
+            }
+        )
     return await call_next(request)
+
+@app.options("/{full_path:path}")
+async def options_handler(full_path: str):
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        }
+    )
 
 DATA_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -168,31 +189,30 @@ RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY", "")
 def _fetch_remotive() -> list:
     """Remote IT jobs from Remotive (free, no key)"""
     try:
-        categories = ["software-dev", "data", "devops-sysadmin", "qa"]
-        jobs = []
-        for cat in categories:
-            r = requests.get(
-                f"https://remotive.com/api/remote-jobs?category={cat}&limit=12",
-                timeout=10, headers={"User-Agent": "VirtualGyans/1.0"}
-            )
-            if r.status_code == 200:
-                for j in r.json().get("jobs", []):
-                    jobs.append({
-                        "id": f"remotive-{j.get('id')}",
-                        "title": j.get("title", ""),
-                        "company": j.get("company_name", ""),
-                        "location": j.get("candidate_required_location") or "Remote",
-                        "type": j.get("job_type", "full_time").replace("_", " ").title(),
-                        "category": j.get("category", cat),
-                        "salary": j.get("salary", ""),
-                        "tags": j.get("tags", [])[:5],
-                        "logo": j.get("company_logo", ""),
-                        "url": j.get("url", ""),
-                        "postedAt": j.get("publication_date", ""),
-                        "source": "Remotive",
-                        "remote": True,
-                    })
-        return jobs
+        r = requests.get(
+            "https://remotive.com/api/remote-jobs?category=software-dev&limit=25",
+            timeout=3, headers={"User-Agent": "VirtualGyans/1.0"}
+        )
+        if r.status_code == 200:
+            jobs = []
+            for j in r.json().get("jobs", []):
+                jobs.append({
+                    "id": f"remotive-{j.get('id')}",
+                    "title": j.get("title", ""),
+                    "company": j.get("company_name", ""),
+                    "location": j.get("candidate_required_location") or "Remote",
+                    "type": j.get("job_type", "full_time").replace("_", " ").title(),
+                    "category": j.get("category", "Software Engineering"),
+                    "salary": j.get("salary", ""),
+                    "tags": j.get("tags", [])[:5],
+                    "logo": j.get("company_logo", ""),
+                    "url": j.get("url", ""),
+                    "postedAt": j.get("publication_date", ""),
+                    "source": "Remotive",
+                    "remote": True,
+                })
+            return jobs
+        return []
     except Exception as e:
         print(f"Remotive fetch error: {e}")
         return []
@@ -202,7 +222,7 @@ def _fetch_arbeitnow() -> list:
     try:
         r = requests.get(
             "https://arbeitnow.com/api/job-board-api?page=1",
-            timeout=10, headers={"User-Agent": "VirtualGyans/1.0"}
+            timeout=3, headers={"User-Agent": "VirtualGyans/1.0"}
         )
         if r.status_code != 200:
             return []
@@ -239,7 +259,7 @@ def _fetch_themuse() -> list:
     try:
         r = requests.get(
             "https://www.themuse.com/api/public/jobs?category=Computer+%26+IT&page=1&descending=true",
-            timeout=10, headers={"User-Agent": "VirtualGyans/1.0"}
+            timeout=3, headers={"User-Agent": "VirtualGyans/1.0"}
         )
         if r.status_code != 200:
             return []
@@ -274,67 +294,60 @@ def _fetch_jsearch(query: str = "software developer", location: str = "india") -
     if not RAPIDAPI_KEY:
         return []
     try:
-        # Keep to 2 queries max to stay under Vercel's 10s function timeout
-        queries = [
-            "software engineer in india",
-            "python developer in india",
-        ]
+        params = {"query": "software engineer in india", "page": "1", "num_results": "15", "date_posted": "week"}
+        r = requests.get(
+            "https://jsearch.p.rapidapi.com/search",
+            headers={"X-RapidAPI-Key": RAPIDAPI_KEY, "X-RapidAPI-Host": "jsearch.p.rapidapi.com"},
+            params=params, timeout=3.5
+        )
+        if r.status_code != 200:
+            return []
         jobs = []
-        for q in queries:
-            params = {"query": q, "page": "1", "num_results": "10", "date_posted": "week"}
-            r = requests.get(
-                "https://jsearch.p.rapidapi.com/search",
-                headers={"X-RapidAPI-Key": RAPIDAPI_KEY, "X-RapidAPI-Host": "jsearch.p.rapidapi.com"},
-                params=params, timeout=8
-            )
-            if r.status_code != 200:
-                print(f"JSearch error {r.status_code}: {r.text[:200]}")
-                continue
-            for j in r.json().get("data", []):
-                publisher = j.get("job_publisher", "").lower()
-                if "linkedin" in publisher:
-                    src = "LinkedIn"
-                elif "indeed" in publisher:
-                    src = "Indeed"
-                elif "glassdoor" in publisher:
-                    src = "Glassdoor"
-                elif "naukri" in publisher:
-                    src = "Naukri"
-                else:
-                    src = j.get("job_publisher", "JSearch") or "JSearch"
+        for j in r.json().get("data", []):
+            publisher = j.get("job_publisher", "").lower()
+            if "linkedin" in publisher:
+                src = "LinkedIn"
+            elif "indeed" in publisher:
+                src = "Indeed"
+            elif "glassdoor" in publisher:
+                src = "Glassdoor"
+            elif "naukri" in publisher:
+                src = "Naukri"
+            else:
+                src = j.get("job_publisher", "JSearch") or "JSearch"
 
-                min_sal = j.get("job_min_salary")
-                max_sal = j.get("job_max_salary")
-                cur     = j.get("job_salary_currency", "")
-                salary  = ""
-                if min_sal and max_sal:
-                    salary = f"{cur}{int(min_sal):,}–{cur}{int(max_sal):,}"
-                elif min_sal:
-                    salary = f"{cur}{int(min_sal):,}+"
+            min_sal = j.get("job_min_salary")
+            max_sal = j.get("job_max_salary")
+            cur     = j.get("job_salary_currency", "")
+            salary  = ""
+            if min_sal and max_sal:
+                salary = f"{cur}{int(min_sal):,}–{cur}{int(max_sal):,}"
+            elif min_sal:
+                salary = f"{cur}{int(min_sal):,}+"
 
-                city         = j.get("job_city", "")
-                country      = j.get("job_country", "")
-                location_str = ", ".join(filter(None, [city, country])) or "Flexible"
+            city         = j.get("job_city", "")
+            country      = j.get("job_country", "")
+            location_str = ", ".join(filter(None, [city, country])) or "Flexible"
 
-                posted = j.get("job_posted_at_datetime_utc", "") or j.get("job_posted_at_timestamp", "")
-                if isinstance(posted, (int, float)):
-                    posted = datetime.datetime.utcfromtimestamp(posted).isoformat() + "Z"
+            posted = j.get("job_posted_at_datetime_utc", "") or j.get("job_posted_at_timestamp", "")
+            if isinstance(posted, (int, float)):
+                posted = datetime.datetime.utcfromtimestamp(posted).isoformat() + "Z"
 
-                jobs.append({
-                    "id": f"jsearch-{j.get('job_id','')}",
-                    "title": j.get("job_title", ""),
-                    "company": j.get("employer_name", ""),
-                    "location": location_str,
-                    "type": (j.get("job_employment_type") or "Full Time").replace("_", " ").title(),
-                    "category": j.get("job_category") or "Software Engineering",
-                    "salary": salary,
-                    "tags": (j.get("job_required_skills") or [])[:5],
-                    "logo": j.get("employer_logo", ""),
-                    "url": j.get("job_apply_link") or j.get("job_google_link", ""),
-                    "postedAt": posted,
-                    "source": src,
-                    "remote": bool(j.get("job_is_remote")),
-                })
+            jobs.append({
+                "id": f"jsearch-{j.get('job_id','')}",
+                "title": j.get("job_title", ""),
+                "company": j.get("employer_name", ""),
+                "location": location_str,
+                "type": (j.get("job_employment_type") or "Full Time").replace("_", " ").title(),
+                "category": j.get("job_category") or "Software Engineering",
+                "salary": salary,
+                "tags": (j.get("job_required_skills") or [])[:5],
+                "logo": j.get("employer_logo", ""),
+                "url": j.get("job_apply_link") or j.get("job_google_link", ""),
+                "postedAt": posted,
+                "source": src,
+                "remote": bool(j.get("job_is_remote")),
+            })
         return jobs
     except Exception as e:
         print(f"JSearch fetch error: {e}")
@@ -345,48 +358,46 @@ def _fetch_indeed_rss() -> list:
     try:
         import xml.etree.ElementTree as ET
         import re as _re, email.utils
-        queries = ["software+engineer", "python+developer"]
+        url = "https://www.indeed.com/rss?q=software+engineer&l=India&sort=date&fromage=14"
+        r = requests.get(url, timeout=3, headers={"User-Agent": "Mozilla/5.0 (compatible; VirtualGyans/1.0)"})
+        if r.status_code != 200:
+            return []
+        try:
+            root = ET.fromstring(r.content)
+        except ET.ParseError:
+            return []
         jobs = []
-        for q in queries:
-            url = f"https://www.indeed.com/rss?q={q}&l=India&sort=date&fromage=14"
-            r = requests.get(url, timeout=6, headers={"User-Agent": "Mozilla/5.0 (compatible; VirtualGyans/1.0)"})
-            if r.status_code != 200:
-                continue
-            try:
-                root = ET.fromstring(r.content)
-            except ET.ParseError:
-                continue
-            for item in root.findall(".//item"):
-                title_el   = item.find("title")
-                link_el    = item.find("link")
-                desc_el    = item.find("description")
-                pubdate_el = item.find("pubDate")
-                guid_el    = item.find("guid")
-                title = title_el.text if title_el is not None else ""
-                link  = link_el.text  if link_el  is not None else ""
-                desc  = desc_el.text  if desc_el  is not None else ""
-                pub   = pubdate_el.text if pubdate_el is not None else ""
-                company, location = "", "India"
-                if desc:
-                    m = _re.search(r'<b>([^<]+)</b>', desc)
-                    if m: company = m.group(1)
-                posted_iso = ""
-                if pub:
-                    try: posted_iso = email.utils.parsedate_to_datetime(pub).isoformat()
-                    except Exception: pass
-                if title and link:
-                    jobs.append({
-                        "id": f"indeed-{guid_el.text if guid_el is not None else link}",
-                        "title": title.split(" - ")[0].strip(),
-                        "company": company or title.split(" - ")[-1].strip(),
-                        "location": location,
-                        "type": "Full Time",
-                        "category": "Software Engineering",
-                        "salary": "", "tags": [], "logo": "",
-                        "url": link, "postedAt": posted_iso,
-                        "source": "Indeed",
-                        "remote": "remote" in title.lower(),
-                    })
+        for item in root.findall(".//item"):
+            title_el   = item.find("title")
+            link_el    = item.find("link")
+            desc_el    = item.find("description")
+            pubdate_el = item.find("pubDate")
+            guid_el    = item.find("guid")
+            title = title_el.text if title_el is not None else ""
+            link  = link_el.text  if link_el  is not None else ""
+            desc  = desc_el.text  if desc_el  is not None else ""
+            pub   = pubdate_el.text if pubdate_el is not None else ""
+            company, location = "", "India"
+            if desc:
+                m = _re.search(r'<b>([^<]+)</b>', desc)
+                if m: company = m.group(1)
+            posted_iso = ""
+            if pub:
+                try: posted_iso = email.utils.parsedate_to_datetime(pub).isoformat()
+                except Exception: pass
+            if title and link:
+                jobs.append({
+                    "id": f"indeed-{guid_el.text if guid_el is not None else link}",
+                    "title": title.split(" - ")[0].strip(),
+                    "company": company or title.split(" - ")[-1].strip(),
+                    "location": location,
+                    "type": "Full Time",
+                    "category": "Software Engineering",
+                    "salary": "", "tags": [], "logo": "",
+                    "url": link, "postedAt": posted_iso,
+                    "source": "Indeed",
+                    "remote": "remote" in title.lower(),
+                })
         return jobs
     except Exception as e:
         print(f"Indeed RSS fetch error: {e}")
@@ -401,20 +412,22 @@ def get_jobs(
 ):
     """Aggregate real-time IT jobs — JSearch(LinkedIn/Indeed/Glassdoor) + Remotive + Arbeitnow + The Muse."""
     try:
-        from concurrent.futures import ThreadPoolExecutor, as_completed
-        futures_map = {}
+        from concurrent.futures import ThreadPoolExecutor, wait
         with ThreadPoolExecutor(max_workers=4) as ex:
-            futures_map['jsearch']   = ex.submit(_fetch_jsearch)
-            futures_map['remotive']  = ex.submit(_fetch_remotive)
-            futures_map['arbeitnow'] = ex.submit(_fetch_arbeitnow)
-            futures_map['themuse']   = ex.submit(_fetch_themuse)
-            # Collect results safely — a single source failure won't crash the endpoint
+            futures = [
+                ex.submit(_fetch_jsearch),
+                ex.submit(_fetch_remotive),
+                ex.submit(_fetch_arbeitnow),
+                ex.submit(_fetch_themuse),
+            ]
+            done, _ = wait(futures, timeout=4.0)
+            
             all_jobs = []
-            for name, future in futures_map.items():
+            for f in done:
                 try:
-                    all_jobs.extend(future.result(timeout=9))
+                    all_jobs.extend(f.result())
                 except Exception as e:
-                    print(f"Source '{name}' failed: {e}")
+                    print(f"Job source fetch error: {e}")
 
         # Deduplicate by title+company
         seen, unique = set(), []
@@ -446,7 +459,6 @@ def get_jobs(
         }
     except Exception as e:
         print(f"get_jobs critical error: {e}")
-        # Return empty but valid JSON so CORS headers are still sent
         return {
             "total": 0,
             "jobs": [],
