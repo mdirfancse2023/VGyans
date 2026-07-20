@@ -43,10 +43,30 @@ body {
   background-color: var(--bg-dark);
   color: var(--text-primary);
   font-family: var(--font-body);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   line-height: 1.6;
+}
+
+/* Content Protection styles */
+.content-protected {
+  transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content-protected.blurred {
+  filter: blur(25px) !important;
+  pointer-events: none !important;
+}
+
+@media print {
+  body, html, #root {
+    display: none !important;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -61,8 +61,66 @@ export default function App() {
   const [experiences, setExperiences] = useState([]);
   const [flashcards, setFlashcards] = useState([]);
   const [onboardingStages, setOnboardingStages] = useState({});
+  const [isBlurred, setIsBlurred] = useState(false);
   const [notes, setNotes] = useState([]);
   const [playgroundQuestions, setPlaygroundQuestions] = useState([]);
+
+  useEffect(() => {
+    const handleBlur = () => setIsBlurred(true);
+    const handleFocus = () => setIsBlurred(false);
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsBlurred(true);
+      } else {
+        setIsBlurred(false);
+      }
+    };
+
+    window.addEventListener('blur', handleBlur);
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Disable right click context menu
+    const handleContextMenu = (e) => e.preventDefault();
+    document.addEventListener('contextmenu', handleContextMenu);
+
+    // Disable copy and cut
+    const handleCopyCut = (e) => e.preventDefault();
+    document.addEventListener('copy', handleCopyCut);
+    document.addEventListener('cut', handleCopyCut);
+
+    // Disable dragging (to prevent image saving or text drag-out)
+    const handleDragStart = (e) => e.preventDefault();
+    document.addEventListener('dragstart', handleDragStart);
+
+    // Keyboard Shortcuts protection
+    const handleKeyDown = (e) => {
+      // Block Ctrl+C / Cmd+C, Ctrl+X / Cmd+X, Ctrl+S / Cmd+S, Ctrl+P / Cmd+P, Ctrl+U / Cmd+U
+      if ((e.ctrlKey || e.metaKey) && ['c', 'x', 's', 'p', 'u'].includes(e.key.toLowerCase())) {
+        e.preventDefault();
+      }
+      // Block F12, Ctrl+Shift+I / Cmd+Opt+I (DevTools shortcuts)
+      if (
+        e.key === 'F12' || 
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && ['i', 'c', 'j'].includes(e.key.toLowerCase())) ||
+        ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'i')
+      ) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('copy', handleCopyCut);
+      document.removeEventListener('cut', handleCopyCut);
+      document.removeEventListener('dragstart', handleDragStart);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -230,7 +288,7 @@ export default function App() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className={`content-protected ${isBlurred ? 'blurred' : ''}`} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Background Animated Blobs */}
       <div className="bg-blobs">
         <div className="blob blob-1"></div>
