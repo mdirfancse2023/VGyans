@@ -576,11 +576,16 @@ def fetch_youtube_data():
                 # Fetch playground questions
                 print("Fetching playground questions from Firestore during static compile...")
                 questions_list = [doc.to_dict() for doc in db.collection("playground_questions").stream()]
+
+                # Fetch study songs
+                print("Fetching study songs from Firestore during static compile...")
+                songs_list = [doc.to_dict() for doc in db.collection("songs").stream()]
                     
             except Exception as e:
                 print(f"Error fetching Firestore data during static compile, falling back to static lists: {e}")
                 notes_list = []
                 questions_list = []
+                songs_list = []
 
         if not notes_list:
             try:
@@ -600,6 +605,15 @@ def fetch_youtube_data():
             except Exception:
                 pass
 
+        if not songs_list:
+            try:
+                local_songs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "songs.json")
+                if os.path.exists(local_songs_path):
+                    with open(local_songs_path, "r", encoding="utf-8") as f:
+                        songs_list = json.load(f)
+            except Exception:
+                pass
+
         import datetime
         return {
             "channel": channel,
@@ -611,6 +625,7 @@ def fetch_youtube_data():
             "onboardingStages": onboarding_stages_dict,
             "notes": notes_list,
             "playground_questions": questions_list,
+            "songs": songs_list,
             "lastUpdated": datetime.datetime.utcnow().isoformat() + "Z"
         }
 
@@ -690,9 +705,11 @@ def main():
         ]
     if "playground_questions" in data:
         stripped["playground_questions"] = data["playground_questions"]
+    if "songs" in data:
+        stripped["songs"] = data["songs"]
 
     # Save minified segregated files to backend/data/ and frontend/public/data/
-    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions"]
+    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions", "songs"]
     for key in keys:
         if key in stripped:
             with open(os.path.join(backend_data_dir, f"{key}.json"), "w", encoding="utf-8") as f:

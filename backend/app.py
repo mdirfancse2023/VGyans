@@ -91,7 +91,7 @@ def load_data():
             print(f"Warning: Data directory missing and build_static skipped: {e}")
 
     data = {}
-    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions"]
+    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions", "songs"]
     for key in keys:
         file_path = os.path.join(DATA_DIR, f"{key}.json")
         if os.path.exists(file_path):
@@ -101,7 +101,7 @@ def load_data():
             except Exception as e:
                 print(f"Warning: Failed to load segregated file {key}.json: {e}")
         else:
-            if key in ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions"]:
+            if key in ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions", "songs"]:
                 data[key] = []
             elif key in ["onboardingStages", "channel"]:
                 data[key] = {}
@@ -565,9 +565,9 @@ def get_all_data():
                 stages_docs = db.collection("onboardingStages").stream()
                 return {doc.id: doc.to_dict().get("stages", []) for doc in stages_docs}
                 
-            collections = ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions"]
+            collections = ["playlists", "videos", "resources", "experiences", "flashcards", "notes", "playground_questions", "songs"]
             
-            with ThreadPoolExecutor(max_workers=9) as executor:
+            with ThreadPoolExecutor(max_workers=10) as executor:
                 future_stats = executor.submit(fetch_stats)
                 future_stages = executor.submit(fetch_stages)
                 future_colls = {coll: executor.submit(fetch_coll, coll) for coll in collections}
@@ -674,6 +674,26 @@ def create_experience(exp: InterviewExperienceCreate):
     except Exception as e:
         print(f"Firestore create_experience error: {e}")
         raise HTTPException(status_code=500, detail=f"Database write error: {str(e)}")
+
+@app.get("/api/songs")
+def get_songs(category: Optional[str] = None):
+    if db is not None:
+        try:
+            songs_ref = db.collection("songs")
+            docs = list(songs_ref.limit(1).stream())
+            if not docs:
+                print("Seeding songs in Firestore...")
+                local_songs = load_data().get("songs", [])
+                for song in local_songs:
+                    songs_ref.document(song["id"]).set(song)
+                print("Seeding songs complete!")
+        except Exception as e:
+            print(f"Firestore songs seeding or check error: {e}")
+
+    songs = load_firestore_collection("songs")
+    if category:
+        songs = [s for s in songs if s.get("category", "").lower() == category.lower()]
+    return songs
 
 @app.get("/api/flashcards")
 def get_flashcards(category: Optional[str] = None):

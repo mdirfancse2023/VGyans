@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import VideoGrid from './components/VideoGrid';
@@ -10,6 +10,8 @@ import Footer from './components/Footer';
 import FeedbackButton from './components/FeedbackButton';
 import Jobs from './components/Jobs';
 import CareerCoach from './components/CareerCoach';
+import Songs from './components/Songs';
+import MiniPlayer from './components/MiniPlayer';
 
 const API_URL = import.meta.env.VITE_API_URL || (
   typeof window !== 'undefined' && window.location.hostname === 'localhost' 
@@ -64,6 +66,240 @@ export default function App() {
   const [isBlurred, setIsBlurred] = useState(false);
   const [notes, setNotes] = useState([]);
   const [playgroundQuestions, setPlaygroundQuestions] = useState([]);
+
+  // Music Player States
+  const [songs, setSongs] = useState([]);
+  const [currentSong, setCurrentSong] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(0.5);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [playbackMode, setPlaybackMode] = useState('normal'); // 'normal' | 'loop' | 'shuffle'
+  const [ambientSounds, setAmbientSounds] = useState({ rain: 0, wind: 0 });
+
+  // Refs for HTML5 Audio & Web Audio API
+  const audioRef = useRef(null);
+  const audioCtxRef = useRef(null);
+  const rainSourceRef = useRef(null);
+  const windSourceRef = useRef(null);
+  const rainGainRef = useRef(null);
+  const windGainRef = useRef(null);
+
+  // Sync Audio Volume
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
+  // Sync Play/Pause State
+  useEffect(() => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      if (audioRef.current.src) {
+        audioRef.current.play().catch(e => console.warn("Playback failed:", e));
+      }
+    } else {
+      audioRef.current.pause();
+    }
+  }, [isPlaying, currentSong]);
+
+  // Cleanup Web Audio API nodes on unmount
+  useEffect(() => {
+    return () => {
+      try {
+        if (rainSourceRef.current) rainSourceRef.current.stop();
+        if (windSourceRef.current) windSourceRef.current.stop();
+        if (audioCtxRef.current) audioCtxRef.current.close();
+      } catch (e) {}
+    };
+  }, []);
+
+  const playSong = (song) => {
+    if (!audioRef.current) return;
+    const isSameSong = currentSong && currentSong.id === song.id;
+    if (isSameSong) {
+      togglePlay();
+    } else {
+      setCurrentSong(song);
+      audioRef.current.src = song.url;
+      audioRef.current.load();
+      setIsPlaying(true);
+      setDuration(song.duration || 0);
+    }
+  };
+
+  const togglePlay = () => {
+    if (!currentSong && songs.length > 0) {
+      playSong(songs[0]);
+    } else {
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const nextSong = () => {
+    if (songs.length === 0) return;
+    if (playbackMode === 'loop') {
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(e => {});
+      }
+      return;
+    }
+    
+    let nextIndex = 0;
+    if (playbackMode === 'shuffle') {
+      nextIndex = Math.floor(Math.random() * songs.length);
+    } else {
+      const currentIndex = songs.findIndex(s => s.id === currentSong?.id);
+      nextIndex = (currentIndex + 1) % songs.length;
+    }
+    playSong(songs[nextIndex]);
+  };
+
+  const prevSong = () => {
+    if (songs.length === 0) return;
+    
+    if (audioRef.current && audioRef.current.currentTime > 3) {
+      audioRef.current.currentTime = 0;
+      setCurrentTime(0);
+      return;
+    }
+
+    const currentIndex = songs.findIndex(s => s.id === currentSong?.id);
+    let prevIndex = currentIndex - 1;
+    if (prevIndex < 0) {
+      prevIndex = songs.length - 1;
+    }
+    playSong(songs[prevIndex]);
+  };
+
+  const seek = (time) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = time;
+      setCurrentTime(time);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleSongEnded = () => {
+    nextSong();
+  };
+
+  const closePlayer = () => {
+    setIsPlaying(false);
+    setCurrentSong(null);
+    setCurrentTime(0);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = "";
+    }
+  };
+
+  // Ambient Sound Synthesis Logic (Web Audio API)
+  const initAmbientAudio = () => {
+    if (audioCtxRef.current) return;
+
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      const ctx = new AudioContextClass();
+      audioCtxRef.current = ctx;
+
+      // 1. Create Rain Node (Filtered White Noise)
+      const bufferSize = 2 * ctx.sampleRate;
+      const rainBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const rainData = rainBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        rainData[i] = Math.random() * 2 - 1;
+      }
+      
+      const rainSrc = ctx.createBufferSource();
+      rainSrc.buffer = rainBuffer;
+      rainSrc.loop = true;
+
+      const rainGain = ctx.createGain();
+      rainGain.gain.setValueAtTime(0, ctx.currentTime);
+
+      const rainFilter = ctx.createBiquadFilter();
+      rainFilter.type = 'lowpass';
+      rainFilter.frequency.setValueAtTime(1000, ctx.currentTime);
+
+      rainSrc.connect(rainFilter);
+      rainFilter.connect(rainGain);
+      rainGain.connect(ctx.destination);
+      rainSrc.start(0);
+
+      rainSourceRef.current = rainSrc;
+      rainGainRef.current = rainGain;
+
+      // 2. Create Forest Wind Node (Brown Noise)
+      const windBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const windData = windBuffer.getChannelData(0);
+      let lastOut = 0.0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        windData[i] = (lastOut + (0.02 * white)) / 1.02;
+        lastOut = windData[i];
+        windData[i] *= 3.5;
+      }
+
+      const windSrc = ctx.createBufferSource();
+      windSrc.buffer = windBuffer;
+      windSrc.loop = true;
+
+      const windGain = ctx.createGain();
+      windGain.gain.setValueAtTime(0, ctx.currentTime);
+
+      const windFilter = ctx.createBiquadFilter();
+      windFilter.type = 'lowpass';
+      windFilter.frequency.setValueAtTime(400, ctx.currentTime);
+
+      windSrc.connect(windFilter);
+      windFilter.connect(windGain);
+      windGain.connect(ctx.destination);
+      windSrc.start(0);
+
+      windSourceRef.current = windSrc;
+      windGainRef.current = windGain;
+
+      console.log("Ambient Audio Synthesizer initialized!");
+    } catch (e) {
+      console.warn("Web Audio API failed to initialize:", e);
+    }
+  };
+
+  const setAmbientSoundVolume = (sound, vol) => {
+    setAmbientSounds(prev => {
+      const next = { ...prev, [sound]: vol };
+      
+      initAmbientAudio();
+      
+      const ctx = audioCtxRef.current;
+      if (ctx) {
+        if (ctx.state === 'suspended') {
+          ctx.resume();
+        }
+        
+        if (sound === 'rain' && rainGainRef.current) {
+          rainGainRef.current.gain.setValueAtTime(vol * 0.15, ctx.currentTime);
+        } else if (sound === 'wind' && windGainRef.current) {
+          windGainRef.current.gain.setValueAtTime(vol * 0.15, ctx.currentTime);
+        }
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     const handleBlur = () => setIsBlurred(true);
@@ -152,7 +388,7 @@ export default function App() {
         };
 
         const [
-          channel, playlistsRes, videosRes, resourcesRes, experiencesRes, flashcardsRes, onboardingStagesRes, notesRes, playgroundQuestionsRes
+          channel, playlistsRes, videosRes, resourcesRes, experiencesRes, flashcardsRes, onboardingStagesRes, notesRes, playgroundQuestionsRes, songsRes
         ] = await Promise.all([
           fetchJSON('channel'),
           fetchJSON('playlists'),
@@ -162,7 +398,8 @@ export default function App() {
           fetchJSON('flashcards'),
           fetchJSON('onboardingStages'),
           fetchJSON('notes'),
-          fetchJSON('playground_questions')
+          fetchJSON('playground_questions'),
+          fetchJSON('songs')
         ]);
 
         if (channel) setChannelStats(cleanChannel(channel));
@@ -176,6 +413,7 @@ export default function App() {
         if (onboardingStagesRes) setOnboardingStages(onboardingStagesRes);
         if (notesRes) setNotes(notesRes);
         if (playgroundQuestionsRes) setPlaygroundQuestions(playgroundQuestionsRes);
+        if (songsRes) setSongs(songsRes);
       } catch (err) {
         console.warn('Local static data load notice:', err);
       }
@@ -243,6 +481,7 @@ export default function App() {
             });
           }
           if (liveData.playground_questions) setPlaygroundQuestions(liveData.playground_questions);
+          if (liveData.songs) setSongs(liveData.songs);
         }
       } catch (err) {
         console.warn('Live API background fetch skipped:', err);
@@ -438,11 +677,54 @@ export default function App() {
             <Jobs />
           </section>
         )}
+
+        {activeTab === 'songs' && (
+          <section>
+            <Songs
+              songs={songs}
+              currentSong={currentSong}
+              isPlaying={isPlaying}
+              playSong={playSong}
+              togglePlay={togglePlay}
+              nextSong={nextSong}
+              prevSong={prevSong}
+              volume={volume}
+              setVolume={setVolume}
+              currentTime={currentTime}
+              duration={duration}
+              seek={seek}
+              playbackMode={playbackMode}
+              setPlaybackMode={setPlaybackMode}
+              ambientSounds={ambientSounds}
+              setAmbientSoundVolume={setAmbientSoundVolume}
+            />
+          </section>
+        )}
       </main>
 
       {activeTab !== 'playground' && <Footer />}
       <FeedbackButton isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} hideTrigger={true} />
       <CareerCoach />
+      
+      {/* Persistent Audio Element */}
+      <audio 
+        ref={audioRef}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={handleSongEnded}
+      />
+
+      {/* Floating Background Player widget */}
+      {activeTab !== 'songs' && currentSong && (
+        <MiniPlayer 
+          currentSong={currentSong}
+          isPlaying={isPlaying}
+          togglePlay={togglePlay}
+          nextSong={nextSong}
+          onOpenMusicTab={() => setActiveTab('songs')}
+          onClose={closePlayer}
+        />
+      )}
     </div>
   );
 }

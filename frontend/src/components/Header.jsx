@@ -9,7 +9,8 @@ export default function Header({ activeTab, setActiveTab, theme, toggleTheme, on
     { id: 'experiences', label: 'Interviews' },
     { id: 'playground', label: 'Code' },
     { id: 'videos', label: 'Videos' },
-    { id: 'jobs', label: 'Jobs' }
+    { id: 'jobs', label: 'Jobs' },
+    { id: 'songs', label: 'Music 🎵' }
   ];
 
   return (
