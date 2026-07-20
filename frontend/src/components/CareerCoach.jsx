@@ -154,7 +154,7 @@ export default function CareerCoach() {
           e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.22)';
           e.currentTarget.style.boxShadow = '0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.3)';
         }}
-        title="Open AI Career Coach"
+        title="Open Gyans Copilot"
       >
         <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -170,7 +170,7 @@ export default function CareerCoach() {
             </defs>
           </svg>
         </span>
-        <span style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>Career Coach</span>
+        <span style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>Gyans Copilot</span>
       </button>
 
       {/* Modal / Drawer */}
@@ -243,7 +243,7 @@ export default function CareerCoach() {
                   </svg>
                 </div>
                 <div>
-                  <div style={{ fontSize: '1.08rem', fontWeight: 800, color: '#f8fafc' }}>Career Coach</div>
+                  <div style={{ fontSize: '1.08rem', fontWeight: 800, color: '#f8fafc' }}>Gyans Copilot</div>
                   <div style={{ fontSize: '0.78rem', color: '#a5b4fc', marginTop: '1px' }}>AI Placement Strategy & Guidance</div>
                 </div>
               </div>
