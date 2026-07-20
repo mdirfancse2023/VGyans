@@ -48,12 +48,12 @@ export default function Songs({
   const currentProgressPercent = duration ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="songs-dashboard" style={{ maxWidth: '1200px', margin: '2rem auto', padding: '0 1rem' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem' }}>
+    <div className="songs-dashboard" style={{ maxWidth: '1200px', margin: '1.5rem auto 4rem', padding: '0 1rem 4rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem', minHeight: '560px' }}>
         
         {/* Left Panel: Library & Browser */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div className="glass-panel" style={{ padding: '1.5rem' }}>
+          <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
             
             {/* Search and Filters */}
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>

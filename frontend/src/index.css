@@ -2157,6 +2157,28 @@ body.light-theme .theme-toggle-btn.active {
   color: #0284c7 !important;
 }
 
+/* Header Music Player Pill Hover Details Expansion */
+.header-music-player-pill .header-song-details {
+  max-width: 0;
+  opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin 0.35s ease;
+  margin-left: 0;
+}
+
+.header-music-player-pill:hover .header-song-details {
+  max-width: 220px;
+  opacity: 1;
+  margin-left: 0.25rem;
+}
+
+.header-music-player-pill:hover {
+  border-color: var(--primary) !important;
+  background: rgba(6, 182, 212, 0.12) !important;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
+}
+
 /* Feedback Card Inner Styling */
 .feedback-success-title {
   color: #f8fafc;
