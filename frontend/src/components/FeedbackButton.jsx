@@ -100,19 +100,35 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
       {open && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 9998,
-          background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)',
-          display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end',
-          padding: '100px 28px 28px', animation: 'fbFadeIn 0.2s ease',
+          background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(6px)',
+          display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end',
+          padding: '70px 24px 24px', animation: 'fbFadeIn 0.2s ease',
         }}>
           <div ref={panelRef} style={{
-            background: 'rgba(10,15,28,0.97)', border: '1px solid rgba(255,255,255,0.1)',
+            position: 'relative',
+            background: 'rgba(10,15,28,0.92)', border: '1px solid rgba(255,255,255,0.16)',
             borderRadius: '20px', width: '380px', maxWidth: 'calc(100vw - 32px)',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.7)', overflow: 'hidden',
-            fontFamily: 'inherit', animation: 'fbSlideUp 0.25s cubic-bezier(0.16,1,0.3,1)',
+            backdropFilter: 'blur(28px) saturate(200%)',
+            WebkitBackdropFilter: 'blur(28px) saturate(200%)',
+            boxShadow: '0 24px 70px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(255,255,255,0.2)',
+            fontFamily: 'inherit', animation: 'fbSlideDown 0.25s cubic-bezier(0.16,1,0.3,1)',
           }}>
+            {/* Pointer arrow attached to navbar button */}
+            <div style={{
+              position: 'absolute',
+              top: '-6px',
+              right: '80px',
+              width: '12px',
+              height: '12px',
+              background: 'rgba(10,15,28,0.92)',
+              borderLeft: '1px solid rgba(255,255,255,0.16)',
+              borderTop: '1px solid rgba(255,255,255,0.16)',
+              transform: 'rotate(45deg)',
+              zIndex: 1
+            }} />
 
             {/* Header */}
-            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 2 }}>
               <div>
                 <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#f8fafc' }}>Share Feedback</div>
                 <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '2px' }}>Help us make Virtual Gyans better</div>
@@ -121,7 +137,7 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
             </div>
 
             {/* Body */}
-            <div style={{ padding: '20px 24px 24px' }}>
+            <div style={{ padding: '20px 24px 24px', position: 'relative', zIndex: 2 }}>
 
               {/* Step 2: Done */}
               {step === 2 && (
@@ -200,7 +216,7 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
 
       <style>{`
         @keyframes fbFadeIn { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes fbSlideUp { from { opacity: 0; transform: translateY(20px) } to { opacity: 1; transform: translateY(0) } }
+        @keyframes fbSlideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
     </>
   );
