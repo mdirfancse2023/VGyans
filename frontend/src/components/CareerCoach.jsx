@@ -93,6 +93,12 @@ export default function CareerCoach() {
     return () => document.removeEventListener('mousedown', handler);
   }, [open]);
 
+  useEffect(() => {
+    if (open) {
+      setIsHovered(false);
+    }
+  }, [open]);
+
   const handleAskCoach = (e) => {
     e.preventDefault();
     if (!customQuestion.trim()) return;
