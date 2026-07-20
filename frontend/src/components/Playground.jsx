@@ -265,24 +265,24 @@ const highlightCode = (codeText, lang) => {
       .replace(/&amp;/g, '&');
 
     if (rawToken.startsWith('#') || rawToken.startsWith('//') || rawToken.startsWith('--')) {
-      return `<span style="color: #64748b; font-style: italic;">${token}</span>`;
+      return `<span class="code-token-comment">${token}</span>`;
     }
     if ((rawToken.startsWith('"') && rawToken.endsWith('"')) || (rawToken.startsWith("'") && rawToken.endsWith("'"))) {
-      return `<span style="color: #a7f3d0;">${token}</span>`;
+      return `<span class="code-token-string">${token}</span>`;
     }
     if (/^\d+$/.test(rawToken)) {
-      return `<span style="color: #f59e0b;">${token}</span>`;
+      return `<span class="code-token-number">${token}</span>`;
     }
     if (lang === 'python' && pythonKeywords.has(rawToken)) {
-      return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
+      return `<span class="code-token-keyword">${token}</span>`;
     }
     if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(rawToken)) {
-      return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
+      return `<span class="code-token-keyword">${token}</span>`;
     }
     if (lang === 'sql' || lang === 'mysql' || lang === 'postgres') {
       const upperToken = rawToken.toUpperCase();
       if (sqlKeywords.has(upperToken)) {
-        return `<span style="color: #38bdf8; font-weight: 700;">${token}</span>`;
+        return `<span class="code-token-keyword">${token}</span>`;
       }
     }
     return token;
@@ -1204,19 +1204,19 @@ export default function Playground({ questions }) {
           flex: 1;
           display: flex;
           flex-direction: column;
-          background: #070a13;
+          background: var(--bg-dark);
         }
         .ide-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
           padding: 0.75rem 1.25rem;
-          background: rgba(15, 22, 42, 0.5);
+          background: var(--bg-dark-secondary);
           border-bottom: 1px solid var(--border-glass);
         }
         .lang-select {
           padding: 0.5rem;
-          background: rgba(7, 10, 19, 0.8);
+          background: var(--bg-dark);
           border: 1px solid var(--border-glass);
           border-radius: 6px;
           color: var(--text-primary);
@@ -1226,7 +1226,7 @@ export default function Playground({ questions }) {
         .editor-wrapper {
           flex: 1;
           position: relative;
-          background: #080c16;
+          background: var(--bg-dark-secondary);
           overflow: hidden;
           border-bottom: 1px solid var(--border-glass);
         }
@@ -1236,9 +1236,9 @@ export default function Playground({ questions }) {
           left: 0;
           width: 40px;
           bottom: 0;
-          background: rgba(15, 23, 42, 0.4);
-          border-right: 1px solid rgba(255, 255, 255, 0.05);
-          color: #475569;
+          background: var(--bg-dark);
+          border-right: 1px solid var(--border-glass);
+          color: var(--text-muted);
           font-family: 'Courier New', Courier, monospace;
           font-size: 0.9rem;
           line-height: 1.5;
@@ -1260,7 +1260,7 @@ export default function Playground({ questions }) {
           background: transparent;
           border: none;
           color: transparent;
-          caret-color: #f8fafc;
+          caret-color: var(--text-primary);
           font-family: 'Courier New', Courier, monospace;
           font-size: 0.9rem;
           line-height: 1.5;
@@ -1285,7 +1285,7 @@ export default function Playground({ questions }) {
           line-height: 1.5;
           white-space: pre;
           overflow: hidden;
-          color: #e2e8f0;
+          color: var(--text-primary);
           pointer-events: none;
           background: transparent;
           z-index: 1;
@@ -1294,7 +1294,7 @@ export default function Playground({ questions }) {
           flex: 1;
           padding: 0.75rem 1.25rem;
           overflow-y: auto;
-          background: #05070d;
+          background: var(--bg-dark-secondary);
         }
         .terminal-stdout {
           color: #4ade80;
@@ -1312,7 +1312,7 @@ export default function Playground({ questions }) {
         .stdin-textarea {
           width: 100%;
           height: 100%;
-          background: rgba(7, 10, 19, 0.5);
+          background: var(--bg-dark);
           border: 1px solid var(--border-glass);
           border-radius: 6px;
           color: var(--text-primary);
@@ -1329,26 +1329,26 @@ export default function Playground({ questions }) {
           margin-bottom: 0.5rem;
         }
         .schema-table th, .schema-table td {
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          border: 1px solid var(--border-glass);
           padding: 0.25rem 0.4rem;
           text-align: left;
         }
         .schema-table th {
-          background: rgba(255,255,255,0.02);
-          color: #94a3b8;
+          background: var(--bg-dark);
+          color: var(--text-muted);
         }
         .schema-table td {
-          color: #cbd5e1;
+          color: var(--text-secondary);
         }
         .schema-details {
-          background: rgba(15, 22, 42, 0.2);
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          background: var(--bg-dark);
+          border: 1px solid var(--border-glass);
           border-radius: 6px;
           padding: 0.5rem;
           margin-bottom: 0.5rem;
         }
         .schema-details summary {
-          color: #cbd5e1;
+          color: var(--text-secondary);
           font-size: 0.75rem;
           font-weight: 600;
           cursor: pointer;
@@ -1356,11 +1356,11 @@ export default function Playground({ questions }) {
           user-select: none;
         }
         .schema-details summary:hover {
-          color: #f8fafc;
+          color: var(--text-primary);
         }
         /* ── Solutions Panel CSS ── */
         .solution-details {
-          background: rgba(15, 23, 42, 0.4);
+          background: var(--bg-dark);
           border: 1px solid var(--border-glass);
           border-radius: 8px;
           margin-bottom: 0.75rem;
@@ -1370,10 +1370,10 @@ export default function Playground({ questions }) {
           padding: 0.75rem 1rem;
           font-weight: 600;
           font-size: 0.85rem;
-          color: #cbd5e1;
+          color: var(--text-secondary);
           cursor: pointer;
           user-select: none;
-          background: rgba(30, 41, 59, 0.3);
+          background: var(--bg-dark-secondary);
           outline: none;
           display: flex;
           align-items: center;
@@ -1384,21 +1384,21 @@ export default function Playground({ questions }) {
         }
         .solution-details[open] summary {
           border-bottom: 1px solid var(--border-glass);
-          color: #f8fafc;
+          color: var(--text-primary);
         }
         .solution-content {
           padding: 1rem;
           position: relative;
-          background: #080c16;
+          background: var(--bg-dark-secondary);
         }
         .copy-solution-btn {
           position: absolute;
           top: 0.5rem;
           right: 0.5rem;
-          background: rgba(30, 41, 59, 0.8);
+          background: var(--bg-dark);
           border: 1px solid var(--border-glass);
           border-radius: 4px;
-          color: #94a3b8;
+          color: var(--text-muted);
           font-size: 0.72rem;
           font-weight: 600;
           padding: 0.25rem 0.55rem;
@@ -1408,7 +1408,7 @@ export default function Playground({ questions }) {
           outline: none;
         }
         .copy-solution-btn:hover {
-          color: #f8fafc;
+          color: var(--text-primary);
           background: var(--primary);
         }
         .console-panel {
@@ -1416,14 +1416,14 @@ export default function Playground({ questions }) {
           min-height: 160px;
           display: flex;
           flex-direction: column;
-          background: #03050a;
+          background: var(--bg-dark-secondary);
           border-top: 1px solid var(--border-glass);
         }
         .console-tabs {
           display: flex;
           flex-direction: row;
           align-items: center;
-          background: rgba(7, 10, 19, 0.6);
+          background: var(--bg-dark);
           border-bottom: 1px solid var(--border-glass);
           padding: 0 0.5rem;
           flex-shrink: 0;
