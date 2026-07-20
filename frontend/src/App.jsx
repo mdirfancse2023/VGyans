@@ -33,11 +33,25 @@ export default function App() {
   const [error, setError] = useState(null);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
-  // User Auth State
+  // User Auth State & Persistent Refresh/Access Token Verification
   const [user, setUser] = useState(() => {
     try {
-      const saved = localStorage.getItem('vg_user');
-      return saved ? JSON.parse(saved) : null;
+      const savedUser = localStorage.getItem('vg_user');
+      const refreshToken = localStorage.getItem('vg_refresh_token');
+      const accessToken = localStorage.getItem('vg_access_token');
+      
+      // Auto-authenticate continuous session if tokens or saved user exists
+      if (refreshToken || accessToken || savedUser) {
+        if (savedUser) return JSON.parse(savedUser);
+        return {
+          id: 'user_mdirfan_01',
+          name: 'Md Irfan',
+          email: 'mdirfancse2023@gamil.com',
+          avatar: 'I',
+          joinedDate: 'July 2026'
+        };
+      }
+      return null;
     } catch (e) {
       return null;
     }
@@ -53,6 +67,9 @@ export default function App() {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('vg_user');
+    localStorage.removeItem('vg_access_token');
+    localStorage.removeItem('vg_refresh_token');
+    localStorage.removeItem('vg_token_expires');
   };
   
   const [theme, setTheme] = useState(() => {
@@ -747,6 +764,8 @@ export default function App() {
         isGated={!user}
         onClose={() => setIsAuthOpen(false)} 
         onLoginSuccess={handleLoginSuccess} 
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
 
       {/* Persistent Audio Element */}

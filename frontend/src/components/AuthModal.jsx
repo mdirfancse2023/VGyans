@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { db } from '../firebase';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 
-export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = false }) {
-  const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
+export default function AuthModal({ 
+  isOpen, 
+  onClose, 
+  onLoginSuccess, 
+  isGated = false,
+  theme,
+  toggleTheme 
+}) {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    email: 'mdirfancse2023@gamil.com',
     password: '',
     rememberMe: true
   });
@@ -25,24 +30,42 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
     setErrorMsg('');
   };
 
-  const saveToFirestore = async (userObj) => {
+  const saveToFirestoreAndGenerateTokens = async (userObj) => {
     try {
       const docId = userObj.email.replace(/[^a-zA-Z0-9]/g, '_');
       const userRef = doc(db, 'users', docId);
       
+      const now = Date.now();
+      const expiresAt = now + (30 * 24 * 60 * 60 * 1000); // 30 days valid access token
+
+      const tokenPayload = {
+        accessToken: `vg_at_${now}_${Math.random().toString(36).substring(2)}`,
+        refreshToken: `vg_rt_${now}_${Math.random().toString(36).substring(2)}`,
+        expiresAt,
+        createdAt: new Date().toISOString()
+      };
+
+      // Store in Firebase Firestore database
       await setDoc(userRef, {
         id: userObj.id,
         name: userObj.name,
         email: userObj.email,
         avatar: userObj.avatar,
-        role: 'Student / Learner',
+        role: 'Administrator / Learner',
+        tokenPayload,
         lastLogin: new Date().toISOString(),
         updatedAt: serverTimestamp()
       }, { merge: true });
 
-      console.log('✅ User credentials successfully stored in Firebase Firestore database!');
+      console.log('✅ Credentials and persistent Auth tokens stored in Firebase Firestore!');
+      return tokenPayload;
     } catch (err) {
       console.warn('Firestore database notice:', err);
+      return {
+        accessToken: `vg_at_${Date.now()}`,
+        refreshToken: `vg_rt_${Date.now()}`,
+        expiresAt: Date.now() + 30 * 86400000
+      };
     }
   };
 
@@ -50,18 +73,25 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
     e.preventDefault();
     setErrorMsg('');
 
-    if (!formData.email || !formData.email.includes('@')) {
+    const inputEmail = formData.email.trim().toLowerCase();
+    const inputPassword = formData.password.trim();
+
+    if (!inputEmail || !inputEmail.includes('@')) {
       setErrorMsg('Please enter a valid email address.');
       return;
     }
 
-    if (!formData.password || formData.password.length < 6) {
-      setErrorMsg('Password must be at least 6 characters long.');
+    if (!inputPassword) {
+      setErrorMsg('Please enter your password.');
       return;
     }
 
-    if (authMode === 'signup' && !formData.name.trim()) {
-      setErrorMsg('Please enter your full name.');
+    // Validate authorized credentials
+    const isAuthorizedEmail = (inputEmail === 'mdirfancse2023@gamil.com' || inputEmail === 'mdirfancse2023@gmail.com');
+    const isAuthorizedPassword = (inputPassword === '0177Cs191094@');
+
+    if (!isAuthorizedEmail || !isAuthorizedPassword) {
+      setErrorMsg('Invalid email or password. Please use authorized credentials.');
       return;
     }
 
@@ -69,18 +99,23 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
 
     try {
       const userObj = {
-        id: `user_${Date.now()}`,
-        name: authMode === 'signup' ? formData.name.trim() : (formData.email.split('@')[0].toUpperCase()),
-        email: formData.email.trim(),
-        avatar: (authMode === 'signup' ? formData.name.charAt(0) : formData.email.charAt(0)).toUpperCase(),
-        joinedDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        id: 'user_mdirfan_01',
+        name: 'Md Irfan',
+        email: inputEmail,
+        avatar: 'I',
+        joinedDate: 'July 2026'
       };
 
-      // Save to Firebase Firestore Database
-      await saveToFirestore(userObj);
+      // Save credentials & persistent tokens to Firebase Firestore
+      const tokenPayload = await saveToFirestoreAndGenerateTokens(userObj);
+
+      // Save Refresh & Access Token in localStorage
+      localStorage.setItem('vg_access_token', tokenPayload.accessToken);
+      localStorage.setItem('vg_refresh_token', tokenPayload.refreshToken);
+      localStorage.setItem('vg_token_expires', tokenPayload.expiresAt.toString());
 
       setLoading(false);
-      setSuccessMsg(authMode === 'login' ? 'Successfully logged in!' : 'Account created & stored in Firebase!');
+      setSuccessMsg('Successfully authenticated! Persistent tokens active.');
 
       setTimeout(() => {
         onLoginSuccess(userObj);
@@ -116,7 +151,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
         style={{
           width: '100%',
           maxWidth: '420px',
-          background: 'rgba(15, 23, 42, 0.96)',
+          background: theme === 'light' ? 'rgba(255, 255, 255, 0.98)' : 'rgba(15, 23, 42, 0.96)',
           border: '1px solid var(--border-glass)',
           borderRadius: '16px',
           padding: '2rem',
@@ -125,9 +160,42 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
           color: 'var(--text-primary)'
         }}
       >
+        {/* Theme Toggle Button inside Auth Modal */}
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="theme-toggle-btn"
+          style={{
+            position: 'absolute',
+            top: '1.25rem',
+            right: (!isGated && onClose) ? '3.5rem' : '1.25rem',
+            width: '32px',
+            height: '32px',
+            borderRadius: '8px'
+          }}
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        >
+          {theme === 'dark' ? (
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          )}
+        </button>
+
         {/* Close Button (Hidden when gated mode requires login) */}
         {!isGated && onClose && (
           <button
+            type="button"
             onClick={onClose}
             style={{
               position: 'absolute',
@@ -136,8 +204,8 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
               background: 'rgba(255,255,255,0.06)',
               border: '1px solid var(--border-glass)',
               color: 'var(--text-secondary)',
-              width: '30px',
-              height: '30px',
+              width: '32px',
+              height: '32px',
               borderRadius: '50%',
               cursor: 'pointer',
               display: 'flex',
@@ -169,45 +237,44 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
           )}
 
           <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', opacity: 0.85, margin: 0 }}>
-            {authMode === 'login' ? 'Welcome back! Log in to access all study material.' : 'Join Virtual Gyans & save credentials to Firebase.'}
+            Welcome back! Log in to access Virtual Gyans study platform.
           </p>
         </div>
 
-        {/* Mode Switcher Tabs */}
+        {/* Mode Switcher Tabs (Sign Up Disabled as requested) */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', background: 'rgba(255,255,255,0.04)', padding: '0.25rem', borderRadius: '10px', marginBottom: '1.5rem', border: '1px solid var(--border-glass)' }}>
           <button
             type="button"
-            onClick={() => { setAuthMode('login'); setErrorMsg(''); }}
             style={{
               padding: '0.5rem',
               borderRadius: '8px',
               border: 'none',
-              background: authMode === 'login' ? 'var(--primary)' : 'transparent',
-              color: authMode === 'login' ? '#fff' : 'var(--text-secondary)',
+              background: 'var(--primary)',
+              color: '#fff',
               fontWeight: 600,
               fontSize: '0.88rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
+              cursor: 'default'
             }}
           >
             Log In
           </button>
           <button
             type="button"
-            onClick={() => { setAuthMode('signup'); setErrorMsg(''); }}
+            onClick={(e) => { e.preventDefault(); }}
             style={{
               padding: '0.5rem',
               borderRadius: '8px',
               border: 'none',
-              background: authMode === 'signup' ? 'var(--primary)' : 'transparent',
-              color: authMode === 'signup' ? '#fff' : 'var(--text-secondary)',
+              background: 'transparent',
+              color: 'var(--text-muted)',
               fontWeight: 600,
               fontSize: '0.88rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
+              cursor: 'not-allowed',
+              opacity: 0.45
             }}
+            title="Sign Up is currently disabled by Administrator"
           >
-            Sign Up
+            Sign Up 🚫
           </button>
         </div>
 
@@ -224,37 +291,8 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
           </div>
         )}
 
-        {/* Auth Form */}
+        {/* Log In Form */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {authMode === 'signup' && (
-            <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
-                Full Name
-              </label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="e.g. Irfan Khan"
-                  value={formData.name}
-                  onChange={handleChange}
-                  style={{
-                    width: '100%',
-                    padding: '0.65rem 0.85rem 0.65rem 2.2rem',
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid var(--border-glass)',
-                    borderRadius: '8px',
-                    color: 'var(--text-primary)',
-                    outline: 'none',
-                    fontSize: '0.9rem',
-                    boxSizing: 'border-box'
-                  }}
-                />
-                <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', opacity: 0.5 }}>👤</span>
-              </div>
-            </div>
-          )}
-
           <div>
             <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
               Email Address
@@ -263,7 +301,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
               <input
                 type="email"
                 name="email"
-                placeholder="name@company.com"
+                placeholder="mdirfancse2023@gamil.com"
                 value={formData.email}
                 onChange={handleChange}
                 style={{
@@ -290,7 +328,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
               <input
                 type="password"
                 name="password"
-                placeholder="••••••••"
+                placeholder="Enter password (0177Cs191094@)"
                 value={formData.password}
                 onChange={handleChange}
                 style={{
@@ -309,27 +347,25 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
             </div>
           </div>
 
-          {authMode === 'login' && (
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', cursor: 'pointer' }}>
-                <input 
-                  type="checkbox" 
-                  name="rememberMe" 
-                  checked={formData.rememberMe} 
-                  onChange={handleChange} 
-                  style={{ accentColor: 'var(--primary)' }}
-                />
-                Remember me
-              </label>
-              <a 
-                href="#forgot" 
-                onClick={(e) => { e.preventDefault(); alert('Password reset instructions sent to your email.'); }}
-                style={{ color: 'var(--primary)', textDecoration: 'none' }}
-              >
-                Forgot Password?
-              </a>
-            </div>
-          )}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', cursor: 'pointer' }}>
+              <input 
+                type="checkbox" 
+                name="rememberMe" 
+                checked={formData.rememberMe} 
+                onChange={handleChange} 
+                style={{ accentColor: 'var(--primary)' }}
+              />
+              Stay Logged In (Persistent Token)
+            </label>
+            <a 
+              href="#forgot" 
+              onClick={(e) => { e.preventDefault(); alert('Authorized credentials: mdirfancse2023@gamil.com'); }}
+              style={{ color: 'var(--primary)', textDecoration: 'none' }}
+            >
+              Need Help?
+            </a>
+          </div>
 
           <button
             type="submit"
@@ -347,10 +383,10 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess, isGated = f
             {loading ? (
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
                 <span style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-                Saving to Firebase...
+                Authenticating...
               </span>
             ) : (
-              authMode === 'login' ? 'Log In & Enter Platform' : 'Sign Up & Save Credentials'
+              'Log In & Enter Platform'
             )}
           </button>
         </form>
