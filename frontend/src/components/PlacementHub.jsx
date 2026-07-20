@@ -67,12 +67,17 @@ const detectLanguage = (title) => {
 function BlogReader({ note, onClose }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
+  const [activeChapterIndex, setActiveChapterIndex] = useState(0);
 
   const handleCopyCode = (text, index) => {
     navigator.clipboard.writeText(text);
     setCopiedIndex(index);
     setTimeout(() => setCopiedIndex(null), 2000);
   };
+
+  const isBook = note.chapters && note.chapters.length > 0;
+  const activeChapter = isBook ? note.chapters[activeChapterIndex] : null;
+  const contentToRender = isBook ? (activeChapter ? activeChapter.content : []) : (note.content || []);
 
   return (
     <div style={{
@@ -92,7 +97,7 @@ function BlogReader({ note, onClose }) {
     }}>
       <style>{`
         .blog-modal-container {
-          background: rgba(30, 41, 59, 0.9);
+          background: rgba(30, 41, 59, 0.95);
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 16px;
           width: 100%;
@@ -104,6 +109,9 @@ function BlogReader({ note, onClose }) {
           box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
           overflow: hidden;
           transition: all 0.3s ease;
+        }
+        .blog-modal-container.book-mode {
+          max-width: 1250px;
         }
         .blog-modal-container.fullscreen {
           max-width: 100vw;
@@ -147,11 +155,68 @@ function BlogReader({ note, onClose }) {
           background: rgba(255, 255, 255, 0.1);
           color: #f8fafc;
         }
+        .blog-body-wrapper {
+          display: flex;
+          flex: 1;
+          overflow: hidden;
+        }
+        .blog-sidebar {
+          width: 320px;
+          border-right: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(15, 23, 42, 0.25);
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+        }
+        .blog-sidebar-title {
+          padding: 1.25rem 1.5rem 0.75rem;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #64748b;
+          font-weight: 700;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .blog-sidebar-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+        }
+        .blog-sidebar-item {
+          padding: 1rem 1.5rem;
+          cursor: pointer;
+          font-size: 0.9rem;
+          color: #94a3b8;
+          border-left: 3px solid transparent;
+          transition: all 0.2s ease;
+          text-align: left;
+          background: transparent;
+          border-top: none;
+          border-right: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+          width: 100%;
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .blog-sidebar-item:hover {
+          background: rgba(255, 255, 255, 0.02);
+          color: #f8fafc;
+        }
+        .blog-sidebar-item.active {
+          background: rgba(6, 182, 212, 0.08);
+          color: var(--primary);
+          border-left-color: var(--primary);
+          font-weight: 600;
+        }
         .blog-content-area {
           flex: 1;
           overflow-y: auto;
           padding: 2.5rem 3rem;
-          background: rgba(15, 23, 42, 0.2);
+          background: rgba(15, 23, 42, 0.1);
         }
         .blog-h1 {
           font-size: 1.5rem;
@@ -167,6 +232,20 @@ function BlogReader({ note, onClose }) {
           line-height: 1.7;
           color: #cbd5e1;
           margin-bottom: 1.25rem;
+        }
+        .blog-image-container {
+          text-align: center;
+          margin: 2rem 0;
+          padding: 1.5rem;
+          background: rgba(15, 23, 42, 0.4);
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .blog-image {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
         .blog-code-container {
           position: relative;
@@ -210,8 +289,19 @@ function BlogReader({ note, onClose }) {
           background: rgba(255, 255, 255, 0.1);
           color: #f8fafc;
         }
+        @media (max-width: 900px) {
+          .blog-body-wrapper {
+            flex-direction: column !important;
+          }
+          .blog-sidebar {
+            width: 100% !important;
+            max-height: 180px !important;
+            border-right: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+          }
+        }
       `}</style>
-      <div className={`blog-modal-container ${isFullscreen ? 'fullscreen' : ''}`}>
+      <div className={`blog-modal-container ${isBook ? 'book-mode' : ''} ${isFullscreen ? 'fullscreen' : ''}`}>
         <div className="blog-header">
           <h3 className="blog-title">{note.title}</h3>
           <div className="blog-controls">
@@ -235,28 +325,54 @@ function BlogReader({ note, onClose }) {
           </div>
         </div>
 
-        <div className="blog-content-area">
-          {note.content && note.content.map((block, index) => {
-            if (block.type === 'h1') {
-              return <h2 key={index} className="blog-h1">{block.text}</h2>;
-            } else if (block.type === 'body') {
-              return <p key={index} className="blog-p" dangerouslySetInnerHTML={{ __html: block.text }} />;
-            } else if (block.type === 'code') {
-              const lang = detectLanguage(note.title);
-              return (
-                <div key={index} className="blog-code-container">
-                  <div className="blog-code-header">
-                    <span style={{ textTransform: 'uppercase', fontWeight: 600 }}>{lang} Snippet</span>
-                    <button className="blog-copy-btn" onClick={() => handleCopyCode(block.text, index)}>
-                      {copiedIndex === index ? 'Copied!' : 'Copy'}
-                    </button>
+        <div className="blog-body-wrapper">
+          {isBook && (
+            <div className="blog-sidebar">
+              <div className="blog-sidebar-title">Book Chapters</div>
+              <div className="blog-sidebar-list">
+                {note.chapters.map((ch, idx) => (
+                  <button
+                    key={idx}
+                    className={`blog-sidebar-item ${activeChapterIndex === idx ? 'active' : ''}`}
+                    onClick={() => setActiveChapterIndex(idx)}
+                    title={ch.title}
+                  >
+                    {ch.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="blog-content-area">
+            {contentToRender.map((block, index) => {
+              if (block.type === 'h1') {
+                return <h2 key={index} className="blog-h1">{block.text}</h2>;
+              } else if (block.type === 'body') {
+                return <p key={index} className="blog-p" dangerouslySetInnerHTML={{ __html: block.text }} />;
+              } else if (block.type === 'image') {
+                return (
+                  <div key={index} className="blog-image-container">
+                    <img src={block.text} alt="Diagram" className="blog-image" />
                   </div>
-                  <pre className="blog-code-pre"><code dangerouslySetInnerHTML={{ __html: highlightCode(block.text, lang) }} /></pre>
-                </div>
-              );
-            }
-            return null;
-          })}
+                );
+              } else if (block.type === 'code') {
+                const lang = detectLanguage(note.title);
+                return (
+                  <div key={index} className="blog-code-container">
+                    <div className="blog-code-header">
+                      <span style={{ textTransform: 'uppercase', fontWeight: 600 }}>{lang} Snippet</span>
+                      <button className="blog-copy-btn" onClick={() => handleCopyCode(block.text, index)}>
+                        {copiedIndex === index ? 'Copied!' : 'Copy'}
+                      </button>
+                    </div>
+                    <pre className="blog-code-pre"><code dangerouslySetInnerHTML={{ __html: highlightCode(block.text, lang) }} /></pre>
+                  </div>
+                );
+              }
+              return null;
+            })}
+          </div>
         </div>
       </div>
     </div>
