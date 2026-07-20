@@ -2162,9 +2162,37 @@ body.light-theme .theme-toggle-btn.active {
   color: #0284c7 !important;
 }
 
+.nav-actions li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Green Soundwave Equalizer Line Animation */
+.soundwave-green {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.soundwave-green .wave-bar {
+  width: 2px;
+  background: #10b981 !important;
+  border-radius: 1px;
+  animation: soundwave-bounce 0.8s ease-in-out infinite alternate;
+  box-shadow: 0 0 5px rgba(16, 185, 129, 0.7);
+}
+
+.soundwave-green .bar-1 { height: 60%; animation-delay: 0s; }
+.soundwave-green .bar-2 { height: 100%; animation-delay: 0.25s; }
+.soundwave-green .bar-3 { height: 45%; animation-delay: 0.5s; }
+
 /* Header Music Floating Popover Modal (Shown attached on hover only) */
 .header-music-trigger-item {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .header-music-popover {

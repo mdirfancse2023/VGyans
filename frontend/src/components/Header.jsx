@@ -58,20 +58,22 @@ export default function Header({
         {/* Right: Action Icon Buttons */}
         <ul className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', listStyle: 'none', margin: 0, padding: 0 }}>
           {/* Music Navbar Item with Attached Floating Hover Popover Modal */}
-          <li className="header-music-trigger-item">
+          <li className="header-music-trigger-item" style={{ display: 'flex', alignItems: 'center' }}>
             {currentSong && isPlaying ? (
               <div
                 onClick={() => setActiveTab('songs')}
                 className="theme-toggle-btn active"
                 style={{
                   width: 'auto',
-                  padding: '0 0.5rem',
+                  padding: '0 0.55rem',
                   height: '32px',
-                  gap: '0.35rem',
+                  gap: '0.4rem',
                   borderRadius: '8px',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  boxSizing: 'border-box',
+                  verticalAlign: 'middle'
                 }}
                 title={`Now Playing: ${currentSong.title} - ${currentSong.artist}`}
               >
@@ -90,7 +92,14 @@ export default function Header({
                   }}
                 />
 
-                {/* 2. Play / Pause Button */}
+                {/* 2. Green Soundwave Equalizer Lines Animation */}
+                <div className="soundwave-green" style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '12px', flexShrink: 0 }}>
+                  <span className="wave-bar bar-1"></span>
+                  <span className="wave-bar bar-2"></span>
+                  <span className="wave-bar bar-3"></span>
+                </div>
+
+                {/* 3. Play / Pause Button */}
                 <button
                   onClick={(e) => { e.stopPropagation(); togglePlay(); }}
                   style={{
