@@ -207,25 +207,20 @@ export default function CareerCoach() {
             }}
           >
             {/* Header */}
-            <div style={{
+            <div className="copilot-header-container" style={{
               padding: '20px 24px 16px',
-              background: 'linear-gradient(180deg, rgba(99,102,241,0.18), rgba(0,0,0,0))',
-              borderBottom: '1px solid rgba(255,255,255,0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{
-                  background: 'rgba(255,255,255,0.08)',
-                  border: '1px solid rgba(255,255,255,0.2)',
+                <div className="copilot-icon-box" style={{
                   borderRadius: '12px',
                   width: '40px',
                   height: '40px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 0 rgba(255,255,255,0.3)',
                   backdropFilter: 'blur(12px)'
                 }}>
                   <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
@@ -243,7 +238,7 @@ export default function CareerCoach() {
                 </div>
                 <div>
                   <div className="copilot-header-title" style={{ fontSize: '1.08rem', fontWeight: 800 }}>Gyans Copilot</div>
-                  <div style={{ fontSize: '0.78rem', color: '#818cf8', marginTop: '1px' }}>AI Placement Strategy & Guidance</div>
+                  <div className="copilot-header-subtitle" style={{ fontSize: '0.78rem', marginTop: '1px', fontWeight: 700 }}>AI Placement Strategy & Guidance</div>
                 </div>
               </div>
 
@@ -268,7 +263,7 @@ export default function CareerCoach() {
             </div>
 
             {/* Inner Sub-Header Tabs */}
-            <div style={{ display: 'flex', padding: '12px 24px 0', borderBottom: '1px solid rgba(255,255,255,0.06)', gap: '8px' }}>
+            <div className="copilot-tabs-row" style={{ display: 'flex', padding: '12px 24px 0', gap: '8px' }}>
               {[
                 { id: 'roadmap', label: '🎯 Target Roles' },
                 { id: 'qa',      label: '💡 Placement Q&A' },
@@ -277,11 +272,10 @@ export default function CareerCoach() {
                 <button
                   key={t.id}
                   onClick={() => setActiveTab(t.id)}
+                  className={`copilot-tab-btn ${activeTab === t.id ? 'active' : ''}`}
                   style={{
-                    background: activeTab === t.id ? 'rgba(99,102,241,0.2)' : 'transparent',
+                    background: 'transparent',
                     border: 'none',
-                    borderBottom: activeTab === t.id ? '2px solid #818cf8' : '2px solid transparent',
-                    color: activeTab === t.id ? '#818cf8' : '#94a3b8',
                     padding: '8px 12px',
                     fontSize: '0.82rem',
                     fontWeight: 700,
@@ -301,7 +295,7 @@ export default function CareerCoach() {
               {/* TAB 1: ROADMAP */}
               {activeTab === 'roadmap' && (
                 <>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
+                  <div className="copilot-label-muted" style={{ fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
                     Select Your Target Role:
                   </div>
 
@@ -310,14 +304,12 @@ export default function CareerCoach() {
                       <button
                         key={role.id}
                         onClick={() => setSelectedRole(role)}
+                        className={`copilot-role-btn ${selectedRole.id === role.id ? 'active' : ''}`}
                         style={{
-                          background: selectedRole.id === role.id ? 'rgba(99,102,241,0.15)' : 'rgba(255,255,255,0.03)',
-                          border: selectedRole.id === role.id ? '1px solid rgba(129,140,248,0.5)' : '1px solid rgba(255,255,255,0.07)',
                           borderRadius: '12px',
                           padding: '12px 14px',
                           textAlign: 'left',
                           cursor: 'pointer',
-                          color: selectedRole.id === role.id ? '#f1f5f9' : '#cbd5e1',
                           fontSize: '0.85rem',
                           fontWeight: 600,
                           transition: 'all 0.18s ease'
@@ -325,7 +317,7 @@ export default function CareerCoach() {
                       >
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <span>{role.title}</span>
-                          <span style={{ fontSize: '0.75rem', background: 'rgba(52,211,153,0.15)', color: '#34d399', padding: '2px 8px', borderRadius: '12px', fontWeight: 700 }}>
+                          <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '12px', fontWeight: 700 }}>
                             {role.salary}
                           </span>
                         </div>
@@ -334,28 +326,28 @@ export default function CareerCoach() {
                   </div>
 
                   {/* Selected Role Detail */}
-                  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '16px' }}>
-                    <div style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '10px' }}>
+                  <div className="copilot-role-card" style={{ borderRadius: '16px', padding: '16px' }}>
+                    <div className="copilot-text-muted" style={{ fontSize: '0.82rem', marginBottom: '10px' }}>
                       {selectedRole.description}
                     </div>
 
-                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#818cf8', marginBottom: '6px' }}>Required Skills:</div>
+                    <div className="copilot-skills-header" style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '6px' }}>Required Skills:</div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
                       {selectedRole.skills.map((s, idx) => (
-                        <span key={idx} style={{ fontSize: '0.75rem', background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', color: '#c7d2fe', padding: '3px 9px', borderRadius: '6px' }}>
+                        <span key={idx} className="copilot-skill-badge" style={{ fontSize: '0.75rem', padding: '3px 9px', borderRadius: '6px' }}>
                           {s}
                         </span>
                       ))}
                     </div>
 
-                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#34d399', marginBottom: '8px' }}>Action Roadmap:</div>
-                    <ul style={{ paddingLeft: '18px', margin: 0, fontSize: '0.82rem', color: '#cbd5e1', lineHeight: 1.6 }}>
+                    <div className="copilot-skills-header" style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '8px' }}>Action Roadmap:</div>
+                    <ul className="copilot-roadmap-list" style={{ paddingLeft: '18px', margin: 0, fontSize: '0.82rem', lineHeight: 1.6 }}>
                       {selectedRole.roadmap.map((step, idx) => (
                         <li key={idx} style={{ marginBottom: '6px' }}>{step}</li>
                       ))}
                     </ul>
 
-                    <div style={{ marginTop: '12px', padding: '10px 12px', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: '10px', fontSize: '0.78rem', color: '#fef08a' }}>
+                    <div className="copilot-tip-box" style={{ marginTop: '12px', padding: '10px 12px', borderRadius: '10px', fontSize: '0.78rem' }}>
                       💡 <strong>Pro Tip:</strong> {selectedRole.interviewTips}
                     </div>
                   </div>
@@ -366,11 +358,11 @@ export default function CareerCoach() {
               {activeTab === 'qa' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {QUICK_QA.map((item, idx) => (
-                    <div key={idx} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '14px' }}>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#f1f5f9', marginBottom: '6px' }}>
+                    <div key={idx} className="copilot-qa-card" style={{ borderRadius: '14px', padding: '14px' }}>
+                      <div className="copilot-qa-question" style={{ fontSize: '0.88rem', fontWeight: 700, marginBottom: '6px' }}>
                         ❓ {item.q}
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.6 }}>
+                      <div className="copilot-text-muted" style={{ fontSize: '0.82rem', lineHeight: 1.6 }}>
                         {item.a}
                       </div>
                     </div>
@@ -381,7 +373,7 @@ export default function CareerCoach() {
               {/* TAB 3: ASK AI COACH */}
               {activeTab === 'ask' && (
                 <form onSubmit={handleAskCoach} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+                  <div className="copilot-text-muted" style={{ fontSize: '0.82rem' }}>
                     Ask any question about software engineer roles, resume review, or interview preparation:
                   </div>
 
@@ -406,12 +398,11 @@ export default function CareerCoach() {
                   <button
                     type="submit"
                     disabled={loadingAnswer}
+                    className="copilot-btn-submit"
                     style={{
-                      background: 'linear-gradient(135deg, #6366f1, #a855f7)',
                       border: 'none',
                       borderRadius: '12px',
                       padding: '12px',
-                      color: '#ffffff',
                       fontSize: '0.88rem',
                       fontWeight: 700,
                       cursor: loadingAnswer ? 'wait' : 'pointer',
@@ -424,7 +415,7 @@ export default function CareerCoach() {
 
                   {customAnswer && (
                     <div className="copilot-answer-bubble" style={{ borderRadius: '14px', padding: '14px', marginTop: '6px' }}>
-                      <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#818cf8', marginBottom: '6px' }}>🤖 Career Coach Advice:</div>
+                      <div className="copilot-answer-title" style={{ fontSize: '0.82rem', fontWeight: 700, marginBottom: '6px' }}>🤖 Career Coach Advice:</div>
                       <div className="copilot-answer-text" style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>{customAnswer}</div>
                     </div>
                   )}

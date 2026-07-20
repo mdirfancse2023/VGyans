@@ -67,9 +67,8 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
   };
 
   const btnBase = {
-    background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)',
     borderRadius: '12px', padding: '14px 18px', textAlign: 'left', cursor: 'pointer',
-    color: '#e2e8f0', fontSize: '0.92rem', fontWeight: 600, fontFamily: 'inherit',
+    fontSize: '0.92rem', fontWeight: 600, fontFamily: 'inherit',
     transition: 'all 0.18s ease', display: 'flex', alignItems: 'center', gap: '10px',
   };
 
@@ -136,16 +135,16 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
               {step === 2 && (
                 <div style={{ textAlign: 'center', padding: '24px 0' }}>
                   <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>🙏</div>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#f8fafc', marginBottom: '8px' }}>Thank you!</div>
-                  <div style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: 1.6 }}>Your feedback has been saved.<br />We truly appreciate your input!</div>
-                  <button onClick={handleClose} style={{ marginTop: '20px', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', padding: '9px 28px', color: '#cbd5e1', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Close</button>
+                  <div className="feedback-success-title" style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '8px' }}>Thank you!</div>
+                  <div className="feedback-success-desc" style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>Your feedback has been saved.<br />We truly appreciate your input!</div>
+                  <button onClick={handleClose} className="feedback-close-btn" style={{ marginTop: '20px', borderRadius: '10px', padding: '9px 28px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Close</button>
                 </div>
               )}
 
               {/* Step 0: Category */}
               {step === 0 && (
                 <>
-                  <div style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '14px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>What's on your mind?</div>
+                  <div className="feedback-label-muted" style={{ fontSize: '0.82rem', marginBottom: '14px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>What's on your mind?</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {CATEGORIES.map(cat => (
                       <button key={cat.id} onClick={() => { setSelectedCategory(cat); setStep(1); }} className="feedback-cat-btn" style={btnBase}>
@@ -173,11 +172,11 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
                     placeholder={selectedCategory.placeholder} maxLength={1000} autoFocus
                     style={{ width: '100%', minHeight: '120px', borderRadius: '12px', padding: '14px', fontSize: '0.9rem', lineHeight: 1.6, resize: 'vertical', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}
                   />
-                  <div style={{ fontSize: '0.75rem', color: '#475569', textAlign: 'right', marginTop: '4px' }}>{text.length}/1000</div>
+                  <div className="feedback-char-counter" style={{ fontSize: '0.75rem', marginTop: '4px' }}>{text.length}/1000</div>
 
                   {/* Stars */}
                   <div style={{ marginTop: '16px' }}>
-                    <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '8px', fontWeight: 600 }}>Overall Rating (optional)</div>
+                    <div className="feedback-label-muted" style={{ fontSize: '0.8rem', marginBottom: '8px', fontWeight: 600 }}>Overall Rating (optional)</div>
                     <div style={{ display: 'flex', gap: '8px' }}>
                       {[1,2,3,4,5].map(star => (
                         <button key={star} onClick={() => setRating(star === rating ? 0 : star)}
@@ -191,9 +190,7 @@ export default function FeedbackButton({ isOpen, onClose, hideTrigger = false })
 
                   {error && <div style={{ color: '#f87171', fontSize: '0.82rem', marginTop: '10px', padding: '8px 12px', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: '8px' }}>{error}</div>}
 
-                  <button onClick={handleSubmit} disabled={submitting} style={{ marginTop: '16px', width: '100%', background: submitting?'rgba(255,255,255,0.04)':'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px', padding: '12px', color: submitting?'#64748b':'#f8fafc', fontSize: '0.9rem', fontWeight: 700, cursor: submitting?'not-allowed':'pointer', fontFamily: 'inherit', transition: 'all 0.18s ease' }}
-                    onMouseEnter={e => { if(!submitting){e.currentTarget.style.background='rgba(255,255,255,0.16)';} }}
-                    onMouseLeave={e => { if(!submitting){e.currentTarget.style.background='rgba(255,255,255,0.1)';} }}>
+                  <button onClick={handleSubmit} disabled={submitting} className={`feedback-submit-btn ${submitting ? 'submitting' : ''}`} style={{ marginTop: '16px', width: '100%', borderRadius: '12px', padding: '12px', fontSize: '0.9rem', fontWeight: 700, fontFamily: 'inherit', transition: 'all 0.18s ease' }}>
                     {submitting ? 'Submitting...' : 'Submit Feedback →'}
                   </button>
                 </>
