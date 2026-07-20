@@ -1479,10 +1479,43 @@ export default function Playground({ questions }) {
           border-bottom: 1px solid var(--border-glass);
           color: var(--text-primary);
         }
+        /* Apply button lives in summary row, only visible when open */
+        .summary-apply-btn {
+          opacity: 0;
+          pointer-events: none;
+          font-size: 0.7rem;
+          padding: 0.25rem 0.6rem;
+          transition: opacity 0.15s;
+        }
+        .solution-details[open] .summary-apply-btn {
+          opacity: 1;
+          pointer-events: auto;
+        }
         .solution-content {
           padding: 1rem;
           position: relative;
           background: var(--bg-dark-secondary);
+        }
+        .solution-content pre {
+          color: #e2e8f0;
+        }
+        body.light-theme .solution-details {
+          background: #f8fafc !important;
+          border-color: #e2e8f0 !important;
+        }
+        body.light-theme .solution-details summary {
+          background: #f1f5f9 !important;
+          color: #475569 !important;
+        }
+        body.light-theme .solution-details[open] summary {
+          color: #0f172a !important;
+          border-bottom-color: #e2e8f0 !important;
+        }
+        body.light-theme .solution-content {
+          background: #f8fafc !important;
+        }
+        body.light-theme .solution-content pre {
+          color: #1e293b !important;
         }
         /* ── Timer ── */
         .timer-widget {
@@ -1891,17 +1924,15 @@ export default function Playground({ questions }) {
                               <span style={{ textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
                                 {lang === 'cpp' ? 'C++' : lang === 'python' ? 'Python 3' : lang === 'java' ? 'Java' : lang === 'mysql' ? 'MySQL' : lang === 'postgres' ? 'PostgreSQL' : lang}
                               </span>
+                              <button
+                                className={`copy-solution-btn summary-apply-btn ${copiedLang === `applied_${lang}` ? 'applied' : ''}`}
+                                onClick={(e) => { e.preventDefault(); handleApplySolution(lang, code); }}
+                              >
+                                {copiedLang === `applied_${lang}` ? '✓ Loaded' : '⚡ Apply'}
+                              </button>
                             </summary>
                             <div className="solution-content">
-                              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                                <button 
-                                  className={`copy-solution-btn ${copiedLang === `applied_${lang}` ? 'applied' : ''}`}
-                                  onClick={() => handleApplySolution(lang, code)}
-                                >
-                                  {copiedLang === `applied_${lang}` ? '✓ Loaded into Editor' : '⚡ Apply to Editor'}
-                                </button>
-                              </div>
-                              <pre style={{ margin: 0, padding: 0, overflowX: 'auto', fontSize: '0.8rem', fontFamily: 'Courier New, Courier, monospace', lineHeight: 1.5, color: '#e2e8f0', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+                              <pre style={{ margin: 0, padding: 0, overflowX: 'auto', fontSize: '0.8rem', fontFamily: 'Courier New, Courier, monospace', lineHeight: 1.5, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
                                 <code>{formatSolutionCode(lang, code)}</code>
                               </pre>
                             </div>
