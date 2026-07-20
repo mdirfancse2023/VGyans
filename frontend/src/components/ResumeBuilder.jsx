@@ -129,17 +129,23 @@ export default function ResumeBuilder() {
     const originalBorderRadius = element.style.borderRadius;
     const originalPadding = element.style.padding;
     const originalMargin = element.style.margin;
+    const originalMinHeight = element.style.minHeight;
+    const originalHeight = element.style.height;
     
     element.style.boxShadow = 'none';
     element.style.borderRadius = '0';
     element.style.padding = '0';
     element.style.margin = '0';
+    element.style.minHeight = 'auto';
+    element.style.height = 'auto';
 
     window.html2pdf().from(element).set(opt).save().then(() => {
       element.style.boxShadow = originalShadow;
       element.style.borderRadius = originalBorderRadius;
       element.style.padding = originalPadding;
       element.style.margin = originalMargin;
+      element.style.minHeight = originalMinHeight;
+      element.style.height = originalHeight;
     }).catch(err => {
       console.error("PDF generation failed:", err);
       window.print();
