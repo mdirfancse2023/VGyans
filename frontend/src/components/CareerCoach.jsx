@@ -157,12 +157,12 @@ export default function CareerCoach() {
         title="Open Gyans Copilot"
       >
         <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" stroke="url(#glassGradTrigger)" strokeWidth="2.2" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="url(#glassGradTrigger)" strokeWidth="2.5" />
-            <path d="M11 7a4 4 0 0 0-4 4" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" strokeLinecap="round" />
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <path d="M12 2L14.5 8.5L21 11L14.5 13.5L12 20L9.5 13.5L3 11L9.5 8.5L12 2Z" fill="url(#aiSparkleGrad)" />
+            <path d="M19 1.5L20.2 4.8L23.5 6L20.2 7.2L19 10.5L17.8 7.2L14.5 6L17.8 4.8L19 1.5Z" fill="url(#aiSparkleGrad)" opacity="0.8" />
+            <path d="M4 16L4.8 18.2L7 19L4.8 19.8L4 22L3.2 19.8L1 19L3.2 18.2L4 16Z" fill="url(#aiSparkleGrad)" opacity="0.7" />
             <defs>
-              <linearGradient id="glassGradTrigger" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="aiSparkleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#38bdf8" />
                 <stop offset="50%" stopColor="#818cf8" />
                 <stop offset="100%" stopColor="#c084fc" />
@@ -229,12 +229,12 @@ export default function CareerCoach() {
                   boxShadow: '0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 0 rgba(255,255,255,0.3)',
                   backdropFilter: 'blur(12px)'
                 }}>
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8" stroke="url(#glassGradHeader)" strokeWidth="2.2" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="url(#glassGradHeader)" strokeWidth="2.5" />
-                    <path d="M11 7a4 4 0 0 0-4 4" stroke="rgba(255,255,255,0.8)" strokeWidth="1.5" strokeLinecap="round" />
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                    <path d="M12 2L14.5 8.5L21 11L14.5 13.5L12 20L9.5 13.5L3 11L9.5 8.5L12 2Z" fill="url(#aiHeaderGrad)" />
+                    <path d="M19 1.5L20.2 4.8L23.5 6L20.2 7.2L19 10.5L17.8 7.2L14.5 6L17.8 4.8L19 1.5Z" fill="url(#aiHeaderGrad)" opacity="0.85" />
+                    <path d="M4 16L4.8 18.2L7 19L4.8 19.8L4 22L3.2 19.8L1 19L3.2 18.2L4 16Z" fill="url(#aiHeaderGrad)" opacity="0.7" />
                     <defs>
-                      <linearGradient id="glassGradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <linearGradient id="aiHeaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stopColor="#38bdf8" />
                         <stop offset="50%" stopColor="#818cf8" />
                         <stop offset="100%" stopColor="#c084fc" />
