@@ -116,45 +116,51 @@ export default function ResumeBuilder() {
     const element = document.querySelector('.preview-panel');
     if (!element) return;
 
+    // Save original styles
+    const originalPosition = element.style.position;
+    const originalTop = element.style.top;
+    const originalBoxShadow = element.style.boxShadow;
+    const originalBorderRadius = element.style.borderRadius;
+
+    // Temporarily flatten styles for clean capture
+    element.style.position = 'relative';
+    element.style.top = 'auto';
+    element.style.boxShadow = 'none';
+    element.style.borderRadius = '0';
+
     const opt = {
       margin:       [0.4, 0.4, 0.4, 0.4],
       filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true, logging: false },
+      html2canvas:  {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight,
+        backgroundColor: '#ffffff'
+      },
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
       pagebreak:    { mode: ['css', 'legacy'] }
     };
 
-    // Create a clone, style it for print, and render it completely behind the page content
-    const clone = element.cloneNode(true);
-    clone.style.boxShadow = 'none';
-    clone.style.borderRadius = '0';
-    clone.style.padding = '0 6px 0 6px';
-    clone.style.margin = '0';
-    clone.style.minHeight = 'auto';
-    clone.style.height = 'auto';
-    clone.style.position = 'absolute';
-    clone.style.top = '0';
-    clone.style.left = '0';
-    clone.style.zIndex = '-9999';
-    clone.style.width = '7.7in';
-    clone.style.background = '#ffffff';
-    clone.style.color = '#000000';
-
-    document.body.appendChild(clone);
-
-    // Give a tiny timeout for clone layout rendering
-    setTimeout(() => {
-      window.html2pdf().from(clone).set(opt).save().then(() => {
-        document.body.removeChild(clone);
-      }).catch(err => {
-        console.error("PDF generation failed:", err);
-        if (clone.parentNode) {
-          document.body.removeChild(clone);
-        }
-        window.print();
-      });
-    }, 50);
+    window.html2pdf().from(element).set(opt).save().then(() => {
+      // Restore original styles
+      element.style.position = originalPosition;
+      element.style.top = originalTop;
+      element.style.boxShadow = originalBoxShadow;
+      element.style.borderRadius = originalBorderRadius;
+    }).catch(err => {
+      console.error("PDF generation failed:", err);
+      // Restore original styles on error too
+      element.style.position = originalPosition;
+      element.style.top = originalTop;
+      element.style.boxShadow = originalBoxShadow;
+      element.style.borderRadius = originalBorderRadius;
+      window.print();
+    });
   };
 
   const getSizes = () => {

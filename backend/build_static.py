@@ -169,6 +169,33 @@ CURATED_RESOURCES = [
         "description": "Hand-picked high-frequency technical and behavioral interview questions with standard answers.",
         "downloadUrl": "/notes/interview-questions-study-notes",
         "tags": ["Interview", "Questions", "Aptitude", "HR"]
+    },
+    {
+        "id": "react-study-notes",
+        "title": "React & Modern Frontend Development Guide",
+        "category": "Technical",
+        "company": "All",
+        "description": "Essential guide to React hooks (useState, useEffect, useMemo), virtual DOM, state management, and lifecycle methods.",
+        "downloadUrl": "/notes/react-study-notes",
+        "tags": ["React", "JavaScript", "Frontend", "Hooks"]
+    },
+    {
+        "id": "angular-study-notes",
+        "title": "Angular Architecture & Framework Guide",
+        "category": "Technical",
+        "company": "All",
+        "description": "Revision notes on Angular modules, components, services, dependency injection, RxJS observables, and routing.",
+        "downloadUrl": "/notes/angular-study-notes",
+        "tags": ["Angular", "TypeScript", "Frontend", "RxJS"]
+    },
+    {
+        "id": "rest-api-study-notes",
+        "title": "RESTful API Design & HTTP Methods Cheat Sheet",
+        "category": "Technical",
+        "company": "All",
+        "description": "Understand REST principles, HTTP status codes, GET/POST/PUT/DELETE methods, authentication, and payload design.",
+        "downloadUrl": "/notes/rest-api-study-notes",
+        "tags": ["REST API", "API", "HTTP", "Backend"]
     }
 ]
 

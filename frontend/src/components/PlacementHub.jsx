@@ -265,7 +265,6 @@ function BlogReader({ note, onClose }) {
 
 export default function PlacementHub({ resources, notes, onboardingStages = {}, flashcards = [] }) {
   const [activeSection, setActiveSection] = useState('resources');
-  const [selectedCompany, setSelectedCompany] = useState('All');
   const [activePdf, setActivePdf] = useState(null);
   const [activeNote, setActiveNote] = useState(null);
 
@@ -312,11 +311,44 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
     setActivePdf({ url: proxyUrl, title: res.title });
   };
 
-  const companies = ['All', 'Cognizant', 'TCS', 'Accenture', 'All-Rounder'];
+  const [selectedResourceTab, setSelectedResourceTab] = useState('All');
+  const resourceCategories = [
+    'All',
+    'Spring Boot',
+    'System Design',
+    'Java',
+    'SQL',
+    'Microservices',
+    'Rest API',
+    'React',
+    'Angular'
+  ];
+
   const filteredResources = resources.filter(res => {
-    if (selectedCompany === 'All') return true;
-    if (selectedCompany === 'All-Rounder') return res.company.toLowerCase() === 'all';
-    return res.company.toLowerCase() === selectedCompany.toLowerCase();
+    if (selectedResourceTab === 'All') return true;
+    const query = selectedResourceTab.toLowerCase();
+    
+    // Check if tags match exactly or as substring
+    if (res.tags && res.tags.some(tag => tag.toLowerCase().includes(query) || query.includes(tag.toLowerCase()))) return true;
+
+    // Check if title or description contains the query
+    if (res.title && res.title.toLowerCase().includes(query)) return true;
+    if (res.description && res.description.toLowerCase().includes(query)) return true;
+
+    // Check if category matches
+    if (res.category && res.category.toLowerCase().includes(query)) return true;
+
+    // Special matching rules for Rest API
+    if (query === 'rest api') {
+      const isRest = res.tags && res.tags.some(tag => {
+        const t = tag.toLowerCase();
+        return t === 'rest' || t === 'api' || t === 'rest api' || t === 'rest-api';
+      });
+      if (isRest) return true;
+      if (res.title && (res.title.toLowerCase().includes('rest') || res.title.toLowerCase().includes('api'))) return true;
+    }
+    
+    return false;
   });
 
   return (
@@ -362,36 +394,50 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
 
       {/* ── RESOURCES ── */}
       {activeSection === 'resources' && (
+        <>
+          <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2rem', justifyContent: 'flex-start' }}>
+            {resourceCategories.map((cat) => (
+              <button
+                key={cat}
+                className={`filter-tab ${selectedResourceTab === cat ? 'active' : ''}`}
+                onClick={() => setSelectedResourceTab(cat)}
+                style={{ fontSize: '0.85rem', fontWeight: 600 }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
 
-        <div className="grid-container">
-          {resources.map((res) => {
-            const isBlog = res.downloadUrl && res.downloadUrl.startsWith('/notes/');
-            return (
-              <div key={res.id} className="glass-card resource-card">
-                <div className="resource-header">
-                  <span className="badge badge-primary">{res.company}</span>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{res.category}</span>
+          <div className="grid-container">
+            {filteredResources.map((res) => {
+              const isBlog = res.downloadUrl && res.downloadUrl.startsWith('/notes/');
+              return (
+                <div key={res.id} className="glass-card resource-card">
+                  <div className="resource-header">
+                    <span className="badge badge-primary">{res.company}</span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{res.category}</span>
+                  </div>
+                  <h3 className="resource-title">{res.title}</h3>
+                  <p className="resource-desc">{res.description}</p>
+                  <div className="resource-tags">
+                    {res.tags.map((tag) => (
+                      <span key={tag} className="badge badge-secondary" style={{ fontSize: '0.65rem' }}>#{tag}</span>
+                    ))}
+                  </div>
+                  <div className="resource-action">
+                    <button className="btn btn-secondary" style={{ width: '100%', gap: '0.5rem', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); handleAction(res); }}>
+                      {isBlog ? (
+                        <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Read Study Blog</>
+                      ) : (
+                        <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View PDF Resource</>
+                      )}
+                    </button>
+                  </div>
                 </div>
-                <h3 className="resource-title">{res.title}</h3>
-                <p className="resource-desc">{res.description}</p>
-                <div className="resource-tags">
-                  {res.tags.map((tag) => (
-                    <span key={tag} className="badge badge-secondary" style={{ fontSize: '0.65rem' }}>#{tag}</span>
-                  ))}
-                </div>
-                <div className="resource-action">
-                  <button className="btn btn-secondary" style={{ width: '100%', gap: '0.5rem', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); handleAction(res); }}>
-                    {isBlog ? (
-                      <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Read Study Blog</>
-                    ) : (
-                      <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View PDF Resource</>
-                    )}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        </>
       )}
 
       {/* ── ONBOARDING TRACKER ── */}

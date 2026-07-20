@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": "pl-1",
+    "title": "Cognizant GenC Training Prep",
+    "videoCount": "15"
+  },
+  {
+    "id": "pl-2",
+    "title": "Java Placement Course",
+    "videoCount": "32"
+  },
+  {
+    "id": "pl-3",
+    "title": "TCS NQT Preparation",
+    "videoCount": "22"
+  },
+  {
+    "id": "pl-4",
+    "title": "Career Q&A and Job Updates",
+    "videoCount": "48"
+  }
+]

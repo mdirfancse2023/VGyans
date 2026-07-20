@@ -1,42 +1,578 @@
 [
   {
     "id": "c-study-notes",
-    "title": "C Programming Quick Notes"
+    "downloadUrl": "/notes/c-study-notes",
+    "company": "All",
+    "title": "C Programming Quick Notes",
+    "tags": [
+      "C",
+      "Syntax",
+      "Pointers",
+      "Core"
+    ],
+    "description": "Essential syntax, pointer concepts, structures, dynamic memory allocation, and key interview snippets.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. Introduction to C",
+        "type": "h1"
+      },
+      {
+        "text": "C is a robust, procedural, middle-level programming language developed in 1972 by Dennis Ritchie at Bell Labs. It forms the foundation of modern languages and is widely used in systems programming, compiler design, and embedded platforms.",
+        "type": "body"
+      },
+      {
+        "text": "2. Memory Address & Pointer Basics",
+        "type": "h1"
+      },
+      {
+        "text": "A pointer is a variable that stores the memory address of another variable. Understanding pointers is critical for dynamic memory management, array manipulation, and parameter passing in C.",
+        "type": "body"
+      },
+      {
+        "text": "#include <stdio.h>\n\nint main() {\n    int number = 100;\n    int *ptr = &number; // ptr holds the address of number\n\n    printf(\"Value of number: %d\\n\", number);\n    printf(\"Address of number: %p\\n\", &number);\n    printf(\"Value stored in ptr: %p\\n\", ptr);\n    printf(\"Dereferenced value (*ptr): %d\\n\", *ptr); // Outputs 100\n\n    return 0;\n}",
+        "type": "code"
+      },
+      {
+        "text": "3. Dynamic Memory Allocation",
+        "type": "h1"
+      },
+      {
+        "text": "C provides functions in the <code>&lt;stdlib.h&gt;</code> header to allocate memory at runtime dynamically:<br/>- <b>malloc(size):</b> Allocates specified bytes of uninitialized memory.<br/>- <b>calloc(num, size):</b> Allocates memory and initializes all bits to zero.<br/>- <b>realloc(ptr, new_size):</b> Resizes previously allocated memory block.<br/>- <b>free(ptr):</b> Deallocates and releases memory back to the heap.",
+        "type": "body"
+      },
+      {
+        "text": "int *arr = (int*) calloc(5, sizeof(int)); // Allocates array of 5 integers, initialized to 0\nif (arr == NULL) {\n    printf(\"Allocation failed!\");\n    return 1;\n}\n\n// Perform operations...\narr[0] = 10;\n\nfree(arr); // Release memory to prevent memory leaks\narr = NULL; // Prevent dangling pointer",
+        "type": "code"
+      },
+      {
+        "text": "4. Structures vs Unions",
+        "type": "h1"
+      },
+      {
+        "text": "Structures allocate a unique memory slot for each member, while Unions share a single memory slot among all members. The size of a union is equal to the size of its largest member.",
+        "type": "body"
+      },
+      {
+        "text": "struct Employee {\n    int id;          // 4 bytes\n    char grade;      // 1 byte\n    double salary;   // 8 bytes\n}; // Total memory: ~16 bytes due to padding\n\nunion Cache {\n    int val;         // 4 bytes\n    char code;       // 1 byte\n}; // Total memory: 4 bytes (shared)",
+        "type": "code"
+      }
+    ]
   },
   {
     "id": "cpp-study-notes",
-    "title": "C++ & OOPs Revision Notes"
+    "downloadUrl": "/notes/cpp-study-notes",
+    "company": "All",
+    "title": "C++ & OOPs Revision Notes",
+    "tags": [
+      "C++",
+      "OOPs",
+      "STL",
+      "Polymorphism"
+    ],
+    "description": "Object-oriented concepts, virtual functions, templates, STL (Standard Template Library), and C++ reference.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. Core Principles of OOPs",
+        "type": "h1"
+      },
+      {
+        "text": "Object-Oriented Programming (OOP) in C++ uses four pillars:<br/>1. <b>Encapsulation:</b> Bundling variables and functions inside a class while shielding them using access specifiers (private, protected, public).<br/>2. <b>Abstraction:</b> Hiding implementation details and exposing minimal interfaces (using virtual/pure virtual functions).<br/>3. <b>Inheritance:</b> Creating subclasses from a parent class to re-use code and extend properties.<br/>4. <b>Polymorphism:</b> Allowing a call to act differently depending on context (e.g., function/operator overloading vs function overriding).",
+        "type": "body"
+      },
+      {
+        "text": "2. Runtime Polymorphism & Virtual Functions",
+        "type": "h1"
+      },
+      {
+        "text": "Runtime polymorphism is achieved in C++ by declaring base class functions as <code>virtual</code>. It instructs the compiler to resolve function calls during runtime rather than compile-time based on the type of object referenced.",
+        "type": "body"
+      },
+      {
+        "text": "#include <iostream>\nusing namespace std;\n\nclass Base {\npublic:\n    virtual void show() { // virtual keyword enables dynamic dispatch\n        cout << \"Base class show\" << endl;\n    }\n};\n\nclass Derived : public Base {\npublic:\n    void show() override {\n        cout << \"Derived class show\" << endl;\n    }\n};\n\nint main() {\n    Base* bptr;\n    Derived d;\n    bptr = &d;\n    bptr->show(); // Outputs: Derived class show (dynamic bind)\n    return 0;\n}",
+        "type": "code"
+      },
+      {
+        "text": "3. STL Containers Reference",
+        "type": "h1"
+      },
+      {
+        "text": "C++ STL provides built-in data structures:<br/>- <b>Vector:</b> Dynamic contiguous array. Fast inserts/deletions at the end.<br/>- <b>Map:</b> Key-value lookup implemented as self-balancing Red-Black trees. Key operations are O(log n).<br/>- <b>Unordered Map:</b> Key-value lookup using hash tables. Average O(1) time complexity.",
+        "type": "body"
+      }
+    ]
   },
   {
     "id": "dsa-study-notes",
-    "title": "DSA Essential Hand Book"
+    "downloadUrl": "/notes/dsa-study-notes",
+    "company": "All",
+    "title": "DSA Essential Hand Book",
+    "tags": [
+      "DSA",
+      "Data Structures",
+      "Algorithms",
+      "Binary Search"
+    ],
+    "description": "Overview of major data structures, sorting/searching algorithms, complexity analysis, and coding patterns.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. Big-O Complexity Quick Guide",
+        "type": "h1"
+      },
+      {
+        "text": "Big-O notation describes the upper bound scaling of execution time or memory footprint in the worst-case scenario:<br/>- <b>O(1):</b> Constant time (Hash map lookup, array index).<br/>- <b>O(log n):</b> Logarithmic time (Binary Search).<br/>- <b>O(n):</b> Linear time (Linear search, single loop).<br/>- <b>O(n log n):</b> Linearithmic time (Merge sort, Heap sort).<br/>- <b>O(n^2):</b> Quadratic time (Bubble sort, nested loops).",
+        "type": "body"
+      },
+      {
+        "text": "2. Binary Search (Logarithmic Search)",
+        "type": "h1"
+      },
+      {
+        "text": "Binary search finds elements inside a pre-sorted array by repeatedly splitting the search interval in half. Complexity is O(log n).",
+        "type": "body"
+      },
+      {
+        "text": "int binarySearch(int arr[], int size, int target) {\n    int left = 0;\n    int right = size - 1;\n    \n    while(left <= right) {\n        int mid = left + (right - left) / 2; // Prevents integer overflow\n        \n        if (arr[mid] == target) return mid;\n        if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1; // Target not found\n}",
+        "type": "code"
+      },
+      {
+        "text": "3. Graphs: BFS vs DFS",
+        "type": "h1"
+      },
+      {
+        "text": "<b>Breadth-First Search (BFS):</b> Explores vertices level-by-level using a Queue. Ideal for finding the shortest path in unweighted graphs.<br/><b>Depth-First Search (DFS):</b> Explores nodes as deep as possible before backtracking using a Stack or recursion. Ideal for topology sorting and path checking.",
+        "type": "body"
+      }
+    ]
   },
   {
     "id": "interview-questions-study-notes",
-    "title": "Top 50 Technical Interview Questions"
+    "downloadUrl": "/notes/interview-questions-study-notes",
+    "company": "All",
+    "title": "Top 50 Technical Interview Questions",
+    "tags": [
+      "Interview",
+      "Questions",
+      "Aptitude",
+      "HR"
+    ],
+    "description": "Hand-picked high-frequency technical and behavioral interview questions with standard answers.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "Q1: Explain ACID Properties in DBMS",
+        "type": "h1"
+      },
+      {
+        "text": "Transactions must support ACID rules:<br/>- <b>Atomicity:</b> Full transaction success or complete rollback.<br/>- <b>Consistency:</b> Transition database from one valid integrity state to another.<br/>- <b>Isolation:</b> Transactions run concurrently without interfering.<br/>- <b>Durability:</b> Committed transactions survive crashes (saved permanently).",
+        "type": "body"
+      },
+      {
+        "text": "Q2: How does a HashMap work internally in Java?",
+        "type": "h1"
+      },
+      {
+        "text": "HashMap stores key-value pairs in buckets based on the key's hashcode. It maps indices using <code>(n - 1) & hash</code>. If multiple keys hash to the same index (collision), they are chained in a LinkedList. In Java 8, if a LinkedList size in a bucket exceeds 8 and the table capacity is &ge; 64, it converts the list into a Red-Black Tree for faster O(log n) lookups.",
+        "type": "body"
+      },
+      {
+        "text": "Q3: Explain differences between REST and SOAP",
+        "type": "h1"
+      },
+      {
+        "text": "- <b>REST:</b> Architectural style, uses HTTP methods, lighter payload formats (JSON, XML, HTML), stateless, easily scalable.<br/>- <b>SOAP:</b> Strict protocol, uses XML only, requires WSDL contracts, supports built-in WS-Security, heavier payload, supports stateful transactions.",
+        "type": "body"
+      },
+      {
+        "text": "Q4: Describe a time you faced team conflicts (HR STAR Method)",
+        "type": "h1"
+      },
+      {
+        "text": "<b>Situation:</b> In our final year project, we had to choose between SQL and MongoDB. Two members clashed heavily.<br/><b>Task:</b> As the project coordinator, I had to resolve the conflict without affecting the timeline.<br/><b>Action:</b> I scheduled a meeting, listened to both ideas, listed the pros and cons of SQL vs NoSQL relative to our specific requirements, and proposed a vote based on technical fit.<br/><b>Result:</b> We chose SQL, completed the project 1 week early, and maintained great team relationships.",
+        "type": "body"
+      }
+    ]
   },
   {
     "id": "java-study-notes",
-    "title": "Java Programming Master Notes"
+    "downloadUrl": "/notes/java-study-notes",
+    "company": "All",
+    "title": "Java Programming Master Notes",
+    "tags": [
+      "Java",
+      "OOPs",
+      "JVM",
+      "Streams"
+    ],
+    "description": "Core Java, JVM architecture, multithreading, collections framework, Java 8 features (lambdas/streams).",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. JVM Execution Lifecycle & Memory Zones",
+        "type": "h1"
+      },
+      {
+        "text": "JVM executes Java bytecode. The memory layout is partitioned into five distinct areas:<br/>1. <b>Heap Area:</b> Stores all object instances and arrays. Managed by Garbage Collection.<br/>2. <b>Stack Area:</b> Stores local variables and execution frames for individual threads.<br/>3. <b>Method Area:</b> Stores class metadata, bytecode, static variables, and runtime constant pools.<br/>4. <b>PC Registers:</b> Contains the address of current instruction being executed.<br/>5. <b>Native Method Stack:</b> Holds instructions for native libraries (C/C++).",
+        "type": "body"
+      },
+      {
+        "text": "2. Java Collections Core Hierarchy",
+        "type": "h1"
+      },
+      {
+        "text": "- <b>List:</b> ArrayList (resizing array, O(1) random read) vs LinkedList (doubly linked list, O(1) insertions).<br/>- <b>Set:</b> HashSet (hash table lookup, unordered) vs TreeSet (Red-Black tree, sorted, unique).<br/>- <b>Map:</b> HashMap (hash-bucket array with tree conversion when list threshold &gt; 8) vs TreeMap (sorted keys).",
+        "type": "body"
+      },
+      {
+        "text": "3. Java 8 Streams and Functional Coding",
+        "type": "h1"
+      },
+      {
+        "text": "import java.util.*;\nimport java.util.stream.*;\n\npublic class StreamDemo {\n    public static void main(String[] args) {\n        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);\n        \n        // Compute sum of squares of all even numbers\n        int sumOfSquares = numbers.stream()\n            .filter(n -> n % 2 == 0) // Filter evens\n            .map(n -> n * n)         // Square them\n            .reduce(0, Integer::sum);\n            \n        System.out.println(\"Result: \" + sumOfSquares); // Outputs 220\n    }\n}",
+        "type": "code"
+      }
+    ]
   },
   {
     "id": "microservices-study-notes",
-    "title": "Microservices Architecture Blueprints"
+    "downloadUrl": "/notes/microservices-study-notes",
+    "company": "All",
+    "title": "Microservices Architecture Blueprints",
+    "tags": [
+      "Microservices",
+      "API Gateway",
+      "Eureka",
+      "Kafka"
+    ],
+    "description": "Discovery services (Eureka), API Gateway, Circuit Breaker patterns, configuration server, and Kafka integration.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. Key Microservices Patterns",
+        "type": "h1"
+      },
+      {
+        "text": "Microservices break a large monolithic app into small, autonomous, deployable services, requiring specialized patterns:<br/>- <b>Service Discovery (Eureka):</b> Registries mapping all microservice endpoints so they can search for each other.<br/>- <b>API Gateway (Spring Cloud Gateway):</b> Central proxy redirecting user requests, handling JWT validation and routing rules.<br/>- <b>Circuit Breaker (Resilience4j):</b> Prevents cascading network crashes by failing fast once a targeted downstream service fails threshold requirements.",
+        "type": "body"
+      },
+      {
+        "text": "2. Async Communication via Kafka",
+        "type": "h1"
+      },
+      {
+        "text": "To prevent blocking threads, microservices use message queues like Apache Kafka or RabbitMQ. This permits highly decoupled, event-driven integrations.",
+        "type": "body"
+      },
+      {
+        "text": "// Kafka consumer code inside consumer microservice\n@Service\npublic class OrderConsumer {\n    \n    @KafkaListener(topics = \"order-topic\", groupId = \"inventory-group\")\n    public void consumeOrderEvent(String eventJson) {\n        System.out.println(\"Processing inventory decrease for order: \" + eventJson);\n        // Process local database operations here\n    }\n}",
+        "type": "code"
+      }
+    ]
   },
   {
     "id": "python-study-notes",
-    "title": "Python Cheat Sheet & Reference"
+    "downloadUrl": "/notes/python-study-notes",
+    "company": "All",
+    "title": "Python Cheat Sheet & Reference",
+    "tags": [
+      "Python",
+      "Syntax",
+      "Decorators",
+      "OOPs"
+    ],
+    "description": "Core concepts, list comprehensions, decorators, generators, OOPs in Python, and common libraries.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. Pythonic Collections and Complexities",
+        "type": "h1"
+      },
+      {
+        "text": "Python has key built-in data types:<br/>- <b>List:</b> Ordered, mutable dynamic array. O(1) index lookup.<br/>- <b>Tuple:</b> Ordered, immutable, hashable sequence.<br/>- <b>Set:</b> Unordered, mutable collection of unique elements. O(1) lookups.<br/>- <b>Dictionary:</b> Hash-table based mapping of key-value pairs. O(1) average lookups.",
+        "type": "body"
+      },
+      {
+        "text": "2. Decorators and Metaprogramming",
+        "type": "h1"
+      },
+      {
+        "text": "Decorators wrap another function to extend its behavior dynamically without altering the original function source code.",
+        "type": "body"
+      },
+      {
+        "text": "def logger(func):\n    def wrapper(*args, **kwargs):\n        print(f\"Calling function: {func.__name__}\")\n        res = func(*args, **kwargs)\n        print(f\"Finished calling: {func.__name__}\")\n        return res\n    return wrapper\n\n@logger\ndef compute_sum(a, b):\n    return a + b\n\nprint(compute_sum(10, 20)) # Automatically logs caller info",
+        "type": "code"
+      },
+      {
+        "text": "3. Generators & Memory Efficiency",
+        "type": "h1"
+      },
+      {
+        "text": "Generators evaluate expressions lazily, returning an iterator that yields one item at a time. This saves substantial memory when working with large data ranges.",
+        "type": "body"
+      },
+      {
+        "text": "# Generator function yielding values lazily\ndef fibonacci(limit):\n    a, b = 0, 1\n    while a < limit:\n        yield a\n        a, b = b, a + b\n\nfor num in fibonacci(50):\n    print(num, end=\" \") # O(1) memory complexity",
+        "type": "code"
+      }
+    ]
   },
   {
     "id": "spring-boot-study-notes",
-    "title": "Spring Boot Core Concepts"
+    "downloadUrl": "/notes/spring-boot-study-notes",
+    "company": "All",
+    "title": "Spring Boot Core Concepts",
+    "tags": [
+      "Spring Boot",
+      "Java",
+      "REST API",
+      "MVC"
+    ],
+    "description": "Spring framework core, IoC, Dependency Injection, REST APIs, annotations reference, and Spring Data JPA.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. Spring IoC & Dependency Injection",
+        "type": "h1"
+      },
+      {
+        "text": "Spring inversion of Control (IoC) Container manages bean creation, lifecycle, and mapping. Dependency Injection (DI) allows dependencies to be injected dynamically instead of hardcoding object instantiation inside controllers/services.",
+        "type": "body"
+      },
+      {
+        "text": "2. Core Annotations Cheat Sheet",
+        "type": "h1"
+      },
+      {
+        "text": "- <code>@SpringBootApplication</code>: Combines Configuration, EnableAutoConfiguration, and ComponentScan.<br/>- <code>@RestController</code>: Marks a class as a controller returning REST JSON payloads.<br/>- <code>@Autowired</code>: Marks a dependency to be injected automatically by Spring.<br/>- <code>@Service / @Repository / @Component</code>: Marks classes as Spring Beans with specific architectural roles.",
+        "type": "body"
+      },
+      {
+        "text": "3. Rest API Controller Example",
+        "type": "h1"
+      },
+      {
+        "text": "@RestController\n@RequestMapping(\"/api/v1/products\")\npublic class ProductController {\n\n    @Autowired\n    private ProductService productService;\n\n    @GetMapping(\"/{id}\")\n    public ResponseEntity<Product> getProduct(@PathVariable Long id) {\n        Product prod = productService.findById(id);\n        if (prod == null) {\n            return ResponseEntity.notFound().build();\n        }\n        return ResponseEntity.ok(prod);\n    }\n}",
+        "type": "code"
+      }
+    ]
   },
   {
     "id": "sql-study-notes",
-    "title": "SQL & Relational Databases Quick Guide"
+    "downloadUrl": "/notes/sql-study-notes",
+    "company": "All",
+    "title": "SQL & Relational Databases Quick Guide",
+    "tags": [
+      "SQL",
+      "Databases",
+      "Joins",
+      "Queries"
+    ],
+    "description": "SQL DDL/DML, Joins, grouping and aggregations, window functions, indexing strategies, and ACID properties.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. SQL Commands Classification",
+        "type": "h1"
+      },
+      {
+        "text": "- <b>DDL (Data Definition):</b> CREATE, ALTER, DROP, TRUNCATE (defines database schemas).<br/>- <b>DML (Data Manipulation):</b> SELECT, INSERT, UPDATE, DELETE (manages records).<br/>- <b>DCL (Data Control):</b> GRANT, REVOKE (controls roles and privileges).<br/>- <b>TCL (Transaction Control):</b> COMMIT, ROLLBACK, SAVEPOINT.",
+        "type": "body"
+      },
+      {
+        "text": "2. Database Joins",
+        "type": "h1"
+      },
+      {
+        "text": "Joins link tables based on shared column relationships. A LEFT JOIN fetches everything from the left table and matches from the right table, leaving NULLs for unmatched keys.",
+        "type": "body"
+      },
+      {
+        "text": "-- Fetch employees and their department details\nSELECT e.id, e.name, d.department_name\nFROM employees e\nINNER JOIN departments d ON e.dept_id = d.id;",
+        "type": "code"
+      },
+      {
+        "text": "3. Window Functions & Aggregations",
+        "type": "h1"
+      },
+      {
+        "text": "Window functions evaluate partitions without collapsing table records into unified groups. <i>DENSE_RANK()</i> returns ranking rows with no gaps in values.",
+        "type": "body"
+      },
+      {
+        "text": "-- Rank employee salaries in their departments\nSELECT name, dept_id, salary,\n       DENSE_RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) as rank\nFROM employees;",
+        "type": "code"
+      }
+    ]
   },
   {
     "id": "system-design-study-notes",
-    "title": "System Design Fundamentals"
+    "downloadUrl": "/notes/system-design-study-notes",
+    "company": "All",
+    "title": "System Design Fundamentals",
+    "tags": [
+      "System Design",
+      "Scalability",
+      "Architecture",
+      "Microservices"
+    ],
+    "description": "High-level architecture, scalability, load balancers, caching, databases (SQL vs NoSQL), and CAP theorem.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. Scalability: Scale Up vs Scale Out",
+        "type": "h1"
+      },
+      {
+        "text": "<b>Vertical Scaling (Scale Up):</b> Adding resources (RAM, CPU) to a single machine. Hard limits apply and creates a Single Point of Failure (SPOF).<br/><b>Horizontal Scaling (Scale Out):</b> Adding more servers to the cluster. Indefinite scalability, but requires load balancers and complex data sync.",
+        "type": "body"
+      },
+      {
+        "text": "2. Load Balancers",
+        "type": "h1"
+      },
+      {
+        "text": "Load Balancers distribute user traffic across servers to optimize availability. Common algorithms include Round Robin, Weighted Round Robin, Least Connections, and IP Hashing.",
+        "type": "body"
+      },
+      {
+        "text": "3. Caching & Redis",
+        "type": "h1"
+      },
+      {
+        "text": "Caching stores high-frequency data in memory (Redis, Memcached) to reduce database read pressure. Common patterns include:<br/>- <b>Cache-Aside:</b> Application checks cache; if miss, fetches from database and writes back to cache.<br/>- <b>Write-Through:</b> Application writes to cache, cache writes to database synchronously.<br/>- <b>Write-Behind (Write-Back):</b> Application writes to cache, database is updated asynchronously (fastest, but risk of data loss).",
+        "type": "body"
+      },
+      {
+        "text": "4. Databases: SQL vs NoSQL",
+        "type": "h1"
+      },
+      {
+        "text": "- <b>SQL (Relational):</b> Schema-enforced, structured tables, supports ACID transactions. Scaled vertically. Ideal for payments and billing.<br/>- <b>NoSQL (Non-Relational):</b> Flexible schema, Key-Value (Redis), Document (MongoDB), Column (Cassandra), Graph (Neo4j). Scaled horizontally. Ideal for social feeds, chat logs.",
+        "type": "body"
+      }
+    ]
+  },
+  {
+    "id": "react-study-notes",
+    "downloadUrl": "/notes/react-study-notes",
+    "company": "All",
+    "title": "React & Modern Frontend Development Guide",
+    "tags": [
+      "React",
+      "JavaScript",
+      "Frontend",
+      "Hooks"
+    ],
+    "description": "Essential guide to React hooks (useState, useEffect, useMemo), virtual DOM, state management, and lifecycle methods.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. Virtual DOM & Reconciliation",
+        "type": "h1"
+      },
+      {
+        "text": "React uses a virtual representation of the real DOM. When state changes, a new Virtual DOM tree is created and compared (diffed) with the old one. React then updates only the changed parts of the real DOM in a process called reconciliation.",
+        "type": "body"
+      },
+      {
+        "text": "2. React Hooks Reference",
+        "type": "h1"
+      },
+      {
+        "text": "Hooks allow functional components to use state and lifecycle features:<br/>- <b>useState:</b> Local state management.<br/>- <b>useEffect:</b> Side effects (data fetching, subscriptions).<br/>- <b>useMemo:</b> Memoize expensive calculations.<br/>- <b>useCallback:</b> Memoize callback functions to avoid re-renders.",
+        "type": "body"
+      },
+      {
+        "text": "3. Component Example",
+        "type": "h1"
+      },
+      {
+        "text": "import React, { useState, useEffect } from 'react';\n\nexport default function UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(data => setUser(data));\n  }, [userId]);\n\n  if (!user) return <div>Loading...</div>;\n  return <div>Hello, {user.name}</div>;\n}",
+        "type": "code"
+      }
+    ]
+  },
+  {
+    "id": "angular-study-notes",
+    "downloadUrl": "/notes/angular-study-notes",
+    "company": "All",
+    "title": "Angular Architecture & Framework Guide",
+    "tags": [
+      "Angular",
+      "TypeScript",
+      "Frontend",
+      "RxJS"
+    ],
+    "description": "Revision notes on Angular modules, components, services, dependency injection, RxJS observables, and routing.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. Component & Module Architecture",
+        "type": "h1"
+      },
+      {
+        "text": "Angular is a component-based framework. Every Angular application has at least one root module (NgModule) and a root component. Components define UI, views, and data logic using TypeScript classes.",
+        "type": "body"
+      },
+      {
+        "text": "2. Dependency Injection & Services",
+        "type": "h1"
+      },
+      {
+        "text": "Services share data and logic across components. Angular's built-in Dependency Injection (DI) framework injects service instances dynamically into component constructors when required.",
+        "type": "body"
+      },
+      {
+        "text": "3. Angular Component & RxJS Example",
+        "type": "h1"
+      },
+      {
+        "text": "import { Component, OnInit } from '@angular/core';\nimport { HttpClient } from '@angular/common/http';\nimport { Observable } from 'rxjs';\n\n@Component({\n  selector: 'app-user-profile',\n  template: `<div *ngIf=\"user$ | async as user\">Hello, {{user.name}}</div>`\n})\nexport class UserProfileComponent implements OnInit {\n  user$!: Observable<any>;\n\n  constructor(private http: HttpClient) {}\n\n  ngOnInit() {\n    this.user$ = this.http.get('/api/users/1');\n  }\n}",
+        "type": "code"
+      }
+    ]
+  },
+  {
+    "id": "rest-api-study-notes",
+    "downloadUrl": "/notes/rest-api-study-notes",
+    "company": "All",
+    "title": "RESTful API Design & HTTP Methods Cheat Sheet",
+    "tags": [
+      "REST API",
+      "API",
+      "HTTP",
+      "Backend"
+    ],
+    "description": "Understand REST principles, HTTP status codes, GET/POST/PUT/DELETE methods, authentication, and payload design.",
+    "category": "Technical",
+    "content": [
+      {
+        "text": "1. REST Core Principles",
+        "type": "h1"
+      },
+      {
+        "text": "REST (Representational State Transfer) is an architectural style for APIs:<br/>- <b>Stateless:</b> Each request contains all information needed to process it.<br/>- <b>Client-Server:</b> Separation of user interface from data storage.<br/>- <b>Uniform Interface:</b> Resource-based URLs (e.g. `/api/v1/users`).",
+        "type": "body"
+      },
+      {
+        "text": "2. HTTP Methods & Status Codes",
+        "type": "h1"
+      },
+      {
+        "text": "<b>HTTP Methods:</b><br/>- <code>GET</code>: Retrieve resource.<br/>- <code>POST</code>: Create resource.<br/>- <code>PUT/PATCH</code>: Update resource.<br/>- <code>DELETE</code>: Delete resource.<br/><br/><b>HTTP Status Codes:</b><br/>- <code>200 OK / 201 Created</code>: Success.<br/>- <code>400 Bad Request / 401 Unauthorized / 404 Not Found</code>: Client errors.<br/>- <code>500 Internal Server Error</code>: Server error.",
+        "type": "body"
+      },
+      {
+        "text": "3. Express API Route Example",
+        "type": "h1"
+      },
+      {
+        "text": "const express = require('express');\nconst app = express();\napp.use(express.json());\n\napp.post('/api/users', (req, res) => {\n  const newUser = req.body;\n  if (!newUser.name) {\n    return res.status(400).json({ error: 'Name is required' });\n  }\n  // Save user to database\n  res.status(201).json({ id: 1, name: newUser.name });\n});",
+        "type": "code"
+      }
+    ]
   }
 ]

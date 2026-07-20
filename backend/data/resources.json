@@ -1,86 +1,268 @@
 [
   {
-    "company": "Accenture",
-    "id": "accenture-cognitive-prep",
-    "description": "Step-by-step preparation guide for Accenture's cognitive assessment, technical assessment, and coding round.",
-    "tags": [
-      "Accenture",
-      "Cognitive",
-      "Coding",
-      "Aptitude"
-    ],
-    "downloadUrl": "#",
-    "title": "Accenture Cognitive and Coding Test Guide",
-    "category": "Placement Prep"
-  },
-  {
-    "company": "Cognizant",
     "id": "cog-prep-guide",
+    "title": "Cognizant GenC / Elevate Preparation Guide",
+    "category": "Placement Prep",
+    "company": "Cognizant",
     "description": "Comprehensive guide to clearing the Cognizant technical interview, training assessment, and skill matrix test.",
+    "downloadUrl": "#",
     "tags": [
       "Cognizant",
       "GenC",
       "Training",
       "Interview"
-    ],
-    "downloadUrl": "#",
-    "title": "Cognizant GenC / Elevate Preparation Guide",
-    "category": "Placement Prep"
+    ]
   },
   {
-    "company": "All",
-    "id": "dsa-interview-patterns",
-    "description": "Learn the patterns behind coding interview questions: Slidng Window, Two Pointers, Fast & Slow Pointers, etc.",
-    "tags": [
-      "DSA",
-      "Algorithms",
-      "C++",
-      "Java"
-    ],
-    "downloadUrl": "#",
-    "title": "Top 15 DSA Patterns for Tech Interviews",
-    "category": "Technical"
-  },
-  {
-    "company": "All",
-    "id": "irfan-resume",
-    "description": "Professional resume of Md Irfan, Software Developer (3+ Years Experience).",
-    "tags": [
-      "Resume",
-      "Developer",
-      "Java",
-      "React"
-    ],
-    "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
-    "title": "Md Irfan's Resume",
-    "category": "Resume"
-  },
-  {
-    "company": "All",
-    "id": "java-oop-cheatsheet",
-    "description": "Quick revision notes on Core Java, OOPs concepts, Exception Handling, Collections Framework, and Multithreading.",
-    "tags": [
-      "Java",
-      "OOPs",
-      "Coding",
-      "Interview"
-    ],
-    "downloadUrl": "#",
-    "title": "Java & OOPs Interview Cheat Sheet",
-    "category": "Technical"
-  },
-  {
-    "company": "TCS",
     "id": "tcs-nqt-roadmap",
+    "title": "TCS NQT Preparation Roadmap & Syllabus",
+    "category": "Placement Prep",
+    "company": "TCS",
     "description": "Detailed syllabus, recommended resources, and mock questions for TCS National Qualifier Test (NQT).",
+    "downloadUrl": "#",
     "tags": [
       "TCS",
       "NQT",
       "Aptitude",
       "Coding"
-    ],
+    ]
+  },
+  {
+    "id": "java-oop-cheatsheet",
+    "title": "Java & OOPs Interview Cheat Sheet",
+    "category": "Technical",
+    "company": "All",
+    "description": "Quick revision notes on Core Java, OOPs concepts, Exception Handling, Collections Framework, and Multithreading.",
     "downloadUrl": "#",
-    "title": "TCS NQT Preparation Roadmap & Syllabus",
-    "category": "Placement Prep"
+    "tags": [
+      "Java",
+      "OOPs",
+      "Coding",
+      "Interview"
+    ]
+  },
+  {
+    "id": "dsa-interview-patterns",
+    "title": "Top 15 DSA Patterns for Tech Interviews",
+    "category": "Technical",
+    "company": "All",
+    "description": "Learn the patterns behind coding interview questions: Slidng Window, Two Pointers, Fast & Slow Pointers, etc.",
+    "downloadUrl": "#",
+    "tags": [
+      "DSA",
+      "Algorithms",
+      "C++",
+      "Java"
+    ]
+  },
+  {
+    "id": "accenture-cognitive-prep",
+    "title": "Accenture Cognitive and Coding Test Guide",
+    "category": "Placement Prep",
+    "company": "Accenture",
+    "description": "Step-by-step preparation guide for Accenture's cognitive assessment, technical assessment, and coding round.",
+    "downloadUrl": "#",
+    "tags": [
+      "Accenture",
+      "Cognitive",
+      "Coding",
+      "Aptitude"
+    ]
+  },
+  {
+    "id": "irfan-resume",
+    "title": "Md Irfan's Resume",
+    "category": "Resume",
+    "company": "All",
+    "description": "Professional resume of Md Irfan, Software Developer (3+ Years Experience).",
+    "downloadUrl": "https://mega.nz/file/qs53CDja#dS4v5uKG4UGEwdMFtUVcoebN0F5KNmBNP5SqkDo3mEE",
+    "tags": [
+      "Resume",
+      "Developer",
+      "Java",
+      "React"
+    ]
+  },
+  {
+    "id": "c-study-notes",
+    "title": "C Programming Quick Notes",
+    "category": "Technical",
+    "company": "All",
+    "description": "Essential syntax, pointer concepts, structures, dynamic memory allocation, and key interview snippets.",
+    "downloadUrl": "/notes/c-study-notes",
+    "tags": [
+      "C",
+      "Syntax",
+      "Pointers",
+      "Core"
+    ]
+  },
+  {
+    "id": "cpp-study-notes",
+    "title": "C++ & OOPs Revision Notes",
+    "category": "Technical",
+    "company": "All",
+    "description": "Object-oriented concepts, virtual functions, templates, STL (Standard Template Library), and C++ reference.",
+    "downloadUrl": "/notes/cpp-study-notes",
+    "tags": [
+      "C++",
+      "OOPs",
+      "STL",
+      "Polymorphism"
+    ]
+  },
+  {
+    "id": "python-study-notes",
+    "title": "Python Cheat Sheet & Reference",
+    "category": "Technical",
+    "company": "All",
+    "description": "Core concepts, list comprehensions, decorators, generators, OOPs in Python, and common libraries.",
+    "downloadUrl": "/notes/python-study-notes",
+    "tags": [
+      "Python",
+      "Syntax",
+      "Decorators",
+      "OOPs"
+    ]
+  },
+  {
+    "id": "dsa-study-notes",
+    "title": "DSA Essential Hand Book",
+    "category": "Technical",
+    "company": "All",
+    "description": "Overview of major data structures, sorting/searching algorithms, complexity analysis, and coding patterns.",
+    "downloadUrl": "/notes/dsa-study-notes",
+    "tags": [
+      "DSA",
+      "Data Structures",
+      "Algorithms",
+      "Binary Search"
+    ]
+  },
+  {
+    "id": "java-study-notes",
+    "title": "Java Programming Master Notes",
+    "category": "Technical",
+    "company": "All",
+    "description": "Core Java, JVM architecture, multithreading, collections framework, Java 8 features (lambdas/streams).",
+    "downloadUrl": "/notes/java-study-notes",
+    "tags": [
+      "Java",
+      "OOPs",
+      "JVM",
+      "Streams"
+    ]
+  },
+  {
+    "id": "system-design-study-notes",
+    "title": "System Design Fundamentals",
+    "category": "Technical",
+    "company": "All",
+    "description": "High-level architecture, scalability, load balancers, caching, databases (SQL vs NoSQL), and CAP theorem.",
+    "downloadUrl": "/notes/system-design-study-notes",
+    "tags": [
+      "System Design",
+      "Scalability",
+      "Architecture",
+      "Microservices"
+    ]
+  },
+  {
+    "id": "spring-boot-study-notes",
+    "title": "Spring Boot Core Concepts",
+    "category": "Technical",
+    "company": "All",
+    "description": "Spring framework core, IoC, Dependency Injection, REST APIs, annotations reference, and Spring Data JPA.",
+    "downloadUrl": "/notes/spring-boot-study-notes",
+    "tags": [
+      "Spring Boot",
+      "Java",
+      "REST API",
+      "MVC"
+    ]
+  },
+  {
+    "id": "microservices-study-notes",
+    "title": "Microservices Architecture Blueprints",
+    "category": "Technical",
+    "company": "All",
+    "description": "Discovery services (Eureka), API Gateway, Circuit Breaker patterns, configuration server, and Kafka integration.",
+    "downloadUrl": "/notes/microservices-study-notes",
+    "tags": [
+      "Microservices",
+      "API Gateway",
+      "Eureka",
+      "Kafka"
+    ]
+  },
+  {
+    "id": "sql-study-notes",
+    "title": "SQL & Relational Databases Quick Guide",
+    "category": "Technical",
+    "company": "All",
+    "description": "SQL DDL/DML, Joins, grouping and aggregations, window functions, indexing strategies, and ACID properties.",
+    "downloadUrl": "/notes/sql-study-notes",
+    "tags": [
+      "SQL",
+      "Databases",
+      "Joins",
+      "Queries"
+    ]
+  },
+  {
+    "id": "interview-questions-study-notes",
+    "title": "Top 50 Technical Interview Questions",
+    "category": "Technical",
+    "company": "All",
+    "description": "Hand-picked high-frequency technical and behavioral interview questions with standard answers.",
+    "downloadUrl": "/notes/interview-questions-study-notes",
+    "tags": [
+      "Interview",
+      "Questions",
+      "Aptitude",
+      "HR"
+    ]
+  },
+  {
+    "id": "react-study-notes",
+    "title": "React & Modern Frontend Development Guide",
+    "category": "Technical",
+    "company": "All",
+    "description": "Essential guide to React hooks (useState, useEffect, useMemo), virtual DOM, state management, and lifecycle methods.",
+    "downloadUrl": "/notes/react-study-notes",
+    "tags": [
+      "React",
+      "JavaScript",
+      "Frontend",
+      "Hooks"
+    ]
+  },
+  {
+    "id": "angular-study-notes",
+    "title": "Angular Architecture & Framework Guide",
+    "category": "Technical",
+    "company": "All",
+    "description": "Revision notes on Angular modules, components, services, dependency injection, RxJS observables, and routing.",
+    "downloadUrl": "/notes/angular-study-notes",
+    "tags": [
+      "Angular",
+      "TypeScript",
+      "Frontend",
+      "RxJS"
+    ]
+  },
+  {
+    "id": "rest-api-study-notes",
+    "title": "RESTful API Design & HTTP Methods Cheat Sheet",
+    "category": "Technical",
+    "company": "All",
+    "description": "Understand REST principles, HTTP status codes, GET/POST/PUT/DELETE methods, authentication, and payload design.",
+    "downloadUrl": "/notes/rest-api-study-notes",
+    "tags": [
+      "REST API",
+      "API",
+      "HTTP",
+      "Backend"
+    ]
   }
 ]
