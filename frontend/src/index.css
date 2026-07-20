@@ -1842,7 +1842,7 @@ body.light-theme .hero2-eyebrow {
   color: #0369a1 !important;
 }
 
-/* PDF Viewer & Drawer Toggle Light Theme Overrides */
+/* PDF Viewer & Control Buttons */
 .pdf-viewer-overlay {
   background-color: rgba(7, 10, 19, 0.85);
   color: #fff;
@@ -1851,11 +1851,30 @@ body.light-theme .hero2-eyebrow {
   background: rgba(5, 8, 16, 0.6);
 }
 .pdf-viewer-toolbar {
-  background: rgba(15, 23, 42, 0.7);
+  background: rgba(15, 23, 42, 0.85);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 .pdf-viewer-title {
   color: #fff;
+}
+.pdf-text-label {
+  color: #e2e8f0;
+}
+.pdf-ctrl-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+  transition: all 0.15s ease;
+}
+.pdf-ctrl-btn:hover {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: rgba(6, 182, 212, 0.4);
+  color: #06b6d4;
+}
+.pdf-close-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
 }
 
 body.light-theme .pdf-viewer-overlay {
@@ -1873,6 +1892,26 @@ body.light-theme .pdf-viewer-toolbar {
 }
 body.light-theme .pdf-viewer-title {
   color: #0f172a !important;
+}
+body.light-theme .pdf-text-label {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+body.light-theme .pdf-ctrl-btn {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06) !important;
+}
+body.light-theme .pdf-ctrl-btn:hover {
+  background: #f0f9ff !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+}
+body.light-theme .pdf-close-btn:hover {
+  background: #fef2f2 !important;
+  border-color: #ef4444 !important;
+  color: #dc2626 !important;
 }
 
 /* Question Drawer Toggle & Close Buttons */

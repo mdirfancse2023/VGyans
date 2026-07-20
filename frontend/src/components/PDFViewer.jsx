@@ -234,6 +234,30 @@ export default function PDFViewer({ url, title, onClose }) {
         )}
       </div>
 
+      {/* Top Right Floating Close Button */}
+      <button 
+        onClick={onClose}
+        className="pdf-close-btn pdf-ctrl-btn"
+        title="Close Document"
+        style={{
+          position: 'absolute',
+          top: '1.25rem',
+          right: '1.25rem',
+          zIndex: 100,
+          width: '38px',
+          height: '38px',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          fontSize: '1.1rem',
+          padding: 0
+        }}
+      >
+        ✕
+      </button>
+
       {/* Unified Toolbar / Controls (One-Line Footer) */}
       {!loading && !error && (
         <div 
@@ -262,10 +286,8 @@ export default function PDFViewer({ url, title, onClose }) {
             <button 
               onClick={() => changePage(-1)} 
               disabled={pageNum <= 1}
+              className="pdf-ctrl-btn"
               style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#fff',
                 cursor: pageNum <= 1 ? 'not-allowed' : 'pointer',
                 opacity: pageNum <= 1 ? 0.4 : 1,
                 padding: '0.35rem 0.7rem',
@@ -273,21 +295,17 @@ export default function PDFViewer({ url, title, onClose }) {
                 fontSize: '0.8rem',
                 transition: 'all 0.2s ease'
               }}
-              onMouseEnter={(e) => { if (pageNum > 1) e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; }}
             >
               ← Prev
             </button>
-            <span style={{ fontSize: '0.85rem', color: '#fff' }}>
+            <span className="pdf-text-label" style={{ fontSize: '0.85rem' }}>
               Page {pageNum} / {numPages}
             </span>
             <button 
               onClick={() => changePage(1)} 
               disabled={pageNum >= numPages}
+              className="pdf-ctrl-btn"
               style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#fff',
                 cursor: pageNum >= numPages ? 'not-allowed' : 'pointer',
                 opacity: pageNum >= numPages ? 0.4 : 1,
                 padding: '0.35rem 0.7rem',
@@ -295,8 +313,6 @@ export default function PDFViewer({ url, title, onClose }) {
                 fontSize: '0.8rem',
                 transition: 'all 0.2s ease'
               }}
-              onMouseEnter={(e) => { if (pageNum < numPages) e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; }}
             >
               Next →
             </button>
@@ -306,7 +322,7 @@ export default function PDFViewer({ url, title, onClose }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             {/* Zoom Slider */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '0.8rem', color: '#ccc' }}>Zoom:</span>
+              <span className="pdf-text-label" style={{ fontSize: '0.8rem' }}>Zoom:</span>
               <input 
                 type="range"
                 min="0.6"
@@ -324,7 +340,7 @@ export default function PDFViewer({ url, title, onClose }) {
                   background: 'rgba(255, 255, 255, 0.2)'
                 }}
               />
-              <span style={{ fontSize: '0.8rem', width: '45px', textAlign: 'center', color: '#ccc' }}>
+              <span className="pdf-text-label" style={{ fontSize: '0.8rem', width: '45px', textAlign: 'center' }}>
                 {Math.round(scale * 100)}%
               </span>
             </div>
@@ -332,10 +348,8 @@ export default function PDFViewer({ url, title, onClose }) {
             {/* Fullscreen */}
             <button
               onClick={toggleFullscreen}
+              className="pdf-ctrl-btn"
               style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#fff',
                 cursor: 'pointer',
                 padding: '0.35rem 0.75rem',
                 borderRadius: '8px',
@@ -345,8 +359,6 @@ export default function PDFViewer({ url, title, onClose }) {
                 fontSize: '0.8rem',
                 transition: 'all 0.2s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(6, 182, 212, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
             >
               {isFullscreen ? (
                 <>
@@ -368,10 +380,8 @@ export default function PDFViewer({ url, title, onClose }) {
             {/* Close */}
             <button 
               onClick={onClose}
+              className="pdf-close-btn pdf-ctrl-btn"
               style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#fff',
                 cursor: 'pointer',
                 padding: '0.35rem 0.75rem',
                 borderRadius: '8px',
@@ -380,16 +390,6 @@ export default function PDFViewer({ url, title, onClose }) {
                 alignItems: 'center',
                 gap: '0.35rem',
                 transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)';
-                e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)';
-                e.currentTarget.style.color = '#ef4444';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                e.currentTarget.style.color = '#fff';
               }}
             >
               <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
