@@ -12,6 +12,7 @@ import Jobs from './components/Jobs';
 import CareerCoach from './components/CareerCoach';
 import Songs from './components/Songs';
 import MiniPlayer from './components/MiniPlayer';
+import AuthModal from './components/AuthModal';
 import defaultSongs from '../public/data/songs.json';
 
 const API_URL = import.meta.env.VITE_API_URL || (
@@ -31,6 +32,28 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+
+  // User Auth State
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('vg_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  });
+
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+
+  const handleLoginSuccess = (userData) => {
+    setUser(userData);
+    localStorage.setItem('vg_user', JSON.stringify(userData));
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('vg_user');
+  };
   
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
@@ -550,6 +573,9 @@ export default function App() {
         currentTime={currentTime}
         duration={duration}
         seek={seek}
+        user={user}
+        onOpenAuth={() => setIsAuthOpen(true)}
+        onLogout={handleLogout}
       />
 
       <main style={{ flexGrow: 1 }}>
@@ -715,6 +741,13 @@ export default function App() {
       <FeedbackButton isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} hideTrigger={true} />
       <CareerCoach />
       
+      {/* Auth Login / Sign Up Modal */}
+      <AuthModal 
+        isOpen={isAuthOpen} 
+        onClose={() => setIsAuthOpen(false)} 
+        onLoginSuccess={handleLoginSuccess} 
+      />
+
       {/* Persistent Audio Element */}
       <audio 
         ref={audioRef}

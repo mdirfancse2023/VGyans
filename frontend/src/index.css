@@ -2301,6 +2301,60 @@ body.light-theme .theme-toggle-btn.active {
   transform: translateY(0);
 }
 
+/* Header Profile Floating Dropdown Popover */
+.header-profile-trigger-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header-profile-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 230px;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.15));
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(6, 182, 212, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+  transform: translateY(6px);
+  z-index: 9999;
+}
+
+.header-profile-popover::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  width: 10px;
+  height: 10px;
+  background: rgba(15, 23, 42, 0.96);
+  border-top: 1px solid var(--border-glass, rgba(255, 255, 255, 0.15));
+  border-left: 1px solid var(--border-glass, rgba(255, 255, 255, 0.15));
+  transform: rotate(45deg);
+}
+
+.header-profile-trigger-item:hover .header-profile-popover,
+.header-profile-popover:hover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.25) !important;
+  border-color: #ef4444 !important;
+  color: #fca5a5 !important;
+}
+
 body.light-theme .header-music-popover {
   background: rgba(255, 255, 255, 0.96);
   border-color: #cbd5e1;

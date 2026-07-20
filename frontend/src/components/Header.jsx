@@ -14,7 +14,10 @@ export default function Header({
   prevSong,
   currentTime = 0,
   duration = 0,
-  seek
+  seek,
+  user,
+  onOpenAuth,
+  onLogout
 }) {
   const navItems = [
     { id: 'home', label: 'Home' },
@@ -163,13 +166,6 @@ export default function Header({
             {/* Attached Square Popover Modal (Shown ON HOVER ONLY) */}
             {currentSong && (
               <div className="header-music-popover">
-                {/* Category Badge */}
-                {currentSong.category && (
-                  <span className="badge badge-secondary" style={{ fontSize: '0.65rem', padding: '0.15rem 0.5rem', marginBottom: '0.45rem', display: 'inline-block', border: '1px solid var(--border-glass)' }}>
-                    {currentSong.category}
-                  </span>
-                )}
-
                 {/* Spinning Cover Art */}
                 <div style={{ position: 'relative', width: '84px', height: '84px', margin: '0 auto 0.5rem' }}>
                   <img 
@@ -366,16 +362,90 @@ export default function Header({
               )}
             </button>
           </li>
-          <li>
-            <button 
-              onClick={() => alert('User Profile & Account features coming soon!')}
-              className="theme-toggle-btn"
-              title="User Profile & Account Settings"
-            >
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
-            </button>
+          {/* User Profile / Auth Item with Log Out Dropdown Card */}
+          <li className="header-profile-trigger-item">
+            {user ? (
+              <div 
+                className="theme-toggle-btn active"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)',
+                  color: '#fff',
+                  fontWeight: 800,
+                  fontSize: '0.85rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  border: '1.5px solid rgba(255,255,255,0.4)',
+                  boxShadow: '0 0 10px rgba(6, 182, 212, 0.4)'
+                }}
+                title={`Logged in as ${user.name}`}
+              >
+                {user.avatar || user.name.charAt(0).toUpperCase()}
+                <span style={{ position: 'absolute', bottom: '0', right: '0', width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', border: '1.5px solid #070a13' }} />
+              </div>
+            ) : (
+              <button 
+                onClick={onOpenAuth}
+                className="theme-toggle-btn"
+                title="Log In / Sign Up"
+              >
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+              </button>
+            )}
+
+            {/* Profile & Log Out Dropdown Card (Shown ON HOVER if user logged in) */}
+            {user && (
+              <div className="header-profile-popover">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', textAlign: 'left' }}>
+                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: '1.1rem', flexShrink: 0 }}>
+                    {user.avatar || user.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div style={{ overflow: 'hidden' }}>
+                    <h4 style={{ fontSize: '0.9rem', color: 'var(--text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 700 }}>
+                      {user.name}
+                    </h4>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '0.1rem 0 0', opacity: 0.8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {user.email}
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ padding: '0.35rem 0.6rem', borderRadius: '6px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>Status:</span>
+                  <span style={{ color: '#10b981', fontWeight: 700 }}>● Active Learner</span>
+                </div>
+
+                <button
+                  onClick={onLogout}
+                  style={{
+                    width: '100%',
+                    padding: '0.45rem',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(239, 68, 68, 0.4)',
+                    background: 'rgba(239, 68, 68, 0.12)',
+                    color: '#f87171',
+                    fontSize: '0.82rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.35rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                  className="logout-btn"
+                >
+                  🚪 Log Out
+                </button>
+              </div>
+            )}
           </li>
         </ul>
       </div>
