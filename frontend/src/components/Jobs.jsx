@@ -179,7 +179,7 @@ export default function Jobs() {
           <h2 className="section-title">
             IT <span className="text-gradient">Jobs Board</span>
           </h2>
-          <p className="section-desc">
+          <p className="section-desc" style={{ whiteSpace: 'nowrap', overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             Real-time listings aggregated from LinkedIn, Indeed, Glassdoor, Naukri, Remotive, Arbeitnow &amp; The Muse.{lastRefresh ? ` • refreshed ${timeAgo(lastRefresh.toISOString())}` : ''}
           </p>
         </div>
