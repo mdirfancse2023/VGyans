@@ -276,6 +276,42 @@ FLASHCARDS = [
         "question": "Explain the concept of Garbage Collection in Java.",
         "answer": "Garbage Collection is an automatic process by the JVM that identifies and destroys objects that are no longer referenced in the heap memory, freeing up system resources. System.gc() can suggest execution, but doesn't guarantee immediate GC.",
         "category": "Java"
+    },
+    {
+        "id": "fc-6",
+        "question": "What is @SpringBootApplication annotation in Spring Boot?",
+        "answer": "It is a convenience annotation that combines @Configuration, @EnableAutoConfiguration, and @ComponentScan with their default attributes. It boots up the entire Spring Context automatically.",
+        "category": "Spring Boot"
+    },
+    {
+        "id": "fc-7",
+        "question": "What is the CAP Theorem in System Design?",
+        "answer": "The CAP Theorem states that a distributed data store can simultaneously provide at most two of the following three guarantees: Consistency (every read receives the most recent write), Availability (every request receives a non-error response), and Partition Tolerance (the system continues to operate despite network partition/message loss).",
+        "category": "System Design"
+    },
+    {
+        "id": "fc-8",
+        "question": "What is the Circuit Breaker pattern in Microservices?",
+        "answer": "A design pattern used to detect failures and encapsulate the logic of preventing a failure from constantly recurring (e.g., during maintenance or temporary service outages), failing fast to prevent resource exhaustion.",
+        "category": "Microservices"
+    },
+    {
+        "id": "fc-9",
+        "question": "What is the difference between POST and PUT HTTP methods in Rest API?",
+        "answer": "POST is used to create a new resource on the server (non-idempotent: calling it multiple times creates multiple resources). PUT is used to update or replace an existing resource, or create it if it doesn't exist (idempotent: calling it multiple times with the same payload results in the same state).",
+        "category": "Rest API"
+    },
+    {
+        "id": "fc-10",
+        "question": "What is the purpose of the useEffect cleanup function in React?",
+        "answer": "The cleanup function runs before the component unmounts and before the effect runs again. It is used to clean up subscriptions, event listeners, timers, or cancel network requests to prevent memory leaks.",
+        "category": "React"
+    },
+    {
+        "id": "fc-11",
+        "question": "What is the difference between Constructor and ngOnInit in Angular?",
+        "answer": "The constructor is a default TypeScript feature used to initialize class members and inject dependencies. ngOnInit is an Angular lifecycle hook used for initialization logic after Angular has set the component's input properties.",
+        "category": "Angular"
     }
 ]
 
@@ -602,7 +638,12 @@ def main():
         ]
     if "flashcards" in data:
         stripped["flashcards"] = [
-            {"id": f.get("id"), "title": f.get("title"), "category": f.get("category")}
+            {
+                "id": f.get("id"),
+                "question": f.get("question"),
+                "answer": f.get("answer"),
+                "category": f.get("category")
+            }
             for f in data["flashcards"]
         ]
     if "onboardingStages" in data:

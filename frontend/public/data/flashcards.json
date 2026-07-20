@@ -1,27 +1,68 @@
 [
   {
     "id": "fc-1",
-    "title": null,
+    "question": "What is the difference between an Abstract Class and an Interface in Java?",
+    "answer": "An Abstract Class can have both abstract and concrete methods, can have state (instance variables), and supports single inheritance. An Interface can only have abstract methods (prior to Java 8), static/default methods (Java 8+), cannot have instance variables (only static final constants), and supports multiple inheritance.",
     "category": "Java"
   },
   {
     "id": "fc-2",
-    "title": null,
+    "question": "What is Method Overriding vs Method Overloading?",
+    "answer": "Overloading happens in the same class when two methods have the same name but different signatures (compile-time polymorphism). Overriding happens in child classes when a subclass redefines a parent class method with the identical signature (run-time polymorphism).",
     "category": "Java"
   },
   {
     "id": "fc-3",
-    "title": null,
+    "question": "How do you find the second highest salary in SQL?",
+    "answer": "Using subqueries: `SELECT MAX(Salary) FROM Employee WHERE Salary < (SELECT MAX(Salary) FROM Employee);` or using LIMIT/OFFSET: `SELECT Salary FROM Employee ORDER BY Salary DESC LIMIT 1 OFFSET 1;`.",
     "category": "SQL"
   },
   {
     "id": "fc-4",
-    "title": null,
+    "question": "What is the difference between a Singly Linked List and a Doubly Linked List?",
+    "answer": "A Singly Linked List node contains data and a pointer to the next node (unidirectional traversal). A Doubly Linked List node contains data, a pointer to the next node, and a pointer to the previous node (bidirectional traversal, but consumes more memory per node).",
     "category": "DSA"
   },
   {
     "id": "fc-5",
-    "title": null,
+    "question": "Explain the concept of Garbage Collection in Java.",
+    "answer": "Garbage Collection is an automatic process by the JVM that identifies and destroys objects that are no longer referenced in the heap memory, freeing up system resources. System.gc() can suggest execution, but doesn't guarantee immediate GC.",
     "category": "Java"
+  },
+  {
+    "id": "fc-6",
+    "question": "What is @SpringBootApplication annotation in Spring Boot?",
+    "answer": "It is a convenience annotation that combines @Configuration, @EnableAutoConfiguration, and @ComponentScan with their default attributes. It boots up the entire Spring Context automatically.",
+    "category": "Spring Boot"
+  },
+  {
+    "id": "fc-7",
+    "question": "What is the CAP Theorem in System Design?",
+    "answer": "The CAP Theorem states that a distributed data store can simultaneously provide at most two of the following three guarantees: Consistency (every read receives the most recent write), Availability (every request receives a non-error response), and Partition Tolerance (the system continues to operate despite network partition/message loss).",
+    "category": "System Design"
+  },
+  {
+    "id": "fc-8",
+    "question": "What is the Circuit Breaker pattern in Microservices?",
+    "answer": "A design pattern used to detect failures and encapsulate the logic of preventing a failure from constantly recurring (e.g., during maintenance or temporary service outages), failing fast to prevent resource exhaustion.",
+    "category": "Microservices"
+  },
+  {
+    "id": "fc-9",
+    "question": "What is the difference between POST and PUT HTTP methods in Rest API?",
+    "answer": "POST is used to create a new resource on the server (non-idempotent: calling it multiple times creates multiple resources). PUT is used to update or replace an existing resource, or create it if it doesn't exist (idempotent: calling it multiple times with the same payload results in the same state).",
+    "category": "Rest API"
+  },
+  {
+    "id": "fc-10",
+    "question": "What is the purpose of the useEffect cleanup function in React?",
+    "answer": "The cleanup function runs before the component unmounts and before the effect runs again. It is used to clean up subscriptions, event listeners, timers, or cancel network requests to prevent memory leaks.",
+    "category": "React"
+  },
+  {
+    "id": "fc-11",
+    "question": "What is the difference between Constructor and ngOnInit in Angular?",
+    "answer": "The constructor is a default TypeScript feature used to initialize class members and inject dependencies. ngOnInit is an Angular lifecycle hook used for initialization logic after Angular has set the component's input properties.",
+    "category": "Angular"
   }
 ]

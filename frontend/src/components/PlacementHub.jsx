@@ -277,7 +277,17 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const fcCategories = ['All', 'Java', 'SQL', 'DSA'];
+  const fcCategories = [
+    'All',
+    'Spring Boot',
+    'System Design',
+    'Java',
+    'SQL',
+    'Microservices',
+    'Rest API',
+    'React',
+    'Angular'
+  ];
   const filteredCards = flashcards.filter(c =>
     selectedCategory === 'All' ? true : c.category.toLowerCase() === selectedCategory.toLowerCase()
   );
@@ -387,7 +397,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
             onClick={() => setActiveSection('flashcards')}
             style={{ fontSize: '0.9rem', fontWeight: 600 }}
           >
-            🃏 Technical Flashcards
+            ❓ Questions
           </button>
         </div>
       </div>
@@ -448,12 +458,16 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
             <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '2rem' }}>No onboarding data available.</p>
           ) : (
             <>
-              <div className="tracker-select-row">
-                <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>Select Company Journey:</h3>
-                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <div className="tracker-select-row" style={{ marginBottom: '1.5rem' }}>
+                <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)', marginBottom: '0.75rem' }}>Select Company Journey:</h3>
+                <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
                   {companyKeys.map((comp) => (
-                    <button key={comp} className={`btn ${activeTrackerCompany === comp ? 'btn-primary' : 'btn-secondary'}`} style={{ padding: '0.4rem 1rem', fontSize: '0.9rem' }}
-                      onClick={() => { setTrackerCompany(comp); setCurrentStageIndex(0); }}>
+                    <button
+                      key={comp}
+                      className={`filter-tab ${activeTrackerCompany === comp ? 'active' : ''}`}
+                      onClick={() => { setTrackerCompany(comp); setCurrentStageIndex(0); }}
+                      style={{ fontSize: '0.85rem', fontWeight: 600 }}
+                    >
                       {comp}
                     </button>
                   ))}
@@ -516,7 +530,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
               </div>
               <div className="flashcard-controls">
                 <button className="btn btn-secondary" onClick={handlePrevCard}>← Previous</button>
-                <span className="flashcard-progress">Card {currentCardIndex + 1} of {filteredCards.length}</span>
+                <span className="flashcard-progress">Question {currentCardIndex + 1} of {filteredCards.length}</span>
                 <button className="btn btn-secondary" onClick={handleNextCard}>Next →</button>
               </div>
             </>
