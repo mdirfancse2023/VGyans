@@ -183,8 +183,7 @@ export default function VideoGrid({ videos }) {
 
 
 
-            <h4 style={{ marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Video Notes & Description</h4>
-            <pre className="modal-desc">{selectedVideo.description}</pre>
+
           </div>
         </div>
       )}
