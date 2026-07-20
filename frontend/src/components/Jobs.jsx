@@ -287,13 +287,6 @@ export default function Jobs() {
           {jobs.map(job => <JobCard key={job.id} job={job} />)}
         </div>
       )}
-
-      {/* Footer attribution */}
-      {!loading && jobs.length > 0 && (
-        <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--text-secondary)', fontSize: '0.8rem', opacity: 0.6 }}>
-          Jobs sourced from LinkedIn · Indeed · Glassdoor · Naukri · Remotive · Arbeitnow · The Muse · Click any card to apply
-        </p>
-      )}
     </div>
   );
 }
