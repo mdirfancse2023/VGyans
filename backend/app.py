@@ -410,9 +410,14 @@ def _fetch_jsearch(query: str = "software developer", location: str = "india") -
             country      = j.get("job_country", "")
             location_str = ", ".join(filter(None, [city, country])) or "Flexible"
 
-            posted = j.get("job_posted_at_datetime_utc", "") or j.get("job_posted_at_timestamp", "")
+            posted = j.get("job_posted_at_datetime_utc") or j.get("job_posted_at_timestamp") or ""
             if isinstance(posted, (int, float)):
-                posted = datetime.datetime.utcfromtimestamp(posted).isoformat() + "Z"
+                try:
+                    posted = datetime.datetime.fromtimestamp(posted, datetime.timezone.utc).isoformat()
+                except Exception:
+                    posted = str(posted)
+            else:
+                posted = str(posted)
 
             jobs.append({
                 "id": f"jsearch-{j.get('job_id','')}",
