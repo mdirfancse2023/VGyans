@@ -520,7 +520,18 @@ def get_jobs(
         if source and source != "All":
             unique = [j for j in unique if j.get("source", "").lower() == source.lower()]
 
-        unique.sort(key=lambda x: x.get("postedAt", ""), reverse=True)
+        def _safe_posted_at(job):
+            val = job.get("postedAt", "")
+            if val is None:
+                return ""
+            if isinstance(val, (int, float)):
+                try:
+                    return datetime.datetime.fromtimestamp(val, datetime.timezone.utc).isoformat()
+                except Exception:
+                    return str(val)
+            return str(val)
+
+        unique.sort(key=_safe_posted_at, reverse=True)
 
         return {
             "total": len(unique),
