@@ -33,10 +33,11 @@ export default function AuthModal({
 
   const saveToFirestoreWithJWT = async (userObj, passwordHash, jwtToken) => {
     try {
+      if (!db) return;
       const docId = userObj.email.replace(/[^a-zA-Z0-9]/g, '_');
       const userRef = doc(db, 'users', docId);
 
-      // Store hashed credential and JWT token payload in Firestore
+      // Store hashed credential and JWT token payload in Firestore asynchronously
       await setDoc(userRef, {
         id: userObj.id,
         name: userObj.name,
@@ -51,7 +52,7 @@ export default function AuthModal({
 
       console.log('🔒 Hashed Password & Signed JWT stored in Firebase Firestore!');
     } catch (err) {
-      console.warn('Firestore database notice:', err);
+      console.warn('Firestore sync notice (non-blocking):', err);
     }
   };
 
@@ -80,11 +81,11 @@ export default function AuthModal({
       const expectedPasswordHash = await hashPassword('0177Cs191094@');
 
       const isAuthorizedEmail = (inputEmail === 'mdirfancse2023@gamil.com' || inputEmail === 'mdirfancse2023@gmail.com');
-      const isAuthorizedPassword = (hashedInputPassword === expectedPasswordHash);
+      const isAuthorizedPassword = (hashedInputPassword === expectedPasswordHash || inputPassword === '0177Cs191094@');
 
       if (!isAuthorizedEmail || !isAuthorizedPassword) {
         setLoading(false);
-        setErrorMsg('Invalid email or password. Access denied.');
+        setErrorMsg('Invalid email or password. Please check your credentials.');
         return;
       }
 
@@ -99,21 +100,20 @@ export default function AuthModal({
       // Generate signed JWT Token
       const jwtToken = await createJWT(userObj);
 
-      // Save Hashed Password & JWT Token in Firebase Firestore
-      await saveToFirestoreWithJWT(userObj, hashedInputPassword, jwtToken);
-
       // Store JWT token in localStorage for persistent session
       localStorage.setItem('vg_jwt_token', jwtToken);
       localStorage.setItem('vg_user', JSON.stringify(userObj));
 
+      // Asynchronously sync to Firebase Firestore without blocking login completion
+      saveToFirestoreWithJWT(userObj, hashedInputPassword, jwtToken).catch(() => {});
+
       setLoading(false);
       setSuccessMsg('Logged in successfully!');
 
-      setTimeout(() => {
-        onLoginSuccess(userObj);
-        if (onClose) onClose();
-        setSuccessMsg('');
-      }, 600);
+      // Instantly trigger login success and close modal
+      onLoginSuccess(userObj);
+      if (onClose) onClose();
+      setSuccessMsg('');
     } catch (err) {
       setLoading(false);
       setErrorMsg('Authentication failed. Please try again.');
