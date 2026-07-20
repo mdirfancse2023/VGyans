@@ -4,7 +4,7 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
   const [resumeText, setResumeText] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadMode, setUploadMode] = useState('file'); // 'file' or 'text'
-  const [targetCompany, setTargetCompany] = useState('Cognizant');
+  const [targetCompany, setTargetCompany] = useState('General');
   const [analyzing, setAnalyzing] = useState(false);
   const [analysisStep, setAnalysisStep] = useState('');
   const [results, setResults] = useState(null);
@@ -263,6 +263,48 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
           border-left-color: var(--success);
           color: #fff;
         }
+
+        /* Light Mode overrides */
+        body.light-theme .input-panel,
+        body.light-theme .results-panel {
+          background: #ffffff !important;
+          border: 1px solid #cbd5e1 !important;
+          color: #0f172a !important;
+        }
+        body.light-theme .upload-selector {
+          background: #f1f5f9 !important;
+          border: 1px solid #cbd5e1 !important;
+        }
+        body.light-theme .upload-tab {
+          color: #475569 !important;
+        }
+        body.light-theme .upload-tab.active {
+          background: #ffffff !important;
+          color: #0284c7 !important;
+          box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+        }
+        body.light-theme .dropzone {
+          border-color: #cbd5e1 !important;
+          background: #f8fafc !important;
+        }
+        body.light-theme .dropzone-text {
+          color: #475569 !important;
+        }
+        body.light-theme .selected-file-card {
+          background: #f1f5f9 !important;
+          border-color: #cbd5e1 !important;
+          color: #0f172a !important;
+        }
+        body.light-theme .score-circle-wrapper {
+          background: #f8fafc !important;
+          border-color: #cbd5e1 !important;
+        }
+        body.light-theme .score-circle {
+          border-color: #cbd5e1 !important;
+        }
+        body.light-theme .recommendation-item.success-item {
+          color: #047857 !important;
+        }
       `}</style>
 
       <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', marginBottom: '1.5rem' }}>AI Resume Analyzer (ATS Checker)</h3>
@@ -270,22 +312,6 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
       <div className="analyzer-grid">
         {/* Input Text Area Panel */}
         <div className="input-panel">
-          <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem', fontWeight: 500 }}>
-              Select Target Placement:
-            </label>
-            <select 
-              value={targetCompany} 
-              onChange={(e) => setTargetCompany(e.target.value)}
-              className="lang-select"
-              style={{ width: '100%', padding: '0.75rem 1rem', fontSize: '0.9rem' }}
-            >
-              <option value="Cognizant">Cognizant GenC / Elevate</option>
-              <option value="TCS">TCS NQT (Ninja/Digital/Prime)</option>
-              <option value="Accenture">Accenture ASE/FSE</option>
-              <option value="General">General Technical ATS Standard</option>
-            </select>
-          </div>
 
           <div>
             <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem', fontWeight: 500 }}>
@@ -481,9 +507,9 @@ export default function ResumeAnalyzer({ apiUrl = '' }) {
 
               {/* Company Specific Advice */}
               <h4 style={{ fontSize: '0.95rem', color: 'var(--text-primary)', borderBottom: '1px solid var(--border-glass)', paddingBottom: '0.5rem', marginBottom: '0.75rem', marginTop: '1.5rem' }}>
-                Target Placement Strategy ({targetCompany})
+                ATS Compatibility Advice
               </h4>
-              <div style={{ background: 'rgba(6, 182, 212, 0.05)', borderLeft: '3px solid var(--primary)', padding: '1rem', borderRadius: '0 8px 8px 0', fontSize: '0.85rem', lineHeight: 1.5, color: 'var(--text-secondary)' }}>
+              <div className="recommendation-item success-item" style={{ borderLeft: '3px solid var(--primary)', padding: '1rem', borderRadius: '0 8px 8px 0', fontSize: '0.85rem', lineHeight: 1.5 }}>
                 {results.companyAdvice}
               </div>
             </div>
