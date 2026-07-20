@@ -27,6 +27,7 @@ function timeAgo(dateStr) {
   if (!dateStr) return '';
   try {
     const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
+    if (diff < 60)     return 'just now';
     if (diff < 3600)   return `${Math.floor(diff / 60)}m ago`;
     if (diff < 86400)  return `${Math.floor(diff / 3600)}h ago`;
     if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
@@ -254,7 +255,7 @@ export default function Jobs() {
       {loading && (
         <div className="glass-panel" style={{ padding: '4rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
           <div style={{ width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.1)', borderTopColor: 'var(--primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }}></div>
-          <p style={{ margin: 0 }}>Fetching latest IT jobs from 3 sources...</p>
+          <p style={{ margin: 0 }}>Finding suitable jobs...</p>
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}

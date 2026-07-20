@@ -445,12 +445,10 @@ section {
 }
 
 .section-desc {
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   color: var(--text-secondary);
-  margin: 0.3rem 0 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin: 0.35rem 0 0;
+  line-height: 1.5;
 }
 
 .filters-wrapper {
