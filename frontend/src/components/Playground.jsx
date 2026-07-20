@@ -1025,6 +1025,36 @@ export default function Playground({ questions }) {
         body.light-theme .problem-desc strong {
           color: #0f172a !important;
         }
+        body.light-theme .problem-title {
+          color: #0f172a !important;
+        }
+        body.light-theme .problem-desc {
+          color: #334155 !important;
+        }
+        body.light-theme .sidebar-tab-btn {
+          color: #64748b !important;
+        }
+        body.light-theme .sidebar-tab-btn.active {
+          color: #0f172a !important;
+        }
+        body.light-theme .leetcode-desc h4 {
+          color: #0f172a !important;
+        }
+        body.light-theme .leetcode-desc p {
+          color: #334155 !important;
+        }
+        body.light-theme .leetcode-desc pre {
+          background: #f1f5f9 !important;
+          border: 1px solid #cbd5e1 !important;
+          color: #0f172a !important;
+        }
+        body.light-theme .leetcode-desc li {
+          color: #334155 !important;
+        }
+        body.light-theme .diff-easy { color: #15803d !important; background: rgba(22,163,74,0.1) !important; }
+        body.light-theme .diff-medium { color: #b45309 !important; background: rgba(217,119,6,0.1) !important; }
+        body.light-theme .diff-hard { color: #b91c1c !important; background: rgba(220,38,38,0.1) !important; }
+        body.light-theme .diff-sandbox { color: #4338ca !important; background: rgba(79,70,229,0.1) !important; }
         /* ── RIGHT DRAWER ── */
         .drawer-overlay {
           position: absolute;
@@ -1597,6 +1627,7 @@ export default function Playground({ questions }) {
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                   <button
                     onClick={() => setSidebarTab('problem')}
+                    className={`sidebar-tab-btn ${sidebarTab === 'problem' ? 'active' : ''}`}
                     style={{
                       background: 'none',
                       border: 'none',
@@ -1616,6 +1647,7 @@ export default function Playground({ questions }) {
                   </button>
                   <button
                     onClick={() => setSidebarTab('solution')}
+                    className={`sidebar-tab-btn ${sidebarTab === 'solution' ? 'active' : ''}`}
                     style={{
                       background: 'none',
                       border: 'none',
