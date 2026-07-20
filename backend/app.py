@@ -505,6 +505,14 @@ def get_jobs(
         # Always include fallback pool to guarantee coverage across all platforms
         all_jobs.extend(FALLBACK_JOBS)
 
+        # Normalize postedAt to str for all jobs to prevent sorting type errors
+        for j in all_jobs:
+            val = j.get("postedAt")
+            if not val or val is True or val is False:
+                j["postedAt"] = ""
+            else:
+                j["postedAt"] = str(val)
+
         # Deduplicate by title+company
         seen, unique = set(), []
         for j in all_jobs:
@@ -525,18 +533,7 @@ def get_jobs(
         if source and source != "All":
             unique = [j for j in unique if j.get("source", "").lower() == source.lower()]
 
-        def _safe_posted_at(job):
-            val = job.get("postedAt", "")
-            if val is None:
-                return ""
-            if isinstance(val, (int, float)):
-                try:
-                    return datetime.datetime.fromtimestamp(val, datetime.timezone.utc).isoformat()
-                except Exception:
-                    return str(val)
-            return str(val)
-
-        unique.sort(key=_safe_posted_at, reverse=True)
+        unique.sort(key=lambda x: x["postedAt"], reverse=True)
 
         return {
             "total": len(unique),
