@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 const CATEGORIES = [
-  { id: 'all', label: '🌐 All News' },
-  { id: 'tech', label: '⚡ Tech & Trends' },
-  { id: 'careers', label: '💼 Placement & Career' },
+  { id: 'tech', label: '⚡ Tech & AI' },
+  { id: 'careers', label: '💼 Placement & Jobs' },
+  { id: 'business', label: '🚀 Startups & Business' },
   { id: 'world', label: '🌍 World News' },
   { id: 'sports', label: '🏆 Sports & Gaming' },
   { id: 'media', label: '🎬 Entertainment & Media' }
@@ -117,7 +117,7 @@ Top engineering teams across Silicon Valley have reported up to a 60% reduction 
 
 export default function News() {
   const [newsList, setNewsList] = useState(INITIAL_NEWS);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('tech');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedNews, setSelectedNews] = useState(INITIAL_NEWS[0]);
   const [isLoading, setIsLoading] = useState(false);
@@ -161,7 +161,8 @@ export default function News() {
   };
 
   const filteredNews = newsList.filter(item => {
-    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+    const matchesCategory = item.category === selectedCategory || 
+                            (selectedCategory === 'tech' && (item.category === 'dev' || item.category === 'ai'));
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           item.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           item.source.toLowerCase().includes(searchQuery.toLowerCase());
