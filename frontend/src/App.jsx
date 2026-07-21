@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import HomeHub from './components/HomeHub';
 import VideoGrid from './components/VideoGrid';
 import PlacementHub from './components/PlacementHub';
 import InterviewExperiences from './components/InterviewExperiences';
@@ -753,85 +754,15 @@ export default function App() {
 
         {activeTab === 'home' && (
           <section>
-            <Hero stats={channelStats} setActiveTab={setActiveTab} />
-            
-            {/* Featured Videos Dashboard Preview */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '3rem' }}>
-              <div>
-                <div className="section-header" style={{ marginBottom: '1.5rem' }}>
-                  <div>
-                    <h2 className="section-title">Featured <span className="text-gradient">Tutorials</span></h2>
-                    <p className="section-desc">Hand-picked videos to kickstart your preparation.</p>
-                  </div>
-                  <button className="btn btn-secondary" onClick={() => setActiveTab('videos')} style={{ padding: '0.4rem 1.2rem', fontSize: '0.85rem' }}>
-                    View All Videos →
-                  </button>
-                </div>
-                
-                <div className="grid-container">
-                  {videos.slice(0, 4).map((video) => (
-                    <div 
-                      key={video.id} 
-                      className="glass-card video-card"
-                      onClick={() => setActiveTab('videos')}
-                    >
-                      <div className="video-thumb-container">
-                        <img 
-                          src={video.thumbnailUrl || `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} 
-                          alt={video.title} 
-                          className="video-thumb" 
-                        />
-                      </div>
-                      <div className="video-body">
-                        <h3 className="video-title" style={{ height: 'auto', marginBottom: '0.5rem' }}>{video.title}</h3>
-                        <p className="video-desc" style={{ WebkitLineClamp: 2 }}>{video.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Popular Resources Preview */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem' }}>
-                <div>
-                  <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Recommended Blueprints</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    {resources.slice(0, 2).map((res) => (
-                      <div key={res.id} className="glass-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div>
-                          <span className="badge badge-primary" style={{ marginBottom: '0.5rem' }}>{res.company}</span>
-                          <h4 style={{ color: 'var(--text-primary)', fontSize: '1.1rem' }}>{res.title}</h4>
-                          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '0.25rem' }}>{res.description}</p>
-                        </div>
-                        <button className="btn btn-secondary" onClick={() => setActiveTab('guides')} style={{ padding: '0.4rem 1rem', fontSize: '0.8rem' }}>
-                          Access
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="glass-card" style={{ background: 'var(--primary-glow)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <span className="badge badge-secondary" style={{ width: 'fit-content', marginBottom: '0.75rem' }}>Featured Experience</span>
-                  {experiences[0] ? (
-                    <>
-                      <h4 style={{ color: 'var(--text-primary)', fontSize: '1.15rem' }}>{experiences[0].role}</h4>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: '0.25rem 0 1rem' }}>
-                        Shared by {experiences[0].candidate} ({experiences[0].date})
-                      </p>
-                      <div style={{ fontSize: '0.85rem', background: 'rgba(255,255,255,0.02)', padding: '0.75rem', borderRadius: '6px', color: 'var(--text-secondary)', border: '1px solid var(--border-glass)' }}>
-                        "{experiences[0].tips.substring(0, 100)}..."
-                      </div>
-                      <button className="btn btn-primary" onClick={() => setActiveTab('guides')} style={{ marginTop: '1rem', padding: '0.4rem', fontSize: '0.8rem', width: '100%' }}>
-                        Read Full Experience
-                      </button>
-                    </>
-                  ) : (
-                    <p style={{ color: 'var(--text-secondary)' }}>No interview logs loaded.</p>
-                  )}
-                </div>
-              </div>
-            </div>
+            <HomeHub 
+              videos={videos}
+              resources={resources}
+              experiences={experiences}
+              setActiveTab={setActiveTab}
+              onOpenNotes={() => setIsNotesOpen(true)}
+              user={user}
+              channelStats={channelStats}
+            />
           </section>
         )}
 
