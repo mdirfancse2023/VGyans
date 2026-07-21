@@ -155,6 +155,8 @@ export default function ResumeBuilder() {
       pagebreak:    { mode: ['css', 'legacy'] }
     };
 
+    document.body.classList.add('printing-resume');
+
     try {
       if (window.html2pdf) {
         await window.html2pdf().from(element).set(opt).save();
@@ -162,6 +164,7 @@ export default function ResumeBuilder() {
     } catch (err) {
       console.error("PDF generation failed:", err);
     } finally {
+      document.body.classList.remove('printing-resume');
       // Restore styles
       element.style.position = originalPos;
       element.style.top = originalTop;

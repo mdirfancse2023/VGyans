@@ -43,17 +43,72 @@ body {
   background-color: var(--bg-dark);
   color: var(--text-primary);
   font-family: var(--font-body);
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  -webkit-touch-callout: none !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   line-height: 1.6;
 }
 
-/* Content Protection styles */
+/* Allow text editing inside input fields & textareas */
+input, textarea, select, [contenteditable="true"] {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+/* Content Protection & Screenshot Blanking Overlay */
+.screenshot-protection-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 2rem;
+  pointer-events: all;
+  box-shadow: inset 0 0 100px rgba(239, 68, 68, 0.2);
+}
+
+/* Print & Screen Grabber Blanking Protection */
+@media print {
+  body:not(.printing-resume) {
+    background: #000000 !important;
+  }
+  body:not(.printing-resume) * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  body:not(.printing-resume)::after {
+    content: "⚠️ Screenshots and screen printing are restricted for content protection.";
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    position: fixed;
+    inset: 0;
+    background: #000000;
+    color: #ef4444;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    padding: 2rem;
+    font-family: sans-serif;
+  }
+}
+
 .content-protected {
   transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }

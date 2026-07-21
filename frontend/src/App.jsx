@@ -86,6 +86,134 @@ export default function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  // Anti-Screenshot & Content Protection Security Guard
+  const [isScreenProtected, setIsScreenProtected] = useState(false);
+
+  useEffect(() => {
+    // 1. Block Context Menu (Right Click)
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // 2. Block Copy & Cut outside form input fields
+    const handleCopyCut = (e) => {
+      const target = e.target;
+      const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
+      if (!isInput) {
+        e.preventDefault();
+        if (e.clipboardData) {
+          e.clipboardData.setData('text/plain', '');
+        }
+        return false;
+      }
+    };
+
+    // 3. Block Dragging
+    const handleDragStart = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // 4. Block Inspect Element / DevTools / Copy Shortcuts / PrintScreen & Mac Screenshot Keys
+    const handleKeyDown = (e) => {
+      const isCmdOrCtrl = e.metaKey || e.ctrlKey;
+      const key = e.key ? e.key.toLowerCase() : '';
+
+      // Block F12
+      if (e.keyCode === 123 || e.key === 'F12') {
+        e.preventDefault();
+        return false;
+      }
+
+      // Block Ctrl+U / Cmd+U (View Source)
+      if (isCmdOrCtrl && key === 'u') {
+        e.preventDefault();
+        return false;
+      }
+
+      // Block Ctrl+S / Cmd+S (Save Page)
+      if (isCmdOrCtrl && key === 's') {
+        e.preventDefault();
+        return false;
+      }
+
+      // Block Inspect: Ctrl+Shift+I, Cmd+Opt+I, Ctrl+Shift+J, Ctrl+Shift+C
+      if (isCmdOrCtrl && (e.shiftKey || e.altKey) && (key === 'i' || key === 'j' || key === 'c')) {
+        e.preventDefault();
+        return false;
+      }
+
+      // Block Copy: Ctrl+C / Cmd+C outside input/textarea
+      if (isCmdOrCtrl && key === 'c') {
+        const target = e.target;
+        const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
+        if (!isInput) {
+          e.preventDefault();
+          return false;
+        }
+      }
+
+      // PrintScreen Key -> Clear Clipboard & Trigger Blank Screen
+      if (e.key === 'PrintScreen' || e.keyCode === 44) {
+        e.preventDefault();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText('');
+        }
+        setIsScreenProtected(true);
+        setTimeout(() => setIsScreenProtected(false), 2000);
+        return false;
+      }
+
+      // macOS Screenshot Shortcuts: Cmd+Shift+3, Cmd+Shift+4, Cmd+Shift+5
+      if (e.metaKey && e.shiftKey && (key === '3' || key === '4' || key === '5')) {
+        setIsScreenProtected(true);
+        setTimeout(() => setIsScreenProtected(false), 2500);
+      }
+    };
+
+    // 5. Blank Screen on Window Blur / Visibility Change (Snipping Tool & Screenshot grabbers focus loss protection)
+    const handleBlur = () => {
+      setIsScreenProtected(true);
+    };
+
+    const handleFocus = () => {
+      setTimeout(() => {
+        setIsScreenProtected(false);
+      }, 300);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsScreenProtected(true);
+      } else {
+        setTimeout(() => {
+          setIsScreenProtected(false);
+        }, 300);
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('copy', handleCopyCut);
+    document.addEventListener('cut', handleCopyCut);
+    document.addEventListener('dragstart', handleDragStart);
+    document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('blur', handleBlur);
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('copy', handleCopyCut);
+      document.removeEventListener('cut', handleCopyCut);
+      document.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
@@ -810,6 +938,17 @@ export default function App() {
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={handleSongEnded}
       />
+
+      {/* Screenshot & Screen Capture Protection Overlay */}
+      {isScreenProtected && (
+        <div className="screenshot-protection-overlay">
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🔒</div>
+          <h3 style={{ color: '#ef4444', margin: '0 0 0.5rem 0' }}>Content Protection Active</h3>
+          <p style={{ color: '#94a3b8', fontSize: '0.9rem', maxWidth: '450px', margin: 0 }}>
+            Screen capture, screenshots, and text copying are restricted for platform security.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
