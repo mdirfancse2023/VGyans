@@ -672,7 +672,7 @@ export default function App() {
                       <div style={{ fontSize: '0.85rem', background: 'rgba(255,255,255,0.02)', padding: '0.75rem', borderRadius: '6px', color: 'var(--text-secondary)', border: '1px solid var(--border-glass)' }}>
                         "{experiences[0].tips.substring(0, 100)}..."
                       </div>
-                      <button className="btn btn-primary" onClick={() => setActiveTab('experiences')} style={{ marginTop: '1rem', padding: '0.4rem', fontSize: '0.8rem', width: '100%' }}>
+                      <button className="btn btn-primary" onClick={() => setActiveTab('guides')} style={{ marginTop: '1rem', padding: '0.4rem', fontSize: '0.8rem', width: '100%' }}>
                         Read Full Experience
                       </button>
                     </>
@@ -693,16 +693,13 @@ export default function App() {
 
         {activeTab === 'guides' && (
           <section>
-            <PlacementHub resources={resources} notes={notes} onboardingStages={onboardingStages} flashcards={flashcards} />
-          </section>
-        )}
-
-
-        {activeTab === 'experiences' && (
-          <section>
-            <InterviewExperiences 
-              initialExperiences={experiences} 
-              onSubmitExperience={handleSubmitExperience} 
+            <PlacementHub 
+              resources={resources} 
+              notes={notes} 
+              onboardingStages={onboardingStages} 
+              flashcards={flashcards}
+              experiences={experiences}
+              onSubmitExperience={handleSubmitExperience}
             />
           </section>
         )}

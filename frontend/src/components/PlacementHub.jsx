@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PDFViewer from './PDFViewer';
+import InterviewExperiences from './InterviewExperiences';
 
 const highlightCode = (codeText, lang) => {
   if (!codeText) return '';
@@ -437,7 +438,7 @@ function BlogReader({ note, onClose }) {
   );
 }
 
-export default function PlacementHub({ resources, notes, onboardingStages = {}, flashcards = [] }) {
+export default function PlacementHub({ resources, notes, onboardingStages = {}, flashcards = [], experiences = [], onSubmitExperience }) {
   const [activeSection, setActiveSection] = useState('resources');
   const [activePdf, setActivePdf] = useState(null);
   const [activeNote, setActiveNote] = useState(null);
@@ -562,18 +563,25 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
             📚 Resources
           </button>
           <button
-            className={`filter-tab ${activeSection === 'tracker' ? 'active' : ''}`}
-            onClick={() => setActiveSection('tracker')}
-            style={{ fontSize: '0.9rem', fontWeight: 600 }}
-          >
-            🗺️ Onboarding Tracker
-          </button>
-          <button
             className={`filter-tab ${activeSection === 'flashcards' ? 'active' : ''}`}
             onClick={() => setActiveSection('flashcards')}
             style={{ fontSize: '0.9rem', fontWeight: 600 }}
           >
             ❓ Questions
+          </button>
+          <button
+            className={`filter-tab ${activeSection === 'tracker' ? 'active' : ''}`}
+            onClick={() => setActiveSection('tracker')}
+            style={{ fontSize: '0.9rem', fontWeight: 600 }}
+          >
+            🗺️ Onboarding
+          </button>
+          <button
+            className={`filter-tab ${activeSection === 'experiences' ? 'active' : ''}`}
+            onClick={() => setActiveSection('experiences')}
+            style={{ fontSize: '0.9rem', fontWeight: 600 }}
+          >
+            📝 Interview Experiences
           </button>
         </div>
       </div>
@@ -718,6 +726,16 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
           )}
         </div>
       </>
+      )}
+
+      {/* ── INTERVIEW EXPERIENCES ── */}
+      {activeSection === 'experiences' && (
+        <div style={{ marginTop: '1rem' }}>
+          <InterviewExperiences 
+            initialExperiences={experiences} 
+            onSubmitExperience={onSubmitExperience} 
+          />
+        </div>
       )}
 
       {activePdf && <PDFViewer url={activePdf.url} title={activePdf.title} onClose={() => setActivePdf(null)} />}

@@ -23,7 +23,6 @@ export default function Header({
     { id: 'home', label: 'Home' },
     { id: 'guides', label: 'Placement' },
     { id: 'tools', label: 'Resume' },
-    { id: 'experiences', label: 'Interviews' },
     { id: 'playground', label: 'Code' },
     { id: 'videos', label: 'Videos' },
     { id: 'jobs', label: 'Jobs' }
