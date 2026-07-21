@@ -647,9 +647,8 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
     setActivePdf({ url: proxyUrl, title: res.title });
   };
 
-  const [selectedResourceTab, setSelectedResourceTab] = useState('All');
+  const [selectedResourceTab, setSelectedResourceTab] = useState('Spring Boot');
   const resourceCategories = [
-    'All',
     'Spring Boot',
     'System Design',
     'Java',
@@ -663,7 +662,6 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
   const filteredResources = resources
     .filter(res => res && res.downloadUrl && res.downloadUrl !== '#')
     .filter(res => {
-      if (selectedResourceTab === 'All') return true;
       const query = selectedResourceTab.toLowerCase();
       
       // Check if tags match exactly or as substring

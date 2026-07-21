@@ -2,13 +2,13 @@ import React, { useState, useMemo } from 'react';
 
 export default function InterviewExperiences({ initialExperiences, onSubmitExperience }) {
   const [experiences, setExperiences] = useState(initialExperiences);
-  const [selectedCompany, setSelectedCompany] = useState('All');
+  const [selectedCompany, setSelectedCompany] = useState('Cognizant');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const companies = useMemo(() => {
     const defaultList = ['Cognizant', 'TCS', 'Accenture', 'Wipro'];
     const extra = (experiences || []).map(e => e.company).filter(c => c && !defaultList.includes(c));
-    return ['All', ...defaultList, ...Array.from(new Set(extra))];
+    return [...defaultList, ...Array.from(new Set(extra))];
   }, [experiences]);
 
   // Form states
@@ -28,7 +28,6 @@ export default function InterviewExperiences({ initialExperiences, onSubmitExper
   ]);
 
   const filteredExperiences = experiences.filter(exp => {
-    if (selectedCompany === 'All') return true;
     return exp.company.toLowerCase() === selectedCompany.toLowerCase();
   });
 
