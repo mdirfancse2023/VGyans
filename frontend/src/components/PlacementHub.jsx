@@ -127,17 +127,17 @@ function BlogReader({ note, onClose }) {
     return () => { isMounted = false; };
   }, [noteId]);
 
-  const [visibleCount, setVisibleCount] = useState(4);
-
   useEffect(() => {
-    setVisibleCount(4);
-  }, [activeChapterIndex]);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
-  const handleScroll = (e) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-    if (scrollTop + clientHeight >= scrollHeight - 140) {
-      setVisibleCount(prev => Math.min(prev + 4, 100));
-    }
+  const handleCopyCode = (text, index) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
   };
 
   const isBook = noteData.chapters && noteData.chapters.length > 0;
@@ -156,9 +156,6 @@ function BlogReader({ note, onClose }) {
   const contentToRender = isBook 
     ? (activeChapter ? activeChapter.content : []) 
     : (noteData.content && noteData.content.length > 0 ? noteData.content : fallbackContent);
-
-  const visibleBlocks = contentToRender.slice(0, visibleCount);
-  const hasMoreBlocks = visibleCount < contentToRender.length;
 
   return (
     <div style={{
@@ -483,7 +480,7 @@ function BlogReader({ note, onClose }) {
             </div>
           )}
 
-          <div className="blog-content-area" onScroll={handleScroll}>
+          <div className="blog-content-area">
             {isLoadingContent ? (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '300px', padding: '3rem 2rem', textAlign: 'center' }}>
                 <div style={{
@@ -498,62 +495,33 @@ function BlogReader({ note, onClose }) {
                 <h4 style={{ color: '#f8fafc', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Chapter from Firebase...</h4>
                 <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>Connecting to Firebase Database to load textual chapter content in real-time.</p>
               </div>
-            ) : (
-              <>
-                {visibleBlocks.map((block, index) => {
-                  if (block.type === 'h1') {
-                    return <h2 key={index} className="blog-h1">{block.text}</h2>;
-                  } else if (block.type === 'body') {
-                    return <p key={index} className="blog-p" dangerouslySetInnerHTML={{ __html: block.text }} />;
-                  } else if (block.type === 'image') {
-                    return (
-                      <div key={index} className="blog-image-container">
-                        <img src={block.text} alt="Diagram" className="blog-image" />
-                      </div>
-                    );
-                  } else if (block.type === 'code') {
-                    const lang = detectLanguage(noteData.title);
-                    return (
-                      <div key={index} className="blog-code-container">
-                        <div className="blog-code-header">
-                          <span style={{ textTransform: 'uppercase', fontWeight: 600 }}>{lang} Snippet</span>
-                          <button className="blog-copy-btn" onClick={() => handleCopyCode(block.text, index)}>
-                            {copiedIndex === index ? 'Copied!' : 'Copy'}
-                          </button>
-                        </div>
-                        <pre className="blog-code-pre"><code dangerouslySetInnerHTML={{ __html: highlightCode(block.text, lang) }} /></pre>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
-
-                {hasMoreBlocks && (
-                  <div style={{
-                    textAlign: 'center',
-                    padding: '1.5rem 0',
-                    color: 'var(--primary)',
-                    fontSize: '0.85rem',
-                    fontWeight: 500,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.5rem',
-                    opacity: 0.8
-                  }}>
-                    <span style={{
-                      display: 'inline-block',
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      backgroundColor: 'var(--primary)',
-                      animation: 'pulse 1.5s infinite'
-                    }}></span>
-                    Scroll to reveal more content...
+            ) : contentToRender.map((block, index) => {
+              if (block.type === 'h1') {
+                return <h2 key={index} className="blog-h1">{block.text}</h2>;
+              } else if (block.type === 'body') {
+                return <p key={index} className="blog-p" dangerouslySetInnerHTML={{ __html: block.text }} />;
+              } else if (block.type === 'image') {
+                return (
+                  <div key={index} className="blog-image-container">
+                    <img src={block.text} alt="Diagram" className="blog-image" />
                   </div>
-                )}
-              </>
-            )}
+                );
+              } else if (block.type === 'code') {
+                const lang = detectLanguage(noteData.title);
+                return (
+                  <div key={index} className="blog-code-container">
+                    <div className="blog-code-header">
+                      <span style={{ textTransform: 'uppercase', fontWeight: 600 }}>{lang} Snippet</span>
+                      <button className="blog-copy-btn" onClick={() => handleCopyCode(block.text, index)}>
+                        {copiedIndex === index ? 'Copied!' : 'Copy'}
+                      </button>
+                    </div>
+                    <pre className="blog-code-pre"><code dangerouslySetInnerHTML={{ __html: highlightCode(block.text, lang) }} /></pre>
+                  </div>
+                );
+              }
+              return null;
+            })}
           </div>
         </div>
       </div>
