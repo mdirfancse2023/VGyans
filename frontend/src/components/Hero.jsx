@@ -260,7 +260,7 @@ export default function Hero({ stats, setActiveTab }) {
           50%      { transform: translateY(-7px); }
         }
 
-        /* ─── Emerge Out From Image Animation ─── */
+        /* ─── Emerge Out From Image & Drop Down Animation ─── */
         .hero-name-container {
           display: inline-flex;
           align-items: center;
@@ -278,24 +278,28 @@ export default function Hero({ stats, setActiveTab }) {
           color: var(--text-primary);
           letter-spacing: -0.01em;
           opacity: 0;
-          transform: translate3d(0, -42px, 0) scale(0.05);
-          filter: blur(6px);
+          transform: translate3d(0, -95px, 0) scale(0.2);
+          filter: blur(8px);
           will-change: transform, opacity, filter;
         }
 
         .dice-letter.rolled {
-          animation: letterEmergeFromImage 0.82s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          animation: letterEmergeDownFromImage 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes letterEmergeFromImage {
+        @keyframes letterEmergeDownFromImage {
           0% {
             opacity: 0;
-            transform: translate3d(0, -42px, 0) scale(0.05);
-            filter: blur(6px);
+            transform: translate3d(0, -95px, 0) scale(0.2);
+            filter: blur(8px);
           }
-          65% {
+          40% {
+            opacity: 0.85;
+            filter: blur(2px);
+          }
+          75% {
             opacity: 1;
-            transform: translate3d(0, 4px, 0) scale(1.18);
+            transform: translate3d(0, 5px, 0) scale(1.12);
             filter: blur(0px);
           }
           100% {
