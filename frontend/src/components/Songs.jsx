@@ -145,9 +145,9 @@ export default function Songs({
       className="songs-dashboard" 
       style={{ 
         maxWidth: '1200px', 
-        margin: '0.5rem auto 0', 
-        padding: '0 1.5rem 2rem', 
-        height: 'calc(100vh - 105px)', 
+        margin: '0 auto', 
+        padding: '0.3rem 2rem 1.5rem', 
+        height: 'calc(100vh - 66px)', 
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',

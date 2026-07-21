@@ -765,7 +765,7 @@ export default function App() {
         )}
 
         {activeTab === 'songs' && (
-          <section>
+          <section className="songs-section">
             <Songs
               songs={songs}
               setSongs={setSongs}
