@@ -81,14 +81,14 @@ const features = [
 ];
 
 const nameLetters = [
-  { char: 'M', delay: 0.12 },
-  { char: 'd', delay: 0.48 },
-  { char: '\u00A0', delay: 0.28 },
-  { char: 'I', delay: 0.04 },
-  { char: 'r', delay: 0.62 },
-  { char: 'f', delay: 0.22 },
-  { char: 'a', delay: 0.72 },
-  { char: 'n', delay: 0.38 },
+  { char: 'M', delay: 0.08 },
+  { char: 'd', delay: 0.15 },
+  { char: '\u00A0', delay: 0.22 },
+  { char: 'I', delay: 0.28 },
+  { char: 'r', delay: 0.35 },
+  { char: 'f', delay: 0.42 },
+  { char: 'a', delay: 0.49 },
+  { char: 'n', delay: 0.56 },
 ];
 
 export default function Hero({ stats, setActiveTab }) {
@@ -260,12 +260,12 @@ export default function Hero({ stats, setActiveTab }) {
           50%      { transform: translateY(-7px); }
         }
 
-        /* ─── Individual Letter Dice Roll Animation ─── */
+        /* ─── Avatar Emergence Name Animation ─── */
         .hero-name-container {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          margin-top: 0.2rem;
+          margin-top: 0.4rem;
           z-index: 2;
         }
 
@@ -277,29 +277,30 @@ export default function Hero({ stats, setActiveTab }) {
           color: var(--text-primary);
           letter-spacing: -0.01em;
           opacity: 0;
-          transform: translate3d(-90vw, 0, 0) rotate(-720deg) scale(0.3);
-          will-change: transform, opacity;
+          transform: translate3d(0, -50px, 0) scale(0.1) rotate(-15deg);
+          filter: blur(6px);
+          will-change: transform, opacity, filter;
         }
 
         .dice-letter.rolled {
-          animation: letterDiceHorizontalRoll 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: letterAvatarEmerge 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        @keyframes letterDiceHorizontalRoll {
+        @keyframes letterAvatarEmerge {
           0% {
             opacity: 0;
-            transform: translate3d(-90vw, 0, 0) rotate(-720deg) scale(0.3);
+            transform: translate3d(0, -50px, 0) scale(0.1) rotate(-15deg);
+            filter: blur(6px);
           }
           70% {
             opacity: 1;
-            transform: translate3d(14px, 0, 0) rotate(18deg) scale(1.1);
-          }
-          85% {
-            transform: translate3d(-4px, 0, 0) rotate(-4deg) scale(0.96);
+            transform: translate3d(0, 4px, 0) scale(1.15) rotate(3deg);
+            filter: blur(0px);
           }
           100% {
             opacity: 1;
-            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+            transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+            filter: blur(0px);
           }
         }
 
