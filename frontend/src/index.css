@@ -268,36 +268,35 @@ body.screenshot-blanked main {
   animation: shineGradient 12s linear infinite, morphToClock 9s infinite ease-in-out;
 }
 
-/* Sleek Collapsible Navbar (Slim Mode - Fills Top Gap Completely) */
+/* Sleek Collapsible Navbar (Slim Mode - Smooth Natural Stretch) */
 .navbar {
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
               opacity 0.35s ease,
               max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              margin-top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+              padding 0.35s ease !important;
 }
 
 .navbar.collapsed-slim {
   transform: translateY(-100%) !important;
   max-height: 0 !important;
   height: 0 !important;
-  margin-top: -65px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   opacity: 0 !important;
   border-bottom: none !important;
   pointer-events: none !important;
   overflow: hidden !important;
 }
 
-/* Allow all tabs and main content sections to fill top gap completely when navbar is collapsed */
-body.navbar-is-collapsed main,
-body.navbar-is-collapsed .hero,
-body.navbar-is-collapsed .playground-section,
-body.navbar-is-collapsed .songs-section,
-body.navbar-is-collapsed .jobs-container,
-body.navbar-is-collapsed .resume-builder-container,
-body.navbar-is-collapsed .news-container,
-body.navbar-is-collapsed section {
-  padding-top: 0 !important;
-  margin-top: 0 !important;
+/* Allow tab containers to stretch naturally with comfortable top spacing */
+body.navbar-is-collapsed main {
+  padding-top: 1rem !important;
+  min-height: 100vh;
+}
+
+body.navbar-is-collapsed .playground-section {
+  height: 100vh !important;
+  padding-top: 0.5rem !important;
 }
 
 .navbar-slim-uncollapse-btn {
