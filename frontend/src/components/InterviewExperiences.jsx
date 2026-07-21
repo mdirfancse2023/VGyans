@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 export default function InterviewExperiences({ initialExperiences, onSubmitExperience }) {
   const [experiences, setExperiences] = useState(initialExperiences);
   const [selectedCompany, setSelectedCompany] = useState('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const companies = useMemo(() => {
+    const defaultList = ['Cognizant', 'TCS', 'Accenture', 'Wipro'];
+    const extra = (experiences || []).map(e => e.company).filter(c => c && !defaultList.includes(c));
+    return ['All', ...defaultList, ...Array.from(new Set(extra))];
+  }, [experiences]);
 
   // Form states
   const [candidate, setCandidate] = useState('');
@@ -20,8 +26,6 @@ export default function InterviewExperiences({ initialExperiences, onSubmitExper
     { name: 'Online Assessment', summary: '' },
     { name: 'Technical Interview', summary: '' }
   ]);
-
-  const companies = ['All', 'Cognizant', 'TCS', 'Accenture', 'Wipro'];
 
   const filteredExperiences = experiences.filter(exp => {
     if (selectedCompany === 'All') return true;

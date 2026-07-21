@@ -730,12 +730,10 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
 
       {/* ── INTERVIEW EXPERIENCES ── */}
       {activeSection === 'experiences' && (
-        <div style={{ marginTop: '1rem' }}>
-          <InterviewExperiences 
-            initialExperiences={experiences} 
-            onSubmitExperience={onSubmitExperience} 
-          />
-        </div>
+        <InterviewExperiences 
+          initialExperiences={experiences} 
+          onSubmitExperience={onSubmitExperience} 
+        />
       )}
 
       {activePdf && <PDFViewer url={activePdf.url} title={activePdf.title} onClose={() => setActivePdf(null)} />}
