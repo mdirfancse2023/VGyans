@@ -252,6 +252,64 @@ export default function Hero({ stats, setActiveTab }) {
           50%      { transform: translateY(-7px); }
         }
 
+        /* ─── Dice Roll Name Animation ─── */
+        .hero-name-dice {
+          font-family: var(--font-heading);
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          z-index: 2;
+          letter-spacing: -0.01em;
+          margin-top: 0.5rem;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 0.25rem 0.85rem;
+          background: rgba(13, 19, 36, 0.85);
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          border-radius: 50px;
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+          opacity: 0;
+          transform: translate3d(-80vw, -40vh, 0) rotate(-720deg) scale(0.2);
+          will-change: transform, opacity;
+        }
+
+        .hero-name-dice.rolled {
+          animation: diceThrowIn 1.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .dice-icon {
+          display: inline-block;
+          font-size: 1.1rem;
+          animation: diceSpin 1.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes diceThrowIn {
+          0% {
+            opacity: 0;
+            transform: translate3d(-80vw, -40vh, 0) rotate(-720deg) scale(0.2);
+          }
+          65% {
+            opacity: 1;
+            transform: translate3d(15px, -10px, 0) rotate(18deg) scale(1.08);
+          }
+          82% {
+            transform: translate3d(-6px, 4px, 0) rotate(-6deg) scale(0.97);
+          }
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+          }
+        }
+
+        @keyframes diceSpin {
+          0% { transform: rotate(0deg); }
+          60% { transform: rotate(540deg); }
+          100% { transform: rotate(720deg); }
+        }
+
         /* ─── Stats bar ─── */
         .hero2-stats {
           position: relative; z-index: 2;
@@ -394,8 +452,8 @@ export default function Hero({ stats, setActiveTab }) {
               fetchpriority="high"
               decoding="sync"
             />
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)', zIndex: 2, letterSpacing: '-0.01em', marginTop: '0.2rem' }}>
-              Md Irfan
+            <div className={`hero-name-dice ${visible ? 'rolled' : ''}`}>
+              <span className="dice-icon">🎲</span> Md Irfan
             </div>
           </div>
         </div>
