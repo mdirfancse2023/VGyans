@@ -109,9 +109,9 @@ export default function Header({
   return (
     <nav className="navbar">
       <div className="nav-container">
-        {/* Left: Creative Logo & Real-time Live Clock */}
-        <a href="#home" className="logo" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
-          <div className="theme-toggle-btn" style={{ width: '34px', height: '34px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)' }}>
+        {/* Left: Creative Dual-Identity Logo & Real-time Live Clock */}
+        <a href="#home" className="logo creative-timer-logo-trigger" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
+          <div className="theme-toggle-btn" style={{ width: '34px', height: '34px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', borderRadius: '10px' }}>
             <img 
               src="/logo.png" 
               alt="Virtual Gyans Logo" 
@@ -122,46 +122,14 @@ export default function Header({
             />
           </div>
           
-          {/* Creative Gradient Virtual Gyans Title */}
-          <span 
-            className="creative-brand-text" 
-            style={{ 
-              fontWeight: 800, 
-              fontFamily: 'var(--font-heading)', 
-              fontSize: '1.08rem',
-              background: 'linear-gradient(135deg, #06b6d4 0%, #a855f7 50%, #ec4899 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              letterSpacing: '-0.01em',
-              filter: 'drop-shadow(0 2px 8px rgba(6, 182, 212, 0.25))'
-            }}
-          >
-            Virtual Gyans
-          </span>
-
-          {/* Real-time Live Clock Tag */}
-          <div 
-            className="header-live-clock-badge"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.3rem',
-              padding: '0.2rem 0.55rem',
-              borderRadius: '12px',
-              background: 'rgba(6, 182, 212, 0.08)',
-              border: '1px solid rgba(6, 182, 212, 0.25)',
-              fontSize: '0.72rem',
-              fontWeight: 700,
-              color: 'var(--primary)',
-              fontFamily: 'monospace, var(--font-heading)',
-              letterSpacing: '0.03em',
-              marginLeft: '0.15rem',
-              boxShadow: '0 0 10px rgba(6, 182, 212, 0.15)'
-            }}
-            title="Real-time Local Clock"
-          >
-            <span className="live-clock-dot" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block', boxShadow: '0 0 6px #10b981' }}></span>
-            <span>{currentTimeStr}</span>
+          {/* Creative Dual-Identity Text: Flips seamlessly between "Virtual Gyans" & Live Real-Time Clock */}
+          <div className="creative-brand-timer-wrapper" title={`Virtual Gyans • Real-time Clock: ${currentTimeStr}`}>
+            <span className="brand-text-face brand-name">
+              Virtual Gyans
+            </span>
+            <span className="brand-text-face live-clock">
+              <span className="live-clock-dot"></span> {currentTimeStr}
+            </span>
           </div>
         </a>
         
