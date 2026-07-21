@@ -488,7 +488,7 @@ export default function Header({
           <li className="header-profile-trigger-item">
             {user ? (
               <div 
-                className="theme-toggle-btn active"
+                className="theme-toggle-btn"
                 style={{
                   width: '32px',
                   height: '32px',
@@ -500,10 +500,7 @@ export default function Header({
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  border: '1.5px solid rgba(255,255,255,0.4)',
-                  boxShadow: '0 0 10px rgba(6, 182, 212, 0.4)'
+                  cursor: 'pointer'
                 }}
                 title={`Logged in as ${user.name}`}
               >
