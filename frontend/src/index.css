@@ -33,6 +33,12 @@
   --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -303,7 +309,20 @@ body.navbar-is-collapsed .songs-dashboard,
 body.navbar-is-collapsed .news-dashboard-container {
   height: calc(100vh - 16px) !important;
   margin-top: 0 !important;
-  transition: height 0.35s ease-in-out !important;
+}
+
+/* Buttery Smooth 60/120 FPS Scrolling across all tab containers */
+main,
+.news-dashboard-container,
+.songs-dashboard,
+.playground-container,
+.jobs-container,
+.resume-builder-container,
+.placement-hub-container,
+.news-reader-scroll,
+.drawer-content {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
 .navbar-slim-uncollapse-btn {
