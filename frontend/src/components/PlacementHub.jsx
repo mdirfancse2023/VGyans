@@ -492,8 +492,8 @@ function BlogReader({ note, onClose }) {
                   animation: 'spin 0.9s linear infinite',
                   marginBottom: '1rem'
                 }}></div>
-                <h4 style={{ color: '#f8fafc', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Chapter from Firebase...</h4>
-                <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>Connecting to Firebase Database to load textual chapter content in real-time.</p>
+                <h4 style={{ color: '#f8fafc', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Chapter...</h4>
+                <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>Loading chapter content in real-time.</p>
               </div>
             ) : contentToRender.map((block, index) => {
               if (block.type === 'h1') {
@@ -859,8 +859,8 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
                   animation: 'spin 0.9s linear infinite',
                   marginBottom: '1rem'
                 }}></div>
-                <h4 style={{ color: 'var(--text-primary)', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Flashcards from Firebase...</h4>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: 0 }}>Connecting to Firebase Database to load question cards in real-time.</p>
+                <h4 style={{ color: 'var(--text-primary)', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Flashcards...</h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: 0 }}>Loading question cards in real-time.</p>
               </div>
             ) : filteredCards.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>No flashcards found for this category.</div>
