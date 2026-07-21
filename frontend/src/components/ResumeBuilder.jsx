@@ -114,27 +114,32 @@ export default function ResumeBuilder() {
 
   const generatePDF = () => {
     const preview = document.querySelector('.preview-panel');
-    if (!preview) return;
+    if (!preview) {
+      window.print();
+      return;
+    }
 
-    // Create a temporary visible render wrapper at top 0 left 0 to avoid off-screen blank bugs
-    const wrapper = document.createElement('div');
-    wrapper.id = 'temp-pdf-render-wrapper';
-    wrapper.style.position = 'absolute';
-    wrapper.style.left = '0';
-    wrapper.style.top = '0';
-    wrapper.style.width = '800px';
-    wrapper.style.zIndex = '99999';
-    wrapper.style.background = '#ffffff';
-    wrapper.style.color = '#000000';
-    wrapper.style.padding = '35px 40px';
-    wrapper.style.boxSizing = 'border-box';
-    wrapper.style.fontFamily = 'Arial, sans-serif';
+    // Deep clone preview node to preserve complete child structure and styling
+    const clone = preview.cloneNode(true);
+    clone.id = 'temp-pdf-export-node';
+    clone.style.position = 'fixed';
+    clone.style.top = '0';
+    clone.style.left = '0';
+    clone.style.width = '794px';
+    clone.style.minHeight = '1123px';
+    clone.style.zIndex = '999999';
+    clone.style.background = '#ffffff';
+    clone.style.color = '#000000';
+    clone.style.padding = '35px 40px';
+    clone.style.boxSizing = 'border-box';
+    clone.style.boxShadow = 'none';
+    clone.style.borderRadius = '0';
+    clone.style.margin = '0';
 
-    wrapper.innerHTML = preview.innerHTML;
-    document.body.appendChild(wrapper);
+    document.body.appendChild(clone);
 
     const opt = {
-      margin:       [0.25, 0.25, 0.25, 0.25],
+      margin:       [0.2, 0.2, 0.2, 0.2],
       filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  {
@@ -142,21 +147,21 @@ export default function ResumeBuilder() {
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
-        scrollX: 0,
-        scrollY: 0
+        width: 794,
+        windowWidth: 794
       },
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak:    { mode: ['css', 'legacy'] }
     };
 
-    window.html2pdf().from(wrapper).set(opt).save().then(() => {
-      if (document.body.contains(wrapper)) {
-        document.body.removeChild(wrapper);
+    window.html2pdf().from(clone).set(opt).save().then(() => {
+      if (document.body.contains(clone)) {
+        document.body.removeChild(clone);
       }
     }).catch(err => {
-      console.error("PDF generation failed:", err);
-      if (document.body.contains(wrapper)) {
-        document.body.removeChild(wrapper);
+      console.error("PDF generation error:", err);
+      if (document.body.contains(clone)) {
+        document.body.removeChild(clone);
       }
       window.print();
     });
