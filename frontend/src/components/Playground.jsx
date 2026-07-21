@@ -712,17 +712,39 @@ export default function Playground({ questions, onGoHome }) {
     if (closeDrawer) setDrawerOpen(false);
     setSidebarTab('problem');
 
-    const qId = String(q.id);
+    const qId = String(q.id || q.title || '');
 
-    // 1. Prepare instant problem object with starter code & description
-    let initialObj = (q.description && q.templates && Object.keys(q.templates).length > 0)
-      ? q
-      : (questionCacheRef.current.get(qId) || PROBLEMS.find(p => String(p.id) === qId || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase())) || generateFallbackProblem(q));
+    // Check in-memory cache first if question details were already fetched
+    if (questionCacheRef.current.has(qId)) {
+      setActiveProblem(questionCacheRef.current.get(qId));
+      return;
+    }
 
-    // Instantly display problem details & starter code in the editor!
-    setActiveProblem(initialObj);
+    // 1. Immediately set activeProblem to a loading state with spinner so UI switches view instantly!
+    const loadingProblem = {
+      ...q,
+      id: qId,
+      title: q.title || 'Loading Question...',
+      category: q.category || 'General',
+      difficulty: q.difficulty || 'Easy',
+      description: `
+        <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:280px;color:var(--text-secondary);">
+          <div style="width:40px;height:40px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:1.25rem;"></div>
+          <h4 style="font-weight:700;font-size:1.05rem;color:var(--text-primary);margin-bottom:0.35rem;">Loading from Firebase Database...</h4>
+          <p style="font-size:0.85rem;color:var(--text-secondary);">Retrieving question details & starter code for ${q.title || 'problem'}...</p>
+        </div>
+      `,
+      templates: {
+        python: '# Loading question template from database...',
+        java: '// Loading question template from database...',
+        cpp: '// Loading question template from database...',
+        sql: '-- Loading question template from database...'
+      }
+    };
 
-    // 2. Query Firebase Firestore & Vercel API in background to enrich data
+    setActiveProblem(loadingProblem);
+
+    // 2. Fetch from Firebase Firestore & Vercel API
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'https://v-gyans.vercel.app';
 
@@ -738,16 +760,20 @@ export default function Playground({ questions, onGoHome }) {
       const fetched = firebaseData || apiData;
 
       if (fetched && (fetched.description || (fetched.templates && Object.keys(fetched.templates).length > 0))) {
-        const merged = {
-          ...initialObj,
-          ...fetched,
-          templates: (fetched.templates && Object.keys(fetched.templates).length > 0) ? fetched.templates : initialObj.templates
-        };
-        questionCacheRef.current.set(qId, merged);
-        setActiveProblem(merged);
+        questionCacheRef.current.set(qId, fetched);
+        setActiveProblem(fetched);
+      } else {
+        const staticMatch = PROBLEMS.find(p => String(p.id) === qId || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase()));
+        const resolvedObj = staticMatch || generateFallbackProblem(q);
+        questionCacheRef.current.set(qId, resolvedObj);
+        setActiveProblem(resolvedObj);
       }
     } catch (err) {
-      console.warn("Background database fetch info:", err);
+      console.warn("Database fetch error, using static problem:", err);
+      const staticMatch = PROBLEMS.find(p => String(p.id) === qId || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase()));
+      const resolvedObj = staticMatch || generateFallbackProblem(q);
+      questionCacheRef.current.set(qId, resolvedObj);
+      setActiveProblem(resolvedObj);
     }
   };
 
