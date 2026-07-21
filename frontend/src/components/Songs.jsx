@@ -24,13 +24,13 @@ export default function Songs({
   const [errorMsg, setErrorMsg] = useState(null);
   const [activePreset, setActivePreset] = useState(null);
 
-  // Quick Preset Categories
+  // Quick Preset Categories (Optimized for Study, Coding & Focus)
   const presets = [
-    { id: 'bollywood', label: '🔥 Top 50 Bollywood', term: 'bollywood', description: 'Full-length trending Hindi & Bollywood songs' },
-    { id: 'hollywood', label: '⭐ Top 50 Hollywood', term: 'pop', description: 'Full-length international Hollywood & Billboard pop hits' },
-    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'lofi', description: 'Relaxing full-length ambient & lo-fi study tracks' },
-    { id: 'punjabi', label: '🎸 Punjabi Hits', term: 'punjabi', description: 'High-energy full-length Punjabi tracks' },
-    { id: 'romantic', label: '💖 Romantic Classics', term: 'romantic', description: 'Timeless full-length love songs & melodies' }
+    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'lofi', description: 'Relaxing full-length lo-fi & chillhop beats for deep focus & coding' },
+    { id: 'piano', label: '🎹 Piano & Classical', term: 'piano', description: 'Calm acoustic & classical piano melodies for high memory retention' },
+    { id: 'synthwave', label: '🌌 Ambient & Synthwave', term: 'synthwave', description: 'Immersive chillwave & ambient tracks for late-night study sessions' },
+    { id: 'focus', label: '🧠 Deep Focus & Alpha', term: 'focus', description: 'Brainwave focus audio & instrumental soundscapes for exam prep' },
+    { id: 'acoustic', label: '🎸 Unplugged Acoustic', term: 'acoustic', description: 'Soft acoustic guitar & soothing instrumental chill tracks' }
   ];
 
   // Fetch real-time full-length songs from Audius API
@@ -50,8 +50,8 @@ export default function Songs({
       displayLabel = presetObj.label.replace(/^[^\w\s]+\s*/, ''); // Strip leading emoji for display
       setActivePreset(presetObj.id);
     } else {
-      queryTerm = 'bollywood';
-      displayLabel = 'Top 50 Songs';
+      queryTerm = 'lofi';
+      displayLabel = 'Lo-Fi Focus';
     }
 
     setLoadingText(`Fetching full-length real-time songs for ${displayLabel}...`);
@@ -286,7 +286,7 @@ export default function Songs({
             className="btn btn-primary"
             style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}
           >
-            Try Top 50 Bollywood
+            Try Lo-Fi Focus
           </button>
         </div>
       ) : !songs || songs.length === 0 ? (
@@ -297,11 +297,11 @@ export default function Songs({
             Fetch Full-Length Live Music
           </h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', maxWidth: '500px', margin: '0 auto 1.5rem', lineHeight: 1.5 }}>
-            Click any playlist category above or below to stream full-length songs live on demand with zero 30-second limits.
+            Click any study category above or below to stream full-length music live on demand with zero limits.
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
-            {presets.slice(0, 4).map((p) => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', maxWidth: '900px', margin: '0 auto', width: '100%' }}>
+            {presets.map((p) => (
               <div
                 key={p.id}
                 onClick={() => handleFetchSongs(p)}
