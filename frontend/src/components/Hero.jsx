@@ -112,8 +112,8 @@ export default function Hero({ stats, setActiveTab }) {
         .hero2-root {
           position: relative;
           overflow: hidden;
-          padding: 0 0 3.5rem;
-          margin-bottom: 3.5rem;
+          padding: 0 0 0.5rem;
+          margin-bottom: 1.25rem;
         }
 
         /* animated mesh gradient background */
@@ -262,7 +262,7 @@ export default function Hero({ stats, setActiveTab }) {
           border: 1px solid rgba(255,255,255,0.07);
           border-radius: 16px;
           overflow: hidden;
-          margin-bottom: 3.5rem;
+          margin-bottom: 0.5rem;
         }
         .hero2-stat {
           flex: 1; min-width: 120px;
