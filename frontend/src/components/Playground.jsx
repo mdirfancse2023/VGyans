@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const PROBLEMS = [
   {
@@ -686,22 +688,31 @@ export default function Playground({ questions, onGoHome }) {
     
     try {
       let fullQuestion = null;
+      
+      // 1. Try Firebase Firestore SDK directly
       try {
-        const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
-        const res = await fetch(`${API_URL}/api/questions/${q.id}`);
-        if (res.ok) {
-          fullQuestion = await res.json();
+        const docRef = doc(db, 'playground_questions', q.id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data && data.templates) {
+            fullQuestion = data;
+          }
         }
       } catch (e) {
-        console.warn('API fetch failed, falling back to static backup json:', e);
+        console.warn('Firebase direct SDK question fetch notice:', e);
       }
 
-      // Fallback to static backup JSON if API is offline or returns error
+      // 2. Fallback to API endpoint /api/questions/{q.id}
       if (!fullQuestion || !fullQuestion.templates || Object.keys(fullQuestion.templates).length === 0) {
-        const backupRes = await fetch(`./data/playground_questions.json`);
-        if (backupRes.ok) {
-          const allBackupQuestions = await backupRes.json();
-          fullQuestion = allBackupQuestions.find(item => item.id === q.id);
+        try {
+          const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
+          const res = await fetch(`${API_URL}/api/questions/${q.id}`);
+          if (res.ok) {
+            fullQuestion = await res.json();
+          }
+        } catch (e) {
+          console.warn('API question fetch notice:', e);
         }
       }
 
