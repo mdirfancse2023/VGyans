@@ -90,6 +90,17 @@ export default function Header({
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (isNavbarCollapsed) {
+      document.body.classList.add('navbar-is-collapsed');
+    } else {
+      document.body.classList.remove('navbar-is-collapsed');
+    }
+    return () => {
+      document.body.classList.remove('navbar-is-collapsed');
+    };
+  }, [isNavbarCollapsed]);
+
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'guides', label: 'Placement' },
