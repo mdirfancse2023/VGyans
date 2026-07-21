@@ -504,7 +504,6 @@ export default function Header({
                 title={`Logged in as ${user.name}`}
               >
                 {user.avatar || user.name.charAt(0).toUpperCase()}
-                <span style={{ position: 'absolute', bottom: '-2px', right: '-2px', width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', border: '1.5px solid #070a13' }} />
               </div>
             ) : (
               <button 
