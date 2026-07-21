@@ -911,14 +911,28 @@ export default function App() {
       <FeedbackButton isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} hideTrigger={true} />
       <UserNotesModal isOpen={isNotesOpen} onClose={() => setIsNotesOpen(false)} user={user} onOpenAuth={() => setIsAuthOpen(true)} />
       
-      {/* Floating Bottom-Left Personal Notes Quick Action Trigger */}
+      {/* Floating Bottom-Left Personal Notes Quick Action Trigger (Matches Gyans Copilot Style) */}
       <button
         onClick={() => setIsNotesOpen(true)}
         className="floating-notes-btn"
-        title="Open My Personal Notes"
+        title="My Personal Notes"
       >
-        <span style={{ fontSize: '1.25rem' }}>📝</span>
-        <span className="floating-notes-tooltip">Personal Notes</span>
+        <span className="floating-notes-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="url(#notesGrad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="url(#notesGrad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <defs>
+              <linearGradient id="notesGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#38bdf8" />
+                <stop offset="50%" stopColor="#818cf8" />
+                <stop offset="100%" stopColor="#c084fc" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span className="floating-notes-label">
+          Personal Notes
+        </span>
       </button>
 
       <CareerCoach />
