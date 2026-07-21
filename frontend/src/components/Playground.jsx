@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import questionsData from '../data/questions.json';
 
 const PROBLEMS = [
   {
@@ -589,8 +590,21 @@ export default function Playground({ questions, onGoHome }) {
 
   const activeQuestions = React.useMemo(() => {
     const map = new Map();
+    // 1. Base PROBLEMS suite
     PROBLEMS.forEach(p => map.set(String(p.id), p));
 
+    // 2. Full questions.json dataset
+    if (questionsData && Array.isArray(questionsData)) {
+      questionsData.forEach(q => {
+        if (q && q.id) {
+          const qId = String(q.id);
+          const existing = map.get(qId) || {};
+          map.set(qId, { ...existing, ...q });
+        }
+      });
+    }
+
+    // 3. Prop questions from App
     if (questions && Array.isArray(questions)) {
       questions.forEach(q => {
         if (q && q.id) {
@@ -601,6 +615,7 @@ export default function Playground({ questions, onGoHome }) {
       });
     }
 
+    // 4. Live database questions from Firestore collection playground_questions
     if (dbQuestions && Array.isArray(dbQuestions)) {
       dbQuestions.forEach(q => {
         if (q && q.id) {
