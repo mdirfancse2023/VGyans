@@ -424,62 +424,6 @@ export default function ResumeBuilder() {
         }
       `}</style>
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', gap: '0.75rem' }}>
-        <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', margin: 0, textAlign: 'center' }}>Dynamic Resume Builder</h3>
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <select 
-            value={fontTypeSetting} 
-            onChange={(e) => setFontTypeSetting(e.target.value)}
-            style={{ 
-              padding: '0.4rem 0.75rem', 
-              fontSize: '0.85rem', 
-              borderRadius: '8px',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              background: 'rgba(255, 255, 255, 0.05)',
-              color: 'var(--text-secondary)',
-              cursor: 'pointer',
-              outline: 'none',
-              transition: 'all 0.2s ease',
-              height: '32px'
-            }}
-            className="font-type-select"
-            title="Select Resume Font Type"
-          >
-            <option value="arial" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Arial (Modern Standard)</option>
-            <option value="georgia" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Georgia (Executive Serif)</option>
-            <option value="calibri" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Calibri (Corporate Sleek)</option>
-          </select>
-          <select 
-            value={fontSizeSetting} 
-            onChange={(e) => setFontSizeSetting(e.target.value)}
-            style={{ 
-              padding: '0.4rem 0.75rem', 
-              fontSize: '0.85rem', 
-              borderRadius: '8px',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              background: 'rgba(255, 255, 255, 0.05)',
-              color: 'var(--text-secondary)',
-              cursor: 'pointer',
-              outline: 'none',
-              transition: 'all 0.2s ease',
-              height: '32px'
-            }}
-            className="font-size-select"
-            title="Select Resume Font Size"
-          >
-            <option value="small" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Small Font</option>
-            <option value="medium" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Medium Font</option>
-            <option value="large" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Large Font</option>
-          </select>
-          <button className="btn btn-secondary" onClick={loadSampleData} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
-            Load Sample Data
-          </button>
-          <button className="btn btn-primary" onClick={handlePrint} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
-            Download PDF
-          </button>
-        </div>
-      </div>
-
       <div className="resume-builder-grid">
         {/* Form Inputs Panel */}
         <div className="form-panel">
@@ -729,8 +673,65 @@ export default function ResumeBuilder() {
           </div>
         </div>
 
-        {/* Live Preview Panel */}
-        <div className="preview-panel" style={{ fontFamily: sizes.fontFamily }}>
+        {/* Right Column: Live Preview & Centered Controls */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          
+          {/* Centered Controls directly over the Resume Preview boundary */}
+          <div className="preview-toolbar" style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '0.25rem' }}>
+            <select 
+              value={fontTypeSetting} 
+              onChange={(e) => setFontTypeSetting(e.target.value)}
+              style={{ 
+                padding: '0.4rem 0.65rem', 
+                fontSize: '0.82rem', 
+                borderRadius: '8px',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                color: 'var(--text-secondary)',
+                cursor: 'pointer',
+                outline: 'none',
+                transition: 'all 0.2s ease',
+                height: '32px'
+              }}
+              className="font-type-select"
+              title="Select Resume Font Type"
+            >
+              <option value="arial" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Arial (Modern Standard)</option>
+              <option value="georgia" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Georgia (Executive Serif)</option>
+              <option value="calibri" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Calibri (Corporate Sleek)</option>
+            </select>
+            <select 
+              value={fontSizeSetting} 
+              onChange={(e) => setFontSizeSetting(e.target.value)}
+              style={{ 
+                padding: '0.4rem 0.65rem', 
+                fontSize: '0.82rem', 
+                borderRadius: '8px',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                color: 'var(--text-secondary)',
+                cursor: 'pointer',
+                outline: 'none',
+                transition: 'all 0.2s ease',
+                height: '32px'
+              }}
+              className="font-size-select"
+              title="Select Resume Font Size"
+            >
+              <option value="small" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Small Font</option>
+              <option value="medium" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Medium Font</option>
+              <option value="large" style={{ background: 'var(--bg-dark-secondary)', color: 'var(--text-primary)' }}>Large Font</option>
+            </select>
+            <button className="btn btn-secondary" onClick={loadSampleData} style={{ padding: '0.4rem 0.85rem', fontSize: '0.82rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
+              Load Sample Data
+            </button>
+            <button className="btn btn-primary" onClick={handlePrint} style={{ padding: '0.4rem 0.85rem', fontSize: '0.82rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
+              Download PDF
+            </button>
+          </div>
+
+          {/* Live Preview Panel */}
+          <div className="preview-panel" style={{ fontFamily: sizes.fontFamily }}>
           <div style={{ textAlign: 'center', margin: 0, padding: 0, paddingBottom: sizes.paddingBottomHeader, marginBottom: sizes.marginBottomSection }}>
             <h2 style={{ fontSize: sizes.name, fontWeight: 'bold', margin: 0, marginTop: 0, paddingTop: 0, color: '#000000', letterSpacing: '-0.02em', fontFamily: sizes.fontFamily }}>
               {formData.name || 'YOUR NAME'}
@@ -857,5 +858,6 @@ export default function ResumeBuilder() {
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }
