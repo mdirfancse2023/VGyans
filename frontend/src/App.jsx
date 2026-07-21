@@ -170,27 +170,42 @@ export default function App() {
         }
       }
 
+      // Windows Snipping Tool (Win+Shift+S) & macOS Screenshot (Cmd+Shift+3/4/5)
+      if ((e.metaKey || e.ctrlKey || e.key === 'Meta') && e.shiftKey && (key === 's' || key === '3' || key === '4' || key === '5')) {
+        e.preventDefault();
+        setIsScreenProtected(true);
+        setTimeout(() => setIsScreenProtected(false), 3000);
+        return false;
+      }
+
       // PrintScreen Key -> Clear Clipboard & Trigger Blank Screen
-      if (e.key === 'PrintScreen' || e.keyCode === 44) {
+      if (e.key === 'PrintScreen' || e.keyCode === 44 || e.code === 'PrintScreen') {
         e.preventDefault();
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText('');
         }
         setIsScreenProtected(true);
-        setTimeout(() => setIsScreenProtected(false), 2000);
+        setTimeout(() => setIsScreenProtected(false), 3000);
         return false;
-      }
-
-      // macOS Screenshot Shortcuts: Cmd+Shift+3, Cmd+Shift+4, Cmd+Shift+5
-      if (e.metaKey && e.shiftKey && (key === '3' || key === '4' || key === '5')) {
-        setIsScreenProtected(true);
-        setTimeout(() => setIsScreenProtected(false), 2500);
       }
     };
 
-    // 5. Blank Screen on Window Blur / Visibility Change (Snipping Tool & Screenshot grabbers focus loss protection)
+    // 5. Blank Screen on Mouse Leave, Window Blur & Snipping Tool activation
     const handleBlur = () => {
       setIsScreenProtected(true);
+    };
+
+    const handleMouseLeave = (e) => {
+      // Trigger blank screen when cursor leaves window (Snipping Tool overlay active)
+      if (!e.relatedTarget && !e.toElement) {
+        setIsScreenProtected(true);
+      }
+    };
+
+    const handleMouseEnter = () => {
+      setTimeout(() => {
+        setIsScreenProtected(false);
+      }, 300);
     };
 
     const handleFocus = () => {
@@ -214,6 +229,8 @@ export default function App() {
     document.addEventListener('cut', handleCopyCut);
     document.addEventListener('dragstart', handleDragStart);
     document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mouseenter', handleMouseEnter);
     window.addEventListener('blur', handleBlur);
     window.addEventListener('focus', handleFocus);
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -224,6 +241,8 @@ export default function App() {
       document.removeEventListener('cut', handleCopyCut);
       document.removeEventListener('dragstart', handleDragStart);
       document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mouseenter', handleMouseEnter);
       window.removeEventListener('blur', handleBlur);
       window.removeEventListener('focus', handleFocus);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
