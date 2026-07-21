@@ -103,68 +103,84 @@ export default function ResumeBuilder() {
     if (!window.html2pdf) {
       const script = document.createElement('script');
       script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-      script.onload = () => {
-        generatePDF();
-      };
+      script.onload = () => generatePDF();
+      script.onerror = () => window.print();
       document.body.appendChild(script);
     } else {
       generatePDF();
     }
   };
 
-  const generatePDF = () => {
-    const preview = document.querySelector('.preview-panel');
-    if (!preview) {
+  const handleNativePrint = () => {
+    window.print();
+  };
+
+  const generatePDF = async () => {
+    const element = document.querySelector('.preview-panel');
+    if (!element) {
       window.print();
       return;
     }
 
-    // Deep clone preview node to preserve complete child structure and styling
-    const clone = preview.cloneNode(true);
-    clone.id = 'temp-pdf-export-node';
-    clone.style.position = 'fixed';
-    clone.style.top = '0';
-    clone.style.left = '0';
-    clone.style.width = '794px';
-    clone.style.minHeight = '1123px';
-    clone.style.zIndex = '999999';
-    clone.style.background = '#ffffff';
-    clone.style.color = '#000000';
-    clone.style.padding = '35px 40px';
-    clone.style.boxSizing = 'border-box';
-    clone.style.boxShadow = 'none';
-    clone.style.borderRadius = '0';
-    clone.style.margin = '0';
+    // Save original styles
+    const originalPos = element.style.position;
+    const originalTop = element.style.top;
+    const originalShadow = element.style.boxShadow;
+    const originalBorderRadius = element.style.borderRadius;
 
-    document.body.appendChild(clone);
+    // Temporarily format for PDF capture
+    element.style.position = 'relative';
+    element.style.top = '0';
+    element.style.boxShadow = 'none';
+    element.style.borderRadius = '0';
+    element.style.background = '#ffffff';
+    element.style.color = '#0f172a';
+
+    // Ensure all children have dark legible text
+    const savedTextColors = new Map();
+    const children = element.querySelectorAll('*');
+    children.forEach(child => {
+      savedTextColors.set(child, child.style.color);
+      const computedColor = window.getComputedStyle(child).color;
+      // If text color is white/light/transparent, override to dark charcoal
+      if (computedColor.includes('255, 255, 255') || computedColor.includes('248, 250, 252') || computedColor.includes('rgba(0, 0, 0, 0)')) {
+        child.style.color = '#0f172a';
+      }
+    });
 
     const opt = {
-      margin:       [0.2, 0.2, 0.2, 0.2],
+      margin:       [0.3, 0.4, 0.3, 0.4],
       filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  {
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#ffffff',
-        width: 794,
-        windowWidth: 794
+        backgroundColor: '#ffffff'
       },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
       pagebreak:    { mode: ['css', 'legacy'] }
     };
 
-    window.html2pdf().from(clone).set(opt).save().then(() => {
-      if (document.body.contains(clone)) {
-        document.body.removeChild(clone);
+    try {
+      if (window.html2pdf) {
+        await window.html2pdf().from(element).set(opt).save();
+      } else {
+        window.print();
       }
-    }).catch(err => {
-      console.error("PDF generation error:", err);
-      if (document.body.contains(clone)) {
-        document.body.removeChild(clone);
-      }
+    } catch (err) {
+      console.error("PDF generation failed, falling back to print:", err);
       window.print();
-    });
+    } finally {
+      // Restore styles
+      element.style.position = originalPos;
+      element.style.top = originalTop;
+      element.style.boxShadow = originalShadow;
+      element.style.borderRadius = originalBorderRadius;
+      savedTextColors.forEach((color, child) => {
+        child.style.color = color;
+      });
+    }
   };
 
   const getSizes = () => {
@@ -429,8 +445,11 @@ export default function ResumeBuilder() {
           <button className="btn btn-secondary" onClick={loadSampleData} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
             Load Sample Data
           </button>
+          <button className="btn btn-secondary" onClick={handleNativePrint} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
+            🖨️ Native Print / PDF
+          </button>
           <button className="btn btn-primary" onClick={handlePrint} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
-            Download PDF
+            📥 Download PDF
           </button>
         </div>
       </div>
