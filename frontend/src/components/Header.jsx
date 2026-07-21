@@ -521,36 +521,37 @@ export default function Header({
               </svg>
             </a>
           </li>
-          {/* User Profile / Auth Item with Log Out & Hide Navbar Dropdown Card */}
+          {/* User Profile / Auth Item with Log Out Dropdown Card (Morphs into Up Arrow on hover/flip) */}
           <li className="header-profile-trigger-item">
-            {user ? (
-              <div 
-                onClick={() => setIsNavbarCollapsed(true)}
-                className="theme-toggle-btn"
-                style={{
-                  fontWeight: 800,
-                  fontSize: '0.85rem',
-                  color: 'var(--primary)',
-                  cursor: 'pointer'
-                }}
-                title={`Logged in as ${user.name} • Click to Hide / Slim Navbar`}
-              >
-                {user.avatar || user.name.charAt(0).toUpperCase()}
+            <div 
+              onClick={() => {
+                if (!user) onOpenAuth();
+                setIsNavbarCollapsed(true);
+              }}
+              className="theme-toggle-btn profile-arrow-morph-btn"
+              style={{
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: 'pointer'
+              }}
+              title={user ? `Logged in as ${user.name} • Click to Hide Navbar` : 'Log In / Sign Up • Click to Hide Navbar'}
+            >
+              {/* Face 1: User Avatar / Initial */}
+              <div className="profile-face avatar-face">
+                {user ? (user.avatar || user.name.charAt(0).toUpperCase()) : (
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                )}
               </div>
-            ) : (
-              <button 
-                onClick={() => {
-                  onOpenAuth();
-                  setIsNavbarCollapsed(true);
-                }}
-                className="theme-toggle-btn"
-                title="Log In / Sign Up • Click to Hide Navbar"
-              >
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+
+              {/* Face 2: Collapse Up Arrow */}
+              <div className="profile-face arrow-face">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="18 15 12 9 6 15"></polyline>
                 </svg>
-              </button>
-            )}
+              </div>
+            </div>
 
             {/* Profile & Log Out Dropdown Card (Shown ON HOVER if user logged in) */}
             {user && (
@@ -572,29 +573,6 @@ export default function Header({
                 <div style={{ padding: '0.35rem 0.6rem', borderRadius: '6px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', fontSize: '0.72rem', marginBottom: '0.75rem', textAlign: 'center' }}>
                   <span style={{ color: '#10b981', fontWeight: 700 }}>● Active Learner</span>
                 </div>
-
-                <button
-                  onClick={() => setIsNavbarCollapsed(true)}
-                  style={{
-                    width: '100%',
-                    padding: '0.45rem',
-                    borderRadius: '8px',
-                    border: '1px solid var(--border-glass)',
-                    background: 'rgba(255,255,255,0.05)',
-                    color: 'var(--text-primary)',
-                    fontSize: '0.8rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.35rem',
-                    marginBottom: '0.45rem',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  📐 Slim / Hide Navbar
-                </button>
 
                 <button
                   onClick={onLogout}
