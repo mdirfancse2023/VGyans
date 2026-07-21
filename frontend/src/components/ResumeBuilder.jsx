@@ -424,9 +424,9 @@ export default function ResumeBuilder() {
         }
       `}</style>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
-        <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', margin: 0 }}>Dynamic Resume Builder</h3>
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', gap: '0.75rem' }}>
+        <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', margin: 0, textAlign: 'center' }}>Dynamic Resume Builder</h3>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
           <select 
             value={fontTypeSetting} 
             onChange={(e) => setFontTypeSetting(e.target.value)}
@@ -475,7 +475,7 @@ export default function ResumeBuilder() {
             Load Sample Data
           </button>
           <button className="btn btn-primary" onClick={handlePrint} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
-            📥 Download PDF
+            Download PDF
           </button>
         </div>
       </div>
