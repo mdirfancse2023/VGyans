@@ -84,15 +84,27 @@ const features = [
 ];
 
 const floatingBadges = [
-  { text: '350+ Qns',      icon: '⚡', delay: '0s',   top: '8%',   left: '-14%' },
-  { text: 'Interview Exp', icon: '🧑‍💼', delay: '0.4s', top: '40%',  left: '-18%' },
-  { text: 'Focus Beats',    icon: '🎵', delay: '0.8s', top: '72%',  left: '-12%' },
-  { text: 'ATS Resume',    icon: '✨', delay: '1.2s', top: '8%',   right: '-14%' },
-  { text: 'Gyans AI',      icon: '🤖', delay: '1.6s', top: '40%',  right: '-18%' },
-  { text: 'Tech News',     icon: '📰', delay: '2s',   top: '72%',  right: '-14%' },
+  { text: '350+ Qns',      icon: '⚡', tab: 'playground', delay: '0s',   top: '8%',   left: '-14%' },
+  { text: 'Interview Exp', icon: '🧑‍💼', tab: 'guides',     delay: '0.4s', top: '40%',  left: '-18%' },
+  { text: 'Focus Beats',    icon: '🎵', tab: 'songs',      delay: '0.8s', top: '72%',  left: '-12%' },
+  { text: 'ATS Resume',    icon: '✨', tab: 'tools',      delay: '1.2s', top: '8%',   right: '-14%' },
+  { text: 'Gyans AI',      icon: '🤖', tab: 'copilot',    delay: '1.6s', top: '40%',  right: '-18%' },
+  { text: 'Tech News',     icon: '📰', tab: 'news',       delay: '2s',   top: '72%',  right: '-14%' },
 ];
 
 export default function Hero({ stats, setActiveTab }) {
+  const handleBadgeClick = (tabKey) => {
+    if (tabKey === 'copilot') {
+      const copilotBtn = document.querySelector('button[title*="Gyans Copilot"]');
+      if (copilotBtn) {
+        copilotBtn.click();
+        return;
+      }
+    }
+    if (setActiveTab && tabKey) {
+      setActiveTab(tabKey);
+    }
+  };
   const formatNumber = (numStr) => {
     if (!numStr) return '0';
     const num = parseInt(numStr.replace(/,/g, ''), 10);
@@ -248,6 +260,13 @@ export default function Hero({ stats, setActiveTab }) {
           white-space: nowrap; z-index: 5;
           animation: floatUpDown 3.5s ease-in-out infinite;
           box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+          transition: transform 0.2s, background 0.2s, border-color 0.2s;
+        }
+        .float-badge:hover {
+          background: rgba(6, 182, 212, 0.25) !important;
+          border-color: var(--primary) !important;
+          box-shadow: 0 6px 24px rgba(6, 182, 212, 0.4) !important;
+          transform: scale(1.12);
         }
         @keyframes floatUpDown {
           0%,100% { transform: translateY(0); }
@@ -404,10 +423,13 @@ export default function Hero({ stats, setActiveTab }) {
               <div
                 key={i}
                 className="float-badge"
+                onClick={() => handleBadgeClick(b.tab)}
+                title={`Go to ${b.text}`}
                 style={{
                   top: b.top, left: b.left, right: b.right,
                   animationDelay: b.delay,
                   animationDuration: `${3.2 + i * 0.4}s`,
+                  cursor: 'pointer'
                 }}
               >
                 <span>{b.icon}</span>{b.text}
