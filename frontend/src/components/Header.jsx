@@ -113,7 +113,7 @@ export default function Header({
         <div className="header-weather-trigger-item" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
           <a href="#home" className="logo creative-timer-logo-trigger" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
             
-            {/* Logo Square Icon: Morphs between Logo Image & Real-Time Temperature (22°) */}
+            {/* Logo Square Icon: Morphs smoothly between Logo Image & Real-Time Temperature (22°) */}
             <div 
               className="theme-toggle-btn logo-weather-morph-btn" 
               style={{ 
@@ -130,18 +130,19 @@ export default function Header({
               }}
               title={`Current Weather in ${weatherData.city}: ${weatherData.temp}°C (${weatherData.condition})`}
             >
-              <img 
-                src="/logo.png" 
-                alt="Virtual Gyans Logo" 
-                className="logo-face logo-img-face"
-                style={{ width: '22px', height: '22px', objectFit: 'contain' }} 
-                loading="eager"
-                fetchpriority="high"
-                decoding="sync"
-              />
-              <span className="logo-face logo-temp-face">
-                {weatherData.temp}°
-              </span>
+              <div className="logo-face logo-img-face">
+                <img 
+                  src="/logo.png" 
+                  alt="Virtual Gyans Logo" 
+                  style={{ width: '22px', height: '22px', objectFit: 'contain' }} 
+                  loading="eager"
+                  fetchpriority="high"
+                  decoding="sync"
+                />
+              </div>
+              <div className="logo-face logo-temp-face">
+                <span>{weatherData.temp}°</span>
+              </div>
             </div>
             
             {/* Brand Title Text: Morphs seamlessly between "Virtual Gyans" & Live Timer */}
