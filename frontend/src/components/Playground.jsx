@@ -583,10 +583,11 @@ export default function Playground({ questions, onGoHome }) {
   const [submitResult, setSubmitResult] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ── Timer ──
+  // ── Timer & Cache Refs ──
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
   const timerIntervalRef = useRef(null);
+  const questionCacheRef = useRef(new Map());
 
   useEffect(() => {
     // Prevent document body scrolling while in playground
