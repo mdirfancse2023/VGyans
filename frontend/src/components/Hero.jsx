@@ -265,26 +265,19 @@ export default function Hero({ stats, setActiveTab }) {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          margin-top: 0.6rem;
-          padding: 0.35rem 1.1rem;
-          background: rgba(13, 19, 36, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          border-radius: 50px;
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+          margin-top: 0.2rem;
           z-index: 2;
         }
 
         .dice-letter {
           display: inline-block;
           font-family: var(--font-heading);
-          font-size: 1.3rem;
-          font-weight: 800;
+          font-size: 1.25rem;
+          font-weight: 700;
           color: var(--text-primary);
-          letter-spacing: 0.02em;
+          letter-spacing: -0.01em;
           opacity: 0;
-          transform: translate3d(-75vw, -45vh, 0) rotate3d(1, 1, 1, -720deg) scale(0.1);
+          transform: translate3d(-70vw, -30vh, 0) rotate3d(1, 1, 1, -720deg) scale(0.2);
           will-change: transform, opacity;
         }
 
