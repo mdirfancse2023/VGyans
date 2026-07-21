@@ -104,23 +104,15 @@ export default function ResumeBuilder() {
       const script = document.createElement('script');
       script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
       script.onload = () => generatePDF();
-      script.onerror = () => window.print();
       document.body.appendChild(script);
     } else {
       generatePDF();
     }
   };
 
-  const handleNativePrint = () => {
-    window.print();
-  };
-
   const generatePDF = async () => {
     const element = document.querySelector('.preview-panel');
-    if (!element) {
-      window.print();
-      return;
-    }
+    if (!element) return;
 
     // Save original styles
     const originalPos = element.style.position;
@@ -165,12 +157,9 @@ export default function ResumeBuilder() {
     try {
       if (window.html2pdf) {
         await window.html2pdf().from(element).set(opt).save();
-      } else {
-        window.print();
       }
     } catch (err) {
-      console.error("PDF generation failed, falling back to print:", err);
-      window.print();
+      console.error("PDF generation failed:", err);
     } finally {
       // Restore styles
       element.style.position = originalPos;
@@ -444,9 +433,6 @@ export default function ResumeBuilder() {
           </select>
           <button className="btn btn-secondary" onClick={loadSampleData} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
             Load Sample Data
-          </button>
-          <button className="btn btn-secondary" onClick={handleNativePrint} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
-            🖨️ Native Print / PDF
           </button>
           <button className="btn btn-primary" onClick={handlePrint} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem', height: '32px', display: 'inline-flex', alignItems: 'center' }}>
             📥 Download PDF
