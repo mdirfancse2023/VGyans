@@ -109,41 +109,59 @@ export default function Header({
   return (
     <nav className="navbar">
       <div className="nav-container">
-        {/* Left: Creative 3-Face Brand Logo (Virtual Gyans <-> Live Clock <-> Real-Time Temperature) */}
+        {/* Left: Creative Logo (Logo <-> Weather Temp) & Brand Text (Virtual Gyans <-> Live Clock) */}
         <div className="header-weather-trigger-item" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
           <a href="#home" className="logo creative-timer-logo-trigger" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
-            <div className="theme-toggle-btn" style={{ width: '34px', height: '34px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', borderRadius: '10px' }}>
+            
+            {/* Logo Square Icon: Morphs between Logo Image & Real-Time Temperature (22°) */}
+            <div 
+              className="theme-toggle-btn logo-weather-morph-btn" 
+              style={{ 
+                width: '34px', 
+                height: '34px', 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                background: 'rgba(255,255,255,0.03)', 
+                border: '1px solid var(--border-glass)', 
+                borderRadius: '10px',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+              title={`Current Weather in ${weatherData.city}: ${weatherData.temp}°C (${weatherData.condition})`}
+            >
               <img 
                 src="/logo.png" 
                 alt="Virtual Gyans Logo" 
+                className="logo-face logo-img-face"
                 style={{ width: '22px', height: '22px', objectFit: 'contain' }} 
                 loading="eager"
                 fetchpriority="high"
                 decoding="sync"
               />
+              <span className="logo-face logo-temp-face">
+                {weatherData.temp}°
+              </span>
             </div>
             
-            {/* Creative 3-Face Text: Flips seamlessly between "Virtual Gyans", Live Clock & Real-Time Weather */}
-            <div className="creative-brand-timer-wrapper" title={`Virtual Gyans • Real-time Clock: ${currentTimeStr} • Weather in ${weatherData.city}: ${weatherData.temp}°C`}>
+            {/* Brand Title Text: Morphs seamlessly between "Virtual Gyans" & Live Timer */}
+            <div className="creative-brand-timer-wrapper" title={`Virtual Gyans • Real-time Clock: ${currentTimeStr}`}>
               <span className="brand-text-face brand-name">
                 Virtual Gyans
               </span>
               <span className="brand-text-face live-clock">
                 {currentTimeStr}
               </span>
-              <span className="brand-text-face live-temp">
-                {weatherData.icon} {weatherData.temp}°C
-              </span>
             </div>
           </a>
 
-          {/* Weather Details Hover Popover Modal on Logo Hover */}
+          {/* Weather Details Hover Popover Modal on Logo Box Hover */}
           <div className="header-weather-popover" style={{ left: '0', right: 'auto', top: 'calc(100% + 12px)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
               <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 📍 {weatherData.city}
               </span>
-              <span className="badge badge-primary" style={{ fontSize: '0.62rem', padding: '0.1rem 0.45rem', borderRadius: '10px' }}>Weather Info</span>
+              <span className="badge badge-primary" style={{ fontSize: '0.62rem', padding: '0.1rem 0.45rem', borderRadius: '10px' }}>Real-time Weather</span>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.65rem' }}>
