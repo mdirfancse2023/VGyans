@@ -128,47 +128,46 @@ function JobCard({ job }) {
 
 export default function Jobs() {
   const [jobs, setJobs]           = useState([]);
-  const [loading, setLoading]     = useState(true);
+  const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState(null);
   const [search, setSearch]       = useState('');
-  const [filterRemote, setFilterRemote] = useState('all');  // 'all' | 'remote' | 'onsite'
-  const [filterSource, setFilterSource] = useState('All');
   const [total, setTotal]         = useState(0);
   const [lastRefresh, setLastRefresh] = useState(null);
 
   const fetchJobs = useCallback(async () => {
+    if (!search.trim()) {
+      setJobs([]);
+      setTotal(0);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
       const params = new URLSearchParams();
-      if (search.trim()) params.set('search', search.trim());
-      if (filterRemote === 'remote')  params.set('remote', 'true');
-      if (filterRemote === 'onsite')  params.set('remote', 'false');
-      if (filterSource !== 'All')     params.set('source', filterSource);
+      params.set('search', search.trim());
       const res = await fetch(`${API_URL}/api/jobs?${params}`);
       if (!res.ok) throw new Error('Failed');
       const data = await res.json();
       setJobs(data.jobs || []);
-      setTotal(data.total || 0);
+      setTotal(data.total || (data.jobs ? data.jobs.length : 0));
       setLastRefresh(new Date());
     } catch {
       setError('Could not load jobs. Please try again.');
     } finally {
       setLoading(false);
     }
-  }, [search, filterRemote, filterSource]);
+  }, [search]);
 
   useEffect(() => {
-    const t = setTimeout(fetchJobs, search ? 600 : 0);
+    if (!search.trim()) {
+      setJobs([]);
+      setTotal(0);
+      return;
+    }
+    const t = setTimeout(fetchJobs, 500);
     return () => clearTimeout(t);
-  }, [fetchJobs]);
-
-  const remoteFilters = [
-    { id: 'all',    label: 'All Jobs' },
-    { id: 'remote', label: '🌐 Remote' },
-    { id: 'onsite', label: '🏢 On-site' },
-  ];
-  const SOURCES = ['All', 'LinkedIn', 'Indeed', 'Glassdoor', 'Naukri', 'Remotive', 'Arbeitnow', 'The Muse'];
+  }, [fetchJobs, search]);
 
   return (
     <div style={{ marginBottom: '3rem' }}>
@@ -180,7 +179,7 @@ export default function Jobs() {
         </h2>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.35rem' }}>
           <p className="section-desc" style={{ margin: 0, flex: '1 1 300px' }}>
-            Latest listings aggregated from LinkedIn, Indeed, Glassdoor, Naukri, Remotive, Arbeitnow &amp; The Muse.
+            Search active developer &amp; tech job opportunities across top tech portals.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
             {lastRefresh && (
@@ -189,65 +188,30 @@ export default function Jobs() {
                 refreshed {timeAgo(lastRefresh.toISOString())}
               </span>
             )}
-            <button
-              onClick={fetchJobs}
-              className="btn btn-secondary"
-              style={{ padding: '0.35rem 1rem', fontSize: '0.82rem', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
-            >
-              ↺ Refresh
-            </button>
           </div>
         </div>
       </div>
 
-      {/* Filters — same pattern as VideoGrid */}
-      <div className="filters-wrapper">
-        <div className="filter-tabs">
-          {remoteFilters.map(f => (
-            <button
-              key={f.id}
-              className={`filter-tab ${filterRemote === f.id ? 'active' : ''}`}
-              onClick={() => setFilterRemote(f.id)}
-            >
-              {f.label}
-            </button>
-          ))}
-
-          <div style={{ width: '1px', background: 'var(--border-glass)', margin: '0 4px', alignSelf: 'stretch' }} />
-
-          {SOURCES.map(s => {
-            const sc = SOURCE_COLORS[s];
-            return (
-              <button
-                key={s}
-                className={`filter-tab ${filterSource === s ? 'active' : ''}`}
-                onClick={() => setFilterSource(s)}
-                style={filterSource === s && sc ? { color: sc.color, borderColor: sc.border } : {}}
-              >
-                {s}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Search box */}
-        <div className="search-box">
-          <svg className="search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      {/* Full-width Search Box */}
+      <div style={{ marginBottom: '1.5rem' }}>
+        <div className="search-box" style={{ width: '100%', maxWidth: '100%' }}>
+          <svg className="search-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
           <input
             type="text"
             className="search-input"
-            placeholder="Search jobs, companies, skills..."
+            placeholder="Type job title, skill (e.g. React, Python, SDE), or company name..."
             value={search}
             onChange={e => setSearch(e.target.value)}
+            style={{ fontSize: '0.95rem', padding: '0.75rem 1rem 0.75rem 2.8rem' }}
           />
         </div>
       </div>
 
       {/* Count row */}
-      {!loading && !error && (
+      {!loading && !error && search.trim() !== '' && (
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>
           Showing <strong style={{ color: 'var(--text-primary)' }}>{jobs.length}</strong> of{' '}
           <strong style={{ color: 'var(--text-primary)' }}>{total}</strong> jobs
@@ -258,7 +222,7 @@ export default function Jobs() {
       {loading && (
         <div className="glass-panel" style={{ padding: '4rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
           <div style={{ width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.1)', borderTopColor: 'var(--primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }}></div>
-          <p style={{ margin: 0 }}>Finding suitable jobs...</p>
+          <p style={{ margin: 0 }}>Searching active job listings...</p>
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}
@@ -272,16 +236,16 @@ export default function Jobs() {
         </div>
       )}
 
-      {/* Empty */}
+      {/* Empty / Initial State */}
       {!loading && !error && jobs.length === 0 && (
-        <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
-          <p style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>🔍</p>
-          <h3>No jobs found</h3>
-          <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>Try adjusting your search or filters.</p>
-          <button className="btn btn-secondary" style={{ marginTop: '1rem' }}
-            onClick={() => { setSearch(''); setFilterRemote('all'); setFilterSource('All'); }}>
-            Clear Filters
-          </button>
+        <div className="glass-panel" style={{ padding: '3.5rem 2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
+          <p style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>💼</p>
+          <h3 style={{ fontSize: '1.2rem', color: 'var(--text-primary)', margin: '0 0 0.5rem 0' }}>
+            {search.trim() ? 'No jobs found' : 'Search IT & Software Jobs'}
+          </h3>
+          <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+            {search.trim() ? 'Try typing a different keyword or skill name.' : 'Type a job title, programming language, or company above to search live opportunities.'}
+          </p>
         </div>
       )}
 
