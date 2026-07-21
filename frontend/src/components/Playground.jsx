@@ -666,35 +666,87 @@ export default function Playground({ questions, onGoHome }) {
 
   const toggleTopic = (cat) => setExpandedTopics(prev => ({ ...prev, [cat]: !prev[cat] }));
   
+  const generateFallbackProblem = (q) => {
+    const isSQLCategory = q.category && q.category.toLowerCase().includes('sql');
+    const title = q.title || 'Coding Challenge';
+    
+    const description = q.description || `
+      <div style="font-family:var(--font-heading);">
+        <h3 style="font-size:1.15rem;margin-bottom:0.65rem;color:var(--text-primary);">${title}</h3>
+        <p style="color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;">
+          Write an efficient solution for <strong>${title}</strong>. Make sure to handle edge cases and optimize for time and space complexity.
+        </p>
+        ${q.input ? `
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);padding:0.85rem 1rem;border-radius:8px;margin-bottom:1rem;">
+          <strong style="color:var(--primary);font-size:0.85rem;display:block;margin-bottom:0.35rem;">Sample Input:</strong>
+          <pre style="margin:0;font-size:0.88rem;color:#e2e8f0;">${q.input}</pre>
+        </div>` : ''}
+      </div>
+    `;
+
+    const templates = (q.templates && Object.keys(q.templates).length > 0) ? q.templates : (
+      isSQLCategory ? {
+        mysql: `-- Solution for ${title}\nSELECT * FROM employees;`,
+        postgres: `-- Solution for ${title}\nSELECT * FROM employees;`
+      } : {
+        python: `# Write your Python 3 solution for ${title}\ndef solution():\n    # TODO: Write code here\n    pass\n\nif __name__ == '__main__':\n    print("Executing solution for ${title}...")`,
+        java: `import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        // TODO: Solution for ${title}\n        System.out.println("Executing Java Solution...");\n    }\n}`,
+        cpp: `#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    // TODO: Solution for ${title}\n    cout << "Executing C++ Solution..." << endl;\n    return 0;\n}`,
+        sql: `-- SQL query for ${title}\nSELECT * FROM employees;`
+      }
+    );
+
+    return {
+      id: q.id || 'prob-' + Math.random().toString(36).substr(2, 9),
+      title,
+      category: q.category || 'General',
+      difficulty: q.difficulty || 'Easy',
+      input: q.input || '',
+      description,
+      templates
+    };
+  };
+
   const selectQuestion = async (q) => {
+    if (!q) return;
     setDrawerOpen(false);
     setSidebarTab('problem');
+
     if (q.id === 'custom') {
       setActiveProblem(q);
       return;
     }
-    
+
+    // 1. If problem already has full description & templates
     if (q.description && q.templates && Object.keys(q.templates).length > 0) {
       setActiveProblem(q);
       return;
     }
 
+    // 2. Check in-memory cache
     if (questionCacheRef.current.has(q.id)) {
       setActiveProblem(questionCacheRef.current.get(q.id));
       return;
     }
-    
-    // Set a loading description state
-    setActiveProblem({
-      ...q,
-      description: '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:200px;color:var(--text-secondary);"><div style="width:30px;height:30px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem;"></div><p>Loading question details...</p></div>',
-      templates: {}
-    });
-    
+
+    // 3. Check static PROBLEMS array as instant match
+    const staticMatch = PROBLEMS.find(p => p.id === q.id || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase()));
+    if (staticMatch) {
+      questionCacheRef.current.set(q.id, staticMatch);
+      setActiveProblem(staticMatch);
+      return;
+    }
+
+    // 4. Generate fallback problem object
+    const fallbackObj = generateFallbackProblem(q);
+
+    // Set fallback immediately so the editor is never blank or stuck
+    setActiveProblem(fallbackObj);
+
+    // 5. Optionally attempt API/Firestore fetch to enrich if available
     try {
       const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
 
-      // Run parallel fetches for instant speed
       const apiFetch = fetch(`${API_URL}/api/questions/${q.id}`)
         .then(res => res.ok ? res.json() : null)
         .catch(() => null);
@@ -709,25 +761,12 @@ export default function Playground({ questions, onGoHome }) {
       if (fullQuestion) {
         questionCacheRef.current.set(q.id, fullQuestion);
         setActiveProblem(fullQuestion);
-        
-        if (questions) {
-          const idx = questions.findIndex(item => item.id === q.id);
-          if (idx !== -1) {
-            questions[idx] = fullQuestion;
-          }
-        }
       } else {
-        throw new Error('Failed to fetch details');
+        questionCacheRef.current.set(q.id, fallbackObj);
       }
     } catch (err) {
-      console.error(err);
-      setActiveProblem({
-        ...q,
-        description: '<p style="color:var(--danger);padding:1rem;">Failed to load question details. Please try again.</p>',
-        templates: {
-          python: '# Error loading question details'
-        }
-      });
+      console.warn("Using fallback problem definition:", err);
+      questionCacheRef.current.set(q.id, fallbackObj);
     }
   };
 
@@ -1759,7 +1798,12 @@ export default function Playground({ questions, onGoHome }) {
               const isExpanded = !!expandedTopics[category];
               return (
                 <div className="topic-group" key={category}>
-                  <div className="topic-header" onClick={() => toggleTopic(category)}>
+                  <div className="topic-header" onClick={() => {
+                    toggleTopic(category);
+                    if (items && items.length > 0) {
+                      selectQuestion(items[0]);
+                    }
+                  }}>
                     <span className="topic-name">{category}</span>
                     <span className="topic-meta">
                       <span className="topic-count">{items.length}Q</span>
