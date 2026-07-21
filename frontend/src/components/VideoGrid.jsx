@@ -50,13 +50,6 @@ export default function VideoGrid({ videos, isLoading }) {
 
   return (
     <div style={{ marginBottom: '3rem' }}>
-      <div className="section-header">
-        <div className="section-info">
-          <h2 className="section-title">Latest <span className="text-gradient">Tutorials & Updates</span></h2>
-          <p className="section-desc">Live video uploads directly from @virtualgyans YouTube channel, sorted latest to oldest.</p>
-        </div>
-      </div>
-
       <div className="filters-wrapper">
         <div className="filter-tabs">
           {categories.map((cat) => (

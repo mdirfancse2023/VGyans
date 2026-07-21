@@ -689,18 +689,6 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
 
   return (
     <div style={{ marginBottom: '3rem' }}>
-      {/* Compact section header */}
-      <div className="section-header">
-        <div className="section-info">
-          <h2 className="section-title">
-            Placement Prep <span className="text-gradient">Hub &amp; Resources</span>
-          </h2>
-          <p className="section-desc">
-            Study materials, onboarding tracker, and technical flashcards — all in one place.
-          </p>
-        </div>
-      </div>
-
       {/* Section Tab Switcher */}
       <div className="filters-wrapper" style={{ marginBottom: '0.5rem' }}>
         <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>

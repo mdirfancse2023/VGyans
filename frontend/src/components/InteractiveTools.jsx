@@ -7,13 +7,6 @@ export default function InteractiveTools({ apiUrl }) {
 
   return (
     <div style={{ marginBottom: '3rem' }}>
-      <div className="section-header">
-        <div className="section-info">
-          <h2 className="section-title">Resume <span className="text-gradient">Tools</span></h2>
-          <p className="section-desc">Build a professional resume from scratch or analyze your existing resume against a job description using AI.</p>
-        </div>
-      </div>
-
       <div className="filters-wrapper" style={{ marginBottom: '2.5rem' }}>
         <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
           <button 
