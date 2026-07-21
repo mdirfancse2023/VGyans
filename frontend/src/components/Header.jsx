@@ -109,29 +109,63 @@ export default function Header({
   return (
     <nav className="navbar">
       <div className="nav-container">
-        {/* Left: Creative Dual-Identity Logo & Real-time Live Clock */}
-        <a href="#home" className="logo creative-timer-logo-trigger" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
-          <div className="theme-toggle-btn" style={{ width: '34px', height: '34px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', borderRadius: '10px' }}>
-            <img 
-              src="/logo.png" 
-              alt="Virtual Gyans Logo" 
-              style={{ width: '22px', height: '22px', objectFit: 'contain' }} 
-              loading="eager"
-              fetchpriority="high"
-              decoding="sync"
-            />
+        {/* Left: Creative 3-Face Brand Logo (Virtual Gyans <-> Live Clock <-> Real-Time Temperature) */}
+        <div className="header-weather-trigger-item" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+          <a href="#home" className="logo creative-timer-logo-trigger" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
+            <div className="theme-toggle-btn" style={{ width: '34px', height: '34px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', borderRadius: '10px' }}>
+              <img 
+                src="/logo.png" 
+                alt="Virtual Gyans Logo" 
+                style={{ width: '22px', height: '22px', objectFit: 'contain' }} 
+                loading="eager"
+                fetchpriority="high"
+                decoding="sync"
+              />
+            </div>
+            
+            {/* Creative 3-Face Text: Flips seamlessly between "Virtual Gyans", Live Clock & Real-Time Weather */}
+            <div className="creative-brand-timer-wrapper" title={`Virtual Gyans • Real-time Clock: ${currentTimeStr} • Weather in ${weatherData.city}: ${weatherData.temp}°C`}>
+              <span className="brand-text-face brand-name">
+                Virtual Gyans
+              </span>
+              <span className="brand-text-face live-clock">
+                {currentTimeStr}
+              </span>
+              <span className="brand-text-face live-temp">
+                {weatherData.icon} {weatherData.temp}°C
+              </span>
+            </div>
+          </a>
+
+          {/* Weather Details Hover Popover Modal on Logo Hover */}
+          <div className="header-weather-popover" style={{ left: '0', right: 'auto', top: 'calc(100% + 12px)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                📍 {weatherData.city}
+              </span>
+              <span className="badge badge-primary" style={{ fontSize: '0.62rem', padding: '0.1rem 0.45rem', borderRadius: '10px' }}>Weather Info</span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.65rem' }}>
+              <span style={{ fontSize: '1.8rem' }}>{weatherData.icon}</span>
+              <div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1 }}>
+                  {weatherData.temp}°C
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.15rem' }}>
+                  {weatherData.condition}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.35rem', fontSize: '0.72rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.03)', padding: '0.5rem', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
+              <div>🌡️ Feels: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.feelsLike}°C</strong></div>
+              <div>💧 Humidity: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.humidity}%</strong></div>
+              <div>💨 Wind: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.windSpeed} km/h</strong></div>
+              <div>📈 Range: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.low}° - {weatherData.high}°C</strong></div>
+            </div>
           </div>
-          
-          {/* Creative Dual-Identity Text: Flips seamlessly between "Virtual Gyans" & Live Real-Time Clock */}
-          <div className="creative-brand-timer-wrapper" title={`Virtual Gyans • Real-time Clock: ${currentTimeStr}`}>
-            <span className="brand-text-face brand-name">
-              Virtual Gyans
-            </span>
-            <span className="brand-text-face live-clock">
-              {currentTimeStr}
-            </span>
-          </div>
-        </a>
+        </div>
         
         {/* Middle: Navigation Text Tabs */}
         <ul className="nav-links nav-middle" style={{ alignItems: 'center' }}>
@@ -404,55 +438,6 @@ export default function Header({
                 </svg>
               )}
             </button>
-          </li>
-
-          {/* 2. Real-time Weather Widget (Exact square icon button matching other navbar items) */}
-          <li className="header-weather-trigger-item">
-            <button 
-              className="theme-toggle-btn"
-              style={{
-                cursor: 'pointer',
-                fontFamily: 'var(--font-heading)',
-                fontSize: '0.8rem',
-                fontWeight: 800,
-                color: 'var(--primary)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-              title={`Current Weather in ${weatherData.city}: ${weatherData.temp}°C (${weatherData.condition})`}
-            >
-              {weatherData.temp}°
-            </button>
-
-            {/* Weather Details Hover Popover Modal */}
-            <div className="header-weather-popover">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  📍 {weatherData.city}
-                </span>
-                <span className="badge badge-primary" style={{ fontSize: '0.62rem', padding: '0.1rem 0.45rem', borderRadius: '10px' }}>Real-time</span>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.65rem' }}>
-                <span style={{ fontSize: '1.8rem' }}>{weatherData.icon}</span>
-                <div>
-                  <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1 }}>
-                    {weatherData.temp}°C
-                  </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.15rem' }}>
-                    {weatherData.condition}
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.35rem', fontSize: '0.72rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.03)', padding: '0.5rem', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
-                <div>🌡️ Feels: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.feelsLike}°C</strong></div>
-                <div>💧 Humidity: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.humidity}%</strong></div>
-                <div>💨 Wind: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.windSpeed} km/h</strong></div>
-                <div>📈 Range: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.low}° - {weatherData.high}°C</strong></div>
-              </div>
-            </div>
           </li>
 
           {/* 3. YouTube Channel Button */}
