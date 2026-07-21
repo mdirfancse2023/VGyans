@@ -14,6 +14,7 @@ import Songs from './components/Songs';
 import News from './components/News';
 import MiniPlayer from './components/MiniPlayer';
 import AuthModal from './components/AuthModal';
+import UserNotesModal from './components/UserNotesModal';
 import { verifyJWT } from './utils/jwtUtils';
 
 const API_URL = import.meta.env.VITE_API_URL || (
@@ -33,6 +34,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
 
   // User Auth State & Persistent Refresh/Access Token Verification
   const [user, setUser] = useState(() => {
@@ -728,6 +730,7 @@ export default function App() {
         theme={theme}
         toggleTheme={toggleTheme}
         onOpenFeedback={() => setIsFeedbackOpen(true)}
+        onOpenNotes={() => setIsNotesOpen(true)}
         currentSong={currentSong}
         isPlaying={isPlaying}
         togglePlay={togglePlay}
@@ -906,6 +909,7 @@ export default function App() {
 
       {activeTab !== 'playground' && <Footer />}
       <FeedbackButton isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} hideTrigger={true} />
+      <UserNotesModal isOpen={isNotesOpen} onClose={() => setIsNotesOpen(false)} user={user} onOpenAuth={() => setIsAuthOpen(true)} />
       <CareerCoach />
       
       {/* Mandatory Auth Modal for Unauthenticated Visitors (Stores in Firebase Firestore) */}
