@@ -591,20 +591,6 @@ def get_channel_stats():
             pass
     return load_data().get("channel", {})
 
-@app.get("/api/sync-youtube")
-@app.post("/api/sync-youtube")
-def trigger_youtube_sync():
-    try:
-        from sync_youtube import sync_all_youtube_data
-        result = sync_all_youtube_data()
-        return {
-            "message": "YouTube metadata and videos synchronized successfully!",
-            "videos_count": result["videos_count"],
-            "channel": result["channel"]
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"YouTube sync failed: {str(e)}")
-
 @app.get("/api/playlists")
 def get_playlists():
     return load_firestore_collection("playlists")
@@ -663,11 +649,7 @@ def fetch_live_youtube_videos():
     except Exception as e:
         print(f"Live YouTube fetch warning: {e}")
 
-    try:
-        from sync_youtube import fetch_youtube_videos
-        return fetch_youtube_videos()
-    except Exception:
-        return []
+    return []
 
 @app.get("/api/videos")
 def get_videos(category: Optional[str] = None, search: Optional[str] = None):
