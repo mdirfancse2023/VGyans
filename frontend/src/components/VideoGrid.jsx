@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function VideoGrid({ videos }) {
+export default function VideoGrid({ videos, isLoading }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -54,7 +54,7 @@ export default function VideoGrid({ videos }) {
       <div className="section-header">
         <div className="section-info">
           <h2 className="section-title">Latest <span className="text-gradient">Tutorials & Updates</span></h2>
-          <p className="section-desc">Browse through our latest uploads on hiring notifications, career development, and coding.</p>
+          <p className="section-desc">Live video uploads directly from @virtualgyans YouTube channel, sorted latest to oldest.</p>
         </div>
       </div>
 
@@ -86,7 +86,31 @@ export default function VideoGrid({ videos }) {
         </div>
       </div>
 
-      {filteredVideos.length === 0 ? (
+      {isLoading ? (
+        <div className="glass-panel" style={{ padding: '4rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '16px' }}>
+          <div className="realtime-spinner" style={{ position: 'relative', width: '56px', height: '56px', marginBottom: '1.25rem' }}>
+            <div style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: '50%',
+              border: '3px solid rgba(6, 182, 212, 0.15)',
+              borderTopColor: 'var(--primary)',
+              animation: 'spin 0.9s linear infinite'
+            }}></div>
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              fontSize: '1.3rem'
+            }}>▶</div>
+          </div>
+          <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)', margin: '0 0 0.4rem 0' }}>Fetching Live YouTube Videos...</h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', maxWidth: '400px', margin: 0 }}>
+            Loading latest video uploads from @virtualgyans in real-time...
+          </p>
+        </div>
+      ) : filteredVideos.length === 0 ? (
         <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
           <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '1rem', opacity: 0.5 }}>
             <video cx="12" cy="12" r="10"></video>

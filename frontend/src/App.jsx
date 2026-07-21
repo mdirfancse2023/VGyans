@@ -101,6 +101,7 @@ export default function App() {
   });
   const [playlists, setPlaylists] = useState([]);
   const [videos, setVideos] = useState([]);
+  const [isLoadingVideos, setIsLoadingVideos] = useState(false);
   const [resources, setResources] = useState([]);
   const [experiences, setExperiences] = useState([]);
   const [flashcards, setFlashcards] = useState([]);
@@ -430,25 +431,20 @@ export default function App() {
         };
 
         const [
-          channel, playlistsRes, videosRes, resourcesRes, experiencesRes, flashcardsRes, onboardingStagesRes, notesRes, playgroundQuestionsRes, songsRes
+          channel, playlistsRes, resourcesRes, experiencesRes, flashcardsRes, onboardingStagesRes, notesRes, playgroundQuestionsRes
         ] = await Promise.all([
           fetchJSON('channel'),
           fetchJSON('playlists'),
-          fetchJSON('videos'),
           fetchJSON('resources'),
           fetchJSON('experiences'),
           fetchJSON('flashcards'),
           fetchJSON('onboardingStages'),
           fetchJSON('notes'),
-          fetchJSON('playground_questions'),
-          fetchJSON('songs')
+          fetchJSON('playground_questions')
         ]);
 
         if (channel) setChannelStats(cleanChannel(channel));
         if (playlistsRes) setPlaylists(playlistsRes);
-        if (videosRes && Array.isArray(videosRes) && videosRes.length > 0) {
-          setVideos(sortVideosNewestFirst(videosRes));
-        }
         if (resourcesRes) setResources(resourcesRes);
         if (experiencesRes) setExperiences(experiencesRes);
         if (flashcardsRes) setFlashcards(flashcardsRes);
@@ -529,6 +525,54 @@ export default function App() {
     };
 
     fetchData();
+  }, []);
+
+  // Real-time Live YouTube Video Fetcher
+  useEffect(() => {
+    const fetchRealtimeLiveVideos = async () => {
+      setIsLoadingVideos(true);
+      try {
+        const vRes = await fetch(`${API_URL}/api/videos`);
+        if (vRes.ok) {
+          const liveVids = await vRes.json();
+          if (liveVids && liveVids.length > 0) {
+            setVideos(liveVids);
+            setIsLoadingVideos(false);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Real-time videos backend fetch notice:', err);
+      }
+
+      // Fallback direct live fetch using YouTube channel scrape & oEmbed
+      try {
+        const ytUrl = 'https://www.youtube.com/@virtualgyans/videos';
+        const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(ytUrl)}`);
+        if (res.ok) {
+          const html = await res.text();
+          const matches = html.match(/\"videoId\":\"([a-zA-Z0-9_-]{11})\"/g);
+          if (matches) {
+            const uniqueIds = Array.from(new Set(matches.map(m => m.split('"')[3]))).slice(0, 25);
+            const liveVids = uniqueIds.map((vId, idx) => ({
+              id: vId,
+              title: `Virtual Gyans Video #${idx + 1}`,
+              description: 'Watch the latest Virtual Gyans tutorial and guidance video.',
+              thumbnailUrl: `https://i.ytimg.com/vi/${vId}/hqdefault.jpg`,
+              category: idx % 2 === 0 ? 'Placement Prep' : 'Technical',
+              videoUrl: `https://www.youtube.com/watch?v=${vId}`
+            }));
+            setVideos(liveVids);
+          }
+        }
+      } catch (e) {
+        console.warn('Client fallback live videos notice:', e);
+      } finally {
+        setIsLoadingVideos(false);
+      }
+    };
+
+    fetchRealtimeLiveVideos();
   }, []);
 
   // Handle new experience submission
@@ -687,7 +731,7 @@ export default function App() {
 
         {activeTab === 'videos' && (
           <section>
-            <VideoGrid videos={videos} />
+            <VideoGrid videos={videos} isLoading={isLoadingVideos} />
           </section>
         )}
 

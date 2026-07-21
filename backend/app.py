@@ -617,10 +617,69 @@ def trigger_youtube_sync():
 def get_playlists():
     return load_firestore_collection("playlists")
 
+def fetch_live_youtube_videos():
+    try:
+        import urllib.request, re, json
+        from concurrent.futures import ThreadPoolExecutor
+
+        req = urllib.request.Request(
+            'https://www.youtube.com/@virtualgyans/videos',
+            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+        )
+        ctx = ssl._create_unverified_context()
+        with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+            html = resp.read().decode('utf-8')
+
+        v_ids = []
+        for m in re.finditer(r'\"videoId\":\"([a-zA-Z0-9_-]{11})\"', html):
+            vid = m.group(1)
+            if vid not in v_ids:
+                v_ids.append(vid)
+
+        def fetch_meta(vid_id):
+            try:
+                url = f"https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={vid_id}&format=json"
+                r = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                with urllib.request.urlopen(r, timeout=3, context=ctx) as response:
+                    data = json.loads(response.read().decode('utf-8'))
+                    title = data.get("title", "")
+                    cat = "Placement Prep" if any(k in title.lower() for k in ["interview", "cognizant", "tcs", "wipro", "infosys", "joining", "onboarding"]) else "Technical"
+                    return {
+                        "id": vid_id,
+                        "title": title,
+                        "description": title,
+                        "thumbnailUrl": f"https://i.ytimg.com/vi/{vid_id}/hqdefault.jpg",
+                        "publishedAt": "",
+                        "category": cat,
+                        "videoUrl": f"https://www.youtube.com/watch?v={vid_id}"
+                    }
+            except Exception:
+                return {
+                    "id": vid_id,
+                    "title": f"Virtual Gyans Video ({vid_id})",
+                    "description": "Virtual Gyans YouTube Video",
+                    "thumbnailUrl": f"https://i.ytimg.com/vi/{vid_id}/hqdefault.jpg",
+                    "category": "Placement Prep",
+                    "videoUrl": f"https://www.youtube.com/watch?v={vid_id}"
+                }
+
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            live_videos = list(filter(None, executor.map(fetch_meta, v_ids[:30])))
+
+        if live_videos:
+            return live_videos
+    except Exception as e:
+        print(f"Live YouTube fetch warning: {e}")
+
+    try:
+        from sync_youtube import fetch_youtube_videos
+        return fetch_youtube_videos()
+    except Exception:
+        return []
+
 @app.get("/api/videos")
 def get_videos(category: Optional[str] = None, search: Optional[str] = None):
-    videos = load_firestore_collection("videos")
-    videos.sort(key=lambda x: str(x.get("publishedAt") or ""), reverse=True)
+    videos = fetch_live_youtube_videos()
     if category:
         videos = [v for v in videos if v.get("category", "").lower() == category.lower()]
     if search:
