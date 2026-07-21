@@ -137,11 +137,17 @@ export default function Jobs() {
   const [lastRefresh, setLastRefresh] = useState(null);
 
   const fetchJobs = useCallback(async () => {
+    if (!search.trim()) {
+      setJobs([]);
+      setTotal(0);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
       const params = new URLSearchParams();
-      if (search.trim()) params.set('search', search.trim());
+      params.set('search', search.trim());
       if (filterRemote === 'remote') params.set('remote', 'true');
       if (filterRemote === 'onsite') params.set('remote', 'false');
       if (filterSource !== 'All') params.set('source', filterSource);
@@ -160,7 +166,13 @@ export default function Jobs() {
   }, [search, filterRemote, filterSource]);
 
   useEffect(() => {
-    const t = setTimeout(fetchJobs, search ? 500 : 0);
+    if (!search.trim()) {
+      setJobs([]);
+      setTotal(0);
+      setLoading(false);
+      return;
+    }
+    const t = setTimeout(fetchJobs, 500);
     return () => clearTimeout(t);
   }, [fetchJobs, search]);
 
