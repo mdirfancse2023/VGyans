@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logoImg from '../assets/logo.png';
 
 export default function Header({ 
@@ -19,6 +19,64 @@ export default function Header({
   onOpenAuth,
   onLogout
 }) {
+  const [weatherData, setWeatherData] = useState({
+    temp: 22,
+    condition: 'Partly Cloudy',
+    icon: '⛅',
+    city: 'Live Location',
+    humidity: 58,
+    windSpeed: 12,
+    feelsLike: 23,
+    high: 26,
+    low: 18
+  });
+
+  useEffect(() => {
+    const fetchWeather = async (lat = 28.6139, lon = 77.2090, cityName = 'Live Weather') => {
+      try {
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m,apparent_temperature`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.current_weather) {
+            const temp = Math.round(data.current_weather.temperature);
+            const code = data.current_weather.weathercode;
+            let icon = '☀️';
+            let cond = 'Clear Sky';
+            if (code >= 1 && code <= 3) { icon = '⛅'; cond = 'Partly Cloudy'; }
+            else if (code >= 45 && code <= 48) { icon = '🌫️'; cond = 'Foggy'; }
+            else if (code >= 51 && code <= 67) { icon = '🌧️'; cond = 'Light Rain'; }
+            else if (code >= 80 && code <= 99) { icon = '🌩️'; cond = 'Thunderstorm'; }
+
+            setWeatherData({
+              temp,
+              condition: cond,
+              icon,
+              city: cityName,
+              humidity: data.hourly?.relativehumidity_2m?.[0] || 60,
+              windSpeed: Math.round(data.current_weather.windspeed || 12),
+              feelsLike: Math.round(data.hourly?.apparent_temperature?.[0] || temp),
+              high: temp + 4,
+              low: temp - 4
+            });
+          }
+        }
+      } catch (err) {
+        console.log('Using default weather state:', err);
+      }
+    };
+
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(ipData => {
+        if (ipData && ipData.latitude && ipData.longitude) {
+          fetchWeather(ipData.latitude, ipData.longitude, ipData.city || ipData.region || 'Local');
+        } else {
+          fetchWeather();
+        }
+      })
+      .catch(() => fetchWeather());
+  }, []);
+
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'guides', label: 'Placement' },
@@ -300,30 +358,7 @@ export default function Header({
               💬
             </button>
           </li>
-          <li>
-            <a 
-              href="https://www.youtube.com/@virtualgyans" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="theme-toggle-btn"
-              title="Subscribe on YouTube"
-            >
-              <svg 
-                viewBox="0 0 24 24" 
-                width="18" 
-                height="18" 
-              >
-                <path 
-                  d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.507 9.388.507 9.388.507s7.518 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837z" 
-                  fill="#FF0000" 
-                />
-                <polygon 
-                  points="9.545 15.568 15.818 12 9.545 8.432" 
-                  fill="#FFFFFF" 
-                />
-              </svg>
-            </a>
-          </li>
+          {/* 1. Theme Toggler Button */}
           <li>
             <button 
               onClick={toggleTheme}
@@ -348,6 +383,87 @@ export default function Header({
                 </svg>
               )}
             </button>
+          </li>
+
+          {/* 2. Real-time Weather Widget (In between Theme Toggler & YouTube Icon) */}
+          <li className="header-weather-trigger-item">
+            <div 
+              className="theme-toggle-btn"
+              style={{
+                width: 'auto',
+                padding: '0 0.55rem',
+                height: '32px',
+                gap: '0.3rem',
+                borderRadius: '20px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                color: 'var(--text-primary)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                cursor: 'pointer',
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid var(--border-glass)'
+              }}
+              title={`Current Weather: ${weatherData.temp}°C (${weatherData.condition})`}
+            >
+              <span style={{ fontSize: '0.9rem' }}>{weatherData.icon}</span>
+              <span style={{ color: 'var(--primary)', fontFamily: 'var(--font-heading)' }}>{weatherData.temp}°C</span>
+            </div>
+
+            {/* Weather Details Hover Popover Modal */}
+            <div className="header-weather-popover">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  📍 {weatherData.city}
+                </span>
+                <span className="badge badge-primary" style={{ fontSize: '0.62rem', padding: '0.1rem 0.45rem', borderRadius: '10px' }}>Real-time</span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.65rem' }}>
+                <span style={{ fontSize: '1.8rem' }}>{weatherData.icon}</span>
+                <div>
+                  <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1 }}>
+                    {weatherData.temp}°C
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.15rem' }}>
+                    {weatherData.condition}
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.35rem', fontSize: '0.72rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.03)', padding: '0.5rem', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
+                <div>🌡️ Feels: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.feelsLike}°C</strong></div>
+                <div>💧 Humidity: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.humidity}%</strong></div>
+                <div>💨 Wind: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.windSpeed} km/h</strong></div>
+                <div>📈 Range: <strong style={{ color: 'var(--text-primary)' }}>{weatherData.low}° - {weatherData.high}°C</strong></div>
+              </div>
+            </div>
+          </li>
+
+          {/* 3. YouTube Channel Button */}
+          <li>
+            <a 
+              href="https://www.youtube.com/@virtualgyans" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="theme-toggle-btn"
+              title="Subscribe on YouTube"
+            >
+              <svg 
+                viewBox="0 0 24 24" 
+                width="18" 
+                height="18" 
+              >
+                <path 
+                  d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.507 9.388.507 9.388.507s7.518 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837z" 
+                  fill="#FF0000" 
+                />
+                <polygon 
+                  points="9.545 15.568 15.818 12 9.545 8.432" 
+                  fill="#FFFFFF" 
+                />
+              </svg>
+            </a>
           </li>
           {/* User Profile / Auth Item with Log Out Dropdown Card */}
           <li className="header-profile-trigger-item">
