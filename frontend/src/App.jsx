@@ -14,7 +14,6 @@ import Songs from './components/Songs';
 import MiniPlayer from './components/MiniPlayer';
 import AuthModal from './components/AuthModal';
 import { verifyJWT } from './utils/jwtUtils';
-import defaultSongs from '../public/data/songs.json';
 
 const API_URL = import.meta.env.VITE_API_URL || (
   typeof window !== 'undefined' && window.location.hostname === 'localhost' 
@@ -111,7 +110,7 @@ export default function App() {
   const [playgroundQuestions, setPlaygroundQuestions] = useState([]);
 
   // Music Player States
-  const [songs, setSongs] = useState(defaultSongs || []);
+  const [songs, setSongs] = useState([]);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
@@ -456,7 +455,6 @@ export default function App() {
         if (onboardingStagesRes) setOnboardingStages(onboardingStagesRes);
         if (notesRes) setNotes(notesRes);
         if (playgroundQuestionsRes) setPlaygroundQuestions(playgroundQuestionsRes);
-        if (songsRes && Array.isArray(songsRes) && songsRes.length > 0) setSongs(songsRes);
       } catch (err) {
         console.warn('Local static data load notice:', err);
       }
@@ -524,7 +522,6 @@ export default function App() {
             });
           }
           if (liveData.playground_questions) setPlaygroundQuestions(liveData.playground_questions);
-          if (liveData.songs && Array.isArray(liveData.songs) && liveData.songs.length > 0) setSongs(liveData.songs);
         }
       } catch (err) {
         console.warn('Live API background fetch skipped:', err);
@@ -736,6 +733,7 @@ export default function App() {
           <section>
             <Songs
               songs={songs}
+              setSongs={setSongs}
               currentSong={currentSong}
               isPlaying={isPlaying}
               playSong={playSong}
