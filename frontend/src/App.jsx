@@ -170,70 +170,13 @@ export default function App() {
         }
       }
 
-      // PrintScreen Key -> Clear Clipboard & Trigger Blank Screen
+      // PrintScreen Key -> Clear Clipboard
       if (e.key === 'PrintScreen' || e.keyCode === 44 || e.code === 'PrintScreen') {
         e.preventDefault();
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText('');
         }
-        setIsScreenProtected(true);
-        document.body.classList.add('screenshot-blanked');
-        setTimeout(() => {
-          setIsScreenProtected(false);
-          document.body.classList.remove('screenshot-blanked');
-        }, 3000);
         return false;
-      }
-
-      // macOS Screenshot (Cmd+Shift+3/4/5) & Windows Snipping Tool (Win+Shift+S)
-      if ((e.metaKey || e.ctrlKey || e.key === 'Meta') && (e.shiftKey || key === '3' || key === '4' || key === '5' || key === 's')) {
-        e.preventDefault();
-        setIsScreenProtected(true);
-        document.body.classList.add('screenshot-blanked');
-        setTimeout(() => {
-          setIsScreenProtected(false);
-          document.body.classList.remove('screenshot-blanked');
-        }, 3500);
-        return false;
-      }
-    };
-
-    // 5. Blank Screen on Window Blur, Mouse Leave & Screenshot Tool activation
-    const handleBlur = () => {
-      setIsScreenProtected(true);
-      document.body.classList.add('screenshot-blanked');
-    };
-
-    const handleFocus = () => {
-      setTimeout(() => {
-        setIsScreenProtected(false);
-        document.body.classList.remove('screenshot-blanked');
-      }, 300);
-    };
-
-    const handleMouseLeave = (e) => {
-      if (!e.relatedTarget && !e.toElement) {
-        setIsScreenProtected(true);
-        document.body.classList.add('screenshot-blanked');
-      }
-    };
-
-    const handleMouseEnter = () => {
-      setTimeout(() => {
-        setIsScreenProtected(false);
-        document.body.classList.remove('screenshot-blanked');
-      }, 200);
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        setIsScreenProtected(true);
-        document.body.classList.add('screenshot-blanked');
-      } else {
-        setTimeout(() => {
-          setIsScreenProtected(false);
-          document.body.classList.remove('screenshot-blanked');
-        }, 200);
       }
     };
 
@@ -242,11 +185,6 @@ export default function App() {
     document.addEventListener('cut', handleCopyCut);
     document.addEventListener('dragstart', handleDragStart);
     document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
-    window.addEventListener('blur', handleBlur);
-    window.addEventListener('focus', handleFocus);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
@@ -254,11 +192,6 @@ export default function App() {
       document.removeEventListener('cut', handleCopyCut);
       document.removeEventListener('dragstart', handleDragStart);
       document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-      window.removeEventListener('blur', handleBlur);
-      window.removeEventListener('focus', handleFocus);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
@@ -993,16 +926,6 @@ export default function App() {
         onEnded={handleSongEnded}
       />
 
-      {/* Screenshot & Screen Capture Protection Overlay */}
-      {isScreenProtected && (
-        <div className="screenshot-protection-overlay">
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🔒</div>
-          <h3 style={{ color: '#ef4444', margin: '0 0 0.5rem 0' }}>Content Protection Active</h3>
-          <p style={{ color: '#94a3b8', fontSize: '0.9rem', maxWidth: '450px', margin: 0 }}>
-            Screen capture, screenshots, and text copying are restricted for platform security.
-          </p>
-        </div>
-      )}
     </div>
   );
 }
