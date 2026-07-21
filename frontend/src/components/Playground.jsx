@@ -712,10 +712,7 @@ export default function Playground({ questions, onGoHome }) {
     setDrawerOpen(false);
     setSidebarTab('problem');
 
-    if (q.id === 'custom') {
-      setActiveProblem(q);
-      return;
-    }
+    const qId = String(q.id);
 
     // 1. If problem already has full description & templates
     if (q.description && q.templates && Object.keys(q.templates).length > 0) {
@@ -724,49 +721,65 @@ export default function Playground({ questions, onGoHome }) {
     }
 
     // 2. Check in-memory cache
-    if (questionCacheRef.current.has(q.id)) {
-      setActiveProblem(questionCacheRef.current.get(q.id));
+    if (questionCacheRef.current.has(qId)) {
+      setActiveProblem(questionCacheRef.current.get(qId));
       return;
     }
 
-    // 3. Check static PROBLEMS array as instant match
-    const staticMatch = PROBLEMS.find(p => p.id === q.id || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase()));
+    // 3. Check static PROBLEMS array match
+    const staticMatch = PROBLEMS.find(p => String(p.id) === qId || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase()));
     if (staticMatch) {
-      questionCacheRef.current.set(q.id, staticMatch);
+      questionCacheRef.current.set(qId, staticMatch);
       setActiveProblem(staticMatch);
       return;
     }
 
-    // 4. Generate fallback problem object
-    const fallbackObj = generateFallbackProblem(q);
+    // Display loading state while fetching directly from Firebase Firestore & Vercel API
+    setActiveProblem({
+      ...q,
+      description: '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:240px;color:var(--text-secondary);"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem;"></div><p style="font-weight:600;">Fetching question details from Firebase Database...</p></div>',
+      templates: {}
+    });
 
-    // Set fallback immediately so the editor is never blank or stuck
-    setActiveProblem(fallbackObj);
-
-    // 5. Optionally attempt API/Firestore fetch to enrich if available
     try {
-      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
+      const API_URL = import.meta.env.VITE_API_URL || 'https://v-gyans.vercel.app';
 
-      const apiFetch = fetch(`${API_URL}/api/questions/${q.id}`)
+      // Fetch from Firebase Firestore directly
+      const firebaseFetch = getDoc(doc(db, 'playground_questions', qId))
+        .then(snap => (snap && snap.exists()) ? { id: snap.id, ...snap.data() } : null)
+        .catch(err => {
+          console.warn("Firestore fetch error:", err);
+          return null;
+        });
+
+      // Fetch from Vercel Backend API
+      const apiFetch = fetch(`${API_URL}/api/questions/${encodeURIComponent(qId)}`)
         .then(res => res.ok ? res.json() : null)
-        .catch(() => null);
+        .catch(err => {
+          console.warn("Vercel API fetch error:", err);
+          return null;
+        });
 
-      const firebaseFetch = getDoc(doc(db, 'playground_questions', q.id))
-        .then(snap => (snap && snap.exists()) ? snap.data() : null)
-        .catch(() => null);
+      const [firebaseData, apiData] = await Promise.all([firebaseFetch, apiFetch]);
+      const fullQuestion = firebaseData || apiData;
 
-      const results = await Promise.all([apiFetch, firebaseFetch]);
-      const fullQuestion = results.find(item => item && item.templates && Object.keys(item.templates).length > 0);
-
-      if (fullQuestion) {
-        questionCacheRef.current.set(q.id, fullQuestion);
+      if (fullQuestion && (fullQuestion.description || (fullQuestion.templates && Object.keys(fullQuestion.templates).length > 0))) {
+        questionCacheRef.current.set(qId, fullQuestion);
         setActiveProblem(fullQuestion);
       } else {
-        questionCacheRef.current.set(q.id, fallbackObj);
+        setActiveProblem({
+          ...q,
+          description: `<div style="padding:1.5rem;color:var(--text-secondary);"><h3 style="color:var(--danger);margin-bottom:0.5rem;">Database Item Not Found</h3><p>Question <strong>${q.title || qId}</strong> was not found in Firebase Firestore collection <code>playground_questions</code> or Vercel API.</p></div>`,
+          templates: {}
+        });
       }
     } catch (err) {
-      console.warn("Using fallback problem definition:", err);
-      questionCacheRef.current.set(q.id, fallbackObj);
+      console.error("Database fetch error:", err);
+      setActiveProblem({
+        ...q,
+        description: `<div style="padding:1.5rem;color:var(--danger);"><h3 style="margin-bottom:0.5rem;">Database Connection Error</h3><p>Could not load question from Firebase Firestore / Vercel API: ${err.message}</p></div>`,
+        templates: {}
+      });
     }
   };
 
