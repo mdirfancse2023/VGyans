@@ -84,12 +84,12 @@ const features = [
 ];
 
 const floatingBadges = [
-  { text: '100% Placement Prep', icon: '🚀', delay: '0s',   top: '5%',   left: '-22%' },
-  { text: 'Live Code IDE',       icon: '⚡', delay: '0.4s', top: '38%',  left: '-28%' },
-  { text: 'Real Candidate Logs', icon: '🧑‍💼', delay: '0.8s', top: '70%',  left: '-20%' },
-  { text: 'AI ATS Resume Score', icon: '✨', delay: '1.2s', top: '8%',   right: '-22%' },
-  { text: 'Gyans Copilot AI',    icon: '🤖', delay: '1.6s', top: '42%',  right: '-26%' },
-  { text: 'TCS • Accenture • Cognizant', icon: '🔥', delay: '2s', top: '72%', right: '-24%' },
+  { text: 'Placement Prep', icon: '🚀', delay: '0s',   top: '8%',   left: '-14%' },
+  { text: 'Code IDE',       icon: '⚡', delay: '0.4s', top: '40%',  left: '-18%' },
+  { text: 'Interview Logs', icon: '🧑‍💼', delay: '0.8s', top: '72%',  left: '-12%' },
+  { text: 'ATS Resume AI',  icon: '✨', delay: '1.2s', top: '8%',   right: '-14%' },
+  { text: 'Copilot AI',     icon: '🤖', delay: '1.6s', top: '40%',  right: '-18%' },
+  { text: 'MNC Guides',     icon: '🔥', delay: '2s',   top: '72%',  right: '-14%' },
 ];
 
 export default function Hero({ stats, setActiveTab }) {
