@@ -207,7 +207,7 @@ export default function UserNotesModal({ isOpen, onClose, user, onOpenAuth }) {
           height: '82vh',
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(6, 182, 212, 0.2)',
+          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.7)',
           overflow: 'hidden'
         }}
         onClick={e => e.stopPropagation()}
@@ -309,8 +309,8 @@ export default function UserNotesModal({ isOpen, onClose, user, onOpenAuth }) {
                         borderRadius: '10px',
                         marginBottom: '4px',
                         cursor: 'pointer',
-                        background: isActive ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                        border: isActive ? '1px solid var(--primary)' : '1px solid transparent',
+                        background: isActive ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
+                        border: isActive ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid transparent',
                         transition: 'all 0.15s ease'
                       }}
                     >
