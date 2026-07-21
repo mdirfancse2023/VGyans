@@ -72,95 +72,82 @@ export default function Header({
         <ul className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', listStyle: 'none', margin: 0, padding: 0 }}>
           {/* Music Navbar Item with Attached Floating Hover Popover Modal */}
           <li className="header-music-trigger-item" style={{ display: 'flex', alignItems: 'center' }}>
-            {currentSong && isPlaying ? (
-              <div
-                onClick={() => setActiveTab('songs')}
-                className="theme-toggle-btn active"
-                style={{
-                  width: 'auto',
-                  padding: '0 0.55rem',
-                  height: '32px',
-                  gap: '0.4rem',
-                  borderRadius: '8px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  boxSizing: 'border-box',
-                  verticalAlign: 'middle'
-                }}
-                title={`Now Playing: ${currentSong.title} - ${currentSong.artist}`}
-              >
-                {/* 1. Spinning Album Cover Art Logo */}
-                <img 
-                  src={currentSong.coverUrl} 
-                  alt={currentSong.title} 
-                  style={{ 
-                    width: '20px', 
-                    height: '20px', 
-                    borderRadius: '50%', 
-                    objectFit: 'cover', 
-                    animation: 'spinRecord 12s linear infinite',
-                    boxShadow: '0 0 6px rgba(6, 182, 212, 0.5)',
-                    flexShrink: 0
-                  }}
-                />
+            <div
+              onClick={() => setActiveTab('songs')}
+              className={`theme-toggle-btn header-music-morph-btn ${currentSong && isPlaying ? 'expanded active' : ''} ${activeTab === 'songs' ? 'active' : ''}`}
+              title={currentSong && isPlaying ? `Now Playing: ${currentSong.title} - ${currentSong.artist}` : 'Focus Music Player'}
+              style={{ cursor: 'pointer' }}
+            >
+              {currentSong && isPlaying ? (
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', animation: 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
+                  {/* 1. Spinning Album Cover Art Logo */}
+                  <img 
+                    src={currentSong.coverUrl} 
+                    alt={currentSong.title} 
+                    style={{ 
+                      width: '20px', 
+                      height: '20px', 
+                      borderRadius: '50%', 
+                      objectFit: 'cover', 
+                      animation: 'spinRecord 12s linear infinite',
+                      boxShadow: '0 0 6px rgba(6, 182, 212, 0.5)',
+                      flexShrink: 0
+                    }}
+                  />
 
-                {/* 2. Green Soundwave Equalizer Lines Animation */}
-                <div className="soundwave-green" style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '12px', flexShrink: 0 }}>
-                  <span className="wave-bar bar-1"></span>
-                  <span className="wave-bar bar-2"></span>
-                  <span className="wave-bar bar-3"></span>
+                  {/* 2. Green Soundwave Equalizer Lines Animation */}
+                  <div className="soundwave-green" style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '12px', flexShrink: 0 }}>
+                    <span className="wave-bar bar-1"></span>
+                    <span className="wave-bar bar-2"></span>
+                    <span className="wave-bar bar-3"></span>
+                  </div>
+
+                  {/* 3. Play / Pause Button */}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: 'var(--primary)',
+                      fontSize: '0.85rem',
+                      cursor: 'pointer',
+                      padding: '0 2px',
+                      lineHeight: 1,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                    title={isPlaying ? "Pause" : "Play"}
+                  >
+                    {isPlaying ? '⏸' : '▶'}
+                  </button>
+
+                  {/* 4. Next Track Button */}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); nextSong(); }}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: 'var(--text-secondary)',
+                      fontSize: '0.85rem',
+                      cursor: 'pointer',
+                      padding: '0 2px',
+                      lineHeight: 1,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                    title="Next Track"
+                  >
+                    ⏭
+                  </button>
                 </div>
-
-                {/* 3. Play / Pause Button */}
-                <button
-                  onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: 'var(--primary)',
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    padding: '0 2px',
-                    lineHeight: 1,
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                  title={isPlaying ? "Pause" : "Play"}
-                >
-                  {isPlaying ? '⏸' : '▶'}
-                </button>
-
-                {/* 3. Next Track Button */}
-                <button
-                  onClick={(e) => { e.stopPropagation(); nextSong(); }}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: 'var(--text-secondary)',
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    padding: '0 2px',
-                    lineHeight: 1,
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                  title="Next Track"
-                >
-                  ⏭
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => setActiveTab('songs')}
-                className={`theme-toggle-btn ${activeTab === 'songs' ? 'active' : ''}`}
-                title="Focus Music Player"
-              >
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                </svg>
-              </button>
-            )}
+              ) : (
+                <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', animation: 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                  </svg>
+                </div>
+              )}
+            </div>
 
             {/* Attached Square Popover Modal (Shown ON HOVER ONLY) */}
             {currentSong && (
