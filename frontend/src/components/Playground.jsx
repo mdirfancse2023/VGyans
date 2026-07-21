@@ -678,6 +678,11 @@ export default function Playground({ questions, onGoHome }) {
       setActiveProblem(q);
       return;
     }
+
+    if (questionCacheRef.current.has(q.id)) {
+      setActiveProblem(questionCacheRef.current.get(q.id));
+      return;
+    }
     
     // Set a loading description state
     setActiveProblem({
@@ -687,39 +692,24 @@ export default function Playground({ questions, onGoHome }) {
     });
     
     try {
-      let fullQuestion = null;
-      
-      // 1. Try Firebase Firestore SDK directly
-      try {
-        const docRef = doc(db, 'playground_questions', q.id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          if (data && data.templates) {
-            fullQuestion = data;
-          }
-        }
-      } catch (e) {
-        console.warn('Firebase direct SDK question fetch notice:', e);
-      }
+      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
 
-      // 2. Fallback to API endpoint /api/questions/{q.id}
-      if (!fullQuestion || !fullQuestion.templates || Object.keys(fullQuestion.templates).length === 0) {
-        try {
-          const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
-          const res = await fetch(`${API_URL}/api/questions/${q.id}`);
-          if (res.ok) {
-            fullQuestion = await res.json();
-          }
-        } catch (e) {
-          console.warn('API question fetch notice:', e);
-        }
-      }
+      // Run parallel fetches for instant speed
+      const apiFetch = fetch(`${API_URL}/api/questions/${q.id}`)
+        .then(res => res.ok ? res.json() : null)
+        .catch(() => null);
+
+      const firebaseFetch = getDoc(doc(db, 'playground_questions', q.id))
+        .then(snap => (snap && snap.exists()) ? snap.data() : null)
+        .catch(() => null);
+
+      const results = await Promise.all([apiFetch, firebaseFetch]);
+      const fullQuestion = results.find(item => item && item.templates && Object.keys(item.templates).length > 0);
 
       if (fullQuestion) {
+        questionCacheRef.current.set(q.id, fullQuestion);
         setActiveProblem(fullQuestion);
         
-        // Save in local memory list so we don't refetch
         if (questions) {
           const idx = questions.findIndex(item => item.id === q.id);
           if (idx !== -1) {
