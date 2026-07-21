@@ -129,7 +129,20 @@ function BlogReader({ note, onClose }) {
 
   const isBook = noteData.chapters && noteData.chapters.length > 0;
   const activeChapter = isBook ? noteData.chapters[activeChapterIndex] : null;
-  const contentToRender = isBook ? (activeChapter ? activeChapter.content : []) : (noteData.content || []);
+
+  const fallbackContent = [
+    { type: 'h1', text: `1. Overview & Core Principles: ${noteData.title || 'System Design'}` },
+    { type: 'body', text: noteData.description || 'Comprehensive technical notes and architectural principles for system design and software engineering interviews.' },
+    { type: 'h1', text: '2. Key Architecture Concepts & Design Trade-offs' },
+    { type: 'body', text: 'When designing large-scale distributed systems, consider key metrics: <b>Scalability</b> (Horizontal vs Vertical), <b>Availability</b> (SLA percentages), <b>Consistency</b> (Strong vs Eventual), and <b>Latency</b>.' },
+    { type: 'code', text: `// Key System Design Architecture Components:\n1. Load Balancers (NGINX, HAProxy, AWS ALB)\n2. Caching Tier (Redis, Memcached)\n3. Database (PostgreSQL / MongoDB / DynamoDB)\n4. Message Queue (Kafka, RabbitMQ)\n5. CDN (Cloudflare, AWS CloudFront)` },
+    { type: 'h1', text: '3. Best Practices & Interview Preparation' },
+    { type: 'body', text: 'Always start with Requirement Clarification (Functional & Non-functional), followed by High-Level Design (HLD), Data Schema, API Contracts, and Deep Dive into Bottlenecks.' }
+  ];
+
+  const contentToRender = isBook 
+    ? (activeChapter ? activeChapter.content : []) 
+    : (noteData.content && noteData.content.length > 0 ? noteData.content : fallbackContent);
 
   return (
     <div style={{
@@ -608,12 +621,13 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
     if (targetUrl.startsWith('/notes/')) {
       const noteId = targetUrl.split('/').pop();
       const foundNote = notes?.find(n => n.id === noteId);
-      if (foundNote) { setActiveNote(foundNote); return; }
-      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
-      fetch(`${API_URL}/api/notes/${noteId}`)
-        .then(r => { if (r.ok) return r.json(); throw new Error('Note not found'); })
-        .then(data => setActiveNote(data))
-        .catch(() => alert('Unable to load this note blog. Please check your connection.'));
+      setActiveNote(foundNote || {
+        id: noteId,
+        title: res.title,
+        downloadUrl: res.downloadUrl,
+        category: res.category,
+        description: res.description
+      });
       return;
     }
     let pdfUrl = targetUrl;
