@@ -260,12 +260,18 @@ export default function Hero({ stats, setActiveTab }) {
           50%      { transform: translateY(-7px); }
         }
 
-        /* ─── Avatar Emergence Name Animation ─── */
+        /* ─── Bottom Image Edge Emergence Animation ─── */
+        .hero-name-mask {
+          overflow: hidden;
+          padding-top: 4px;
+          margin-top: 0.2rem;
+          display: inline-block;
+        }
+
         .hero-name-container {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          margin-top: 0.4rem;
           z-index: 2;
         }
 
@@ -277,30 +283,26 @@ export default function Hero({ stats, setActiveTab }) {
           color: var(--text-primary);
           letter-spacing: -0.01em;
           opacity: 0;
-          transform: translate3d(0, -50px, 0) scale(0.1) rotate(-15deg);
-          filter: blur(6px);
-          will-change: transform, opacity, filter;
+          transform: translate3d(0, -100%, 0) scale(0.7);
+          will-change: transform, opacity;
         }
 
         .dice-letter.rolled {
-          animation: letterAvatarEmerge 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          animation: letterBottomSlide 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes letterAvatarEmerge {
+        @keyframes letterBottomSlide {
           0% {
             opacity: 0;
-            transform: translate3d(0, -50px, 0) scale(0.1) rotate(-15deg);
-            filter: blur(6px);
+            transform: translate3d(0, -100%, 0) scale(0.7);
           }
-          70% {
+          75% {
             opacity: 1;
-            transform: translate3d(0, 4px, 0) scale(1.15) rotate(3deg);
-            filter: blur(0px);
+            transform: translate3d(0, 3px, 0) scale(1.05);
           }
           100% {
             opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-            filter: blur(0px);
+            transform: translate3d(0, 0, 0) scale(1);
           }
         }
 
@@ -446,16 +448,18 @@ export default function Hero({ stats, setActiveTab }) {
               fetchpriority="high"
               decoding="sync"
             />
-            <div className="hero-name-container" title="Md Irfan">
-              {nameLetters.map((item, idx) => (
-                <span
-                  key={idx}
-                  className={`dice-letter ${visible ? 'rolled' : ''}`}
-                  style={{ animationDelay: `${item.delay}s` }}
-                >
-                  {item.char}
-                </span>
-              ))}
+            <div className="hero-name-mask">
+              <div className="hero-name-container" title="Md Irfan">
+                {nameLetters.map((item, idx) => (
+                  <span
+                    key={idx}
+                    className={`dice-letter ${visible ? 'rolled' : ''}`}
+                    style={{ animationDelay: `${item.delay}s` }}
+                  >
+                    {item.char}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
