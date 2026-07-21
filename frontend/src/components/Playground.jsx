@@ -1857,39 +1857,81 @@ export default function Playground({ questions, onGoHome }) {
                 Curated Problem Categories
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                {Object.entries(groupedProblems).map(([cat, items]) => (
-                  <button
-                    key={cat}
-                    className="category-card-btn"
-                    onClick={() => selectQuestion(items[0])}
-                    style={{
-                      borderRadius: '10px',
-                      padding: '0.85rem 1.1rem',
-                      textAlign: 'left',
-                      cursor: 'pointer',
-                      fontSize: '0.94rem',
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                    }}
-                  >
-                    <span className="category-card-name" style={{ letterSpacing: '-0.01em' }}>{cat}</span>
-                    <span style={{
-                      color: '#38bdf8',
-                      fontSize: '0.78rem',
-                      fontWeight: 800,
-                      background: 'rgba(56, 189, 248, 0.12)',
-                      border: '1px solid rgba(56, 189, 248, 0.25)',
-                      padding: '0.2rem 0.65rem',
-                      borderRadius: '99px',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      {items.length} Questions
-                    </span>
-                  </button>
-                ))}
+                {Object.entries(groupedProblems).map(([cat, items]) => {
+                  const isExpanded = !!expandedTopics[cat];
+                  return (
+                    <div key={cat} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                      <button
+                        className="category-card-btn"
+                        onClick={() => {
+                          toggleTopic(cat);
+                          if (items && items.length > 0) {
+                            selectQuestion(items[0]);
+                          }
+                        }}
+                        style={{
+                          borderRadius: '10px',
+                          padding: '0.85rem 1.1rem',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          fontSize: '0.94rem',
+                          fontWeight: 700,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                        }}
+                      >
+                        <span className="category-card-name" style={{ letterSpacing: '-0.01em' }}>{cat}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{
+                            color: '#38bdf8',
+                            fontSize: '0.78rem',
+                            fontWeight: 800,
+                            background: 'rgba(56, 189, 248, 0.12)',
+                            border: '1px solid rgba(56, 189, 248, 0.25)',
+                            padding: '0.2rem 0.65rem',
+                            borderRadius: '99px',
+                            whiteSpace: 'nowrap'
+                          }}>
+                            {items.length} Questions
+                          </span>
+                          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{isExpanded ? '▼' : '▶'}</span>
+                        </div>
+                      </button>
+                      {isExpanded && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', paddingLeft: '0.5rem', marginBottom: '0.4rem' }}>
+                          {items.map(p => (
+                            <button
+                              key={p.id}
+                              onClick={() => selectQuestion(p)}
+                              style={{
+                                background: activeProblem?.id === p.id ? 'rgba(56, 189, 248, 0.15)' : 'rgba(255, 255, 255, 0.03)',
+                                border: activeProblem?.id === p.id ? '1px solid rgba(56, 189, 248, 0.3)' : '1px solid rgba(255, 255, 255, 0.06)',
+                                borderRadius: '8px',
+                                padding: '0.6rem 0.85rem',
+                                color: '#f8fafc',
+                                fontSize: '0.85rem',
+                                fontWeight: 600,
+                                textAlign: 'left',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                transition: 'all 0.15s'
+                              }}
+                            >
+                              <span>{p.title}</span>
+                              <span className={`diff-badge diff-${(p.difficulty||'easy').toLowerCase()}`} style={{ fontSize: '0.7rem' }}>
+                                {p.difficulty}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ) : (
