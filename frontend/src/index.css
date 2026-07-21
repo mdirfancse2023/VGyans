@@ -2667,49 +2667,55 @@ body.light-theme .footer-right a:hover {
   color: #0284c7 !important;
 }
 
-/* Theme Toggle & Navbar Icon Containers (Dabba) */
+/* Theme Toggle & Navbar Icon Containers (Dabba) - Glass Highlighted Glow */
 .theme-toggle-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-secondary);
-  border-radius: 7px;
+  background: rgba(6, 182, 212, 0.1) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  color: var(--primary) !important;
+  border-radius: 8px;
   width: 32px;
   height: 32px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   outline: none;
   font-size: 0.95rem;
   padding: 0;
   text-decoration: none;
   box-sizing: border-box;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(6, 182, 212, 0.15);
 }
 
 .theme-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: var(--text-primary);
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #000000 !important;
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 18px rgba(6, 182, 212, 0.45);
 }
 
 .theme-toggle-btn.active {
-  background: rgba(6, 182, 212, 0.15) !important;
+  background: rgba(6, 182, 212, 0.2) !important;
   border-color: var(--primary) !important;
   color: var(--primary) !important;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.3) !important;
 }
 
 body.light-theme .theme-toggle-btn {
-  background: #ffffff !important;
-  border: 1px solid #cbd5e1 !important;
-  color: #334155 !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+  background: rgba(2, 132, 199, 0.1) !important;
+  border: 1px solid rgba(2, 132, 199, 0.3) !important;
+  color: #0284c7 !important;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15) !important;
 }
 
 body.light-theme .theme-toggle-btn:hover {
-  background: #f1f5f9 !important;
+  background: #0284c7 !important;
   border-color: #0284c7 !important;
-  color: #0284c7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4) !important;
 }
 
 body.light-theme .theme-toggle-btn.active {
