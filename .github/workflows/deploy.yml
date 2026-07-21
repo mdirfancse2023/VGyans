@@ -29,13 +29,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r backend/requirements.txt
 
-      - name: Compile Static Data
-        env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-        run: |
-          python backend/build_static.py
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:

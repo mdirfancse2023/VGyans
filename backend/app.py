@@ -82,16 +82,8 @@ DATA_DIR = os.path.join(
 )
 
 def load_data():
-    # If key directories or files don't exist, try building them
-    if not os.path.exists(os.path.join(DATA_DIR, "channel.json")):
-        try:
-            from build_static import main as run_build
-            run_build()
-        except Exception as e:
-            print(f"Warning: Data directory missing and build_static skipped: {e}")
-
     data = {}
-    keys = ["channel", "playlists", "videos", "resources", "experiences", "flashcards", "onboardingStages", "notes", "playground_questions", "songs"]
+    keys = ["channel", "playlists", "resources", "experiences", "onboardingStages"]
     for key in keys:
         file_path = os.path.join(DATA_DIR, f"{key}.json")
         if os.path.exists(file_path):
