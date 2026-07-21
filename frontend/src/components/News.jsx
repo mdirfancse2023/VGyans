@@ -191,7 +191,7 @@ export default function News() {
     <div className="news-dashboard-container" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 75px)', boxSizing: 'border-box', overflow: 'hidden' }}>
       
       {/* Top Category Filter & Search Bar */}
-      <div style={{ marginBottom: '1rem', flexShrink: 0 }}>
+      <div style={{ marginBottom: '0.5rem', flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           {/* Category Pills */}
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>

@@ -7,7 +7,7 @@ export default function InteractiveTools({ apiUrl }) {
 
   return (
     <div style={{ marginBottom: '3rem' }}>
-      <div className="filters-wrapper" style={{ marginBottom: '2.5rem' }}>
+      <div className="filters-wrapper" style={{ marginBottom: '0.5rem' }}>
         <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
           <button 
             className={`filter-tab ${activeTool === 'builder' ? 'active' : ''}`}

@@ -157,7 +157,7 @@ export default function Songs({
     >
       
       {/* Compact Top Action Bar: Category Pills + Search Box */}
-      <div className="glass-panel" style={{ padding: '0.75rem 1.25rem', marginBottom: '0.75rem', borderRadius: '14px', flexShrink: 0 }}>
+      <div className="glass-panel" style={{ padding: '0.75rem 1.25rem', marginBottom: '0.5rem', borderRadius: '14px', flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           
           {/* Quick Category Action Buttons */}
