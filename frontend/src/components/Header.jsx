@@ -128,7 +128,7 @@ export default function Header({
               Virtual Gyans
             </span>
             <span className="brand-text-face live-clock">
-              <span className="live-clock-dot"></span> {currentTimeStr}
+              {currentTimeStr}
             </span>
           </div>
         </a>
