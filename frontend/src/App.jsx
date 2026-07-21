@@ -910,6 +910,17 @@ export default function App() {
       {activeTab !== 'playground' && <Footer />}
       <FeedbackButton isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} hideTrigger={true} />
       <UserNotesModal isOpen={isNotesOpen} onClose={() => setIsNotesOpen(false)} user={user} onOpenAuth={() => setIsAuthOpen(true)} />
+      
+      {/* Floating Bottom-Left Personal Notes Quick Action Trigger */}
+      <button
+        onClick={() => setIsNotesOpen(true)}
+        className="floating-notes-btn"
+        title="Open My Personal Notes"
+      >
+        <span style={{ fontSize: '1.25rem' }}>📝</span>
+        <span className="floating-notes-tooltip">Personal Notes</span>
+      </button>
+
       <CareerCoach />
       
       {/* Mandatory Auth Modal for Unauthenticated Visitors (Stores in Firebase Firestore) */}
