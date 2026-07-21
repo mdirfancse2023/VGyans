@@ -503,6 +503,21 @@ function BlogReader({ note, onClose }) {
   );
 }
 
+const DEFAULT_FLASHCARDS = [
+  { id: 'fc-1', category: 'Spring Boot', question: 'What is @SpringBootApplication annotation?', answer: '@SpringBootApplication is a convenience annotation that combines @Configuration, @EnableAutoConfiguration, and @ComponentScan with default attributes.' },
+  { id: 'fc-2', category: 'Spring Boot', question: 'What is Dependency Injection in Spring?', answer: 'Dependency Injection (DI) is a core pattern in Spring where the IoC container injects dependent objects into a class rather than the class constructing them manually.' },
+  { id: 'fc-3', category: 'System Design', question: 'What is Horizontal vs Vertical Scaling?', answer: 'Vertical Scaling (Scale Up) means adding more RAM/CPU to an existing machine. Horizontal Scaling (Scale Out) means adding more server instances to distribute load.' },
+  { id: 'fc-4', category: 'System Design', question: 'What is CAP Theorem?', answer: 'CAP Theorem states that a distributed system can only provide two of three guarantees simultaneously: Consistency, Availability, and Partition Tolerance.' },
+  { id: 'fc-5', category: 'Java', question: 'Difference between String, StringBuilder, and StringBuffer?', answer: 'String is immutable. StringBuilder is mutable and non-thread-safe (faster). StringBuffer is mutable and thread-safe (synchronized).' },
+  { id: 'fc-6', category: 'Java', question: 'How does HashMap work internally in Java 8+?', answer: 'HashMap uses an array of Nodes (LinkedList). In Java 8+, if a bucket collision bin exceeds 8 entries, the LinkedList transforms into a balanced Red-Black Tree for O(log n) lookup.' },
+  { id: 'fc-7', category: 'SQL', question: 'Difference between WHERE and HAVING in SQL?', answer: 'WHERE filters rows before grouping occurs. HAVING filters aggregated groups after GROUP BY is applied.' },
+  { id: 'fc-8', category: 'SQL', question: 'What is the difference between RANK() and DENSE_RANK()?', answer: 'RANK() leaves gaps in rank numbering when there are duplicate values (e.g. 1, 2, 2, 4). DENSE_RANK() does not leave gaps (e.g. 1, 2, 2, 3).' },
+  { id: 'fc-9', category: 'Microservices', question: 'What is an API Gateway pattern?', answer: 'An API Gateway acts as a single entry point for clients, handling routing, rate limiting, authentication, SSL termination, and protocol translation.' },
+  { id: 'fc-10', category: 'Rest API', question: 'What are the main HTTP methods and their idempotency?', answer: 'GET, PUT, and DELETE are idempotent (multiple identical requests yield same state). POST and PATCH are non-idempotent.' },
+  { id: 'fc-11', category: 'React', question: 'What is the Virtual DOM in React?', answer: 'The Virtual DOM is an in-memory lightweight representation of the real DOM. React calculates differences (reconciliation) and updates only changed nodes in the real DOM.' },
+  { id: 'fc-12', category: 'Angular', question: 'What is Dependency Injection in Angular?', answer: 'Angular DI supplies required services/dependencies to components via constructor parameters configured in @Injectable providers.' }
+];
+
 export default function PlacementHub({ resources, notes, onboardingStages = {}, flashcards = [], experiences = [], onSubmitExperience }) {
   const [activeSection, setActiveSection] = useState('resources');
   const [activePdf, setActivePdf] = useState(null);
@@ -544,7 +559,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
           const res = await fetch(`${API_URL}/api/flashcards`);
           if (res.ok && isMounted) {
             const cards = await res.json();
-            if (cards && Array.isArray(cards)) {
+            if (cards && Array.isArray(cards) && cards.length > 0) {
               setLiveFlashcards(cards);
             }
           }
@@ -571,11 +586,14 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
     'React',
     'Angular'
   ];
-  const cardsToUse = liveFlashcards.length > 0 ? liveFlashcards : flashcards;
-  const filteredCards = cardsToUse.filter(c =>
-    selectedCategory === 'All' ? true : (c.category || '').toLowerCase() === selectedCategory.toLowerCase()
-  );
-  const currentCard = filteredCards[currentCardIndex];
+  const cardsToUse = (liveFlashcards && liveFlashcards.length > 0) ? liveFlashcards : DEFAULT_FLASHCARDS;
+  const filteredCards = cardsToUse.filter(c => {
+    if (selectedCategory === 'All') return true;
+    const catStr = (c.category || '').toLowerCase();
+    const targetStr = selectedCategory.toLowerCase();
+    return catStr === targetStr || catStr.includes(targetStr) || targetStr.includes(catStr);
+  });
+  const currentCard = filteredCards[currentCardIndex] || filteredCards[0];
 
   const handleNextCard = () => { setIsFlipped(false); setTimeout(() => setCurrentCardIndex(p => (p + 1) % filteredCards.length), 150); };
   const handlePrevCard = () => { setIsFlipped(false); setTimeout(() => setCurrentCardIndex(p => (p - 1 + filteredCards.length) % filteredCards.length), 150); };
