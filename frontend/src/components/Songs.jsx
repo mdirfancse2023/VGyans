@@ -26,20 +26,19 @@ export default function Songs({
 
   // Quick Preset Categories
   const presets = [
-    { id: 'bollywood', label: '🔥 Top 50 Bollywood', term: 'bollywood', country: 'IN', description: 'Top 50 trending Hindi & Bollywood chartbusters' },
-    { id: 'hollywood', label: '⭐ Top 50 Hollywood', term: 'top pop hits', country: 'US', description: 'Top 50 international Hollywood & Billboard hits' },
-    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'lofi chill study', country: 'US', description: 'Relaxing ambient & lo-fi beats' },
-    { id: 'punjabi', label: '🎸 Punjabi Hits', term: 'punjabi hits', country: 'IN', description: 'High-energy Punjabi tracklist' },
-    { id: 'romantic', label: '💖 Romantic Classics', term: 'romantic hits', country: 'IN', description: 'Timeless love songs & melodies' }
+    { id: 'bollywood', label: '🔥 Top 50 Bollywood', term: 'bollywood', description: 'Full-length trending Hindi & Bollywood songs' },
+    { id: 'hollywood', label: '⭐ Top 50 Hollywood', term: 'pop', description: 'Full-length international Hollywood & Billboard pop hits' },
+    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'lofi', description: 'Relaxing full-length ambient & lo-fi study tracks' },
+    { id: 'punjabi', label: '🎸 Punjabi Hits', term: 'punjabi', description: 'High-energy full-length Punjabi tracks' },
+    { id: 'romantic', label: '💖 Romantic Classics', term: 'romantic', description: 'Timeless full-length love songs & melodies' }
   ];
 
-  // Fetch real-time songs from API
+  // Fetch real-time full-length songs from Audius API
   const handleFetchSongs = async (presetObj, customSearch = '') => {
     setIsLoading(true);
     setErrorMsg(null);
 
     let queryTerm = '';
-    let countryCode = '';
     let displayLabel = '';
 
     if (customSearch.trim()) {
@@ -48,54 +47,66 @@ export default function Songs({
       setActivePreset(null);
     } else if (presetObj) {
       queryTerm = presetObj.term;
-      countryCode = presetObj.country || '';
-      displayLabel = presetObj.label.replace(/^[^\w\s]+\s*/, ''); // Strip leading emoji for message
+      displayLabel = presetObj.label.replace(/^[^\w\s]+\s*/, ''); // Strip leading emoji for display
       setActivePreset(presetObj.id);
     } else {
       queryTerm = 'bollywood';
       displayLabel = 'Top 50 Songs';
     }
 
-    setLoadingText(`Fetching real-time songs for ${displayLabel}...`);
+    setLoadingText(`Fetching full-length real-time songs for ${displayLabel}...`);
 
     try {
-      const countryParam = countryCode ? `&country=${countryCode}` : '';
-      const url = `https://itunes.apple.com/search?term=${encodeURIComponent(queryTerm)}&entity=song&limit=50${countryParam}`;
-      
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('Failed to fetch from real-time API');
-      
+      // Fetch full-length tracks from Audius API (returns complete stream URLs and full 3-6 min durations)
+      const audiusUrl = `https://api.audius.co/v1/tracks/search?query=${encodeURIComponent(queryTerm)}&app_name=VGyans`;
+      const res = await fetch(audiusUrl);
+      if (!res.ok) throw new Error('Failed to fetch real-time music stream');
+
       const data = await res.json();
-      
-      if (!data.results || data.results.length === 0) {
-        setErrorMsg(`No playable tracks found for "${queryTerm}". Try another search or category!`);
+      const rawTracks = data.data || [];
+
+      if (!rawTracks || rawTracks.length === 0) {
+        setErrorMsg(`No playable full-length tracks found for "${queryTerm}". Try another search or category!`);
         setIsLoading(false);
         return;
       }
 
-      // Filter tracks with valid preview audio URLs
-      const validTracks = data.results.filter(t => t.previewUrl && t.trackName);
+      // Filter tracks: strictly require title & duration > 45 seconds to exclude 30-sec previews
+      const fullLengthTracks = rawTracks
+        .filter(t => t.title && t.duration && t.duration > 45)
+        .slice(0, 50)
+        .map((t, index) => {
+          let cover = 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500';
+          if (t.artwork) {
+            cover = t.artwork['480x480'] || t.artwork['1000x1000'] || t.artwork['150x150'] || cover;
+          }
 
-      const realTimeSongs = validTracks.slice(0, 50).map((t, index) => ({
-        id: t.trackId ? `itunes-${t.trackId}` : `song-${index}-${Date.now()}`,
-        title: t.trackName,
-        artist: t.artistName,
-        album: t.collectionName || 'Single',
-        category: presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : 'Live Search',
-        coverUrl: t.artworkUrl100
-          ? t.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')
-          : 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500',
-        url: t.previewUrl,
-        duration: t.trackTimeMillis ? Math.floor(t.trackTimeMillis / 1000) : 30
-      }));
+          // Full-length stream URL via Audius API
+          const streamUrl = `https://api.audius.co/v1/tracks/${t.id}/stream?app_name=VGyans`;
 
-      if (setSongs) {
-        setSongs(realTimeSongs);
+          return {
+            id: `audius-${t.id || index}-${Date.now()}`,
+            title: t.title,
+            artist: (t.user && t.user.name) ? t.user.name : (t.user && t.user.handle) ? t.user.handle : 'Various Artists',
+            album: t.genre || (presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : 'Full Track'),
+            category: presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : 'Live Search',
+            coverUrl: cover,
+            url: streamUrl,
+            duration: Math.round(t.duration) // Full track duration in seconds (e.g. 240 = 4:00)
+          };
+        });
+
+      if (fullLengthTracks.length === 0) {
+        setErrorMsg(`No full-length songs found for "${queryTerm}". Please try another search.`);
+      } else {
+        if (setSongs) {
+          setSongs(fullLengthTracks);
+        }
+        setSelectedCategory('All');
       }
-      setSelectedCategory('All');
     } catch (err) {
-      console.error('Realtime song fetch error:', err);
-      setErrorMsg('Could not fetch real-time music. Please check your internet connection and try again.');
+      console.error('Real-time full song fetch error:', err);
+      setErrorMsg('Could not fetch full-length real-time music. Please check your internet connection.');
     } finally {
       setIsLoading(false);
     }
@@ -144,7 +155,7 @@ export default function Songs({
       }}
     >
       
-      {/* Compact Top Action Bar: Category Pills + Search Box (No Big Heading) */}
+      {/* Compact Top Action Bar: Category Pills + Search Box */}
       <div className="glass-panel" style={{ padding: '0.75rem 1.25rem', marginBottom: '0.75rem', borderRadius: '14px', flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           
@@ -252,7 +263,7 @@ export default function Songs({
           </div>
           <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)', margin: '0 0 0.4rem 0' }}>{loadingText}</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', maxWidth: '400px', margin: 0 }}>
-            Connecting to live audio streams. Please wait a moment...
+            Connecting to full-length audio stream. Please wait...
           </p>
 
           {/* Equalizer animation */}
@@ -283,10 +294,10 @@ export default function Songs({
         <div className="glass-panel" style={{ padding: '2.5rem 2rem', textAlign: 'center', borderRadius: '16px', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', overflowY: 'auto' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🎧</div>
           <h3 style={{ fontSize: '1.3rem', color: 'var(--text-primary)', margin: '0 0 0.4rem 0' }}>
-            Fetch Live Music
+            Fetch Full-Length Live Music
           </h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', maxWidth: '500px', margin: '0 auto 1.5rem', lineHeight: 1.5 }}>
-            Click any featured list above or select a playlist below to stream <strong>Top 50 Bollywood</strong> or <strong>Top 50 Hollywood</strong> tracks in real-time.
+            Click any playlist category above or below to stream full-length songs live on demand with zero 30-second limits.
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
@@ -312,7 +323,7 @@ export default function Songs({
                   {p.description}
                 </p>
                 <span style={{ fontSize: '0.78rem', color: 'var(--primary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                  Fetch Live 50 Songs →
+                  Fetch Full Songs →
                 </span>
               </div>
             ))}
@@ -329,7 +340,7 @@ export default function Songs({
               {/* Category Filter Pills & Counter */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem', flexShrink: 0 }}>
                 <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
-                  Showing <strong style={{ color: 'var(--primary)' }}>{filteredSongs.length}</strong> live tracks
+                  Showing <strong style={{ color: 'var(--primary)' }}>{filteredSongs.length}</strong> full-length tracks
                 </div>
 
                 {/* Category Pills */}
@@ -588,7 +599,7 @@ export default function Songs({
                 <div style={{ padding: '1.5rem 0', color: 'var(--text-secondary)' }}>
                   <div style={{ fontSize: '2.2rem', marginBottom: '0.5rem', opacity: 0.5 }}>🎵</div>
                   <p style={{ fontWeight: 500, margin: 0, fontSize: '0.9rem' }}>No song selected</p>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Click any track on the left to start streaming live audio.</p>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Click any track on the left to start streaming full audio.</p>
                 </div>
               )}
             </div>
