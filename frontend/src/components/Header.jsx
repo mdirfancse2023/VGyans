@@ -79,6 +79,18 @@ export default function Header({
 
   const [currentTimeStr, setCurrentTimeStr] = useState('');
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false);
+  const [showWeatherModal, setShowWeatherModal] = useState(false);
+  const weatherRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (weatherRef.current && !weatherRef.current.contains(e.target)) {
+        setShowWeatherModal(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const updateClock = () => {
@@ -168,8 +180,16 @@ export default function Header({
       <nav className={`navbar ${isNavbarCollapsed ? 'collapsed-slim' : ''}`}>
       <div className="nav-container">
         {/* Left: Creative Logo (Logo <-> Weather Temp) & Brand Text (Virtual Gyans <-> Live Clock) */}
-        <div className="header-weather-trigger-item" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-          <a href="#home" className="logo creative-timer-logo-trigger" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
+        <div ref={weatherRef} className="header-weather-trigger-item" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+          <a 
+            href="#home" 
+            className="logo creative-timer-logo-trigger" 
+            onClick={(e) => {
+              // If user clicks the logo icon/temp, toggle weather modal!
+              setShowWeatherModal(prev => !prev);
+            }} 
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none', cursor: 'pointer' }}
+          >
             
             {/* Logo Square Icon: Morphs smoothly between Logo Image & Real-Time Temperature (22°) */}
             <div 
@@ -186,7 +206,7 @@ export default function Header({
                 position: 'relative',
                 overflow: 'hidden'
               }}
-              title={`Current Weather in ${weatherData.city}: ${weatherData.temp}°C (${weatherData.condition})`}
+              title="Click to view weather forecast details"
             >
               <div className="logo-face logo-img-face">
                 <img 
@@ -204,7 +224,14 @@ export default function Header({
             </div>
             
             {/* Brand Title Text: Morphs seamlessly between "Virtual Gyans" & Live Timer */}
-            <div className="creative-brand-timer-wrapper" title={`Virtual Gyans • Real-time Clock: ${currentTimeStr}`}>
+            <div 
+              className="creative-brand-timer-wrapper" 
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveTab('home');
+              }}
+              title={`Virtual Gyans • Clock: ${currentTimeStr}`}
+            >
               <span className="brand-text-face brand-name">
                 Virtual Gyans
               </span>
@@ -214,8 +241,8 @@ export default function Header({
             </div>
           </a>
 
-          {/* Weather Details Hover Popover Modal on Logo Box Hover */}
-          <div className="header-weather-popover" style={{ left: '0', right: 'auto', top: 'calc(100% + 12px)' }}>
+          {/* Weather Details Popover Modal on Logo Box Click */}
+          <div className={`header-weather-popover ${showWeatherModal ? 'show' : ''}`} style={{ left: '0', right: 'auto', top: 'calc(100% + 12px)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
               <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 📍 {weatherData.city}
