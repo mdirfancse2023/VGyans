@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import PDFViewer from './PDFViewer';
 import InterviewExperiences from './InterviewExperiences';
@@ -516,6 +516,49 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [liveFlashcards, setLiveFlashcards] = useState(flashcards);
+  const [isLoadingFlashcards, setIsLoadingFlashcards] = useState(false);
+
+  useEffect(() => {
+    if (activeSection === 'flashcards') {
+      let isMounted = true;
+      const fetchFlashcardsFromFirebase = async () => {
+        setIsLoadingFlashcards(true);
+        // 1. Try Firebase Firestore SDK directly
+        try {
+          const colRef = collection(db, 'flashcards');
+          const snapshot = await getDocs(colRef);
+          if (!snapshot.empty && isMounted) {
+            const cards = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+            setLiveFlashcards(cards);
+            setIsLoadingFlashcards(false);
+            return;
+          }
+        } catch (e) {
+          console.warn('Firebase direct SDK flashcards fetch notice:', e);
+        }
+
+        // 2. Fallback to API endpoint /api/flashcards
+        try {
+          const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
+          const res = await fetch(`${API_URL}/api/flashcards`);
+          if (res.ok && isMounted) {
+            const cards = await res.json();
+            if (cards && Array.isArray(cards)) {
+              setLiveFlashcards(cards);
+            }
+          }
+        } catch (err) {
+          console.warn('API flashcards fetch notice:', err);
+        } finally {
+          if (isMounted) setIsLoadingFlashcards(false);
+        }
+      };
+
+      fetchFlashcardsFromFirebase();
+      return () => { isMounted = false; };
+    }
+  }, [activeSection]);
 
   const fcCategories = [
     'All',
@@ -528,8 +571,9 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
     'React',
     'Angular'
   ];
-  const filteredCards = flashcards.filter(c =>
-    selectedCategory === 'All' ? true : c.category.toLowerCase() === selectedCategory.toLowerCase()
+  const cardsToUse = liveFlashcards.length > 0 ? liveFlashcards : flashcards;
+  const filteredCards = cardsToUse.filter(c =>
+    selectedCategory === 'All' ? true : (c.category || '').toLowerCase() === selectedCategory.toLowerCase()
   );
   const currentCard = filteredCards[currentCardIndex];
 
@@ -764,7 +808,21 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
           </div>
 
           <div className="glass-panel flashcards-container">
-            {filteredCards.length === 0 ? (
+            {isLoadingFlashcards ? (
+              <div style={{ padding: '3.5rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '50%',
+                  border: '3px solid rgba(6, 182, 212, 0.15)',
+                  borderTopColor: 'var(--primary)',
+                  animation: 'spin 0.9s linear infinite',
+                  marginBottom: '1rem'
+                }}></div>
+                <h4 style={{ color: 'var(--text-primary)', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Flashcards from Firebase...</h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: 0 }}>Connecting to Firebase Database to load question cards in real-time.</p>
+              </div>
+            ) : filteredCards.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>No flashcards found for this category.</div>
           ) : (
             <>

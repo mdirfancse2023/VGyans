@@ -431,13 +431,12 @@ export default function App() {
         };
 
         const [
-          channel, playlistsRes, resourcesRes, experiencesRes, flashcardsRes, onboardingStagesRes
+          channel, playlistsRes, resourcesRes, experiencesRes, onboardingStagesRes
         ] = await Promise.all([
           fetchJSON('channel'),
           fetchJSON('playlists'),
           fetchJSON('resources'),
           fetchJSON('experiences'),
-          fetchJSON('flashcards'),
           fetchJSON('onboardingStages')
         ]);
 
@@ -445,7 +444,6 @@ export default function App() {
         if (playlistsRes) setPlaylists(playlistsRes);
         if (resourcesRes) setResources(resourcesRes);
         if (experiencesRes) setExperiences(experiencesRes);
-        if (flashcardsRes) setFlashcards(flashcardsRes);
         if (onboardingStagesRes) setOnboardingStages(onboardingStagesRes);
       } catch (err) {
         console.warn('Local static data load notice:', err);
