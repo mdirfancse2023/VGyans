@@ -142,7 +142,7 @@ export default function ResumeBuilder() {
     });
 
     const opt = {
-      margin:       [0.3, 0.4, 0.3, 0.4],
+      margin:       [0.25, 0.35, 0.25, 0.35],
       filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  {
@@ -297,7 +297,7 @@ export default function ResumeBuilder() {
           background: #ffffff;
           color: #0f172a;
           border-radius: 8px;
-          padding: 2rem 2.2rem;
+          padding: 1rem 1.45rem 1.5rem;
           box-shadow: 0 10px 30px rgba(0,0,0,0.3);
           font-family: 'Arial', 'Helvetica', sans-serif;
           min-height: 800px;
