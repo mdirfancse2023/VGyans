@@ -714,72 +714,40 @@ export default function Playground({ questions, onGoHome }) {
 
     const qId = String(q.id);
 
-    // 1. If problem already has full description & templates
-    if (q.description && q.templates && Object.keys(q.templates).length > 0) {
-      setActiveProblem(q);
-      return;
-    }
+    // 1. Prepare instant problem object with starter code & description
+    let initialObj = (q.description && q.templates && Object.keys(q.templates).length > 0)
+      ? q
+      : (questionCacheRef.current.get(qId) || PROBLEMS.find(p => String(p.id) === qId || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase())) || generateFallbackProblem(q));
 
-    // 2. Check in-memory cache
-    if (questionCacheRef.current.has(qId)) {
-      setActiveProblem(questionCacheRef.current.get(qId));
-      return;
-    }
+    // Instantly display problem details & starter code in the editor!
+    setActiveProblem(initialObj);
 
-    // 3. Check static PROBLEMS array match
-    const staticMatch = PROBLEMS.find(p => String(p.id) === qId || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase()));
-    if (staticMatch) {
-      questionCacheRef.current.set(qId, staticMatch);
-      setActiveProblem(staticMatch);
-      return;
-    }
-
-    // Display loading state while fetching directly from Firebase Firestore & Vercel API
-    setActiveProblem({
-      ...q,
-      description: '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:240px;color:var(--text-secondary);"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem;"></div><p style="font-weight:600;">Fetching question details from Firebase Database...</p></div>',
-      templates: {}
-    });
-
+    // 2. Query Firebase Firestore & Vercel API in background to enrich data
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'https://v-gyans.vercel.app';
 
-      // Fetch from Firebase Firestore directly
       const firebaseFetch = getDoc(doc(db, 'playground_questions', qId))
         .then(snap => (snap && snap.exists()) ? { id: snap.id, ...snap.data() } : null)
-        .catch(err => {
-          console.warn("Firestore fetch error:", err);
-          return null;
-        });
+        .catch(() => null);
 
-      // Fetch from Vercel Backend API
       const apiFetch = fetch(`${API_URL}/api/questions/${encodeURIComponent(qId)}`)
         .then(res => res.ok ? res.json() : null)
-        .catch(err => {
-          console.warn("Vercel API fetch error:", err);
-          return null;
-        });
+        .catch(() => null);
 
       const [firebaseData, apiData] = await Promise.all([firebaseFetch, apiFetch]);
-      const fullQuestion = firebaseData || apiData;
+      const fetched = firebaseData || apiData;
 
-      if (fullQuestion && (fullQuestion.description || (fullQuestion.templates && Object.keys(fullQuestion.templates).length > 0))) {
-        questionCacheRef.current.set(qId, fullQuestion);
-        setActiveProblem(fullQuestion);
-      } else {
-        setActiveProblem({
-          ...q,
-          description: `<div style="padding:1.5rem;color:var(--text-secondary);"><h3 style="color:var(--danger);margin-bottom:0.5rem;">Database Item Not Found</h3><p>Question <strong>${q.title || qId}</strong> was not found in Firebase Firestore collection <code>playground_questions</code> or Vercel API.</p></div>`,
-          templates: {}
-        });
+      if (fetched && (fetched.description || (fetched.templates && Object.keys(fetched.templates).length > 0))) {
+        const merged = {
+          ...initialObj,
+          ...fetched,
+          templates: (fetched.templates && Object.keys(fetched.templates).length > 0) ? fetched.templates : initialObj.templates
+        };
+        questionCacheRef.current.set(qId, merged);
+        setActiveProblem(merged);
       }
     } catch (err) {
-      console.error("Database fetch error:", err);
-      setActiveProblem({
-        ...q,
-        description: `<div style="padding:1.5rem;color:var(--danger);"><h3 style="margin-bottom:0.5rem;">Database Connection Error</h3><p>Could not load question from Firebase Firestore / Vercel API: ${err.message}</p></div>`,
-        templates: {}
-      });
+      console.warn("Background database fetch info:", err);
     }
   };
 
