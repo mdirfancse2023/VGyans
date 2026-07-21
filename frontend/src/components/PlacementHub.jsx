@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 import PDFViewer from './PDFViewer';
 import InterviewExperiences from './InterviewExperiences';
 
@@ -27,7 +29,6 @@ const highlightCode = (codeText, lang) => {
   const tokens = escaped.match(tokenRegex) || [escaped];
   
   return tokens.map(token => {
-    // Unescape entities for internal regex checks
     const rawToken = token
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
@@ -48,20 +49,18 @@ const highlightCode = (codeText, lang) => {
     if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(rawToken)) {
       return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
     }
-    if (lang === 'sql') {
-      const upperToken = rawToken.toUpperCase();
-      if (sqlKeywords.has(upperToken)) {
-        return `<span style="color: #38bdf8; font-weight: 700;">${token}</span>`;
-      }
+    if (lang === 'sql' && sqlKeywords.has(rawToken.toUpperCase())) {
+      return `<span style="color: #38bdf8; font-weight: 700;">${token}</span>`;
     }
     return token;
   }).join('');
 };
 
 const detectLanguage = (title) => {
-  const t = title.toLowerCase();
+  const t = (title || '').toLowerCase();
   if (t.includes('python')) return 'python';
-  if (t.includes('sql') || t.includes('database')) return 'sql';
+  if (t.includes('sql')) return 'sql';
+  if (t.includes('c++') || t.includes('cpp')) return 'cpp';
   return 'java'; // general C/C++/Java highlighting
 };
 
@@ -69,6 +68,58 @@ function BlogReader({ note, onClose }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
+  const [noteData, setNoteData] = useState(note);
+  const [isLoadingContent, setIsLoadingContent] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchFromFirebase = async () => {
+      setIsLoadingContent(true);
+      const noteId = note.id || (note.downloadUrl ? note.downloadUrl.replace('/notes/', '') : '');
+      
+      if (!noteId) {
+        if (isMounted) setIsLoadingContent(false);
+        return;
+      }
+
+      // 1. Try Firebase Firestore SDK directly
+      try {
+        const docRef = doc(db, 'notes', noteId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists() && isMounted) {
+          const data = docSnap.data();
+          if (data && (data.content || data.chapters)) {
+            setNoteData(prev => ({ ...prev, ...data }));
+            setIsLoadingContent(false);
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('Firebase direct SDK fetch notice:', e);
+      }
+
+      // 2. Fallback to FastAPI backend endpoint /api/notes/{note_id}
+      try {
+        const API_URL = import.meta.env.VITE_API_URL || (
+          typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+            ? 'http://localhost:8000' 
+            : 'https://v-gyans.vercel.app'
+        );
+        const res = await fetch(`${API_URL}/api/notes/${noteId}`);
+        if (res.ok && isMounted) {
+          const liveNote = await res.json();
+          setNoteData(prev => ({ ...prev, ...liveNote }));
+        }
+      } catch (err) {
+        console.warn('API note fetch notice:', err);
+      } finally {
+        if (isMounted) setIsLoadingContent(false);
+      }
+    };
+
+    fetchFromFirebase();
+    return () => { isMounted = false; };
+  }, [note.id, note.downloadUrl]);
 
   const handleCopyCode = (text, index) => {
     navigator.clipboard.writeText(text);
@@ -76,9 +127,9 @@ function BlogReader({ note, onClose }) {
     setTimeout(() => setCopiedIndex(null), 2000);
   };
 
-  const isBook = note.chapters && note.chapters.length > 0;
-  const activeChapter = isBook ? note.chapters[activeChapterIndex] : null;
-  const contentToRender = isBook ? (activeChapter ? activeChapter.content : []) : (note.content || []);
+  const isBook = noteData.chapters && noteData.chapters.length > 0;
+  const activeChapter = isBook ? noteData.chapters[activeChapterIndex] : null;
+  const contentToRender = isBook ? (activeChapter ? activeChapter.content : []) : (noteData.content || []);
 
   return (
     <div style={{
@@ -389,7 +440,7 @@ function BlogReader({ note, onClose }) {
             <div className="blog-sidebar">
               <div className="blog-sidebar-title">Book Chapters</div>
               <div className="blog-sidebar-list">
-                {note.chapters.map((ch, idx) => (
+                {noteData.chapters.map((ch, idx) => (
                   <button
                     key={idx}
                     className={`blog-sidebar-item ${activeChapterIndex === idx ? 'active' : ''}`}
@@ -404,7 +455,21 @@ function BlogReader({ note, onClose }) {
           )}
 
           <div className="blog-content-area">
-            {contentToRender.map((block, index) => {
+            {isLoadingContent ? (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '300px', padding: '3rem 2rem', textAlign: 'center' }}>
+                <div style={{
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '50%',
+                  border: '3px solid rgba(6, 182, 212, 0.15)',
+                  borderTopColor: 'var(--primary)',
+                  animation: 'spin 0.9s linear infinite',
+                  marginBottom: '1rem'
+                }}></div>
+                <h4 style={{ color: '#f8fafc', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Chapter from Firebase...</h4>
+                <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>Connecting to Firebase Database to load textual chapter content in real-time.</p>
+              </div>
+            ) : contentToRender.map((block, index) => {
               if (block.type === 'h1') {
                 return <h2 key={index} className="blog-h1">{block.text}</h2>;
               } else if (block.type === 'body') {
@@ -416,7 +481,7 @@ function BlogReader({ note, onClose }) {
                   </div>
                 );
               } else if (block.type === 'code') {
-                const lang = detectLanguage(note.title);
+                const lang = detectLanguage(noteData.title);
                 return (
                   <div key={index} className="blog-code-container">
                     <div className="blog-code-header">
