@@ -2655,7 +2655,8 @@ body.light-theme .copilot-answer-title {
 }
 body.light-theme .copilot-answer-text {
   color: #0f172a !important;
-}.playground-section {
-  padding: 0.3rem 2rem !important;
+}.playground-section, .songs-section {
+  padding: 0.3rem 0.5rem !important;
   box-sizing: border-box !important;
+  width: 100% !important;
 }
