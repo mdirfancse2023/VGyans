@@ -561,7 +561,20 @@ SELECT 'Hello, Virtual Gyans Playground!' AS message;`
 
 
 export default function Playground({ questions, onGoHome }) {
-  const activeQuestions = (questions && questions.length > 0) ? questions : PROBLEMS;
+  const activeQuestions = React.useMemo(() => {
+    if (!questions || questions.length === 0) return PROBLEMS;
+    const map = new Map();
+    PROBLEMS.forEach(p => map.set(String(p.id), p));
+    questions.forEach(q => {
+      if (q && q.id) {
+        const qId = String(q.id);
+        const existing = map.get(qId) || {};
+        map.set(qId, { ...existing, ...q });
+      }
+    });
+    return Array.from(map.values());
+  }, [questions]);
+
   const [activeProblem, setActiveProblem] = useState(null);
   const [activeLang, setActiveLang] = useState('python');
   const [code, setCode] = useState(FREE_PLAYGROUND_TEMPLATES.python);
@@ -829,9 +842,28 @@ export default function Playground({ questions, onGoHome }) {
     }
   }, [activeProblem]);
 
-  // Group problems by category
+  // Group problems by category cleanly (eliminate 'General')
   const groupedProblems = activeQuestions.reduce((acc, p) => {
-    const cat = p.category || 'General';
+    let cat = p.category;
+    if (!cat || cat === 'General') {
+      const titleLower = (p.title || '').toLowerCase();
+      if (titleLower.includes('sql') || titleLower.includes('salary') || titleLower.includes('employee') || titleLower.includes('dept')) {
+        cat = 'SQL Queries';
+      } else if (titleLower.includes('palindrome') || titleLower.includes('target') || titleLower.includes('pointer')) {
+        cat = 'Two Pointers';
+      } else if (titleLower.includes('tree') || titleLower.includes('binary') || titleLower.includes('depth')) {
+        cat = 'Trees & Graphs';
+      } else if (titleLower.includes('window') || titleLower.includes('substring')) {
+        cat = 'Sliding Window';
+      } else if (titleLower.includes('stack') || titleLower.includes('parentheses') || titleLower.includes('queue')) {
+        cat = 'Stack & Queue';
+      } else if (titleLower.includes('dp') || titleLower.includes('knapsack') || titleLower.includes('climbing')) {
+        cat = 'Dynamic Programming';
+      } else {
+        cat = 'Arrays & Hashing';
+      }
+    }
+
     if (!acc[cat]) acc[cat] = [];
     acc[cat].push(p);
     return acc;
