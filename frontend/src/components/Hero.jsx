@@ -83,28 +83,7 @@ const features = [
   },
 ];
 
-const floatingBadges = [
-  { text: '350+ Qns',      icon: '⚡', tab: 'playground', delay: '0s',   top: '8%',   left: '-14%' },
-  { text: 'Interview Exp', icon: '🧑‍💼', tab: 'guides',     delay: '0.4s', top: '40%',  left: '-18%' },
-  { text: 'Focus Beats',    icon: '🎵', tab: 'songs',      delay: '0.8s', top: '72%',  left: '-12%' },
-  { text: 'ATS Resume',    icon: '✨', tab: 'tools',      delay: '1.2s', top: '8%',   right: '-14%' },
-  { text: 'Gyans AI',      icon: '🤖', tab: 'copilot',    delay: '1.6s', top: '40%',  right: '-18%' },
-  { text: 'Tech News',     icon: '📰', tab: 'news',       delay: '2s',   top: '72%',  right: '-14%' },
-];
-
 export default function Hero({ stats, setActiveTab }) {
-  const handleBadgeClick = (tabKey) => {
-    if (tabKey === 'copilot') {
-      const copilotBtn = document.querySelector('button[title*="Gyans Copilot"]');
-      if (copilotBtn) {
-        copilotBtn.click();
-        return;
-      }
-    }
-    if (setActiveTab && tabKey) {
-      setActiveTab(tabKey);
-    }
-  };
   const formatNumber = (numStr) => {
     if (!numStr) return '0';
     const num = parseInt(numStr.replace(/,/g, ''), 10);
@@ -418,23 +397,6 @@ export default function Hero({ stats, setActiveTab }) {
             <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)', zIndex: 2, letterSpacing: '-0.01em', marginTop: '0.2rem' }}>
               Md Irfan
             </div>
-
-            {floatingBadges.map((b, i) => (
-              <div
-                key={i}
-                className="float-badge"
-                onClick={() => handleBadgeClick(b.tab)}
-                title={`Go to ${b.text}`}
-                style={{
-                  top: b.top, left: b.left, right: b.right,
-                  animationDelay: b.delay,
-                  animationDuration: `${3.2 + i * 0.4}s`,
-                  cursor: 'pointer'
-                }}
-              >
-                <span>{b.icon}</span>{b.text}
-              </div>
-            ))}
           </div>
         </div>
 
