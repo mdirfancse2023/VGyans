@@ -308,9 +308,10 @@ body.screenshot-blanked main {
   box-shadow: 0 6px 25px rgba(6, 182, 212, 0.5);
 }
 
-/* Profile Icon <-> Collapse Arrow Morphing Animation */
+/* Profile Icon <-> Collapse Arrow Periodic Morphing Animation */
 .profile-arrow-morph-btn {
-  perspective: 400px;
+  position: relative;
+  overflow: hidden;
 }
 
 .profile-face {
@@ -322,8 +323,6 @@ body.screenshot-blanked main {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  backface-visibility: hidden !important;
-  -webkit-backface-visibility: hidden !important;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
 }
 
@@ -331,43 +330,43 @@ body.screenshot-blanked main {
   font-weight: 800;
   font-size: 0.85rem;
   color: var(--primary);
-  animation: avatarFlipToArrow 6s infinite cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  animation: flipAvatarPhase 5s infinite cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .arrow-face {
   color: var(--primary);
-  animation: arrowFlipFromAvatar 6s infinite cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  animation: flipArrowPhase 5s infinite cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* On hover over Profile Icon button: Show Arrow immediately! */
+/* On mouse hover, force Arrow to show immediately! */
 .profile-arrow-morph-btn:hover .avatar-face {
-  transform: translateX(-100%) !important;
+  transform: translateY(-100%) !important;
   opacity: 0 !important;
 }
 
 .profile-arrow-morph-btn:hover .arrow-face {
-  transform: translateX(0%) !important;
+  transform: translateY(0%) !important;
   opacity: 1 !important;
 }
 
-@keyframes avatarFlipToArrow {
+@keyframes flipAvatarPhase {
   0%, 45%, 100% {
-    transform: translateX(0%);
+    transform: translateY(0%);
     opacity: 1;
   }
   50%, 95% {
-    transform: translateX(-100%);
+    transform: translateY(-100%);
     opacity: 0;
   }
 }
 
-@keyframes arrowFlipFromAvatar {
+@keyframes flipArrowPhase {
   0%, 45%, 100% {
-    transform: translateX(100%);
+    transform: translateY(100%);
     opacity: 0;
   }
   50%, 95% {
-    transform: translateX(0%);
+    transform: translateY(0%);
     opacity: 1;
   }
 }
