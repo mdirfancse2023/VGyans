@@ -62,6 +62,17 @@ input, textarea, select, [contenteditable="true"] {
   -ms-user-select: text !important;
 }
 
+/* Mac & Windows Screen Capture DRM Blanking */
+body.screenshot-blanked #root,
+body.screenshot-blanked .content-protected,
+body.screenshot-blanked header,
+body.screenshot-blanked main {
+  filter: blur(100px) brightness(0) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 /* Content Protection & Screenshot Blanking Overlay */
 .screenshot-protection-overlay {
   position: fixed;

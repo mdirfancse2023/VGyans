@@ -170,11 +170,11 @@ export default function App() {
         }
       }
 
-      // Windows Snipping Tool (Win+Shift+S) & macOS Screenshot (Cmd+Shift+3/4/5)
-      if ((e.metaKey || e.ctrlKey || e.key === 'Meta') && e.shiftKey && (key === 's' || key === '3' || key === '4' || key === '5')) {
+      // macOS Screenshot (Cmd+Shift+3/4/5) & Windows Snipping Tool (Win+Shift+S)
+      if ((e.metaKey || e.ctrlKey || e.key === 'Meta') && (e.shiftKey || key === '3' || key === '4' || key === '5' || key === 's')) {
         e.preventDefault();
         setIsScreenProtected(true);
-        setTimeout(() => setIsScreenProtected(false), 3000);
+        document.body.classList.add('screenshot-blanked');
         return false;
       }
 
@@ -185,43 +185,35 @@ export default function App() {
           navigator.clipboard.writeText('');
         }
         setIsScreenProtected(true);
-        setTimeout(() => setIsScreenProtected(false), 3000);
+        document.body.classList.add('screenshot-blanked');
         return false;
       }
     };
 
-    // 5. Blank Screen on Mouse Leave, Window Blur & Snipping Tool activation
+    // 5. Blank Screen on Window Blur, Mouse Leave & Mac Capture Tool activation
     const handleBlur = () => {
       setIsScreenProtected(true);
+      document.body.classList.add('screenshot-blanked');
     };
 
     const handleMouseLeave = (e) => {
-      // Trigger blank screen when cursor leaves window (Snipping Tool overlay active)
       if (!e.relatedTarget && !e.toElement) {
         setIsScreenProtected(true);
+        document.body.classList.add('screenshot-blanked');
       }
-    };
-
-    const handleMouseEnter = () => {
-      setTimeout(() => {
-        setIsScreenProtected(false);
-      }, 300);
-    };
-
-    const handleFocus = () => {
-      setTimeout(() => {
-        setIsScreenProtected(false);
-      }, 300);
     };
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
         setIsScreenProtected(true);
-      } else {
-        setTimeout(() => {
-          setIsScreenProtected(false);
-        }, 300);
+        document.body.classList.add('screenshot-blanked');
       }
+    };
+
+    // Require explicit user click inside window to resume after screen capture attempt
+    const handleWindowClick = () => {
+      setIsScreenProtected(false);
+      document.body.classList.remove('screenshot-blanked');
     };
 
     document.addEventListener('contextmenu', handleContextMenu);
@@ -230,9 +222,9 @@ export default function App() {
     document.addEventListener('dragstart', handleDragStart);
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
+    document.addEventListener('click', handleWindowClick);
+    document.addEventListener('mousedown', handleWindowClick);
     window.addEventListener('blur', handleBlur);
-    window.addEventListener('focus', handleFocus);
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
@@ -242,9 +234,9 @@ export default function App() {
       document.removeEventListener('dragstart', handleDragStart);
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
+      document.removeEventListener('click', handleWindowClick);
+      document.removeEventListener('mousedown', handleWindowClick);
       window.removeEventListener('blur', handleBlur);
-      window.removeEventListener('focus', handleFocus);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
