@@ -4,8 +4,8 @@ export default function ResumeBuilder() {
   const [formData, setFormData] = useState({
     name: '',
     title: '',
-    email: '',
     phone: '',
+    email: '',
     linkedin: '',
     github: '',
     summary: '',
@@ -30,8 +30,8 @@ export default function ResumeBuilder() {
     setFormData({
       name: 'Md Irfan',
       title: 'Full Stack Software Engineer',
-      email: 'virtualgyans@gmail.com',
       phone: '+91 98765 43210',
+      email: 'virtualgyans@gmail.com',
       linkedin: 'linkedin.com/in/virtualgyans',
       github: 'github.com/mdirfancse2023',
       summary: 'Results-driven Full Stack Software Engineer with expertise in React, Node.js, and FastAPI. Passionate about technical education, system architecture, and building optimized, accessible web applications. Experienced in designing structured databases and teaching technical concepts to 10k+ learners.',
@@ -468,12 +468,12 @@ export default function ResumeBuilder() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div className="form-group">
-                  <label>Email Address</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="virtualgyans@gmail.com" />
-                </div>
-                <div className="form-group">
                   <label>Phone Number</label>
                   <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="+91 98765 43210" />
+                </div>
+                <div className="form-group">
+                  <label>Email Address</label>
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="virtualgyans@gmail.com" />
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
@@ -701,8 +701,8 @@ export default function ResumeBuilder() {
             <div style={{ fontSize: sizes.info, color: '#334155', fontFamily: 'Arial, sans-serif', textAlign: 'center', lineHeight: 1.5 }}>
               {(() => {
                 const parts = [];
-                if (formData.email) parts.push(<span key="email">{formData.email}</span>);
                 if (formData.phone) parts.push(<span key="phone">{formData.phone}</span>);
+                if (formData.email) parts.push(<span key="email">{formData.email}</span>);
                 if (formData.linkedin) parts.push(<span key="li">{formData.linkedin}</span>);
                 if (formData.github) parts.push(<span key="gh">{formData.github}</span>);
                 
