@@ -113,52 +113,49 @@ export default function ResumeBuilder() {
   };
 
   const generatePDF = () => {
-    const element = document.querySelector('.preview-panel');
-    if (!element) return;
+    const preview = document.querySelector('.preview-panel');
+    if (!preview) return;
 
-    // Save original styles
-    const originalPosition = element.style.position;
-    const originalTop = element.style.top;
-    const originalBoxShadow = element.style.boxShadow;
-    const originalBorderRadius = element.style.borderRadius;
+    // Create a dedicated off-screen container with clean 800px A4 dimensions
+    const container = document.createElement('div');
+    container.style.position = 'fixed';
+    container.style.top = '-9999px';
+    container.style.left = '0';
+    container.style.width = '800px';
+    container.style.background = '#ffffff';
+    container.style.color = '#000000';
+    container.style.padding = '40px 45px';
+    container.style.boxSizing = 'border-box';
+    container.style.fontFamily = 'Arial, sans-serif';
 
-    // Temporarily flatten styles for clean capture
-    element.style.position = 'relative';
-    element.style.top = 'auto';
-    element.style.boxShadow = 'none';
-    element.style.borderRadius = '0';
+    container.innerHTML = preview.innerHTML;
+    document.body.appendChild(container);
 
     const opt = {
-      margin:       [0.4, 0.4, 0.4, 0.4],
+      margin:       [0.3, 0.3, 0.3, 0.3],
       filename:     `${(formData.name || 'Resume').replace(/\s+/g, '_')}_Resume.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
+      image:        { type: 'jpeg', quality: 1.0 },
       html2canvas:  {
-        scale: 2,
+        scale: 3,
         useCORS: true,
         logging: false,
-        scrollX: 0,
-        scrollY: -window.scrollY,
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight,
+        width: 800,
+        windowWidth: 800,
         backgroundColor: '#ffffff'
       },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
       pagebreak:    { mode: ['css', 'legacy'] }
     };
 
-    window.html2pdf().from(element).set(opt).save().then(() => {
-      // Restore original styles
-      element.style.position = originalPosition;
-      element.style.top = originalTop;
-      element.style.boxShadow = originalBoxShadow;
-      element.style.borderRadius = originalBorderRadius;
+    window.html2pdf().from(container).set(opt).save().then(() => {
+      if (document.body.contains(container)) {
+        document.body.removeChild(container);
+      }
     }).catch(err => {
       console.error("PDF generation failed:", err);
-      // Restore original styles on error too
-      element.style.position = originalPosition;
-      element.style.top = originalTop;
-      element.style.boxShadow = originalBoxShadow;
-      element.style.borderRadius = originalBorderRadius;
+      if (document.body.contains(container)) {
+        document.body.removeChild(container);
+      }
       window.print();
     });
   };
