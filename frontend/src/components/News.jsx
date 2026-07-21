@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 
 const CATEGORIES = [
   { id: 'all', label: '🌐 All News' },
-  { id: 'ai', label: '🤖 AI & Machine Learning' },
-  { id: 'dev', label: '💻 Software Engineering' },
-  { id: 'careers', label: '💼 Career & Placement' },
-  { id: 'startups', label: '🚀 Startups & Tech' },
-  { id: 'gadgets', label: '⚡ Innovation & Hardware' }
+  { id: 'tech', label: '⚡ Tech & Trends' },
+  { id: 'careers', label: '💼 Placement & Career' },
+  { id: 'world', label: '🌍 World News' },
+  { id: 'sports', label: '🏆 Sports & Gaming' },
+  { id: 'media', label: '🎬 Entertainment & Media' }
 ];
 
 const INITIAL_NEWS = [
   {
     id: 'news-1',
     title: 'OpenAI Unveils Next-Gen Reasoning Models for Autonomous Software Engineering',
-    category: 'ai',
-    categoryName: 'AI & Machine Learning',
+    category: 'tech',
+    categoryName: 'Tech & Trends',
     source: 'TechCrunch AI',
     author: 'Sarah Jenkins',
     publishedAt: '10 mins ago',
@@ -29,104 +29,89 @@ const INITIAL_NEWS = [
 • **Context Window Expansion**: Native 1-million token context window allows processing entire repositories simultaneously.
 
 ### Industry Impact
-Top engineering teams across Silicon Valley have reported up to a 60% reduction in code refactoring overhead during initial trials. The system integrates directly with modern CI/CD pipelines, allowing developers to generate automated pull requests with unit tests included.`
+Top engineering teams across Silicon Valley have reported up to a 60% reduction in code refactoring overhead during initial trials.`
   },
   {
     id: 'news-2',
-    title: 'Top 10 Tech Skills Tech Recruiters Are Looking For in 2026 Campus Placements',
+    title: 'Top 10 Tech Skills Recruiters Look For in 2026 Campus Placements',
     category: 'careers',
-    categoryName: 'Career & Placement',
+    categoryName: 'Placement & Career',
     source: 'Virtual Gyans Insights',
     author: 'Irfan M.',
     publishedAt: '25 mins ago',
     readTime: '5 min read',
     coverUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
-    summary: 'Comprehensive analysis of hiring trends across Tier-1 & Tier-2 engineering colleges for full-stack, AI engineering, and cloud infrastructure roles.',
+    summary: 'Comprehensive analysis of hiring trends across engineering colleges for full-stack, AI engineering, and cloud infrastructure roles.',
     content: `As the hiring landscape shifts towards specialized engineering domain expertise, companies are seeking candidates who demonstrate practical problem-solving skills alongside solid computer science fundamentals.
 
 ### Top Skills Demand Breakdown:
 1. **Data Structures & System Design**: Scalable distributed system design and algorithmic efficiency remain mandatory for Tier-1 engineering roles.
 2. **Cloud-Native Architecture**: Hands-on experience with Docker, Kubernetes, Serverless, and AWS/GCP data pipelines.
-3. **AI Integration APIs**: Building LLM-powered applications using modern vector databases (Pinecone, PGVector) and RAG pipelines.
-4. **Full-Stack Proficiency**: React 19, Next.js, Node.js, and Python backend services.
-
-### Preparation Advice for Students
-Recruiters emphasize building 2-3 production-ready full-stack projects rather than generic tutorial clones. Having clean git commit histories and live hosted demos gives candidates a massive edge in interviews.`
+3. **AI Integration APIs**: Building LLM-powered applications using modern vector databases and RAG pipelines.`
   },
   {
     id: 'news-3',
-    title: 'React 19 Official Release: Compiler-Driven Optimization & Native Server Actions',
-    category: 'dev',
-    categoryName: 'Software Engineering',
-    source: 'Frontend Weekly',
-    author: 'David Miller',
-    publishedAt: '1 hour ago',
+    title: 'Global Tech Summit 2026: Renewable Microgrids & Quantum Internet Protocols',
+    category: 'world',
+    categoryName: 'World News',
+    source: 'Global Tech Daily',
+    author: 'Elena Rostova',
+    publishedAt: '45 mins ago',
     readTime: '6 min read',
-    coverUrl: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=800&q=80',
-    summary: 'The React team introduces automatic memoization via the new React Compiler, eliminating hand-crafted useMemo and useCallback hooks.',
-    content: `The core React framework has officially released version 19, marking one of the biggest architectural shifts in component state management and frontend rendering performance.
+    coverUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
+    summary: 'World leaders and tech visionaries assemble to establish global standards for secure quantum cryptography and sustainable data centers.',
+    content: `The 2026 World Digital Infrastructure Summit convened today, addressing critical energy efficiency challenges facing next-generation supercomputing clusters.
 
-### Major Features in React 19:
-• **React Compiler**: Automatically optimizes component renders. You no longer need to manually write useMemo or useCallback hooks.
-• **Server Actions**: Direct form submission and data mutations integrated seamlessly into server components without boilerplate APIs.
-• **Asset Loading Controls**: Background resource prefetching for fonts and stylesheets directly integrated into document head context.
-
-### What This Means for Developers
-Build sizes decrease, runtime performance improves dramatically, and component code becomes significantly cleaner without boilerplate optimization code.`
+### Key Policy Agreements:
+• **Quantum Encryption Standards**: International consensus on adopting Post-Quantum Cryptography across financial networks by 2027.
+• **Sustainable Energy Datacenters**: New mandates requiring hyper-scale cloud providers to source 90%+ power from local renewable microgrids.`
   },
   {
     id: 'news-4',
-    title: 'Quantum Computing Startup Achieves 1,000 Logical Qubit Benchmark Breakthrough',
-    category: 'startups',
-    categoryName: 'Startups & Tech',
-    source: 'VentureTech',
-    author: 'Elena Rostova',
-    publishedAt: '2 hours ago',
+    title: 'Next-Gen VR Esports League Attracts Record 15 Million Global Viewers',
+    category: 'sports',
+    categoryName: 'Sports & Gaming',
+    source: 'Esports Insider',
+    author: 'Marcus Vance',
+    publishedAt: '1 hour ago',
     readTime: '4 min read',
-    coverUrl: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=80',
-    summary: 'Fault-tolerant quantum computing reaches a new threshold with error rates dropping below 0.001%, opening doors for drug discovery and cryptography.',
-    content: `A leading quantum startup backed by top silicon valley investors has unveiled a 1,000 fault-tolerant logical qubit processor using trapped-ion technology.
+    coverUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
+    summary: 'Immersive full-body haptic tracking and low-latency rendering transform competitive gaming into a mainstream spectator event.',
+    content: `Competitive esports reached a new broadcast milestone today as the World VR Championship finals pulled in over 15 million concurrent streams.
 
-### Breakthrough Highlights:
-• **Error Mitigation**: Quantum error correction algorithms keep coherence times high enough for deep molecular simulation.
-• **Commercial Applications**: Early partners in pharmaceutical research are utilizing the hardware to model complex protein folding interactions in hours instead of years.
-• **Cybersecurity Readiness**: Accelerates the transition toward Post-Quantum Cryptography (PQC) standards for cloud security.`
+### Tournament Highlights:
+• **Sub-Millisecond Tracking**: Competitors utilized ultra-wideband sensor suits providing true 1:1 kinetic motion.
+• **Interactive Spectator Arenas**: Fans viewed matches inside 3D virtual stadium skyboxes with real-time camera manipulation.`
   },
   {
     id: 'news-5',
-    title: 'RISC-V Architecture Gains 40% Market Share in Embedded & Edge AI Devices',
-    category: 'gadgets',
-    categoryName: 'Innovation & Hardware',
-    source: 'Hardware Times',
-    author: 'Alex Rivera',
-    publishedAt: '3 hours ago',
-    readTime: '3 min read',
-    coverUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
-    summary: 'Open-source instruction set architecture RISC-V sees massive adoption among semiconductor giants for low-power edge AI microcontrollers.',
-    content: `The open-source hardware movement continues its exponential growth as major chip manufacturers transition smart devices and automotive microcontrollers to custom RISC-V silicon designs.
+    title: 'Real-Time Neural Rendering Revolutionizes Hollywood Visual Effects Studios',
+    category: 'media',
+    categoryName: 'Entertainment & Media',
+    source: 'CineTech Weekly',
+    author: 'Claire Sterling',
+    publishedAt: '2 hours ago',
+    readTime: '4 min read',
+    coverUrl: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=800&q=80',
+    summary: 'Generative radiance fields (NeRF) allow filmmakers to render photorealistic virtual environments in real-time on set.',
+    content: `Film production workflows have evolved dramatically with the adoption of neural radiance fields (NeRFs) and real-time volumetric capture.
 
-### Key Factors Driving Adoption:
-1. **Zero Royalty Licensing**: Eliminates expensive architecture licensing fees.
-2. **Custom Vector Extensions**: Allows hardware designers to add custom matrix-multiplication blocks tailored for neural networks.
-3. **Global Ecosystem**: Over 3,000 corporate members contributing to compiler toolchains and Linux kernel optimizations.`
+### Key Production Innovations:
+• **Instant Lighting Computation**: Virtual sets react dynamically to actor movement and physical set lighting in sub-frame intervals.
+• **Cost Reduction**: Reduces post-production CGI rendering times from months down to live onset compositing.`
   },
   {
     id: 'news-6',
     title: 'System Design Interview Guide: Building High-Throughput Distributed Caches',
     category: 'careers',
-    categoryName: 'Career & Placement',
+    categoryName: 'Placement & Career',
     source: 'Virtual Gyans Tech',
     author: 'Tech Mentors',
     publishedAt: '4 hours ago',
     readTime: '7 min read',
     coverUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
     summary: 'Learn key architectural principles behind Memcached and Redis: Consistent Hashing, LRU Eviction, and Distributed Replication.',
-    content: `System design interviews for Senior and SDE-2 roles frequently test a candidate's ability to architect distributed caching systems capable of handling millions of requests per second.
-
-### Step-by-Step Architecture Checklist:
-• **Consistent Hashing**: Minimizes key remapping when adding or removing cache nodes across clusters.
-• **Eviction Policies**: Implementing LRU (Least Recently Used) and LFU (Least Frequently Used) algorithms with O(1) time complexity.
-• **Cache Stampede Prevention**: Using probabilistic early expiration (XFetch) or mutex locks to prevent database overload during cache misses.`
+    content: `System design interviews for Senior and SDE-2 roles frequently test a candidate's ability to architect distributed caching systems capable of handling millions of requests per second.`
   }
 ];
 

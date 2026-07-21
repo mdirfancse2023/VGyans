@@ -438,30 +438,24 @@ export default function Header({
             </button>
           </li>
 
-          {/* 2. Real-time Weather Widget (In between Theme Toggler & YouTube Icon) */}
+          {/* 2. Real-time Weather Widget (Exact square icon button matching other navbar items) */}
           <li className="header-weather-trigger-item">
-            <div 
+            <button 
               className="theme-toggle-btn"
               style={{
-                width: 'auto',
-                padding: '0 0.55rem',
-                height: '32px',
-                gap: '0.3rem',
-                borderRadius: '20px',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                color: 'var(--text-primary)',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.8rem',
+                fontWeight: 800,
+                color: 'var(--primary)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                cursor: 'pointer',
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid var(--border-glass)'
+                justifyContent: 'center'
               }}
-              title={`Current Weather: ${weatherData.temp}°C (${weatherData.condition})`}
+              title={`Current Weather in ${weatherData.city}: ${weatherData.temp}°C (${weatherData.condition})`}
             >
-              <span style={{ fontSize: '0.9rem' }}>{weatherData.icon}</span>
-              <span style={{ color: 'var(--primary)', fontFamily: 'var(--font-heading)' }}>{weatherData.temp}°C</span>
-            </div>
+              {weatherData.temp}°
+            </button>
 
             {/* Weather Details Hover Popover Modal */}
             <div className="header-weather-popover">
