@@ -143,6 +143,38 @@ input, textarea, select, [contenteditable="true"] {
   }
 }
 
+/* Creative Brand Logo & Live Clock Animations */
+.creative-brand-text {
+  background-size: 200% auto !important;
+  animation: shineGradient 6s linear infinite !important;
+  transition: filter 0.3s ease !important;
+}
+
+.creative-brand-text:hover {
+  filter: drop-shadow(0 0 14px rgba(168, 85, 247, 0.7)) !important;
+}
+
+@keyframes shineGradient {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.live-clock-dot {
+  animation: pulseDot 2s infinite ease-in-out !important;
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.75);
+  }
+}
+
 /* Header Weather Widget & Hover Popover Card */
 .header-weather-trigger-item {
   position: relative;

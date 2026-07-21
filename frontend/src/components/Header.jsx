@@ -77,6 +77,18 @@ export default function Header({
       .catch(() => fetchWeather());
   }, []);
 
+  const [currentTimeStr, setCurrentTimeStr] = useState('');
+
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      setCurrentTimeStr(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }));
+    };
+    updateClock();
+    const interval = setInterval(updateClock, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'guides', label: 'Placement' },
@@ -97,19 +109,60 @@ export default function Header({
   return (
     <nav className="navbar">
       <div className="nav-container">
-        {/* Left: Logo */}
-        <a href="#home" className="logo" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.55rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
-          <div className="theme-toggle-btn" style={{ width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+        {/* Left: Creative Logo & Real-time Live Clock */}
+        <a href="#home" className="logo" onClick={() => setActiveTab('home')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0, textDecoration: 'none' }}>
+          <div className="theme-toggle-btn" style={{ width: '34px', height: '34px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)' }}>
             <img 
               src="/logo.png" 
               alt="Virtual Gyans Logo" 
-              style={{ width: '20px', height: '20px', objectFit: 'contain' }} 
+              style={{ width: '22px', height: '22px', objectFit: 'contain' }} 
               loading="eager"
               fetchpriority="high"
               decoding="sync"
             />
           </div>
-          <span style={{ fontWeight: 800, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>Virtual Gyans</span>
+          
+          {/* Creative Gradient Virtual Gyans Title */}
+          <span 
+            className="creative-brand-text" 
+            style={{ 
+              fontWeight: 800, 
+              fontFamily: 'var(--font-heading)', 
+              fontSize: '1.08rem',
+              background: 'linear-gradient(135deg, #06b6d4 0%, #a855f7 50%, #ec4899 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              letterSpacing: '-0.01em',
+              filter: 'drop-shadow(0 2px 8px rgba(6, 182, 212, 0.25))'
+            }}
+          >
+            Virtual Gyans
+          </span>
+
+          {/* Real-time Live Clock Tag */}
+          <div 
+            className="header-live-clock-badge"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.3rem',
+              padding: '0.2rem 0.55rem',
+              borderRadius: '12px',
+              background: 'rgba(6, 182, 212, 0.08)',
+              border: '1px solid rgba(6, 182, 212, 0.25)',
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              color: 'var(--primary)',
+              fontFamily: 'monospace, var(--font-heading)',
+              letterSpacing: '0.03em',
+              marginLeft: '0.15rem',
+              boxShadow: '0 0 10px rgba(6, 182, 212, 0.15)'
+            }}
+            title="Real-time Local Clock"
+          >
+            <span className="live-clock-dot" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block', boxShadow: '0 0 6px #10b981' }}></span>
+            <span>{currentTimeStr}</span>
+          </div>
         </a>
         
         {/* Middle: Navigation Text Tabs */}
