@@ -24,12 +24,13 @@ export default function Songs({
   const [errorMsg, setErrorMsg] = useState(null);
   const [activePreset, setActivePreset] = useState(null);
 
-  // Quick Preset Categories (Optimized for Study, Coding & Focus)
+  // Quick Preset Categories
   const presets = [
-    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'lofi', description: 'Relaxing full-length lo-fi & chillhop beats for deep focus & coding' },
+    { id: 'bollywood', label: '🔥 Top 50 Bollywood', term: 'bollywood', description: 'Top 50 full-length trending Bollywood & Hindi songs' },
+    { id: 'hollywood', label: '⭐ Top 50 Hollywood', term: 'pop', description: 'Top 50 full-length international Hollywood & Billboard pop hits' },
+    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'lofi', description: 'Relaxing full-length lo-fi & chillhop beats for study & coding' },
     { id: 'piano', label: '🎹 Piano & Classical', term: 'piano', description: 'Calm acoustic & classical piano melodies for high memory retention' },
-    { id: 'synthwave', label: '🌌 Ambient & Synthwave', term: 'synthwave', description: 'Immersive chillwave & ambient tracks for late-night study sessions' },
-    { id: 'focus', label: '🧠 Deep Focus & Alpha', term: 'focus', description: 'Brainwave focus audio & instrumental soundscapes for exam prep' },
+    { id: 'synthwave', label: '🌌 Ambient & Synthwave', term: 'synthwave', description: 'Immersive chillwave & ambient tracks for late-night sessions' },
     { id: 'acoustic', label: '🎸 Unplugged Acoustic', term: 'acoustic', description: 'Soft acoustic guitar & soothing instrumental chill tracks' }
   ];
 
@@ -50,15 +51,15 @@ export default function Songs({
       displayLabel = presetObj.label.replace(/^[^\w\s]+\s*/, ''); // Strip leading emoji for display
       setActivePreset(presetObj.id);
     } else {
-      queryTerm = 'lofi';
-      displayLabel = 'Lo-Fi Focus';
+      queryTerm = 'bollywood';
+      displayLabel = 'Top 50 Bollywood';
     }
 
     setLoadingText(`Fetching full-length real-time songs for ${displayLabel}...`);
 
     try {
-      // Fetch full-length tracks from Audius API (returns complete stream URLs and full 3-6 min durations)
-      const audiusUrl = `https://api.audius.co/v1/tracks/search?query=${encodeURIComponent(queryTerm)}&app_name=VGyans`;
+      // Fetch full-length tracks from Audius API with limit=100 to ensure full 50 tracks return
+      const audiusUrl = `https://api.audius.co/v1/tracks/search?query=${encodeURIComponent(queryTerm)}&limit=100&app_name=VGyans`;
       const res = await fetch(audiusUrl);
       if (!res.ok) throw new Error('Failed to fetch real-time music stream');
 
@@ -286,7 +287,7 @@ export default function Songs({
             className="btn btn-primary"
             style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}
           >
-            Try Lo-Fi Focus
+            Try Top 50 Bollywood
           </button>
         </div>
       ) : !songs || songs.length === 0 ? (
