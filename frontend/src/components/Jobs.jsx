@@ -132,7 +132,7 @@ export default function Jobs() {
   const [error, setError]         = useState(null);
   const [search, setSearch]       = useState('');
   const [filterRemote, setFilterRemote] = useState('all');
-  const [filterSource, setFilterSource] = useState('All');
+  const [filterSource, setFilterSource] = useState('LinkedIn');
   const [total, setTotal]         = useState(0);
 
   const fetchJobs = useCallback(async () => {
