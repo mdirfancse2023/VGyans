@@ -25,7 +25,8 @@ export default function Header({
     { id: 'tools', label: 'Resume' },
     { id: 'playground', label: 'Code' },
     { id: 'videos', label: 'Videos' },
-    { id: 'jobs', label: 'Jobs' }
+    { id: 'jobs', label: 'Jobs' },
+    { id: 'news', label: 'News' }
   ];
 
   const formatTime = (secs) => {

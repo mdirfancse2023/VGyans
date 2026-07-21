@@ -11,6 +11,7 @@ import FeedbackButton from './components/FeedbackButton';
 import Jobs from './components/Jobs';
 import CareerCoach from './components/CareerCoach';
 import Songs from './components/Songs';
+import News from './components/News';
 import MiniPlayer from './components/MiniPlayer';
 import AuthModal from './components/AuthModal';
 import { verifyJWT } from './utils/jwtUtils';
@@ -904,6 +905,12 @@ export default function App() {
         {activeTab === 'jobs' && (
           <section>
             <Jobs />
+          </section>
+        )}
+
+        {activeTab === 'news' && (
+          <section style={{ maxWidth: '1400px', margin: '0 auto', padding: '1rem 1.5rem', width: '100%', boxSizing: 'border-box' }}>
+            <News />
           </section>
         )}
 
