@@ -146,7 +146,7 @@ export default function Songs({
       style={{ 
         maxWidth: '1200px', 
         margin: '0.5rem auto 0', 
-        padding: '0 1rem 1rem', 
+        padding: '0 1.5rem 2rem', 
         height: 'calc(100vh - 105px)', 
         boxSizing: 'border-box',
         display: 'flex',
