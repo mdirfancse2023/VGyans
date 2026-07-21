@@ -90,6 +90,13 @@ export default function App() {
   const [isScreenProtected, setIsScreenProtected] = useState(false);
 
   useEffect(() => {
+    // 0. Disable window.print()
+    window.print = () => {
+      setIsScreenProtected(true);
+      setTimeout(() => setIsScreenProtected(false), 2000);
+      return false;
+    };
+
     // 1. Block Context Menu (Right Click)
     const handleContextMenu = (e) => {
       e.preventDefault();
@@ -129,6 +136,14 @@ export default function App() {
       // Block Ctrl+U / Cmd+U (View Source)
       if (isCmdOrCtrl && key === 'u') {
         e.preventDefault();
+        return false;
+      }
+
+      // Block Ctrl+P / Cmd+P (Print Page)
+      if (isCmdOrCtrl && key === 'p') {
+        e.preventDefault();
+        setIsScreenProtected(true);
+        setTimeout(() => setIsScreenProtected(false), 2000);
         return false;
       }
 
