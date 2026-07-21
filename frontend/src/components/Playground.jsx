@@ -707,9 +707,9 @@ export default function Playground({ questions, onGoHome }) {
     };
   };
 
-  const selectQuestion = async (q) => {
+  const selectQuestion = async (q, closeDrawer = false) => {
     if (!q) return;
-    setDrawerOpen(false);
+    if (closeDrawer) setDrawerOpen(false);
     setSidebarTab('problem');
 
     const qId = String(q.id);
@@ -1811,12 +1811,7 @@ export default function Playground({ questions, onGoHome }) {
               const isExpanded = !!expandedTopics[category];
               return (
                 <div className="topic-group" key={category}>
-                  <div className="topic-header" onClick={() => {
-                    toggleTopic(category);
-                    if (items && items.length > 0) {
-                      selectQuestion(items[0]);
-                    }
-                  }}>
+                  <div className="topic-header" onClick={() => toggleTopic(category)}>
                     <span className="topic-name">{category}</span>
                     <span className="topic-meta">
                       <span className="topic-count">{items.length}Q</span>
@@ -1828,7 +1823,7 @@ export default function Playground({ questions, onGoHome }) {
                       <button
                         key={p.id}
                         className={`question-item ${activeProblem?.id === p.id ? 'active' : ''}`}
-                        onClick={() => selectQuestion(p)}
+                        onClick={() => selectQuestion(p, true)}
                       >
                         <span className="question-item-title">{p.title}</span>
                         <span className={`diff-badge diff-${(p.difficulty||'easy').toLowerCase()}`}>
