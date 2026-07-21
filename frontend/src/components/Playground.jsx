@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const PROBLEMS = [
@@ -561,19 +561,58 @@ SELECT 'Hello, Virtual Gyans Playground!' AS message;`
 
 
 export default function Playground({ questions, onGoHome }) {
+  const [dbQuestions, setDbQuestions] = useState([]);
+
+  // Fetch all questions from Firebase Firestore collection `playground_questions` on mount
+  useEffect(() => {
+    let isMounted = true;
+    const fetchAllQuestions = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'playground_questions'));
+        if (querySnapshot && !querySnapshot.empty) {
+          const loaded = querySnapshot.docs.map(docSnap => ({
+            id: docSnap.id,
+            ...docSnap.data()
+          }));
+          if (isMounted && loaded.length > 0) {
+            setDbQuestions(loaded);
+          }
+        }
+      } catch (err) {
+        console.warn("Firestore collection query warning:", err);
+      }
+    };
+
+    fetchAllQuestions();
+    return () => { isMounted = false; };
+  }, []);
+
   const activeQuestions = React.useMemo(() => {
-    if (!questions || questions.length === 0) return PROBLEMS;
     const map = new Map();
     PROBLEMS.forEach(p => map.set(String(p.id), p));
-    questions.forEach(q => {
-      if (q && q.id) {
-        const qId = String(q.id);
-        const existing = map.get(qId) || {};
-        map.set(qId, { ...existing, ...q });
-      }
-    });
+
+    if (questions && Array.isArray(questions)) {
+      questions.forEach(q => {
+        if (q && q.id) {
+          const qId = String(q.id);
+          const existing = map.get(qId) || {};
+          map.set(qId, { ...existing, ...q });
+        }
+      });
+    }
+
+    if (dbQuestions && Array.isArray(dbQuestions)) {
+      dbQuestions.forEach(q => {
+        if (q && q.id) {
+          const qId = String(q.id);
+          const existing = map.get(qId) || {};
+          map.set(qId, { ...existing, ...q });
+        }
+      });
+    }
+
     return Array.from(map.values());
-  }, [questions]);
+  }, [questions, dbQuestions]);
 
   const [activeProblem, setActiveProblem] = useState(null);
   const [activeLang, setActiveLang] = useState('python');
