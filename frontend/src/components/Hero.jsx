@@ -251,10 +251,6 @@ export default function Hero({ stats, setActiveTab }) {
           0%,100% { transform: translateY(0); }
           50%      { transform: translateY(-7px); }
         }
-        @keyframes mascotFloat {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-5px) rotate(4deg); }
-        }
 
         /* ─── Stats bar ─── */
         .hero2-stats {
@@ -389,35 +385,7 @@ export default function Hero({ stats, setActiveTab }) {
             </div>
           </div>
 
-          <div className="hero2-right" style={{ position: 'relative' }}>
-            {/* Wise Tech Mascot Companion */}
-            <div 
-              className="mascot-badge" 
-              title="Gyans Tech Mentor 🦉"
-              style={{
-                position: 'absolute',
-                top: '-4px',
-                right: '4px',
-                zIndex: 10,
-                background: 'rgba(13, 19, 36, 0.92)',
-                border: '1px solid rgba(6, 182, 212, 0.4)',
-                borderRadius: '50px',
-                padding: '0.25rem 0.65rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '5px',
-                boxShadow: '0 8px 20px rgba(0, 0, 0, 0.5), 0 0 12px rgba(6, 182, 212, 0.25)',
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                color: 'var(--text-primary)',
-                cursor: 'pointer',
-                animation: 'mascotFloat 3.5s ease-in-out infinite'
-              }}
-            >
-              <span style={{ fontSize: '1.05rem' }}>🦉</span>
-              <span style={{ color: 'var(--primary)', letterSpacing: '0.02em' }}>Tech Owl</span>
-            </div>
-
+          <div className="hero2-right">
             <img
               src={(stats.avatarUrl && !stats.avatarUrl.includes('unsplash')) ? stats.avatarUrl : '/youtube-avatar.png'}
               alt="Md Irfan — Virtual Gyans"
