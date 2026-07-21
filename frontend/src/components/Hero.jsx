@@ -277,29 +277,29 @@ export default function Hero({ stats, setActiveTab }) {
           color: var(--text-primary);
           letter-spacing: -0.01em;
           opacity: 0;
-          transform: translate3d(-70vw, -30vh, 0) rotate3d(1, 1, 1, -720deg) scale(0.2);
+          transform: translate3d(-90vw, 0, 0) rotate(-720deg) scale(0.3);
           will-change: transform, opacity;
         }
 
         .dice-letter.rolled {
-          animation: letterDiceThrow 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.25) forwards;
+          animation: letterDiceHorizontalRoll 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes letterDiceThrow {
+        @keyframes letterDiceHorizontalRoll {
           0% {
             opacity: 0;
-            transform: translate3d(-75vw, -45vh, 0) rotate3d(1, 1, 1, -720deg) scale(0.1);
+            transform: translate3d(-90vw, 0, 0) rotate(-720deg) scale(0.3);
           }
-          65% {
+          70% {
             opacity: 1;
-            transform: translate3d(12px, -8px, 0) rotate3d(1, 1, 0.5, 25deg) scale(1.2);
+            transform: translate3d(14px, 0, 0) rotate(18deg) scale(1.1);
           }
-          82% {
-            transform: translate3d(-4px, 3px, 0) rotate3d(0.5, 1, 1, -8deg) scale(0.95);
+          85% {
+            transform: translate3d(-4px, 0, 0) rotate(-4deg) scale(0.96);
           }
           100% {
             opacity: 1;
-            transform: translate3d(0, 0, 0) rotate3d(0, 0, 0, 0deg) scale(1);
+            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
           }
         }
 
