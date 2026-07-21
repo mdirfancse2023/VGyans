@@ -490,16 +490,9 @@ export default function Header({
               <div 
                 className="theme-toggle-btn"
                 style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '8px',
-                  background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)',
-                  color: '#fff',
                   fontWeight: 800,
                   fontSize: '0.85rem',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  color: 'var(--primary)',
                   cursor: 'pointer'
                 }}
                 title={`Logged in as ${user.name}`}
