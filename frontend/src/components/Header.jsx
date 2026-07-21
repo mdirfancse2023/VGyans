@@ -488,7 +488,7 @@ export default function Header({
                 style={{
                   width: '32px',
                   height: '32px',
-                  borderRadius: '50%',
+                  borderRadius: '8px',
                   background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)',
                   color: '#fff',
                   fontWeight: 800,
@@ -504,7 +504,7 @@ export default function Header({
                 title={`Logged in as ${user.name}`}
               >
                 {user.avatar || user.name.charAt(0).toUpperCase()}
-                <span style={{ position: 'absolute', bottom: '0', right: '0', width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', border: '1.5px solid #070a13' }} />
+                <span style={{ position: 'absolute', bottom: '-2px', right: '-2px', width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', border: '1.5px solid #070a13' }} />
               </div>
             ) : (
               <button 
@@ -522,7 +522,7 @@ export default function Header({
             {user && (
               <div className="header-profile-popover">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', textAlign: 'left' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: '1.1rem', flexShrink: 0 }}>
+                  <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: '1.1rem', flexShrink: 0 }}>
                     {user.avatar || user.name.charAt(0).toUpperCase()}
                   </div>
                   <div style={{ overflow: 'hidden' }}>
