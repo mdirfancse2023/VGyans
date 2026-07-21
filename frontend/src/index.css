@@ -370,6 +370,52 @@ body.navbar-is-collapsed section {
   opacity: 1 !important;
 }
 
+/* Floating Collapsed Profile Button: Soft Periodic Morphing + Shows Down Arrow on hover! */
+.profile-down-arrow-morph-btn .down-arrow-face {
+  color: var(--primary);
+  animation: flipDownArrowPhase 9s infinite ease-in-out;
+}
+
+.profile-down-arrow-morph-btn .slim-avatar-face {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--primary);
+  animation: flipSlimAvatarPhase 9s infinite ease-in-out;
+}
+
+/* Hovering over floating button forces Down Arrow to show immediately! */
+.profile-down-arrow-morph-btn:hover .slim-avatar-face {
+  transform: translateY(4px) !important;
+  opacity: 0 !important;
+}
+
+.profile-down-arrow-morph-btn:hover .down-arrow-face {
+  transform: translateY(0px) !important;
+  opacity: 1 !important;
+}
+
+@keyframes flipDownArrowPhase {
+  0%, 42%, 100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  50%, 92% {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+}
+
+@keyframes flipSlimAvatarPhase {
+  0%, 42%, 100% {
+    transform: translateY(4px);
+    opacity: 0;
+  }
+  50%, 92% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
 @keyframes flipAvatarPhase {
   0%, 42%, 100% {
     transform: translateY(0px);

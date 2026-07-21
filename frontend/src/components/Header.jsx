@@ -120,12 +120,12 @@ export default function Header({
 
   return (
     <>
-      {/* Floating Slim Profile Icon when Navbar is Collapsed (Click to Expand Navbar) */}
+      {/* Floating Slim Down Arrow / Profile Button when Navbar is Collapsed (Click to Show Navbar) */}
       {isNavbarCollapsed && (
         <button 
           onClick={() => setIsNavbarCollapsed(false)} 
-          className="theme-toggle-btn navbar-slim-profile-btn"
-          title="Expand Navbar"
+          className="theme-toggle-btn navbar-slim-profile-btn profile-down-arrow-morph-btn"
+          title="Expand / Show Navbar"
           style={{
             position: 'fixed',
             top: '12px',
@@ -147,11 +147,21 @@ export default function Header({
             animation: 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
         >
-          {user ? (user.avatar || user.name.charAt(0).toUpperCase()) : (
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          {/* Face 1: Down Arrow Icon */}
+          <div className="profile-face down-arrow-face">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
-          )}
+          </div>
+
+          {/* Face 2: Profile Avatar / Initial */}
+          <div className="profile-face slim-avatar-face">
+            {user ? (user.avatar || user.name.charAt(0).toUpperCase()) : (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            )}
+          </div>
         </button>
       )}
 
