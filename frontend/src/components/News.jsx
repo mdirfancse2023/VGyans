@@ -171,16 +171,29 @@ export default function News() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 75px)', boxSizing: 'border-box', overflow: 'hidden' }}>
       
-      {/* Top Header & Category Filter Bar */}
+      {/* Top Category Filter & Search Bar */}
       <div style={{ marginBottom: '1rem', flexShrink: 0 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '0.75rem' }}>
-          <div>
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0, fontFamily: 'var(--font-heading)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span>📰</span> Tech & Placement News
-            </h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: '0.2rem 0 0 0' }}>
-              Stay updated with software engineering trends, placement guides, AI breakthroughs & startups
-            </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+          {/* Category Pills */}
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`btn ${selectedCategory === cat.id ? 'btn-primary' : 'btn-secondary'}`}
+                style={{
+                  padding: '0.35rem 0.85rem',
+                  fontSize: '0.78rem',
+                  borderRadius: '20px',
+                  background: selectedCategory === cat.id ? 'var(--primary)' : 'rgba(255, 255, 255, 0.03)',
+                  borderColor: selectedCategory === cat.id ? 'var(--primary)' : 'var(--border-glass)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {cat.label}
+              </button>
+            ))}
           </div>
 
           {/* Search Input */}
@@ -206,28 +219,6 @@ export default function News() {
               🔍
             </span>
           </div>
-        </div>
-
-        {/* Category Pills */}
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          {CATEGORIES.map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`btn ${selectedCategory === cat.id ? 'btn-primary' : 'btn-secondary'}`}
-              style={{
-                padding: '0.35rem 0.85rem',
-                fontSize: '0.78rem',
-                borderRadius: '20px',
-                background: selectedCategory === cat.id ? 'var(--primary)' : 'rgba(255, 255, 255, 0.03)',
-                borderColor: selectedCategory === cat.id ? 'var(--primary)' : 'var(--border-glass)',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              {cat.label}
-            </button>
-          ))}
         </div>
       </div>
 
