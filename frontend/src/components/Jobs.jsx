@@ -134,20 +134,13 @@ export default function Jobs() {
   const [filterRemote, setFilterRemote] = useState('all');
   const [filterSource, setFilterSource] = useState('All');
   const [total, setTotal]         = useState(0);
-  const [lastRefresh, setLastRefresh] = useState(null);
 
   const fetchJobs = useCallback(async () => {
-    if (!search.trim()) {
-      setJobs([]);
-      setTotal(0);
-      setLoading(false);
-      return;
-    }
     setLoading(true);
     setError(null);
     try {
       const params = new URLSearchParams();
-      params.set('search', search.trim());
+      if (search.trim()) params.set('search', search.trim());
       if (filterRemote === 'remote') params.set('remote', 'true');
       if (filterRemote === 'onsite') params.set('remote', 'false');
       if (filterSource !== 'All') params.set('source', filterSource);
@@ -157,7 +150,6 @@ export default function Jobs() {
       const data = await res.json();
       setJobs(data.jobs || []);
       setTotal(data.total || (data.jobs ? data.jobs.length : 0));
-      setLastRefresh(new Date());
     } catch {
       setError('Could not load jobs. Please try again.');
     } finally {
@@ -166,22 +158,15 @@ export default function Jobs() {
   }, [search, filterRemote, filterSource]);
 
   useEffect(() => {
-    if (!search.trim()) {
-      setJobs([]);
-      setTotal(0);
-      setLoading(false);
-      return;
-    }
-    const t = setTimeout(fetchJobs, 500);
+    const t = setTimeout(fetchJobs, search ? 500 : 0);
     return () => clearTimeout(t);
-  }, [fetchJobs, search]);
+  }, [fetchJobs]);
 
   const remoteFilters = [
-    { id: 'all',    label: 'All Jobs' },
     { id: 'remote', label: '🌐 Remote' },
     { id: 'onsite', label: '🏢 On-site' },
   ];
-  const SOURCES = ['All', 'LinkedIn', 'Indeed', 'Glassdoor', 'Naukri', 'Remotive', 'Arbeitnow', 'The Muse'];
+  const SOURCES = ['LinkedIn', 'Indeed', 'Glassdoor', 'Naukri', 'Remotive', 'Arbeitnow', 'The Muse'];
 
   return (
     <div style={{ marginBottom: '3rem' }}>
@@ -193,7 +178,7 @@ export default function Jobs() {
             <button
               key={f.id}
               className={`filter-tab ${filterRemote === f.id ? 'active' : ''}`}
-              onClick={() => setFilterRemote(f.id)}
+              onClick={() => setFilterRemote(prev => prev === f.id ? 'all' : f.id)}
             >
               {f.label}
             </button>
@@ -207,7 +192,7 @@ export default function Jobs() {
               <button
                 key={s}
                 className={`filter-tab ${filterSource === s ? 'active' : ''}`}
-                onClick={() => setFilterSource(s)}
+                onClick={() => setFilterSource(prev => prev === s ? 'All' : s)}
                 style={filterSource === s && sc ? { color: sc.color, borderColor: sc.border } : {}}
               >
                 {s}
