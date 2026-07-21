@@ -10,63 +10,6 @@ export default function HomeHub({
   user,
   channelStats 
 }) {
-  const launchpadFeatures = [
-    {
-      id: 'playground',
-      icon: '💻',
-      title: 'IDE Code Playground',
-      desc: 'Online editor for Python, Java, C++, and SQL with instant test execution.',
-      badge: 'Interactive IDE',
-      color: '#38bdf8',
-      action: () => setActiveTab('playground')
-    },
-    {
-      id: 'jobs',
-      icon: '💼',
-      title: 'IT Jobs Board',
-      desc: 'Search active software engineering roles aggregated from top tech portals.',
-      badge: 'Live Listings',
-      color: '#10b981',
-      action: () => setActiveTab('jobs')
-    },
-    {
-      id: 'tools',
-      icon: '📄',
-      title: 'Resume Builder & AI Matcher',
-      desc: 'Create ATS resumes and analyze match scores against job descriptions.',
-      badge: 'ATS Resume Tools',
-      color: '#8b5cf6',
-      action: () => setActiveTab('tools')
-    },
-    {
-      id: 'guides',
-      icon: '🎓',
-      title: 'Placement Prep & Question Bank',
-      desc: 'Company recruitment blueprints, MCQ flashcards, and candidate logs.',
-      badge: 'Prep Hub',
-      color: '#f59e0b',
-      action: () => setActiveTab('guides')
-    },
-    {
-      id: 'news',
-      icon: '📰',
-      title: 'Tech News & Insights',
-      desc: 'Developer updates, AI frameworks, hiring alerts, and tech news.',
-      badge: 'Live Feed',
-      color: '#ec4899',
-      action: () => setActiveTab('news')
-    },
-    {
-      id: 'songs',
-      icon: '🎵',
-      title: 'Focus Music & Ambient Player',
-      desc: 'Lofi beats and binaural soundscapes designed for coding focus.',
-      badge: 'Audio Player',
-      color: '#06b6d4',
-      action: () => setActiveTab('songs')
-    }
-  ];
-
   const placementTimelineSteps = [
     {
       step: '01',
@@ -144,76 +87,7 @@ export default function HomeHub({
       {/* Main Home Container */}
       <div style={{ maxWidth: '1400px', margin: '0 auto 4rem', padding: '0 1.5rem', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
         
-        {/* Section Header Component Style (Small & Uniform Design) */}
-        {/* 1. Features Launchpad Grid */}
-        <div>
-          <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <div>
-              <h3 style={{ fontSize: '1.05rem', color: 'var(--text-primary)', fontWeight: 700, margin: 0, letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                🚀 <span>Virtual Gyans</span> <span className="text-gradient">Features</span>
-              </h3>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '0.2rem 0 0' }}>
-                All-in-one developer workspace for coding, learning, prep, and job applications.
-              </p>
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem' }}>
-            {launchpadFeatures.map(feat => (
-              <div 
-                key={feat.id} 
-                className="glass-card" 
-                onClick={feat.action}
-                style={{ 
-                  cursor: 'pointer', 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  justifyContent: 'space-between',
-                  padding: '1.2rem',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  borderRadius: '14px',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                    <div style={{ 
-                      width: '40px', 
-                      height: '40px', 
-                      borderRadius: '10px', 
-                      background: 'rgba(255,255,255,0.04)', 
-                      border: '1px solid var(--border-glass)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      fontSize: '1.3rem' 
-                    }}>
-                      {feat.icon}
-                    </div>
-                    <span className="badge" style={{ background: 'rgba(255,255,255,0.05)', color: feat.color, border: `1px solid ${feat.color}40`, fontSize: '0.7rem', padding: '0.15rem 0.5rem' }}>
-                      {feat.badge}
-                    </span>
-                  </div>
-
-                  <h4 style={{ fontSize: '1rem', color: 'var(--text-primary)', margin: '0 0 0.3rem', fontWeight: 700 }}>
-                    {feat.title}
-                  </h4>
-                  <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
-                    {feat.desc}
-                  </p>
-                </div>
-
-                <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.78rem', color: feat.color, fontWeight: 600 }}>
-                  <span>Launch Tool</span>
-                  <span>→</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 2. Step-by-Step Placement Roadmap Timeline */}
+        {/* Step-by-Step Placement Roadmap Timeline */}
         <div>
           <div style={{ marginBottom: '1.25rem' }}>
             <h3 style={{ fontSize: '1.05rem', color: 'var(--text-primary)', fontWeight: 700, margin: 0, letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
