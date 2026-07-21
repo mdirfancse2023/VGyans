@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
 export default function VideoGrid({ videos, isLoading }) {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('Placement Prep');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedVideo, setSelectedVideo] = useState(null);
 
   const categories = [
-    { id: 'all', label: 'All Videos' },
     { id: 'Placement Prep', label: 'Placement Prep' },
     { id: 'Technical', label: 'Technical' }
   ];
@@ -35,7 +34,7 @@ export default function VideoGrid({ videos, isLoading }) {
   }, [videos]);
 
   const filteredVideos = sortedVideos.filter((video) => {
-    const matchesCategory = selectedCategory === 'all' || video.category === selectedCategory;
+    const matchesCategory = (video.category || '').toLowerCase() === selectedCategory.toLowerCase();
     const titleText = (video.title || '').toLowerCase();
     const descText = (video.description || '').toLowerCase();
     const query = searchQuery.toLowerCase();

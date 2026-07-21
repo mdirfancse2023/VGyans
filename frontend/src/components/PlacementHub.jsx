@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import PDFViewer from './PDFViewer';
 import InterviewExperiences from './InterviewExperiences';
@@ -554,21 +554,21 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
 
   // Flashcard state
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('Spring Boot');
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [liveFlashcards, setLiveFlashcards] = useState(flashcards);
+  const [liveFlashcards, setLiveFlashcards] = useState([]);
   const [isLoadingFlashcards, setIsLoadingFlashcards] = useState(false);
 
   useEffect(() => {
     if (activeSection === 'flashcards') {
       let isMounted = true;
-      const fetchFlashcardsFromFirebase = async () => {
+      const fetchCategoryFlashcards = async () => {
         setIsLoadingFlashcards(true);
-        // 1. Try Firebase Firestore SDK directly
         try {
           const colRef = collection(db, 'flashcards');
-          const snapshot = await getDocs(colRef);
+          const qRef = query(colRef, where('category', '==', selectedCategory));
+          const snapshot = await getDocs(qRef);
           if (!snapshot.empty && isMounted) {
             const cards = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
             setLiveFlashcards(cards);
@@ -576,13 +576,12 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
             return;
           }
         } catch (e) {
-          console.warn('Firebase direct SDK flashcards fetch notice:', e);
+          console.warn('Firebase direct SDK category flashcards notice:', e);
         }
 
-        // 2. Fallback to API endpoint /api/flashcards
         try {
           const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
-          const res = await fetch(`${API_URL}/api/flashcards`);
+          const res = await fetch(`${API_URL}/api/flashcards?category=${encodeURIComponent(selectedCategory)}`);
           if (res.ok && isMounted) {
             const cards = await res.json();
             if (cards && Array.isArray(cards) && cards.length > 0) {
@@ -590,19 +589,18 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
             }
           }
         } catch (err) {
-          console.warn('API flashcards fetch notice:', err);
+          console.warn('API category flashcards fetch notice:', err);
         } finally {
           if (isMounted) setIsLoadingFlashcards(false);
         }
       };
 
-      fetchFlashcardsFromFirebase();
+      fetchCategoryFlashcards();
       return () => { isMounted = false; };
     }
-  }, [activeSection]);
+  }, [activeSection, selectedCategory]);
 
   const fcCategories = [
-    'All',
     'Spring Boot',
     'System Design',
     'Java',
@@ -614,7 +612,6 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
   ];
   const cardsToUse = (liveFlashcards && liveFlashcards.length > 0) ? liveFlashcards : DEFAULT_FLASHCARDS;
   const filteredCards = cardsToUse.filter(c => {
-    if (selectedCategory === 'All') return true;
     const catStr = (c.category || '').toLowerCase();
     const targetStr = selectedCategory.toLowerCase();
     return catStr === targetStr || catStr.includes(targetStr) || targetStr.includes(catStr);
