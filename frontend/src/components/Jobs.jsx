@@ -131,21 +131,21 @@ export default function Jobs() {
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState(null);
   const [search, setSearch]       = useState('');
+  const [filterRemote, setFilterRemote] = useState('all');
+  const [filterSource, setFilterSource] = useState('All');
   const [total, setTotal]         = useState(0);
   const [lastRefresh, setLastRefresh] = useState(null);
 
   const fetchJobs = useCallback(async () => {
-    if (!search.trim()) {
-      setJobs([]);
-      setTotal(0);
-      setLoading(false);
-      return;
-    }
     setLoading(true);
     setError(null);
     try {
       const params = new URLSearchParams();
-      params.set('search', search.trim());
+      if (search.trim()) params.set('search', search.trim());
+      if (filterRemote === 'remote') params.set('remote', 'true');
+      if (filterRemote === 'onsite') params.set('remote', 'false');
+      if (filterSource !== 'All') params.set('source', filterSource);
+
       const res = await fetch(`${API_URL}/api/jobs?${params}`);
       if (!res.ok) throw new Error('Failed');
       const data = await res.json();
@@ -157,55 +157,65 @@ export default function Jobs() {
     } finally {
       setLoading(false);
     }
-  }, [search]);
+  }, [search, filterRemote, filterSource]);
 
   useEffect(() => {
-    if (!search.trim()) {
-      setJobs([]);
-      setTotal(0);
-      return;
-    }
-    const t = setTimeout(fetchJobs, 500);
+    const t = setTimeout(fetchJobs, search ? 500 : 0);
     return () => clearTimeout(t);
   }, [fetchJobs, search]);
+
+  const remoteFilters = [
+    { id: 'all',    label: 'All Jobs' },
+    { id: 'remote', label: '🌐 Remote' },
+    { id: 'onsite', label: '🏢 On-site' },
+  ];
+  const SOURCES = ['All', 'LinkedIn', 'Indeed', 'Glassdoor', 'Naukri', 'Remotive', 'Arbeitnow', 'The Muse'];
 
   return (
     <div style={{ marginBottom: '3rem' }}>
 
-      {/* Section header */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <h2 className="section-title">
-          IT <span className="text-gradient">Jobs Board</span>
-        </h2>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.35rem' }}>
-          <p className="section-desc" style={{ margin: 0, flex: '1 1 300px' }}>
-            Search active developer &amp; tech job opportunities across top tech portals.
-          </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-            {lastRefresh && (
-              <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', opacity: 0.85, whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }}></span>
-                refreshed {timeAgo(lastRefresh.toISOString())}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
+      {/* Category Filters Bar & Search Box */}
+      <div className="filters-wrapper" style={{ marginTop: '0.5rem' }}>
+        <div className="filter-tabs">
+          {remoteFilters.map(f => (
+            <button
+              key={f.id}
+              className={`filter-tab ${filterRemote === f.id ? 'active' : ''}`}
+              onClick={() => setFilterRemote(f.id)}
+            >
+              {f.label}
+            </button>
+          ))}
 
-      {/* Full-width Search Box */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <div className="search-box" style={{ width: '100%', maxWidth: '100%' }}>
-          <svg className="search-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <div style={{ width: '1px', background: 'var(--border-glass)', margin: '0 4px', alignSelf: 'stretch' }} />
+
+          {SOURCES.map(s => {
+            const sc = SOURCE_COLORS[s];
+            return (
+              <button
+                key={s}
+                className={`filter-tab ${filterSource === s ? 'active' : ''}`}
+                onClick={() => setFilterSource(s)}
+                style={filterSource === s && sc ? { color: sc.color, borderColor: sc.border } : {}}
+              >
+                {s}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Search box */}
+        <div className="search-box">
+          <svg className="search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
           <input
             type="text"
             className="search-input"
-            placeholder="Type job title, skill (e.g. React, Python, SDE), or company name..."
+            placeholder="Search jobs, skills, companies..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            style={{ fontSize: '0.95rem', padding: '0.75rem 1rem 0.75rem 2.8rem' }}
           />
         </div>
       </div>
