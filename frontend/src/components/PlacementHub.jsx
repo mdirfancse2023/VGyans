@@ -64,62 +64,68 @@ const detectLanguage = (title) => {
   return 'java'; // general C/C++/Java highlighting
 };
 
+const noteCacheMap = new Map();
+
 function BlogReader({ note, onClose }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
-  const [noteData, setNoteData] = useState(note);
-  const [isLoadingContent, setIsLoadingContent] = useState(true);
+  const noteId = note.id || (note.downloadUrl ? note.downloadUrl.replace('/notes/', '') : '');
+  
+  const [noteData, setNoteData] = useState(() => {
+    return noteCacheMap.get(noteId) || note;
+  });
+
+  const [isLoadingContent, setIsLoadingContent] = useState(() => {
+    const cached = noteCacheMap.get(noteId);
+    return !(cached && ((cached.content && cached.content.length > 0) || (cached.chapters && cached.chapters.length > 0)));
+  });
 
   useEffect(() => {
     let isMounted = true;
-    const fetchFromFirebase = async () => {
-      setIsLoadingContent(true);
-      const noteId = note.id || (note.downloadUrl ? note.downloadUrl.replace('/notes/', '') : '');
-      
-      if (!noteId) {
-        if (isMounted) setIsLoadingContent(false);
+    if (!noteId) {
+      setIsLoadingContent(false);
+      return;
+    }
+
+    if (noteCacheMap.has(noteId)) {
+      const cached = noteCacheMap.get(noteId);
+      if (cached && ((cached.content && cached.content.length > 0) || (cached.chapters && cached.chapters.length > 0))) {
+        setNoteData(cached);
+        setIsLoadingContent(false);
         return;
       }
+    }
 
-      // 1. Try Firebase Firestore SDK directly
-      try {
-        const docRef = doc(db, 'notes', noteId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists() && isMounted) {
-          const data = docSnap.data();
-          if (data && (data.content || data.chapters)) {
-            setNoteData(prev => ({ ...prev, ...data }));
-            setIsLoadingContent(false);
-            return;
-          }
-        }
-      } catch (e) {
-        console.warn('Firebase direct SDK fetch notice:', e);
+    setIsLoadingContent(true);
+
+    const API_URL = import.meta.env.VITE_API_URL || (
+      typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+        ? 'http://localhost:8000' 
+        : 'https://v-gyans.vercel.app'
+    );
+
+    const apiFetch = fetch(`${API_URL}/api/notes/${noteId}`)
+      .then(res => res.ok ? res.json() : null)
+      .catch(() => null);
+
+    const firebaseFetch = getDoc(doc(db, 'notes', noteId))
+      .then(snap => (snap && snap.exists()) ? snap.data() : null)
+      .catch(() => null);
+
+    Promise.all([apiFetch, firebaseFetch]).then(([apiData, fbData]) => {
+      if (!isMounted) return;
+      const finalData = apiData || fbData;
+      if (finalData) {
+        const merged = { ...note, ...finalData };
+        noteCacheMap.set(noteId, merged);
+        setNoteData(merged);
       }
+      setIsLoadingContent(false);
+    });
 
-      // 2. Fallback to FastAPI backend endpoint /api/notes/{note_id}
-      try {
-        const API_URL = import.meta.env.VITE_API_URL || (
-          typeof window !== 'undefined' && window.location.hostname === 'localhost' 
-            ? 'http://localhost:8000' 
-            : 'https://v-gyans.vercel.app'
-        );
-        const res = await fetch(`${API_URL}/api/notes/${noteId}`);
-        if (res.ok && isMounted) {
-          const liveNote = await res.json();
-          setNoteData(prev => ({ ...prev, ...liveNote }));
-        }
-      } catch (err) {
-        console.warn('API note fetch notice:', err);
-      } finally {
-        if (isMounted) setIsLoadingContent(false);
-      }
-    };
-
-    fetchFromFirebase();
     return () => { isMounted = false; };
-  }, [note.id, note.downloadUrl]);
+  }, [noteId]);
 
   const handleCopyCode = (text, index) => {
     navigator.clipboard.writeText(text);
