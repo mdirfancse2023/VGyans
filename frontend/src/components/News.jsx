@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 const CATEGORIES = [
   { id: 'tech', label: '⚡ Tech & AI' },
   { id: 'careers', label: '💼 Placement & Jobs' },
+  { id: 'politics', label: '🏛️ Political' },
+  { id: 'sports', label: '🏆 Sports' },
   { id: 'business', label: '🚀 Startups & Business' },
   { id: 'world', label: '🌍 World News' },
-  { id: 'sports', label: '🏆 Sports & Gaming' },
   { id: 'media', label: '🎬 Entertainment & Media' }
 ];
 
@@ -112,6 +113,23 @@ Top engineering teams across Silicon Valley have reported up to a 60% reduction 
     coverUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
     summary: 'Learn key architectural principles behind Memcached and Redis: Consistent Hashing, LRU Eviction, and Distributed Replication.',
     content: `System design interviews for Senior and SDE-2 roles frequently test a candidate's ability to architect distributed caching systems capable of handling millions of requests per second.`
+  },
+  {
+    id: 'news-7',
+    title: 'Global Policy Summit Advances International Frameworks on AI Ethics & Governance',
+    category: 'politics',
+    categoryName: 'Political',
+    source: 'Global Affairs Daily',
+    author: 'Elena Rostova',
+    publishedAt: '3 hours ago',
+    readTime: '5 min read',
+    coverUrl: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80',
+    summary: 'Legislators and international diplomats convene to ratify cross-border digital governance treaties and privacy standards.',
+    content: `International policy summits today announced landmark legislative proposals establishing cross-border data protection treaties and algorithmic transparency mandates.
+
+### Key Policy Objectives:
+• **Algorithmic Accountability**: Mandatory public bias audits for high-risk automated decision systems.
+• **Cross-Border Privacy**: Harmonizing data sovereignty standards across North America, Europe, and Asia-Pacific regions.`
   }
 ];
 
