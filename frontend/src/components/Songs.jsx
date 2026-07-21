@@ -332,7 +332,7 @@ export default function Songs({
         </div>
       ) : (
         /* Loaded Songs View (Strict Grid fitting Viewport Height) */
-        <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 0.65fr', gap: '1.25rem', flexGrow: 1, overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.45fr 0.55fr', gap: '1.25rem', flexGrow: 1, overflow: 'hidden' }}>
           
           {/* Left Panel: Real-time Track List */}
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
@@ -368,7 +368,7 @@ export default function Songs({
               </div>
 
               {/* Table Header */}
-              <div style={{ display: 'grid', gridTemplateColumns: '32px 1.1fr 145px 55px', padding: '0.4rem 0.75rem', color: 'var(--text-muted)', fontSize: '0.72rem', fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.05)', letterSpacing: '0.05em', textTransform: 'uppercase', flexShrink: 0, gap: '0.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '28px 1fr 185px 50px', padding: '0.4rem 0.75rem', color: 'var(--text-muted)', fontSize: '0.72rem', fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.05)', letterSpacing: '0.05em', textTransform: 'uppercase', flexShrink: 0, gap: '0.6rem' }}>
                 <span>#</span>
                 <span>Title & Artist</span>
                 <span>Category</span>
@@ -386,7 +386,7 @@ export default function Songs({
                       className={`song-row-item ${isCurrent ? 'active' : ''}`}
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: '32px 1.1fr 145px 55px',
+                        gridTemplateColumns: '28px 1fr 185px 50px',
                         padding: '0.55rem 0.75rem',
                         alignItems: 'center',
                         borderRadius: '8px',
@@ -394,7 +394,7 @@ export default function Songs({
                         transition: 'background 0.2s ease',
                         background: isCurrent ? 'rgba(6, 182, 212, 0.1)' : 'transparent',
                         border: isCurrent ? '1px solid rgba(6, 182, 212, 0.25)' : '1px solid transparent',
-                        gap: '0.5rem'
+                        gap: '0.6rem'
                       }}
                     >
                       {/* Play Icon / Number */}
@@ -432,7 +432,7 @@ export default function Songs({
 
                       {/* Category Badge */}
                       <div style={{ overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
-                        <span className="badge badge-secondary" style={{ fontSize: '0.7rem', padding: '0.2rem 0.55rem', whiteSpace: 'nowrap', border: '1px solid var(--border-glass)', borderRadius: '12px' }}>
+                        <span className="badge badge-secondary" style={{ fontSize: '0.72rem', padding: '0.2rem 0.6rem', whiteSpace: 'nowrap', border: '1px solid var(--border-glass)', borderRadius: '12px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {song.category}
                         </span>
                       </div>
