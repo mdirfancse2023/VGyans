@@ -270,7 +270,7 @@ export default function Header({
               style={{ cursor: 'pointer' }}
             >
               {currentSong && isPlaying ? (
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', animation: 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', animation: 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
                   {/* 1. Spinning Album Cover Art Logo */}
                   <img 
                     src={currentSong.coverUrl} 
