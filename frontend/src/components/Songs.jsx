@@ -55,13 +55,13 @@ export default function Songs({
       displayLabel = 'Top 50 Bollywood';
     }
 
-    setLoadingText(`Fetching full-length real-time songs for ${displayLabel}...`);
+    setLoadingText(`Fetching full-length songs for ${displayLabel}...`);
 
     try {
       // Fetch full-length tracks from Audius API with limit=100 to ensure full 50 tracks return
       const audiusUrl = `https://api.audius.co/v1/tracks/search?query=${encodeURIComponent(queryTerm)}&limit=100&app_name=VGyans`;
       const res = await fetch(audiusUrl);
-      if (!res.ok) throw new Error('Failed to fetch real-time music stream');
+      if (!res.ok) throw new Error('Failed to fetch music stream');
 
       const data = await res.json();
       const rawTracks = data.data || [];
@@ -106,8 +106,8 @@ export default function Songs({
         setSelectedCategory('All');
       }
     } catch (err) {
-      console.error('Real-time full song fetch error:', err);
-      setErrorMsg('Could not fetch full-length real-time music. Please check your internet connection.');
+      console.error('Full song fetch error:', err);
+      setErrorMsg('Could not fetch full-length music. Please check your internet connection.');
     } finally {
       setIsLoading(false);
     }

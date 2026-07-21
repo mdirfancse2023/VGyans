@@ -493,7 +493,7 @@ function BlogReader({ note, onClose }) {
                   marginBottom: '1rem'
                 }}></div>
                 <h4 style={{ color: '#f8fafc', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Chapter...</h4>
-                <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>Loading chapter content in real-time.</p>
+                <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>Loading chapter content...</p>
               </div>
             ) : contentToRender.map((block, index) => {
               if (block.type === 'h1') {
@@ -860,7 +860,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
                   marginBottom: '1rem'
                 }}></div>
                 <h4 style={{ color: 'var(--text-primary)', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Flashcards...</h4>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: 0 }}>Loading question cards in real-time.</p>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: 0 }}>Loading question cards...</p>
               </div>
             ) : filteredCards.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>No flashcards found for this category.</div>

@@ -180,7 +180,7 @@ export default function Jobs() {
         </h2>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.35rem' }}>
           <p className="section-desc" style={{ margin: 0, flex: '1 1 300px' }}>
-            Real-time listings aggregated from LinkedIn, Indeed, Glassdoor, Naukri, Remotive, Arbeitnow &amp; The Muse.
+            Latest listings aggregated from LinkedIn, Indeed, Glassdoor, Naukri, Remotive, Arbeitnow &amp; The Muse.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
             {lastRefresh && (

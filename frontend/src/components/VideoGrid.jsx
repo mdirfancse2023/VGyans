@@ -106,7 +106,7 @@ export default function VideoGrid({ videos, isLoading }) {
           </div>
           <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)', margin: '0 0 0.4rem 0' }}>Fetching Live YouTube Videos...</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', maxWidth: '400px', margin: 0 }}>
-            Loading latest video uploads from @virtualgyans in real-time...
+            Loading latest video uploads from @virtualgyans...
           </p>
         </div>
       ) : filteredVideos.length === 0 ? (
