@@ -78,6 +78,7 @@ export default function Header({
   }, []);
 
   const [currentTimeStr, setCurrentTimeStr] = useState('');
+  const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false);
 
   useEffect(() => {
     const updateClock = () => {
@@ -107,7 +108,22 @@ export default function Header({
   };
 
   return (
-    <nav className="navbar">
+    <>
+      {/* Floating Slim Uncollapse Button when Navbar is Collapsed */}
+      {isNavbarCollapsed && (
+        <button 
+          onClick={() => setIsNavbarCollapsed(false)} 
+          className="navbar-slim-uncollapse-btn"
+          title="Expand Full Navbar"
+        >
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+          <span>Show Navbar</span>
+        </button>
+      )}
+
+      <nav className={`navbar ${isNavbarCollapsed ? 'collapsed-slim' : ''}`}>
       <div className="nav-container">
         {/* Left: Creative Logo (Logo <-> Weather Temp) & Brand Text (Virtual Gyans <-> Live Clock) */}
         <div className="header-weather-trigger-item" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
@@ -557,8 +573,22 @@ export default function Header({
               </div>
             )}
           </li>
+
+          {/* Hide / Collapse Navbar Toggle Icon */}
+          <li>
+            <button 
+              onClick={() => setIsNavbarCollapsed(true)} 
+              className="theme-toggle-btn"
+              title="Hide / Slim Navbar"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+            </button>
+          </li>
         </ul>
       </div>
     </nav>
+    </>
   );
 }
