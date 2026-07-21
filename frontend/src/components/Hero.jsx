@@ -431,27 +431,6 @@ export default function Hero({ stats, setActiveTab }) {
           ))}
         </div>
 
-        {/* ── FEATURES GRID ── */}
-        <p className="hero2-features-title">Everything You Need to Get Placed</p>
-        <p className="hero2-features-sub">Ten powerful tools — one platform, zero confusion.</p>
-
-        <div className="hero2-grid">
-          {features.map((f, i) => (
-            <div
-              key={i}
-              className="hero2-card"
-              style={{ '--card-color': f.color, '--card-glow': f.glow }}
-              onClick={() => setActiveTab(f.tab)}
-            >
-              <div className="hero2-card-icon">{f.icon}</div>
-              <div className="hero2-card-title">{f.title}</div>
-              <p className="hero2-card-desc">{f.desc}</p>
-              <div className="hero2-card-arrow">
-                Explore → 
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </>
   );
