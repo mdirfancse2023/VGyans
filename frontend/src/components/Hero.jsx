@@ -135,8 +135,8 @@ export default function Hero({ stats, setActiveTab }) {
           position: relative; z-index: 2;
           display: flex; flex-direction: column; align-items: center; justify-content: center;
           text-align: center;
-          gap: 2rem;
-          padding: 1.5rem 0 2rem;
+          gap: 1.5rem;
+          padding: 0.5rem 0 1.25rem;
           opacity: 0; transform: translateY(28px);
           transition: opacity 0.7s ease, transform 0.7s ease;
         }
