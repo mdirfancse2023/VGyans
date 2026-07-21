@@ -109,17 +109,38 @@ export default function Header({
 
   return (
     <>
-      {/* Floating Slim Uncollapse Button when Navbar is Collapsed */}
+      {/* Floating Slim Profile Icon when Navbar is Collapsed (Click to Expand Navbar) */}
       {isNavbarCollapsed && (
         <button 
           onClick={() => setIsNavbarCollapsed(false)} 
-          className="navbar-slim-uncollapse-btn"
-          title="Expand Full Navbar"
+          className="theme-toggle-btn navbar-slim-profile-btn"
+          title="Expand Navbar"
+          style={{
+            position: 'fixed',
+            top: '12px',
+            right: '18px',
+            zIndex: 10000,
+            width: '36px',
+            height: '36px',
+            borderRadius: '10px',
+            background: 'rgba(7, 10, 19, 0.85)',
+            border: '1.5px solid var(--primary)',
+            color: 'var(--primary)',
+            fontWeight: 800,
+            fontSize: '0.95rem',
+            boxShadow: '0 0 15px rgba(6, 182, 212, 0.4)',
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            animation: 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+          }}
         >
-          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-          <span>Show Navbar</span>
+          {user ? (user.avatar || user.name.charAt(0).toUpperCase()) : (
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          )}
         </button>
       )}
 
@@ -500,10 +521,11 @@ export default function Header({
               </svg>
             </a>
           </li>
-          {/* User Profile / Auth Item with Log Out Dropdown Card */}
+          {/* User Profile / Auth Item with Log Out & Hide Navbar Dropdown Card */}
           <li className="header-profile-trigger-item">
             {user ? (
               <div 
+                onClick={() => setIsNavbarCollapsed(true)}
                 className="theme-toggle-btn"
                 style={{
                   fontWeight: 800,
@@ -511,15 +533,18 @@ export default function Header({
                   color: 'var(--primary)',
                   cursor: 'pointer'
                 }}
-                title={`Logged in as ${user.name}`}
+                title={`Logged in as ${user.name} • Click to Hide / Slim Navbar`}
               >
                 {user.avatar || user.name.charAt(0).toUpperCase()}
               </div>
             ) : (
               <button 
-                onClick={onOpenAuth}
+                onClick={() => {
+                  onOpenAuth();
+                  setIsNavbarCollapsed(true);
+                }}
                 className="theme-toggle-btn"
-                title="Log In / Sign Up"
+                title="Log In / Sign Up • Click to Hide Navbar"
               >
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
@@ -549,6 +574,29 @@ export default function Header({
                 </div>
 
                 <button
+                  onClick={() => setIsNavbarCollapsed(true)}
+                  style={{
+                    width: '100%',
+                    padding: '0.45rem',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-glass)',
+                    background: 'rgba(255,255,255,0.05)',
+                    color: 'var(--text-primary)',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.35rem',
+                    marginBottom: '0.45rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  📐 Slim / Hide Navbar
+                </button>
+
+                <button
                   onClick={onLogout}
                   style={{
                     width: '100%',
@@ -572,19 +620,6 @@ export default function Header({
                 </button>
               </div>
             )}
-          </li>
-
-          {/* Hide / Collapse Navbar Toggle Icon */}
-          <li>
-            <button 
-              onClick={() => setIsNavbarCollapsed(true)} 
-              className="theme-toggle-btn"
-              title="Hide / Slim Navbar"
-            >
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="18 15 12 9 6 15"></polyline>
-              </svg>
-            </button>
           </li>
         </ul>
       </div>
