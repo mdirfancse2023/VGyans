@@ -188,7 +188,7 @@ export default function News() {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 75px)', boxSizing: 'border-box', overflow: 'hidden' }}>
+    <div className="news-dashboard-container" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 75px)', boxSizing: 'border-box', overflow: 'hidden' }}>
       
       {/* Top Category Filter & Search Bar */}
       <div style={{ marginBottom: '1rem', flexShrink: 0 }}>

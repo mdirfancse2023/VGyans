@@ -288,15 +288,22 @@ body.screenshot-blanked main {
   overflow: hidden !important;
 }
 
-/* Allow tab containers to stretch naturally with comfortable top spacing */
+/* Allow tab containers to stretch UPWARDS to fill the top gap while keeping bottom anchored at screen bottom */
 body.navbar-is-collapsed main {
-  padding-top: 1rem !important;
-  min-height: 100vh;
+  padding-top: 0.35rem !important;
+  margin-top: 0 !important;
 }
 
 body.navbar-is-collapsed .playground-section {
-  height: 100vh !important;
-  padding-top: 0.5rem !important;
+  padding-top: 0 !important;
+}
+
+body.navbar-is-collapsed .playground-container,
+body.navbar-is-collapsed .songs-dashboard,
+body.navbar-is-collapsed .news-dashboard-container {
+  height: calc(100vh - 16px) !important;
+  margin-top: 0 !important;
+  transition: height 0.35s ease-in-out !important;
 }
 
 .navbar-slim-uncollapse-btn {
