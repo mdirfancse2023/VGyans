@@ -581,7 +581,7 @@ export default function PlacementHub({ resources, notes, onboardingStages = {}, 
             onClick={() => setActiveSection('experiences')}
             style={{ fontSize: '0.9rem', fontWeight: 600 }}
           >
-            📝 Interview Experiences
+            📝 Interviews
           </button>
         </div>
       </div>
