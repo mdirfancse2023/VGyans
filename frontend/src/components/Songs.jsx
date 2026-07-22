@@ -178,12 +178,7 @@ export default function Songs({
       <div className="glass-panel" style={{ padding: '0.75rem 1.25rem', marginBottom: '0.5rem', borderRadius: '14px', flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           
-          {/* JioSaavn Music Portal Branding Badge */}
-          <div style={{ display: 'flex', alignItems: 'center', background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(59, 130, 246, 0.15))', padding: '0.4rem 0.9rem', borderRadius: '24px', border: '1px solid rgba(6, 182, 212, 0.3)' }}>
-            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              🎵 JioSaavn HD Audio <span style={{ fontSize: '0.65rem', background: 'var(--primary)', color: '#000', padding: '1px 6px', borderRadius: '10px', fontWeight: 700 }}>320kbps</span>
-            </span>
-          </div>
+
 
           {/* Quick Category Action Buttons */}
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
@@ -478,12 +473,7 @@ export default function Songs({
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
-                  {/* Provider Quality Badge */}
-                  <div style={{ marginBottom: '0.4rem' }}>
-                    <span style={{ background: 'rgba(6, 182, 212, 0.15)', border: '1px solid rgba(6, 182, 212, 0.4)', color: '#38bdf8', fontSize: '0.72rem', fontWeight: 600, padding: '0.25rem 0.75rem', borderRadius: '20px', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-                      🎵 JioSaavn 320kbps HD Audio
-                    </span>
-                  </div>
+
 
                   {/* Vinyl Record View */}
                   <div style={{ position: 'relative', width: '160px', height: '160px', marginBottom: '1rem', marginTop: '0.25rem' }}>
