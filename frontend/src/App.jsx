@@ -575,13 +575,17 @@ export default function App() {
           if (liveData.videos && Array.isArray(liveData.videos) && liveData.videos.length > 0) {
             setVideos(sortVideosNewestFirst(liveData.videos));
           }
-          if (liveData.resources) {
+          if (liveData.resources && Array.isArray(liveData.resources) && liveData.resources.length > 0) {
             setResources(prev => {
-              const merged = [...liveData.resources];
-              const liveIds = new Set(merged.map(r => r.id));
-              prev.forEach(localRes => {
-                if (!liveIds.has(localRes.id)) merged.push(localRes);
+              const liveMap = new Map(liveData.resources.map(r => [r.id, r]));
+              const merged = [...prev];
+              prev.forEach((localRes, idx) => {
+                if (liveMap.has(localRes.id)) {
+                  merged[idx] = { ...localRes, ...liveMap.get(localRes.id) };
+                  liveMap.delete(localRes.id);
+                }
               });
+              liveMap.forEach(liveRes => merged.push(liveRes));
               return merged;
             });
           }
