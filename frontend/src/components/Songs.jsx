@@ -28,10 +28,14 @@ export default function Songs({
   const [musicSource, setMusicSource] = useState('jiosaavn'); // 'jiosaavn' | 'youtube'
 
   useEffect(() => {
+    setTrackProgress(0);
+  }, [currentSong?.id]);
+
+  useEffect(() => {
     if (currentTime && currentTime > 0) {
       setTrackProgress(currentTime);
     }
-  }, [currentTime, currentSong]);
+  }, [currentTime]);
 
   useEffect(() => {
     let timer;
@@ -50,14 +54,14 @@ export default function Songs({
     return () => clearInterval(timer);
   }, [isPlaying, duration, currentSong, nextSong]);
 
-  // Top 50 Chart Preset Categories
+  // Preset Categories
   const presets = [
-    { id: 'bollywood', label: '🔥 Top 50 Bollywood Latest', term: 'latest hindi songs', description: 'Top 50 full-length trending Bollywood & Hindi songs' },
-    { id: 'hollywood', label: '⭐ Top 50 Hollywood Hits', term: 'pop hits', description: 'Top 50 full-length international Hollywood & Billboard pop hits' },
-    { id: 'punjabi', label: '🌾 Top 50 Punjabi Latest', term: 'latest punjabi', description: 'Top 50 latest Punjabi beats & hits' },
-    { id: 'lofi', label: '🎧 Top 50 Lo-Fi Focus', term: 'hindi lofi', description: 'Top 50 relaxing lo-fi & chillhop beats for study & coding' },
-    { id: 'romantic', label: '❤️ Top 50 Romantic Hits', term: 'romantic hindi', description: 'Top 50 acoustic & romantic love melodies' },
-    { id: 'party', label: '🎉 Top 50 Party & Dance', term: 'bollywood party', description: 'Top 50 high energy dance tracks' }
+    { id: 'bollywood', label: '🔥 Bollywood Hits', term: 'latest hindi songs', description: 'Trending Bollywood & Hindi songs' },
+    { id: 'hollywood', label: '⭐ Hollywood Hits', term: 'pop hits', description: 'International Hollywood & Billboard pop hits' },
+    { id: 'punjabi', label: '🌾 Punjabi Hits', term: 'latest punjabi', description: 'Trending Punjabi beats & hits' },
+    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'hindi lofi', description: 'Relaxing lo-fi & chillhop beats for study & coding' },
+    { id: 'romantic', label: '❤️ Romantic Hits', term: 'romantic hindi', description: 'Calm acoustic & romantic love melodies' },
+    { id: 'party', label: '🎉 Party & Dance', term: 'bollywood party', description: 'High energy dance tracks' }
   ];
 
   // JioSaavn Top 50 Music Fetcher
@@ -178,12 +182,7 @@ export default function Songs({
       <div className="glass-panel" style={{ padding: '0.75rem 1.25rem', marginBottom: '0.5rem', borderRadius: '14px', flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           
-          {/* Top 50 Live Indicator Badge */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--primary)', background: 'rgba(6, 182, 212, 0.12)', padding: '0.35rem 0.8rem', borderRadius: '20px', border: '1px solid rgba(6, 182, 212, 0.3)' }}>
-              🔥 Top 50 Chart (50 Unique Songs)
-            </span>
-          </div>
+
 
           {/* Quick Category Action Buttons */}
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
@@ -484,6 +483,7 @@ export default function Songs({
                   {/* Background Full Track Stream Engine */}
                   {currentSong.embedUrl && (
                     <iframe
+                      id="music-player-iframe"
                       src={isPlaying ? currentSong.embedUrl : ''}
                       title={currentSong.title}
                       allow="autoplay; encrypted-media"
@@ -541,6 +541,16 @@ export default function Songs({
                         const val = parseFloat(e.target.value);
                         setTrackProgress(val);
                         if (seek) seek(val);
+                        try {
+                          const iframe = document.getElementById('music-player-iframe');
+                          if (iframe && iframe.contentWindow) {
+                            iframe.contentWindow.postMessage(JSON.stringify({
+                              event: 'command',
+                              func: 'seekTo',
+                              args: [val, true]
+                            }), '*');
+                          }
+                        } catch (err) {}
                       }}
                       style={{
                         width: '100%',

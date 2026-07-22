@@ -277,6 +277,7 @@ export default function App() {
       togglePlay();
     } else {
       setCurrentSong(song);
+      setCurrentTime(0);
       const srcUrl = song.audioUrl || song.url;
       if (audioRef.current && srcUrl) {
         audioRef.current.src = srcUrl;
