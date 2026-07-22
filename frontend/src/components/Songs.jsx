@@ -35,7 +35,7 @@ export default function Songs({
     { id: 'acoustic', label: '🎸 Unplugged Acoustic', term: 'acoustic', description: 'Soft acoustic guitar & soothing instrumental chill tracks' }
   ];
 
-  // Fetch real-time YouTube songs using YouTube Data API v3
+  // Fetch real-time YouTube songs directly using YouTube Data API v3
   const handleFetchSongs = async (presetObj, customSearch = '') => {
     setIsLoading(true);
     setErrorMsg(null);
@@ -66,82 +66,68 @@ export default function Songs({
     setLoadingText(`Fetching YouTube songs for ${displayLabel}...`);
 
     try {
-      const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+      const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY || 'AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo';
       let tracks = [];
 
-      // 1. Try YouTube Data API v3 directly if frontend key is available
-      if (apiKey) {
-        const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoCategoryId=10&q=${encodeURIComponent(queryTerm)}&key=${apiKey}`;
-        const res = await fetch(ytUrl);
-        if (res.ok) {
-          const data = await res.json();
-          const items = data.items || [];
-          
-          const decodeHTML = (str) => {
-            const txt = document.createElement('textarea');
-            txt.innerHTML = str || '';
-            return txt.value;
-          };
+      // Direct YouTube Data API v3 fetch
+      const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&q=${encodeURIComponent(queryTerm)}&key=${apiKey}`;
+      const res = await fetch(ytUrl);
+      if (res.ok) {
+        const data = await res.json();
+        const items = data.items || [];
+        
+        const decodeHTML = (str) => {
+          const txt = document.createElement('textarea');
+          txt.innerHTML = str || '';
+          return txt.value;
+        };
 
-          tracks = items
-            .filter(item => item.id && item.id.videoId)
-            .map((item) => {
-              const vid = item.id.videoId;
-              const snippet = item.snippet || {};
-              const title = decodeHTML(snippet.title);
-              const artist = decodeHTML(snippet.channelTitle || 'YouTube Music');
-              const cover = snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
-              const categoryLabel = presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : (customSearch ? 'Search Result' : 'YouTube Music');
+        tracks = items
+          .filter(item => item.id && item.id.videoId)
+          .map((item) => {
+            const vid = item.id.videoId;
+            const snippet = item.snippet || {};
+            const title = decodeHTML(snippet.title);
+            const artist = decodeHTML(snippet.channelTitle || 'YouTube Music');
+            const cover = snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
+            const categoryLabel = presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : (customSearch ? 'Search Result' : 'YouTube Music');
 
-              return {
-                id: `yt-${vid}`,
-                videoId: vid,
-                title: title,
-                artist: artist,
-                album: categoryLabel,
-                category: categoryLabel,
-                coverUrl: cover,
-                url: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
-                videoUrl: `https://www.youtube.com/watch?v=${vid}`,
-                embedUrl: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
-                duration: 240
-              };
-            });
+            return {
+              id: `yt-${vid}`,
+              videoId: vid,
+              title: title,
+              artist: artist,
+              album: categoryLabel,
+              category: categoryLabel,
+              coverUrl: cover,
+              url: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
+              videoUrl: `https://www.youtube.com/watch?v=${vid}`,
+              embedUrl: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
+              duration: 240
+            };
+          });
+      } else {
+        // Fallback to backend /api/songs
+        const API_URL = import.meta.env.VITE_API_URL || (
+          typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+            ? 'http://localhost:8000' 
+            : 'https://v-gyans.vercel.app'
+        );
+        const backendUrl = `${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`;
+        const bRes = await fetch(backendUrl);
+        if (bRes.ok) {
+          tracks = await bRes.json();
         }
       }
 
-      // 2. Fallback to backend API /api/songs if frontend key is omitted or empty
-      if (tracks.length === 0) {
-        try {
-          const API_URL = import.meta.env.VITE_API_URL || (
-            typeof window !== 'undefined' && window.location.hostname === 'localhost' 
-              ? 'http://localhost:8000' 
-              : 'https://v-gyans.vercel.app'
-          );
-          const backendUrl = `${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`;
-          const res = await fetch(backendUrl);
-          if (res.ok) {
-            tracks = await res.json();
-          }
-        } catch (e) {
-          console.warn("Backend songs fallback warning:", e);
-        }
-      }
-
-      // 3. Fallback to default curated YouTube songs if direct API & backend return empty
       if (!tracks || tracks.length === 0) {
-        tracks = [
-          { id: "yt-gN3XJ4_oE9M", videoId: "gN3XJ4_oE9M", title: "Sooraj Dooba Hain | ROY | Arijit Singh", artist: "T-Series", album: displayLabel, category: displayLabel, coverUrl: "https://i.ytimg.com/vi/gN3XJ4_oE9M/hqdefault.jpg", videoUrl: "https://www.youtube.com/watch?v=gN3XJ4_oE9M", embedUrl: "https://www.youtube.com/embed/gN3XJ4_oE9M?autoplay=1&enablejsapi=1", duration: 264 },
-          { id: "yt-v5jVX0QYwQo", videoId: "v5jVX0QYwQo", title: "Shararat - Dhurandhar | Ranveer Singh", artist: "Saregama Music", album: displayLabel, category: displayLabel, coverUrl: "https://i.ytimg.com/vi/v5jVX0QYwQo/hqdefault.jpg", videoUrl: "https://www.youtube.com/watch?v=v5jVX0QYwQo", embedUrl: "https://www.youtube.com/embed/v5jVX0QYwQo?autoplay=1&enablejsapi=1", duration: 210 },
-          { id: "yt-lTRiuFIWV54", videoId: "lTRiuFIWV54", title: "1 A.M Study Session [lofi hip hop]", artist: "Lofi Girl", album: displayLabel, category: displayLabel, coverUrl: "https://i.ytimg.com/vi/lTRiuFIWV54/hqdefault.jpg", videoUrl: "https://www.youtube.com/watch?v=lTRiuFIWV54", embedUrl: "https://www.youtube.com/embed/lTRiuFIWV54?autoplay=1&enablejsapi=1", duration: 300 },
-          { id: "yt-RPxuhz02ITQ", videoId: "RPxuhz02ITQ", title: "The Best of Classical Piano | Chopin, Beethoven", artist: "HALIDONMUSIC", album: displayLabel, category: displayLabel, coverUrl: "https://i.ytimg.com/vi/RPxuhz02ITQ/hqdefault.jpg", videoUrl: "https://www.youtube.com/watch?v=RPxuhz02ITQ", embedUrl: "https://www.youtube.com/embed/RPxuhz02ITQ?autoplay=1&enablejsapi=1", duration: 360 }
-        ];
+        setErrorMsg(`No YouTube songs found for "${queryTerm}". Try another search!`);
+      } else {
+        if (setSongs) {
+          setSongs(tracks);
+        }
+        setSelectedCategory('All');
       }
-
-      if (setSongs) {
-        setSongs(tracks);
-      }
-      setSelectedCategory('All');
     } catch (err) {
       console.error('YouTube song fetch error:', err);
       setErrorMsg('Could not fetch YouTube songs. Please check your network connection.');
