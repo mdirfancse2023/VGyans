@@ -480,16 +480,18 @@ export default function Songs({
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
-                  {/* Background Full Track Stream Engine */}
+                  {/* Live Official High-Quality Audio/Video Stream Engine */}
                   {currentSong.embedUrl && (
-                    <iframe
-                      key={currentSong.id}
-                      id="music-player-iframe"
-                      src={isPlaying ? `${currentSong.embedUrl}&start=0&t=0` : ''}
-                      title={currentSong.title}
-                      allow="autoplay; encrypted-media"
-                      style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
-                    ></iframe>
+                    <div style={{ width: '100%', maxWidth: '240px', height: '135px', borderRadius: '14px', overflow: 'hidden', marginBottom: '0.75rem', border: '1px solid rgba(6, 182, 212, 0.3)', boxShadow: '0 0 20px rgba(6, 182, 212, 0.25)', background: '#000', flexShrink: 0 }}>
+                      <iframe
+                        key={currentSong.id}
+                        id="music-player-iframe"
+                        src={isPlaying ? `${currentSong.embedUrl}&start=0` : ''}
+                        title={currentSong.title}
+                        allow="autoplay; encrypted-media; picture-in-picture"
+                        style={{ width: '100%', height: '100%', border: 'none' }}
+                      ></iframe>
+                    </div>
                   )}
 
 

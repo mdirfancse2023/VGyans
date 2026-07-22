@@ -764,6 +764,8 @@ def decrypt_jiosaavn_url(enc_url: str) -> str:
 
 def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
     import urllib.request, urllib.parse, json, html, ssl, os, re
+    from concurrent.futures import ThreadPoolExecutor
+
     q_term = query or "latest hindi songs"
     ctx = ssl._create_unverified_context()
     headers = {
@@ -771,13 +773,15 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
         'Accept': 'application/json, text/plain, */*'
     }
 
+    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY") or "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo"
+
     def clean_title(t):
         raw = re.sub(r'[\(\[\{].*?[\)\]\}]', '', t)
         return re.sub(r'[^\w\s]', '', raw).strip().lower()
 
-    # 1. Primary Engine: JioSaavn Single Track Catalog for 100% Strict Single Songs (No "Top 20" or Jukeboxes)
+    # 1. Primary Engine: JioSaavn Single Track Catalog for 100% Strict Single Songs
     try:
-        songs = []
+        raw_items = []
         seen_ids = set()
         seen_titles = set()
 
@@ -801,42 +805,63 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                     if not normalized_t or normalized_t in seen_titles:
                         continue
 
-                    more = item.get("more_info", {})
-                    artist_list = []
-                    artist_map = more.get("artistMap", {})
-                    if isinstance(artist_map, dict):
-                        primary = artist_map.get("primary_artists", [])
-                        if isinstance(primary, list):
-                            artist_list = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
-                    artist_str = ", ".join(artist_list) if artist_list else html.unescape(item.get("subtitle") or "Official Artist")
-                    album_name = html.unescape(more.get("album") or item.get("album") or "")
-                    cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
-
                     seen_ids.add(song_id)
                     seen_titles.add(normalized_t)
-                    dur = int(more.get("duration") or item.get("duration") or 240)
-                    
-                    # Direct YouTube Audio Stream Search Query for the single track
-                    yt_search_query = urllib.parse.quote(f"{clean_t} {artist_str} official audio")
-
-                    songs.append({
-                        "id": f"js-{song_id}",
-                        "title": clean_t,
-                        "artist": artist_str,
-                        "album": album_name or q_term.title(),
-                        "category": q_term.title(),
-                        "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
-                        "audioUrl": f"https://www.youtube.com/embed?listType=search&list={yt_search_query}&autoplay=1&enablejsapi=1",
-                        "url": f"https://www.youtube.com/embed?listType=search&list={yt_search_query}&autoplay=1&enablejsapi=1",
-                        "embedUrl": f"https://www.youtube.com/embed?listType=search&list={yt_search_query}&autoplay=1&enablejsapi=1",
-                        "duration": dur,
-                        "provider": "strict_single_song"
-                    })
-                    if len(songs) >= limit:
+                    raw_items.append((song_id, clean_t, item))
+                    if len(raw_items) >= limit:
                         break
-            if len(songs) >= limit:
+            if len(raw_items) >= limit:
                 break
         
+        # Parallel YouTube Video ID Resolver for crystal clear audio playback
+        def build_song_obj(entry):
+            song_id, clean_t, item = entry
+            more = item.get("more_info", {})
+            artist_list = []
+            artist_map = more.get("artistMap", {})
+            if isinstance(artist_map, dict):
+                primary = artist_map.get("primary_artists", [])
+                if isinstance(primary, list):
+                    artist_list = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
+            artist_str = ", ".join(artist_list) if artist_list else html.unescape(item.get("subtitle") or "Official Artist")
+            album_name = html.unescape(more.get("album") or item.get("album") or "")
+            cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
+            dur = int(more.get("duration") or item.get("duration") or 240)
+
+            vid = ""
+            if yt_api_key:
+                try:
+                    q_str = f"{clean_t} {artist_str} official audio"
+                    y_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q={urllib.parse.quote(q_str)}&key={yt_api_key}"
+                    y_req = urllib.request.Request(y_url, headers=headers)
+                    with urllib.request.urlopen(y_req, timeout=3, context=ctx) as y_resp:
+                        y_data = json.loads(y_resp.read().decode('utf-8'))
+                        y_items = y_data.get("items", [])
+                        if y_items:
+                            vid = y_items[0].get("id", {}).get("videoId") or ""
+                except Exception:
+                    pass
+
+            embed_url = f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1&playsinline=1" if vid else f"https://www.youtube.com/embed?listType=search&list={urllib.parse.quote(clean_t + ' ' + artist_str + ' official audio')}&autoplay=1&enablejsapi=1"
+
+            return {
+                "id": f"js-{song_id}",
+                "videoId": vid,
+                "title": clean_t,
+                "artist": artist_str,
+                "album": album_name or q_term.title(),
+                "category": q_term.title(),
+                "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
+                "audioUrl": embed_url,
+                "url": embed_url,
+                "embedUrl": embed_url,
+                "duration": dur,
+                "provider": "strict_single_song"
+            }
+
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            songs = list(executor.map(build_song_obj, raw_items))
+
         if songs:
             return songs
     except Exception as e:
