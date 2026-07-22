@@ -702,42 +702,49 @@ def get_videos(category: Optional[str] = None, search: Optional[str] = None):
 
 @app.get("/api/songs")
 def get_youtube_songs(query: Optional[str] = "bollywood songs", max_results: int = 50):
-    yt_api_key = os.getenv("YOUTUBE_API_KEY")
-    if not yt_api_key:
-        return []
-    try:
-        import urllib.request, urllib.parse, json, html
-        q_term = query or "bollywood songs"
-        url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults={min(max_results, 50)}&type=video&videoCategoryId=10&q={urllib.parse.quote(q_term)}&key={yt_api_key}"
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        ctx = ssl._create_unverified_context()
-        with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
-            data = json.loads(resp.read().decode('utf-8'))
-        
-        songs = []
-        for item in data.get("items", []):
-            vid_id = item.get("id", {}).get("videoId")
-            if not vid_id:
-                continue
-            snippet = item.get("snippet", {})
-            title = html.unescape(snippet.get("title", ""))
-            channel_title = html.unescape(snippet.get("channelTitle", "YouTube Music"))
-            songs.append({
-                "id": f"yt-{vid_id}",
-                "videoId": vid_id,
-                "title": title,
-                "artist": channel_title,
-                "album": q_term.title(),
-                "category": q_term.title(),
-                "coverUrl": snippet.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{vid_id}/hqdefault.jpg",
-                "videoUrl": f"https://www.youtube.com/watch?v={vid_id}",
-                "embedUrl": f"https://www.youtube.com/embed/{vid_id}?autoplay=1&enablejsapi=1",
-                "duration": 240
-            })
-        return songs
-    except Exception as e:
-        print(f"Error fetching YouTube songs API: {e}")
-        return []
+    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY")
+    q_term = query or "bollywood songs"
+    
+    if yt_api_key:
+        try:
+            import requests, html
+            url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults={min(max_results, 50)}&type=video&q={requests.utils.quote(q_term)}&key={yt_api_key}"
+            resp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=8)
+            if resp.status_code == 200:
+                data = resp.json()
+                items = data.get("items", [])
+                songs = []
+                for item in items:
+                    vid_id = item.get("id", {}).get("videoId")
+                    if not vid_id:
+                        continue
+                    snippet = item.get("snippet", {})
+                    title = html.unescape(snippet.get("title", ""))
+                    channel_title = html.unescape(snippet.get("channelTitle", "YouTube Music"))
+                    songs.append({
+                        "id": f"yt-{vid_id}",
+                        "videoId": vid_id,
+                        "title": title,
+                        "artist": channel_title,
+                        "album": q_term.title(),
+                        "category": q_term.title(),
+                        "coverUrl": snippet.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{vid_id}/hqdefault.jpg",
+                        "videoUrl": f"https://www.youtube.com/watch?v={vid_id}",
+                        "embedUrl": f"https://www.youtube.com/embed/{vid_id}?autoplay=1&enablejsapi=1",
+                        "duration": 240
+                    })
+                if songs:
+                    return songs
+        except Exception as e:
+            print(f"YouTube API error: {e}")
+
+    # Fallback default curated songs list if API key is missing/quota exceeded
+    return [
+        {"id": "yt-gN3XJ4_oE9M", "videoId": "gN3XJ4_oE9M", "title": "Sooraj Dooba Hain | ROY | Arijit Singh", "artist": "T-Series", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/gN3XJ4_oE9M/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=gN3XJ4_oE9M", "embedUrl": "https://www.youtube.com/embed/gN3XJ4_oE9M?autoplay=1&enablejsapi=1", "duration": 264},
+        {"id": "yt-v5jVX0QYwQo", "videoId": "v5jVX0QYwQo", "title": "Shararat - Dhurandhar | Ranveer Singh", "artist": "Saregama Music", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/v5jVX0QYwQo/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=v5jVX0QYwQo", "embedUrl": "https://www.youtube.com/embed/v5jVX0QYwQo?autoplay=1&enablejsapi=1", "duration": 210},
+        {"id": "yt-lTRiuFIWV54", "videoId": "lTRiuFIWV54", "title": "1 A.M Study Session [lofi hip hop]", "artist": "Lofi Girl", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/lTRiuFIWV54/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=lTRiuFIWV54", "embedUrl": "https://www.youtube.com/embed/lTRiuFIWV54?autoplay=1&enablejsapi=1", "duration": 300},
+        {"id": "yt-RPxuhz02ITQ", "videoId": "RPxuhz02ITQ", "title": "The Best of Classical Piano | Chopin, Beethoven", "artist": "HALIDONMUSIC", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/RPxuhz02ITQ/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=RPxuhz02ITQ", "embedUrl": "https://www.youtube.com/embed/RPxuhz02ITQ?autoplay=1&enablejsapi=1", "duration": 360}
+    ]
 
 @app.get("/api/resources")
 def get_resources(company: Optional[str] = None):

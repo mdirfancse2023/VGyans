@@ -128,14 +128,20 @@ export default function Songs({
         }
       }
 
+      // 3. Fallback to default curated YouTube songs if direct API & backend return empty
       if (!tracks || tracks.length === 0) {
-        setErrorMsg(`No YouTube songs found for "${queryTerm}". Please try another search.`);
-      } else {
-        if (setSongs) {
-          setSongs(tracks);
-        }
-        setSelectedCategory('All');
+        tracks = [
+          { id: "yt-gN3XJ4_oE9M", videoId: "gN3XJ4_oE9M", title: "Sooraj Dooba Hain | ROY | Arijit Singh", artist: "T-Series", album: displayLabel, category: displayLabel, coverUrl: "https://i.ytimg.com/vi/gN3XJ4_oE9M/hqdefault.jpg", videoUrl: "https://www.youtube.com/watch?v=gN3XJ4_oE9M", embedUrl: "https://www.youtube.com/embed/gN3XJ4_oE9M?autoplay=1&enablejsapi=1", duration: 264 },
+          { id: "yt-v5jVX0QYwQo", videoId: "v5jVX0QYwQo", title: "Shararat - Dhurandhar | Ranveer Singh", artist: "Saregama Music", album: displayLabel, category: displayLabel, coverUrl: "https://i.ytimg.com/vi/v5jVX0QYwQo/hqdefault.jpg", videoUrl: "https://www.youtube.com/watch?v=v5jVX0QYwQo", embedUrl: "https://www.youtube.com/embed/v5jVX0QYwQo?autoplay=1&enablejsapi=1", duration: 210 },
+          { id: "yt-lTRiuFIWV54", videoId: "lTRiuFIWV54", title: "1 A.M Study Session [lofi hip hop]", artist: "Lofi Girl", album: displayLabel, category: displayLabel, coverUrl: "https://i.ytimg.com/vi/lTRiuFIWV54/hqdefault.jpg", videoUrl: "https://www.youtube.com/watch?v=lTRiuFIWV54", embedUrl: "https://www.youtube.com/embed/lTRiuFIWV54?autoplay=1&enablejsapi=1", duration: 300 },
+          { id: "yt-RPxuhz02ITQ", videoId: "RPxuhz02ITQ", title: "The Best of Classical Piano | Chopin, Beethoven", artist: "HALIDONMUSIC", album: displayLabel, category: displayLabel, coverUrl: "https://i.ytimg.com/vi/RPxuhz02ITQ/hqdefault.jpg", videoUrl: "https://www.youtube.com/watch?v=RPxuhz02ITQ", embedUrl: "https://www.youtube.com/embed/RPxuhz02ITQ?autoplay=1&enablejsapi=1", duration: 360 }
+        ];
       }
+
+      if (setSongs) {
+        setSongs(tracks);
+      }
+      setSelectedCategory('All');
     } catch (err) {
       console.error('YouTube song fetch error:', err);
       setErrorMsg('Could not fetch YouTube songs. Please check your network connection.');
