@@ -60,9 +60,8 @@ export default function Songs({
     { id: 'party', label: '🎉 Party & Dance', term: 'bollywood party dance hits', description: 'High energy dance tracks' }
   ];
 
-  // Main Song Fetcher (Supports JioSaavn API & YouTube Data API)
-  const handleFetchSongs = async (presetObj, customSearch = '', sourceOverride = null) => {
-    const activeSource = sourceOverride || musicSource;
+  // JioSaavn Music Fetcher
+  const handleFetchSongs = async (presetObj, customSearch = '') => {
     setIsLoading(true);
     setErrorMsg(null);
 
@@ -82,157 +81,53 @@ export default function Songs({
       displayLabel = 'Top 50 Bollywood';
     }
 
-    if (activeSource === 'jiosaavn') {
-      setLoadingText(`Fetching JioSaavn 320kbps HD audio tracks for ${displayLabel}...`);
+    setLoadingText(`Fetching JioSaavn HD audio tracks for ${displayLabel}...`);
+
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || (
+        typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+          ? 'http://localhost:8000' 
+          : 'https://v-gyans.vercel.app'
+      );
+      
+      let tracks = [];
+
+      // 1. Try Backend FastAPI JioSaavn Endpoint
       try {
-        const API_URL = import.meta.env.VITE_API_URL || (
-          typeof window !== 'undefined' && window.location.hostname === 'localhost' 
-            ? 'http://localhost:8000' 
-            : 'https://v-gyans.vercel.app'
-        );
-        
-        let tracks = [];
-
-        // 1. Try Backend FastAPI JioSaavn Endpoint
-        try {
-          const bRes = await fetch(`${API_URL}/api/jiosaavn/search?query=${encodeURIComponent(queryTerm)}&limit=40`);
-          if (bRes.ok) {
-            tracks = await bRes.json();
-          }
-        } catch (e) {
-          console.warn("Backend JioSaavn API unreachable, using public JioSaavn fallback:", e);
+        const bRes = await fetch(`${API_URL}/api/jiosaavn/search?query=${encodeURIComponent(queryTerm)}&limit=40`);
+        if (bRes.ok) {
+          tracks = await bRes.json();
         }
-
-        // 2. Fallback to Direct Public Saavn API
-        if (!tracks || tracks.length === 0) {
-          const saavnRes = await fetch(`https://saavn.dev/api/search/songs?query=${encodeURIComponent(queryTerm)}&limit=40`);
-          if (saavnRes.ok) {
-            const sData = await saavnRes.json();
-            const results = sData.data?.results || [];
-            tracks = results.map(item => {
-              const downloadUrls = item.downloadUrl || [];
-              let audioUrl = '';
-              if (Array.isArray(downloadUrls) && downloadUrls.length > 0) {
-                audioUrl = downloadUrls[downloadUrls.length - 1]?.url || downloadUrls[0]?.url;
-              }
-              if (!audioUrl && item.media_preview_url) {
-                audioUrl = item.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p.mp4', '_320.mp4');
-              }
-
-              const images = item.image || [];
-              let cover = typeof images === 'string' ? images : (images[images.length - 1]?.url || '');
-              cover = (cover || '').replace('150x150', '500x500').replace('50x50', '500x500');
-
-              return {
-                id: `js-${item.id}`,
-                title: item.name,
-                artist: Array.isArray(item.artists?.primary) ? item.artists.primary.map(a => a.name).join(', ') : (item.primaryArtists || 'JioSaavn Artist'),
-                album: (typeof item.album === 'object' ? item.album?.name : item.album) || 'JioSaavn Music',
-                category: presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : 'JioSaavn Music',
-                coverUrl: cover || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500',
-                audioUrl: audioUrl,
-                url: audioUrl,
-                duration: item.duration || 240,
-                provider: 'jiosaavn'
-              };
-            }).filter(t => t.audioUrl);
-          }
-        }
-
-        if (tracks && tracks.length > 0) {
-          setSongs(tracks);
-          setSelectedCategory('All');
-        } else {
-          setErrorMsg(`No JioSaavn tracks found for "${queryTerm}". Try another search!`);
-        }
-      } catch (err) {
-        console.error('JioSaavn fetch error:', err);
-        setErrorMsg('Could not fetch JioSaavn tracks. Check connection.');
-      } finally {
-        setIsLoading(false);
+      } catch (e) {
+        console.warn("Backend API error, fetching fallback:", e);
       }
-    } else {
-      // YouTube Data API v3 fetch
-      setLoadingText(`Fetching YouTube music tracks for ${displayLabel}...`);
-      try {
-        const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY || 'AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo';
-        let tracks = [];
 
-        const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoDuration=short&videoCategoryId=10&q=${encodeURIComponent(queryTerm + ' official audio')}&key=${apiKey}`;
-        const res = await fetch(ytUrl);
-        if (res.ok) {
-          const data = await res.json();
-          const items = data.items || [];
-          
-          const decodeHTML = (str) => {
-            const txt = document.createElement('textarea');
-            txt.innerHTML = str || '';
-            return txt.value;
-          };
-
-          const excludeKeywords = ['jukebox', 'compilation', 'podcast', 'full album', 'non stop', '3 hours', '10 hours', 'shorts', 'full movie'];
-
-          tracks = items
-            .filter(item => {
-              if (!item.id || !item.id.videoId) return false;
-              const t = (item.snippet?.title || '').toLowerCase();
-              return !excludeKeywords.some(kw => t.includes(kw));
-            })
-            .map((item) => {
-              const vid = item.id.videoId;
-              const snippet = item.snippet || {};
-              const title = decodeHTML(snippet.title);
-              const artist = decodeHTML(snippet.channelTitle || 'YouTube Music');
-              const cover = snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
-              const categoryLabel = presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : (customSearch ? 'Search Result' : 'YouTube Music');
-
-              return {
-                id: `yt-${vid}`,
-                videoId: vid,
-                title: title,
-                artist: artist,
-                album: categoryLabel,
-                category: categoryLabel,
-                coverUrl: cover,
-                url: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
-                videoUrl: `https://www.youtube.com/watch?v=${vid}`,
-                embedUrl: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
-                duration: 240,
-                provider: 'youtube'
-              };
-            });
-        } else {
-          const API_URL = import.meta.env.VITE_API_URL || (
-            typeof window !== 'undefined' && window.location.hostname === 'localhost' 
-              ? 'http://localhost:8000' 
-              : 'https://v-gyans.vercel.app'
-          );
-          const backendUrl = `${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`;
-          const bRes = await fetch(backendUrl);
-          if (bRes.ok) {
-            tracks = await bRes.json();
-          }
+      // 2. Direct Fallback if backend unreachable
+      if (!tracks || tracks.length === 0) {
+        const fallbackRes = await fetch(`${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}`);
+        if (fallbackRes.ok) {
+          tracks = await fallbackRes.json();
         }
-
-        if (!tracks || tracks.length === 0) {
-          setErrorMsg(`No YouTube songs found for "${queryTerm}". Try another search!`);
-        } else {
-          setSongs(tracks);
-          setSelectedCategory('All');
-        }
-      } catch (err) {
-        console.error('YouTube song fetch error:', err);
-        setErrorMsg('Could not fetch YouTube songs. Check network.');
-      } finally {
-        setIsLoading(false);
       }
+
+      if (tracks && tracks.length > 0) {
+        setSongs(tracks);
+        setSelectedCategory('All');
+      } else {
+        setErrorMsg(`No JioSaavn tracks found for "${queryTerm}". Try another search!`);
+      }
+    } catch (err) {
+      console.error('JioSaavn fetch error:', err);
+      setErrorMsg('Could not fetch JioSaavn tracks. Please check connection.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // Initial load JioSaavn tracks on mount if empty
   useEffect(() => {
     if (!songs || songs.length === 0) {
-      handleFetchSongs(presets[0], '', 'jiosaavn');
+      handleFetchSongs(presets[0]);
     }
   }, []);
 
@@ -279,57 +174,15 @@ export default function Songs({
       }}
     >
       
-      {/* Top Action Bar: Provider Toggle + Category Pills + Search Box */}
+      {/* Top Action Bar: JioSaavn Header + Category Pills + Search Box */}
       <div className="glass-panel" style={{ padding: '0.75rem 1.25rem', marginBottom: '0.5rem', borderRadius: '14px', flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           
-          {/* Provider Selector Switcher (JioSaavn vs YouTube) */}
-          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0, 0, 0, 0.25)', padding: '3px', borderRadius: '24px', border: '1px solid var(--border-glass)' }}>
-            <button
-              onClick={() => {
-                setMusicSource('jiosaavn');
-                handleFetchSongs(presets[0], '', 'jiosaavn');
-              }}
-              style={{
-                padding: '0.35rem 0.85rem',
-                borderRadius: '20px',
-                border: 'none',
-                background: musicSource === 'jiosaavn' ? 'linear-gradient(135deg, #06b6d4, #3b82f6)' : 'transparent',
-                color: musicSource === 'jiosaavn' ? '#fff' : 'var(--text-secondary)',
-                fontWeight: musicSource === 'jiosaavn' ? 600 : 400,
-                fontSize: '0.78rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem'
-              }}
-            >
-              🎵 JioSaavn HD Audio <span style={{ fontSize: '0.65rem', background: musicSource === 'jiosaavn' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.08)', padding: '1px 5px', borderRadius: '10px' }}>320kbps</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setMusicSource('youtube');
-                handleFetchSongs(presets[0], '', 'youtube');
-              }}
-              style={{
-                padding: '0.35rem 0.85rem',
-                borderRadius: '20px',
-                border: 'none',
-                background: musicSource === 'youtube' ? 'linear-gradient(135deg, #ef4444, #f97316)' : 'transparent',
-                color: musicSource === 'youtube' ? '#fff' : 'var(--text-secondary)',
-                fontWeight: musicSource === 'youtube' ? 600 : 400,
-                fontSize: '0.78rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem'
-              }}
-            >
-              📺 YouTube Videos
-            </button>
+          {/* JioSaavn Music Portal Branding Badge */}
+          <div style={{ display: 'flex', alignItems: 'center', background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(59, 130, 246, 0.15))', padding: '0.4rem 0.9rem', borderRadius: '24px', border: '1px solid rgba(6, 182, 212, 0.3)' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              🎵 JioSaavn HD Audio <span style={{ fontSize: '0.65rem', background: 'var(--primary)', color: '#000', padding: '1px 6px', borderRadius: '10px', fontWeight: 700 }}>320kbps</span>
+            </span>
           </div>
 
           {/* Quick Category Action Buttons */}
@@ -627,26 +480,10 @@ export default function Songs({
                 <>
                   {/* Provider Quality Badge */}
                   <div style={{ marginBottom: '0.4rem' }}>
-                    {currentSong.provider === 'jiosaavn' || currentSong.id?.startsWith('js-') ? (
-                      <span style={{ background: 'rgba(6, 182, 212, 0.15)', border: '1px solid rgba(6, 182, 212, 0.4)', color: '#38bdf8', fontSize: '0.72rem', fontWeight: 600, padding: '0.25rem 0.75rem', borderRadius: '20px', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-                        🎵 JioSaavn 320kbps HD Audio
-                      </span>
-                    ) : (
-                      <span style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#f87171', fontSize: '0.72rem', fontWeight: 600, padding: '0.25rem 0.75rem', borderRadius: '20px', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-                        📺 YouTube Video Track
-                      </span>
-                    )}
+                    <span style={{ background: 'rgba(6, 182, 212, 0.15)', border: '1px solid rgba(6, 182, 212, 0.4)', color: '#38bdf8', fontSize: '0.72rem', fontWeight: 600, padding: '0.25rem 0.75rem', borderRadius: '20px', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                      🎵 JioSaavn 320kbps HD Audio
+                    </span>
                   </div>
-
-                  {/* Off-screen YouTube Audio Streamer (Only for YouTube tracks) */}
-                  {(currentSong.provider === 'youtube' || currentSong.id?.startsWith('yt-')) && (
-                    <iframe
-                      src={isPlaying ? (currentSong.embedUrl || `https://www.youtube.com/embed/${currentSong.videoId || currentSong.id.replace('yt-', '')}?autoplay=1&enablejsapi=1`) : ''}
-                      title={currentSong.title}
-                      allow="autoplay; encrypted-media"
-                      style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
-                    ></iframe>
-                  )}
 
                   {/* Vinyl Record View */}
                   <div style={{ position: 'relative', width: '160px', height: '160px', marginBottom: '1rem', marginTop: '0.25rem' }}>

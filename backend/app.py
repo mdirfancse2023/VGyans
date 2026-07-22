@@ -750,129 +750,29 @@ def get_videos(category: Optional[str] = None, search: Optional[str] = None):
         ]
     return videos
 
-@app.get("/api/songs")
-def get_youtube_songs(query: Optional[str] = "bollywood songs", max_results: int = 50):
-    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY")
-    q_term = query or "bollywood songs"
-    
-    if yt_api_key:
-        try:
-            import requests, html
-            url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults={min(max_results, 50)}&type=video&q={requests.utils.quote(q_term)}&key={yt_api_key}"
-            resp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=8)
-            if resp.status_code == 200:
-                data = resp.json()
-                items = data.get("items", [])
-                songs = []
-                for item in items:
-                    vid_id = item.get("id", {}).get("videoId")
-                    if not vid_id:
-                        continue
-                    snippet = item.get("snippet", {})
-                    title = html.unescape(snippet.get("title", ""))
-                    channel_title = html.unescape(snippet.get("channelTitle", "YouTube Music"))
-                    songs.append({
-                        "id": f"yt-{vid_id}",
-                        "videoId": vid_id,
-                        "title": title,
-                        "artist": channel_title,
-                        "album": q_term.title(),
-                        "category": q_term.title(),
-                        "coverUrl": snippet.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{vid_id}/hqdefault.jpg",
-                        "videoUrl": f"https://www.youtube.com/watch?v={vid_id}",
-                        "embedUrl": f"https://www.youtube.com/embed/{vid_id}?autoplay=1&enablejsapi=1",
-                        "duration": 240
-                    })
-                if songs:
-                    return songs
-        except Exception as e:
-            print(f"YouTube API error: {e}")
+def decrypt_jiosaavn_url(enc_url: str) -> str:
+    try:
+        import base64
+        from Crypto.Cipher import DES
+        key = b'38586139'
+        cipher = DES.new(key, DES.MODE_ECB)
+        dec = cipher.decrypt(base64.b64decode(enc_url))
+        pad = dec[-1]
+        return dec[:-pad].decode('utf-8')
+    except Exception:
+        return ""
 
-    # Fallback default curated songs list if API key is missing/quota exceeded
-    return [
-        {"id": "yt-gN3XJ4_oE9M", "videoId": "gN3XJ4_oE9M", "title": "Sooraj Dooba Hain | ROY | Arijit Singh", "artist": "T-Series", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/gN3XJ4_oE9M/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=gN3XJ4_oE9M", "embedUrl": "https://www.youtube.com/embed/gN3XJ4_oE9M?autoplay=1&enablejsapi=1", "duration": 264},
-        {"id": "yt-v5jVX0QYwQo", "videoId": "v5jVX0QYwQo", "title": "Shararat - Dhurandhar | Ranveer Singh", "artist": "Saregama Music", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/v5jVX0QYwQo/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=v5jVX0QYwQo", "embedUrl": "https://www.youtube.com/embed/v5jVX0QYwQo?autoplay=1&enablejsapi=1", "duration": 210},
-        {"id": "yt-lTRiuFIWV54", "videoId": "lTRiuFIWV54", "title": "1 A.M Study Session [lofi hip hop]", "artist": "Lofi Girl", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/lTRiuFIWV54/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=lTRiuFIWV54", "embedUrl": "https://www.youtube.com/embed/lTRiuFIWV54?autoplay=1&enablejsapi=1", "duration": 300},
-        {"id": "yt-RPxuhz02ITQ", "videoId": "RPxuhz02ITQ", "title": "The Best of Classical Piano | Chopin, Beethoven", "artist": "HALIDONMUSIC", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/RPxuhz02ITQ/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=RPxuhz02ITQ", "embedUrl": "https://www.youtube.com/embed/RPxuhz02ITQ?autoplay=1&enablejsapi=1", "duration": 360}
-    ]
-
-
-def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 30):
+def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 40):
     import urllib.request, urllib.parse, json, html, ssl
     q_term = query or "bollywood top 50"
     ctx = ssl._create_unverified_context()
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept': 'application/json, text/plain, */*'
     }
 
-    # API Provider 1: saavn.dev
     try:
-        url = f"https://saavn.dev/api/search/songs?query={urllib.parse.quote(q_term)}&limit={min(limit, 50)}"
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
-            data = json.loads(resp.read().decode('utf-8'))
-            results = data.get("data", {}).get("results", [])
-            songs = []
-            for item in results:
-                song_id = item.get("id")
-                if not song_id:
-                    continue
-                title = html.unescape(item.get("name", ""))
-                album_name = html.unescape(item.get("album", {}).get("name", "") if isinstance(item.get("album"), dict) else "")
-                
-                # Artists
-                artists_obj = item.get("artists", {})
-                artist_names = []
-                if isinstance(artists_obj, dict):
-                    primary = artists_obj.get("primary", [])
-                    if isinstance(primary, list):
-                        artist_names = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
-                if not artist_names and item.get("primaryArtists"):
-                    artist_names = [item.get("primaryArtists")]
-                artist_str = ", ".join(artist_names) if artist_names else "JioSaavn Music"
-
-                # Images
-                images = item.get("image", [])
-                cover_url = ""
-                if isinstance(images, list) and images:
-                    cover_url = images[-1].get("url", "") if isinstance(images[-1], dict) else str(images[-1])
-                elif isinstance(images, str):
-                    cover_url = images
-                cover_url = cover_url.replace("150x150", "500x500").replace("50x50", "500x500")
-
-                # Download / Stream URLs
-                download_urls = item.get("downloadUrl", [])
-                audio_url = ""
-                if isinstance(download_urls, list) and download_urls:
-                    for d in reversed(download_urls):
-                        if isinstance(d, dict) and d.get("url"):
-                            audio_url = d.get("url")
-                            break
-                
-                if not audio_url and item.get("media_preview_url"):
-                    audio_url = item.get("media_preview_url").replace("preview.saavncdn.com", "aac.saavncdn.com").replace("_96_p.mp4", "_320.mp4")
-
-                if audio_url:
-                    songs.append({
-                        "id": f"js-{song_id}",
-                        "title": title,
-                        "artist": artist_str,
-                        "album": album_name or q_term.title(),
-                        "category": q_term.title(),
-                        "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
-                        "audioUrl": audio_url,
-                        "duration": int(item.get("duration") or 240),
-                        "provider": "jiosaavn"
-                    })
-            if songs:
-                return songs
-    except Exception as e:
-        print(f"JioSaavn saavn.dev API error: {e}")
-
-    # API Provider 2: Direct JioSaavn.com Public API
-    try:
-        url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n={limit}&p=1"
+        url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n={min(limit, 50)}&p=1"
         req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
             data = json.loads(resp.read().decode('utf-8'))
@@ -882,15 +782,28 @@ def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 30):
                 song_id = item.get("id")
                 if not song_id:
                     continue
-                title = html.unescape(item.get("song", ""))
-                artist_str = html.unescape(item.get("singers") or item.get("primary_artists") or "JioSaavn Music")
-                album_name = html.unescape(item.get("album", ""))
+                title = html.unescape(item.get("title") or item.get("song") or "")
+                more = item.get("more_info", {})
                 
+                # Artist String
+                artist_list = []
+                artist_map = more.get("artistMap", {})
+                if isinstance(artist_map, dict):
+                    primary = artist_map.get("primary_artists", [])
+                    if isinstance(primary, list):
+                        artist_list = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
+                artist_str = ", ".join(artist_list) if artist_list else html.unescape(item.get("subtitle") or "JioSaavn Artist")
+                album_name = html.unescape(more.get("album") or item.get("album") or "")
+
+                # Image URL
                 cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
-                
-                preview_url = item.get("media_preview_url") or ""
-                audio_url = preview_url.replace("preview.saavncdn.com", "aac.saavncdn.com").replace("_96_p.mp4", "_320.mp4").replace("_96.mp4", "_320.mp4")
-                
+
+                # Audio Stream Link: Try decrypted media url first, fallback to vlink
+                enc_media = more.get("encrypted_media_url")
+                audio_url = decrypt_jiosaavn_url(enc_media) if enc_media else ""
+                if not audio_url:
+                    audio_url = more.get("vlink") or item.get("media_preview_url") or ""
+
                 if audio_url:
                     songs.append({
                         "id": f"js-{song_id}",
@@ -900,15 +813,16 @@ def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 30):
                         "category": q_term.title(),
                         "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
                         "audioUrl": audio_url,
-                        "duration": int(item.get("duration") or 240),
+                        "url": audio_url,
+                        "duration": int(more.get("duration") or item.get("duration") or 240),
                         "provider": "jiosaavn"
                     })
             if songs:
                 return songs
     except Exception as e:
-        print(f"JioSaavn direct API error: {e}")
+        print(f"JioSaavn API search error: {e}")
 
-    # Fallback curated JioSaavn response
+    # Fallback dataset with valid, playable JioSaavn MP3 streams
     return [
         {
             "id": "js-kesariya",
@@ -916,20 +830,10 @@ def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 30):
             "artist": "Arijit Singh, Pritam, Amitabh Bhattacharya",
             "album": "Brahmastra",
             "category": "Bollywood Top 50",
-            "coverUrl": "https://c.saavncdn.com/191/Kesariya-From-Brahmastra-Hindi-2022-20220717092820-500x500.jpg",
-            "audioUrl": "https://aac.saavncdn.com/191/3c1d93d3bb7e7e6ec35b6dfaa7f2ab72_320.mp4",
+            "coverUrl": "https://c.saavncdn.com/871/Brahmastra-Original-Motion-Picture-Soundtrack-Hindi-2022-20221006155213-500x500.jpg",
+            "audioUrl": "https://jiotunepreview.jio.com/content/Converted/010910141580615.mp3",
+            "url": "https://jiotunepreview.jio.com/content/Converted/010910141580615.mp3",
             "duration": 268,
-            "provider": "jiosaavn"
-        },
-        {
-            "id": "js-apna-bana-le",
-            "title": "Apna Bana Le - Bhediya",
-            "artist": "Arijit Singh, Sachin-Jigar",
-            "album": "Bhediya",
-            "category": "Bollywood Top 50",
-            "coverUrl": "https://c.saavncdn.com/815/Apna-Bana-Le-From-Bhediya-Hindi-2022-20221105035048-500x500.jpg",
-            "audioUrl": "https://aac.saavncdn.com/815/f9a8f4c2e68407eead9ef3f1cb28a5ff_320.mp4",
-            "duration": 261,
             "provider": "jiosaavn"
         },
         {
@@ -939,25 +843,43 @@ def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 30):
             "album": "Aashiqui 2",
             "category": "Bollywood Top 50",
             "coverUrl": "https://c.saavncdn.com/430/Aashiqui-2-Hindi-2013-500x500.jpg",
-            "audioUrl": "https://aac.saavncdn.com/430/08d888e28f328458bfb4fdf37c87c4dd_320.mp4",
+            "audioUrl": "https://jiotunepreview.jio.com/content/Converted/010910092419390.mp3",
+            "url": "https://jiotunepreview.jio.com/content/Converted/010910092419390.mp3",
             "duration": 262,
             "provider": "jiosaavn"
         },
         {
-            "id": "js-pasoori",
-            "title": "Pasoori - Coke Studio Season 14",
-            "artist": "Ali Sethi, Shae Gill",
-            "album": "Coke Studio Season 14",
-            "category": "Trending Indie",
-            "coverUrl": "https://c.saavncdn.com/514/Pasoori-Hindi-2022-20220207185038-500x500.jpg",
-            "audioUrl": "https://aac.saavncdn.com/514/199a5e4d2ea523554e2fec49f33b1e3e_320.mp4",
-            "duration": 224,
+            "id": "js-zaalima",
+            "title": "Zaalima - Raees",
+            "artist": "Arijit Singh, Harshdeep Kaur, JAM8",
+            "album": "Raees",
+            "category": "Bollywood Top 50",
+            "coverUrl": "https://c.saavncdn.com/341/Raees-Hindi-2016-500x500.jpg",
+            "audioUrl": "https://jiotunepreview.jio.com/content/Converted/010910440434611.mp3",
+            "url": "https://jiotunepreview.jio.com/content/Converted/010910440434611.mp3",
+            "duration": 299,
+            "provider": "jiosaavn"
+        },
+        {
+            "id": "js-gehra-hua",
+            "title": "Gehra Hua - Dhurandhar",
+            "artist": "Shashwat Sachdev, Arijit Singh, Irshad Kamil",
+            "album": "Dhurandhar",
+            "category": "Trending Hits",
+            "coverUrl": "https://c.saavncdn.com/815/Apna-Bana-Le-From-Bhediya-Hindi-2022-20221105035048-500x500.jpg",
+            "audioUrl": "https://jiotunepreview.jio.com/content/Converted/010912023403849.mp3",
+            "url": "https://jiotunepreview.jio.com/content/Converted/010912023403849.mp3",
+            "duration": 245,
             "provider": "jiosaavn"
         }
     ]
 
+@app.get("/api/songs")
+def get_songs(query: Optional[str] = "bollywood top 50", max_results: int = 40):
+    return fetch_jiosaavn_songs(query=query or "bollywood top 50", limit=max_results)
+
 @app.get("/api/jiosaavn/search")
-def get_jiosaavn_songs(query: Optional[str] = "bollywood top 50", limit: int = 30):
+def get_jiosaavn_songs(query: Optional[str] = "bollywood top 50", limit: int = 40):
     return fetch_jiosaavn_songs(query=query or "bollywood top 50", limit=limit)
 
 @app.get("/api/jiosaavn/trending")
@@ -971,7 +893,8 @@ def get_jiosaavn_trending(category: Optional[str] = "bollywood"):
         "party": "bollywood party dance club hits"
     }
     q = cat_queries.get((category or "bollywood").lower(), "bollywood top 50 trending songs")
-    return fetch_jiosaavn_songs(query=q, limit=30)
+    return fetch_jiosaavn_songs(query=q, limit=40)
+
 
 
 @app.get("/api/news")
