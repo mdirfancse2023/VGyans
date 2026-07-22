@@ -865,8 +865,8 @@ export default function Playground({ questions, onGoHome }) {
     setSubmitResult(null);
     setConsoleTab('output');
 
-    const activeInput = stdin;
-    const activeCase = (selectedCaseIdx >= 0 && testCases[selectedCaseIdx]) ? testCases[selectedCaseIdx] : null;
+    const activeCase = (selectedCaseIdx >= 0 && testCases[selectedCaseIdx]) ? testCases[selectedCaseIdx] : (testCases[0] || null);
+    const activeInput = (activeCase && activeCase.input) ? activeCase.input : (stdin || '');
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
@@ -2358,8 +2358,18 @@ export default function Playground({ questions, onGoHome }) {
 
                         <div>
                           <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Your Output</div>
-                          <div className={`console-code-box ${testResults[selectedCaseIdx]?.passed === false ? 'console-code-fail' : 'console-code-pass'}`} style={{ padding: '0.35rem 0.55rem', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
-                            {(testResults[selectedCaseIdx]?.stdout !== undefined ? testResults[selectedCaseIdx].stdout : stdout) || (isRunning ? 'Compiling & Running...' : 'Click "Run Code" to execute')}
+                          <div className={`console-code-box ${testResults[selectedCaseIdx] ? (testResults[selectedCaseIdx].passed ? 'console-code-pass' : 'console-code-fail') : ''}`} style={{ padding: '0.35rem 0.55rem', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
+                            {testResults[selectedCaseIdx] ? (
+                              testResults[selectedCaseIdx].stderr ? (
+                                <span style={{ color: '#f87171' }}>{testResults[selectedCaseIdx].stderr}</span>
+                              ) : (
+                                testResults[selectedCaseIdx].stdout || <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>(No output returned)</span>
+                              )
+                            ) : isRunning ? (
+                              <span style={{ color: '#38bdf8' }}>Compiling & Running...</span>
+                            ) : (
+                              <span style={{ color: '#64748b', fontStyle: 'italic' }}>Run your code to view output</span>
+                            )}
                           </div>
                         </div>
 
