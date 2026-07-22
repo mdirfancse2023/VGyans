@@ -270,27 +270,44 @@ export default function App() {
     };
   }, []);
 
-  const playSong = (song) => {
+  const playSong = async (song) => {
     if (!song) return;
     const isSameSong = currentSong && currentSong.id === song.id;
     if (isSameSong) {
       togglePlay();
-    } else {
-      setCurrentSong(song);
-      setCurrentTime(0);
-      if (audioRef.current) {
-        audioRef.current.currentTime = 0;
-        const srcUrl = song.audioUrl || song.url;
-        if (srcUrl) {
-          audioRef.current.src = srcUrl;
-          audioRef.current.load();
-          audioRef.current.play().catch(e => console.warn("Audio playback issue:", e));
+      return;
+    }
+
+    setCurrentSong(song);
+    setCurrentTime(0);
+    setIsPlaying(true);
+    setDuration(song.duration || 0);
+
+    // Resolve direct audio stream URL via yt-dlp on backend
+    if (song.videoId && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = '';
+
+      try {
+        const res = await fetch(`${API_URL}/api/audio-stream?videoId=${song.videoId}`);
+        if (res.ok) {
+          const data = await res.json();
+          const streamUrl = data.audioUrl;
+          if (streamUrl && audioRef.current) {
+            audioRef.current.src = streamUrl;
+            audioRef.current.volume = volume;
+            audioRef.current.load();
+            // play() from async function that was triggered by user click = allowed
+            audioRef.current.play().catch(e => console.warn('Audio play failed:', e));
+            if (data.duration) setDuration(data.duration);
+          }
         }
+      } catch (err) {
+        console.warn('yt-dlp stream fetch failed:', err);
       }
-      setIsPlaying(true);
-      setDuration(song.duration || 0);
     }
   };
+
 
   const togglePlay = () => {
     if (!currentSong && songs.length > 0) {

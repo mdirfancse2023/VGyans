@@ -54,15 +54,6 @@ export default function Songs({
     return () => clearInterval(timer);
   }, [isPlaying, duration, currentSong, nextSong]);
 
-  // postMessage play/pause control for the YouTube iframe
-  useEffect(() => {
-    const iframe = document.getElementById('music-player-iframe');
-    if (!iframe) return;
-    const msg = isPlaying
-      ? JSON.stringify({ event: 'command', func: 'playVideo', args: [] })
-      : JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] });
-    try { iframe.contentWindow?.postMessage(msg, '*'); } catch (e) {}
-  }, [isPlaying]);
 
 
   // Preset Categories
@@ -491,9 +482,7 @@ export default function Songs({
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
-                  {/* Vinyl + YouTube audio: container clips both to a circle */}
-                  {/* Chrome sees a real 160×160 visible iframe → allows autoplay  */}
-                  {/* User sees only the spinning vinyl disc on top (z-index:2)    */}
+                  {/* Vinyl Record View */}
                   <div style={{
                     position: 'relative',
                     width: '160px',
@@ -507,34 +496,11 @@ export default function Songs({
                       : '0 8px 24px rgba(0,0,0,0.5)',
                     transition: 'box-shadow var(--transition-normal)'
                   }}>
-                    {/* YouTube iframe — visible to Chrome (opacity:1, in-viewport) but hidden under vinyl */}
-                    {currentSong.videoId && (
-                      <iframe
-                        key={currentSong.id}
-                        id="music-player-iframe"
-                        src={`https://www.youtube.com/embed/${currentSong.videoId}?autoplay=1&playsinline=1&enablejsapi=1&controls=0&rel=0&modestbranding=1&mute=0`}
-                        allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen={false}
-                        title={currentSong.title}
-                        style={{
-                          position: 'absolute',
-                          top: 0, left: 0,
-                          width: '100%',
-                          height: '100%',
-                          border: 'none',
-                          zIndex: 1,
-                          opacity: 1
-                        }}
-                      />
-                    )}
-
-                    {/* Spinning vinyl disc — covers iframe visually */}
                     <div
                       className="vinyl-wrapper"
                       style={{
                         position: 'absolute',
                         top: 0, left: 0,
-                        zIndex: 2,
                         width: '100%',
                         height: '100%',
                         borderRadius: '50%',

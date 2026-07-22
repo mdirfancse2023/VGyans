@@ -927,6 +927,60 @@ def get_songs(query: Optional[str] = "latest hindi songs", max_results: int = 50
 def get_jiosaavn_songs(query: Optional[str] = "latest hindi songs", limit: int = 50):
     return fetch_jiosaavn_songs(query=query or "latest hindi songs", limit=limit)
 
+@app.get("/api/audio-stream")
+def get_audio_stream(videoId: str):
+    """
+    Extract a direct signed audio stream URL from YouTube using yt-dlp.
+    Returns a URL the browser can play directly via HTML5 <audio> element.
+    No iframe, no autoplay policy issues.
+    """
+    try:
+        import yt_dlp
+        ydl_opts = {
+            'format': 'bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best',
+            'quiet': True,
+            'no_warnings': True,
+            'extract_flat': False,
+            'nocheckcertificate': True,
+        }
+        url = f'https://www.youtube.com/watch?v={videoId}'
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            # Find best audio-only format
+            formats = info.get('formats', [])
+            audio_url = None
+            # Priority 1: audio-only m4a
+            for fmt in formats:
+                if fmt.get('acodec') != 'none' and fmt.get('vcodec') in ('none', None) and fmt.get('ext') == 'm4a':
+                    audio_url = fmt['url']
+                    break
+            # Priority 2: any audio-only
+            if not audio_url:
+                for fmt in formats:
+                    if fmt.get('acodec') != 'none' and fmt.get('vcodec') in ('none', None):
+                        audio_url = fmt['url']
+                        break
+            # Fallback: best overall
+            if not audio_url:
+                audio_url = info.get('url') or (formats[-1]['url'] if formats else None)
+            
+            if not audio_url:
+                raise HTTPException(status_code=404, detail="No audio stream found")
+            
+            duration = info.get('duration', 0)
+            title = info.get('title', '')
+            return {
+                "audioUrl": audio_url,
+                "duration": duration,
+                "title": title,
+                "videoId": videoId
+            }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"yt-dlp error: {str(e)}")
+
+
 @app.get("/api/jiosaavn/trending")
 def get_jiosaavn_trending(category: Optional[str] = "bollywood"):
     cat_queries = {
