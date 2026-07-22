@@ -5,6 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL ||
     ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
 
 const SOURCE_COLORS = {
+  'Adzuna':    { bg: 'rgba(236,72,153,0.15)',  border: 'rgba(236,72,153,0.4)',  color: '#ec4899' },
   'LinkedIn':  { bg: 'rgba(10,102,194,0.15)',  border: 'rgba(10,102,194,0.4)',  color: '#0a66c2' },
   'Indeed':    { bg: 'rgba(0,114,235,0.12)',   border: 'rgba(0,114,235,0.35)',  color: '#0072eb' },
   'Glassdoor': { bg: 'rgba(0,163,107,0.12)',  border: 'rgba(0,163,107,0.35)',  color: '#00a36b' },
@@ -132,7 +133,7 @@ export default function Jobs() {
   const [error, setError]         = useState(null);
   const [search, setSearch]       = useState('');
   const [filterRemote, setFilterRemote] = useState('all');
-  const [filterSource, setFilterSource] = useState('LinkedIn');
+  const [filterSource, setFilterSource] = useState('All');
   const [total, setTotal]         = useState(0);
 
   const fetchJobs = useCallback(async () => {
@@ -166,7 +167,7 @@ export default function Jobs() {
     { id: 'remote', label: '🌐 Remote' },
     { id: 'onsite', label: '🏢 On-site' },
   ];
-  const SOURCES = ['LinkedIn', 'Indeed', 'Glassdoor', 'Naukri', 'Remotive', 'Arbeitnow', 'The Muse'];
+  const SOURCES = ['Adzuna', 'LinkedIn', 'Indeed', 'Glassdoor', 'Naukri', 'Remotive', 'Arbeitnow', 'The Muse'];
 
   return (
     <div style={{ marginBottom: '3rem' }}>

@@ -442,6 +442,55 @@ def _fetch_jsearch(query: str = "software developer", location: str = "india") -
         return jobs
     except Exception as e:
         print(f"JSearch fetch error: {e}")
+
+def _fetch_adzuna(query: str = "software engineer", country: str = "in", page: int = 1):
+    app_id = os.getenv("ADZUNA_APP_ID") or os.getenv("VITE_ADZUNA_APP_ID") or "5daa4eb5"
+    app_key = os.getenv("ADZUNA_APP_KEY") or os.getenv("VITE_ADZUNA_APP_KEY") or "ae470e97cbed553f473f7e2005fb05ae"
+    if not app_id or not app_key:
+        return []
+    try:
+        import requests, urllib.parse, re
+        q_term = query if query and query.strip() else "software engineer"
+        url = f"https://api.adzuna.com/v1/api/jobs/{country}/search/{page}?app_id={app_id}&app_key={app_key}&results_per_page=30&what={urllib.parse.quote(q_term)}&content-type=application/json"
+        resp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=8)
+        if resp.status_code == 200:
+            data = resp.json()
+            results = data.get("results", [])
+            jobs = []
+            for item in results:
+                company = item.get("company", {}).get("display_name", "Leading Company")
+                location = item.get("location", {}).get("display_name", "India")
+                min_sal = item.get("salary_min")
+                max_sal = item.get("salary_max")
+                salary_str = ""
+                if min_sal and max_sal:
+                    salary_str = f"₹{int(min_sal):,} - ₹{int(max_sal):,}" if country == "in" else f"${int(min_sal):,} - ${int(max_sal):,}"
+                elif min_sal:
+                    salary_str = f"₹{int(min_sal):,}+" if country == "in" else f"${int(min_sal):,}+"
+                
+                title = item.get("title", "")
+                title = re.sub(r'<[^>]+>', '', title)
+
+                jobs.append({
+                    "id": f"adzuna-{item.get('id', '')}",
+                    "title": title,
+                    "company": company,
+                    "location": location,
+                    "type": "Full Time",
+                    "category": item.get("category", {}).get("label") or "IT & Software",
+                    "salary": salary_str,
+                    "tags": [item.get("category", {}).get("label", "IT"), "Adzuna"],
+                    "logo": "",
+                    "url": item.get("redirect_url", ""),
+                    "postedAt": item.get("created", ""),
+                    "source": "Adzuna",
+                    "remote": "remote" in title.lower() or "remote" in location.lower()
+                })
+            return jobs
+    except Exception as e:
+        print(f"Adzuna fetch error: {e}")
+    return []
+
 @app.get("/api/jobs")
 def get_jobs(
     search: Optional[str] = None,
@@ -449,11 +498,12 @@ def get_jobs(
     remote: Optional[bool] = None,
     source: Optional[str] = None,
 ):
-    """Aggregate real-time IT jobs — LinkedIn + Naukri + Glassdoor + Indeed + Remotive + Arbeitnow + The Muse."""
+    """Aggregate real-time IT jobs — Adzuna + LinkedIn + Naukri + Glassdoor + Indeed + Remotive + Arbeitnow + The Muse."""
     try:
         from concurrent.futures import ThreadPoolExecutor, wait
-        with ThreadPoolExecutor(max_workers=6) as ex:
+        with ThreadPoolExecutor(max_workers=7) as ex:
             futures = [
+                ex.submit(_fetch_adzuna, search or "software engineer", "in"),
                 ex.submit(_fetch_linkedin),
                 ex.submit(_fetch_naukri_glassdoor_indeed),
                 ex.submit(_fetch_remotive),
