@@ -746,6 +746,45 @@ def get_youtube_songs(query: Optional[str] = "bollywood songs", max_results: int
         {"id": "yt-RPxuhz02ITQ", "videoId": "RPxuhz02ITQ", "title": "The Best of Classical Piano | Chopin, Beethoven", "artist": "HALIDONMUSIC", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/RPxuhz02ITQ/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=RPxuhz02ITQ", "embedUrl": "https://www.youtube.com/embed/RPxuhz02ITQ?autoplay=1&enablejsapi=1", "duration": 360}
     ]
 
+@app.get("/api/news")
+def get_live_news(category: Optional[str] = "technology", query: Optional[str] = None):
+    gnews_api_key = os.getenv("GNEWS_API_KEY") or os.getenv("VITE_GNEWS_API_KEY")
+    if not gnews_api_key:
+        return []
+    try:
+        import requests
+        if query:
+            url = f"https://gnews.io/api/v4/search?q={requests.utils.quote(query)}&lang=en&max=20&apikey={gnews_api_key}"
+        else:
+            cat = category if category in ["general", "world", "nation", "business", "technology", "entertainment", "sports", "science", "health"] else "technology"
+            url = f"https://gnews.io/api/v4/top-headlines?category={cat}&lang=en&max=20&apikey={gnews_api_key}"
+        
+        resp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=8)
+        if resp.status_code == 200:
+            data = resp.json()
+            articles = data.get("articles", [])
+            news_items = []
+            for idx, art in enumerate(articles):
+                news_items.append({
+                    "id": f"gnews-{idx}",
+                    "title": art.get("title", ""),
+                    "category": category or "technology",
+                    "categoryName": (category or "technology").title(),
+                    "source": art.get("source", {}).get("name", "GNews"),
+                    "author": art.get("source", {}).get("name", "News Editor"),
+                    "publishedAt": art.get("publishedAt", "Recently"),
+                    "readTime": f"{max(3, len(art.get('description', '') or '') // 150)} min read",
+                    "coverUrl": art.get("image") or "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800",
+                    "summary": art.get("description", art.get("title", "")),
+                    "content": art.get("content") or art.get("description") or art.get("title", ""),
+                    "canonicalUrl": art.get("url")
+                })
+            return news_items
+    except Exception as e:
+        print(f"GNews fetch error: {e}")
+    return []
+
+
 @app.get("/api/resources")
 def get_resources(company: Optional[str] = None):
     resources = load_firestore_collection("resources")

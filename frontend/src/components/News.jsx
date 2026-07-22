@@ -140,39 +140,75 @@ export default function News() {
   const [selectedNews, setSelectedNews] = useState(INITIAL_NEWS[0]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Fetch real live dev news on component mount
+  // Fetch real-time news from GNews API
   useEffect(() => {
-    fetchLiveNews();
-  }, []);
+    fetchLiveNews(selectedCategory, searchQuery);
+  }, [selectedCategory]);
 
-  const fetchLiveNews = async () => {
+  const fetchLiveNews = async (catId = 'tech', customSearch = '') => {
     try {
       setIsLoading(true);
-      const res = await fetch('https://dev.to/api/articles?top=7');
+      const apiKey = import.meta.env.VITE_GNEWS_API_KEY || '311636f1d138f1361eaeaf2ff50d7eab';
+      let articles = [];
+
+      let gnewsCat = 'technology';
+      let searchParam = '';
+
+      if (customSearch.trim()) {
+        searchParam = customSearch.trim();
+      } else if (catId === 'tech') gnewsCat = 'technology';
+      else if (catId === 'careers') searchParam = 'campus placement jobs tech hiring';
+      else if (catId === 'politics') searchParam = 'politics government policy';
+      else if (catId === 'sports') gnewsCat = 'sports';
+      else if (catId === 'business') gnewsCat = 'business';
+      else if (catId === 'world') gnewsCat = 'world';
+      else if (catId === 'media') gnewsCat = 'entertainment';
+
+      let url = searchParam
+        ? `https://gnews.io/api/v4/search?q=${encodeURIComponent(searchParam)}&lang=en&max=20&apikey=${apiKey}`
+        : `https://gnews.io/api/v4/top-headlines?category=${gnewsCat}&lang=en&max=20&apikey=${apiKey}`;
+
+      const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
-        if (data && Array.isArray(data) && data.length > 0) {
-          const formatted = data.map((art, idx) => ({
-            id: `devto-${art.id}`,
-            title: art.title,
-            category: art.tag_list?.includes('ai') ? 'ai' : art.tag_list?.includes('career') ? 'careers' : 'dev',
-            categoryName: art.tag_list?.[0]?.toUpperCase() || 'Software Engineering',
-            source: art.user?.name ? `${art.user.name} on Dev.to` : 'Dev Community',
-            author: art.user?.username || 'Tech Author',
-            publishedAt: art.readable_publish_date || 'Recently',
-            readTime: `${art.reading_time_minutes || 4} min read`,
-            coverUrl: art.cover_image || art.social_image || INITIAL_NEWS[idx % INITIAL_NEWS.length].coverUrl,
-            summary: art.description || art.title,
-            content: `${art.description}\n\n### Article Insights:\n${art.tag_list?.map(t => `• **${t}**: Latest updates and technical perspectives in ${t}`).join('\n')}\n\nVisit original post for full interactive benchmarks and code repositories.`,
-            canonicalUrl: art.url
-          }));
-          
-          setNewsList(prev => [...formatted, ...INITIAL_NEWS]);
-          setSelectedNews(formatted[0]);
+        articles = data.articles || [];
+      } else {
+        // Fallback to backend /api/news
+        const API_URL = import.meta.env.VITE_API_URL || (
+          typeof window !== 'undefined' && window.location.hostname === 'localhost'
+            ? 'http://localhost:8000'
+            : 'https://v-gyans.vercel.app'
+        );
+        const bRes = await fetch(`${API_URL}/api/news?category=${gnewsCat}&query=${encodeURIComponent(searchParam)}`);
+        if (bRes.ok) {
+          const bData = await bRes.json();
+          setNewsList(bData);
+          if (bData.length > 0) setSelectedNews(bData[0]);
+          return;
         }
       }
+
+      if (articles && articles.length > 0) {
+        const formatted = articles.map((art, idx) => ({
+          id: `gnews-${idx}-${Date.now()}`,
+          title: art.title,
+          category: catId,
+          categoryName: CATEGORIES.find(c => c.id === catId)?.label || 'Realtime News',
+          source: art.source?.name || 'GNews Live',
+          author: art.source?.name || 'News Reporter',
+          publishedAt: art.publishedAt ? new Date(art.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now',
+          readTime: `${Math.max(3, Math.ceil((art.description || '').length / 150))} min read`,
+          coverUrl: art.image || INITIAL_NEWS[idx % INITIAL_NEWS.length].coverUrl,
+          summary: art.description || art.title,
+          content: `${art.content || art.description || art.title}\n\nStay updated with live news coverage from Virtual Gyans.`,
+          canonicalUrl: art.url
+        }));
+
+        setNewsList(formatted);
+        setSelectedNews(formatted[0]);
+      }
     } catch (err) {
-      console.log('Using curated tech news data:', err);
+      console.log('GNews fetch error, using curated news:', err);
     } finally {
       setIsLoading(false);
     }
@@ -216,28 +252,43 @@ export default function News() {
           </div>
 
           {/* Search Input */}
-          <div style={{ position: 'relative', minWidth: '240px' }}>
-            <input
-              type="text"
-              placeholder="Search news by title or keyword..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '0.45rem 1rem 0.45rem 2.2rem',
-                fontSize: '0.82rem',
-                borderRadius: '20px',
-                border: '1px solid var(--border-glass)',
-                background: 'rgba(255, 255, 255, 0.04)',
-                color: 'var(--text-primary)',
-                outline: 'none',
-                transition: 'all 0.2s ease'
-              }}
-            />
-            <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              🔍
-            </span>
-          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              fetchLiveNews(selectedCategory, searchQuery);
+            }}
+            style={{ position: 'relative', minWidth: '240px', display: 'flex', gap: '0.4rem' }}
+          >
+            <div style={{ position: 'relative', flexGrow: 1 }}>
+              <input
+                type="text"
+                placeholder="Search real-time news..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.45rem 1rem 0.45rem 2.2rem',
+                  fontSize: '0.82rem',
+                  borderRadius: '20px',
+                  border: '1px solid var(--border-glass)',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  color: 'var(--text-primary)',
+                  outline: 'none',
+                  transition: 'all 0.2s ease'
+                }}
+              />
+              <span style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                🔍
+              </span>
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ padding: '0.4rem 0.85rem', fontSize: '0.78rem', borderRadius: '20px' }}
+            >
+              Fetch
+            </button>
+          </form>
         </div>
       </div>
 
