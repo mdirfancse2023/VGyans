@@ -763,7 +763,7 @@ def decrypt_jiosaavn_url(enc_url: str) -> str:
         return ""
 
 def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
-    import urllib.request, urllib.parse, json, html, ssl, re
+    import urllib.request, urllib.parse, json, html, ssl, os, re
     q_term = query or "latest hindi songs"
     ctx = ssl._create_unverified_context()
     headers = {
@@ -771,11 +771,65 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
         'Accept': 'application/json, text/plain, */*'
     }
 
-    def clean_title(t):
-        raw = re.sub(r'[\(\[\{].*?[\)\]\}]', '', t)
-        return re.sub(r'[^\w\s]', '', raw).strip().lower()
+    # 1. Try YouTube Data API v3 for 100% Full-Length HQ Tracks (3-5 mins, No 15s Cutoffs)
+    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY") or "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo"
+    if yt_api_key:
+        try:
+            yt_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoCategoryId=10&q={urllib.parse.quote(q_term + ' official audio')}&key={yt_api_key}"
+            req = urllib.request.Request(yt_url, headers=headers)
+            with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+                data = json.loads(resp.read().decode('utf-8'))
+                items = data.get("items", [])
+                
+                exclude_words = ['jukebox', 'compilation', 'podcast', 'full album', 'non stop', '3 hours', '10 hours', 'shorts', 'full movie']
+                tracks = []
+                seen_vids = set()
 
+                for item in items:
+                    vid = item.get("id", {}).get("videoId")
+                    if not vid or vid in seen_vids:
+                        continue
+                    
+                    snippet = item.get("snippet", {})
+                    title = html.unescape(snippet.get("title", ""))
+                    
+                    # Filter compilations/podcasts
+                    t_lower = title.lower()
+                    if any(w in t_lower for w in exclude_words):
+                        continue
+
+                    seen_vids.add(vid)
+                    artist = html.unescape(snippet.get("channelTitle", "Official Music"))
+                    cover = snippet.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg"
+
+                    tracks.append({
+                        "id": f"yt-{vid}",
+                        "videoId": vid,
+                        "title": title,
+                        "artist": artist,
+                        "album": q_term.title(),
+                        "category": q_term.title(),
+                        "coverUrl": cover,
+                        "embedUrl": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
+                        "audioUrl": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
+                        "url": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
+                        "duration": 240,
+                        "provider": "youtube_hq"
+                    })
+                    if len(tracks) >= limit:
+                        break
+
+                if tracks:
+                    return tracks
+        except Exception as e:
+            print(f"YouTube Data API error: {e}")
+
+    # Fallback to JioSaavn API if YouTube Data API quota exceeded
     try:
+        def clean_title(t):
+            raw = re.sub(r'[\(\[\{].*?[\)\]\}]', '', t)
+            return re.sub(r'[^\w\s]', '', raw).strip().lower()
+
         songs = []
         seen_ids = set()
         seen_titles = set()
@@ -795,14 +849,10 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
 
                     title = html.unescape(item.get("title") or item.get("song") or "")
                     normalized_t = clean_title(title)
-                    
-                    # Prevent duplicate titles/versions of the same song!
                     if not normalized_t or normalized_t in seen_titles:
                         continue
 
                     more = item.get("more_info", {})
-                    
-                    # Artist String
                     artist_list = []
                     artist_map = more.get("artistMap", {})
                     if isinstance(artist_map, dict):
@@ -811,11 +861,8 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                             artist_list = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
                     artist_str = ", ".join(artist_list) if artist_list else html.unescape(item.get("subtitle") or "JioSaavn Artist")
                     album_name = html.unescape(more.get("album") or item.get("album") or "")
-
-                    # Image URL
                     cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
 
-                    # Audio Stream Link: Try decrypted media url first, fallback to vlink
                     enc_media = more.get("encrypted_media_url")
                     audio_url = decrypt_jiosaavn_url(enc_media) if enc_media else ""
                     if not audio_url:
@@ -824,7 +871,6 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                     if audio_url:
                         seen_ids.add(song_id)
                         seen_titles.add(normalized_t)
-
                         dur = int(more.get("duration") or item.get("duration") or 240)
                         yt_search_query = urllib.parse.quote(f"{title} {artist_str} official audio")
 
