@@ -23,7 +23,30 @@ export default function Songs({
   const [loadingText, setLoadingText] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
   const [activePreset, setActivePreset] = useState(null);
-  const [playerViewMode, setPlayerViewMode] = useState('video'); // 'video' | 'vinyl'
+  const [trackProgress, setTrackProgress] = useState(0);
+
+  useEffect(() => {
+    if (currentTime && currentTime > 0) {
+      setTrackProgress(currentTime);
+    }
+  }, [currentTime, currentSong]);
+
+  useEffect(() => {
+    let timer;
+    if (isPlaying) {
+      timer = setInterval(() => {
+        setTrackProgress(prev => {
+          const maxDur = duration || currentSong?.duration || 240;
+          if (prev >= maxDur) {
+            if (nextSong) nextSong();
+            return 0;
+          }
+          return prev + 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isPlaying, duration, currentSong, nextSong]);
 
   // Quick Preset Categories
   const presets = [
@@ -532,6 +555,34 @@ export default function Songs({
                   >
                     <span>▶</span> Open on YouTube ↗
                   </a>
+
+                  {/* Progress Bar & Interactive Seek Slider */}
+                  <div style={{ width: '100%', marginBottom: '1rem', padding: '0 0.5rem', boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.35rem', fontWeight: 500 }}>
+                      <span>{formatTime(trackProgress)}</span>
+                      <span>{formatTime(duration || currentSong.duration || 240)}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max={duration || currentSong.duration || 240}
+                      value={trackProgress}
+                      onChange={(e) => {
+                        const val = parseFloat(e.target.value);
+                        setTrackProgress(val);
+                        if (seek) seek(val);
+                      }}
+                      style={{
+                        width: '100%',
+                        height: '5px',
+                        borderRadius: '5px',
+                        accentColor: 'var(--primary)',
+                        background: `linear-gradient(to right, var(--primary) ${(trackProgress / (duration || currentSong.duration || 240)) * 100}%, rgba(255, 255, 255, 0.1) 0%)`,
+                        cursor: 'pointer',
+                        outline: 'none'
+                      }}
+                    />
+                  </div>
 
                   {/* Player Controls */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1.1rem', marginBottom: '1rem' }}>
