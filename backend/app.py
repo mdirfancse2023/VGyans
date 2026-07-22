@@ -9,7 +9,8 @@ import base64
 import random
 import requests
 from typing import Optional, List
-from fastapi import FastAPI, HTTPException, Body, File, UploadFile, Form, Response
+from fastapi import FastAPI, HTTPException, Body, File, UploadFile, Form, Response, Request
+from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 try:
@@ -946,21 +947,17 @@ def get_audio_stream(videoId: str):
         url = f'https://www.youtube.com/watch?v={videoId}'
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
-            # Find best audio-only format
             formats = info.get('formats', [])
             audio_url = None
-            # Priority 1: audio-only m4a
             for fmt in formats:
                 if fmt.get('acodec') != 'none' and fmt.get('vcodec') in ('none', None) and fmt.get('ext') == 'm4a':
                     audio_url = fmt['url']
                     break
-            # Priority 2: any audio-only
             if not audio_url:
                 for fmt in formats:
                     if fmt.get('acodec') != 'none' and fmt.get('vcodec') in ('none', None):
                         audio_url = fmt['url']
                         break
-            # Fallback: best overall
             if not audio_url:
                 audio_url = info.get('url') or (formats[-1]['url'] if formats else None)
             
@@ -979,6 +976,99 @@ def get_audio_stream(videoId: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"yt-dlp error: {str(e)}")
+
+
+# In-memory cache for yt-dlp resolved audio URLs (avoids repeated extractions)
+_audio_url_cache = {}
+
+@app.get("/api/audio-proxy")
+def proxy_youtube_audio(videoId: str, request: Request):
+    """
+    Proxy YouTube audio stream through our backend.
+    - Runs yt-dlp to get direct googlevideo.com URL (cached after first call)
+    - Streams audio bytes directly to browser
+    - Browser plays via <audio> element - no CORS, no IP issues, no autoplay blocks
+    - Supports Range requests for seeking
+    """
+    global _audio_url_cache
+
+    # Use cached URL if available
+    cached = _audio_url_cache.get(videoId)
+    if not cached:
+        try:
+            import yt_dlp
+            ydl_opts = {
+                'format': 'bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best',
+                'quiet': True,
+                'no_warnings': True,
+                'nocheckcertificate': True,
+            }
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(f'https://www.youtube.com/watch?v={videoId}', download=False)
+                formats = info.get('formats', [])
+                audio_url = None
+                content_type = 'audio/mp4'
+                # Sort by bitrate desc to get best quality
+                for fmt in sorted(formats, key=lambda x: x.get('abr', 0) or 0, reverse=True):
+                    if fmt.get('acodec') not in ('none', None) and fmt.get('vcodec') in ('none', None):
+                        audio_url = fmt.get('url', '')
+                        ext = fmt.get('ext', 'mp4')
+                        content_type = f'audio/{ext}'
+                        break
+                if not audio_url:
+                    audio_url = info.get('url', '')
+                cached = (audio_url, content_type)
+                _audio_url_cache[videoId] = cached
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"yt-dlp failed: {str(e)}")
+
+    audio_url, content_type = cached
+    if not audio_url:
+        raise HTTPException(status_code=404, detail="No audio stream found")
+
+    # Forward range header for seeking support
+    proxy_headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Referer': 'https://www.youtube.com/',
+        'Accept': '*/*',
+    }
+    range_header = request.headers.get('Range', '')
+    if range_header:
+        proxy_headers['Range'] = range_header
+
+    # Stream from googlevideo.com
+    upstream = requests.get(audio_url, headers=proxy_headers, stream=True, timeout=30)
+
+    # If upstream expired (URL cache miss), clear cache and return error
+    if upstream.status_code not in (200, 206):
+        _audio_url_cache.pop(videoId, None)
+        raise HTTPException(status_code=502, detail=f"Upstream audio server returned {upstream.status_code}")
+
+    resp_headers = {
+        'Accept-Ranges': 'bytes',
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-store',
+    }
+    for h in ('Content-Length', 'Content-Range', 'Content-Type'):
+        if h in upstream.headers:
+            resp_headers[h] = upstream.headers[h]
+
+    def generate():
+        try:
+            for chunk in upstream.iter_content(chunk_size=65536):
+                if chunk:
+                    yield chunk
+        finally:
+            upstream.close()
+
+    return StreamingResponse(
+        generate(),
+        status_code=upstream.status_code,
+        media_type=upstream.headers.get('Content-Type', content_type),
+        headers=resp_headers
+    )
+
+
 
 
 @app.get("/api/jiosaavn/trending")

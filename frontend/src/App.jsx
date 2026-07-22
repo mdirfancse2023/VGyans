@@ -270,60 +270,28 @@ export default function App() {
     };
   }, []);
 
-  const playSong = async (song) => {
+  const playSong = (song) => {
     if (!song) return;
-    const isSameSong = currentSong && currentSong.id === song.id;
-    if (isSameSong) {
-      togglePlay();
-      return;
-    }
+    if (currentSong?.id === song.id) { togglePlay(); return; }
 
-    // Update UI state immediately
     setCurrentSong(song);
     setCurrentTime(0);
     setDuration(song.duration || 0);
 
-    if (!song.videoId) return;
+    if (!song.videoId || !audioRef.current) return;
 
-    // Pause any current audio while we fetch the new stream
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.src = '';
-    }
+    // Point audio element at our backend proxy — no async, no timing issues.
+    // Backend runs yt-dlp, streams audio bytes; browser buffers & plays natively.
+    const proxyUrl = `${API_URL}/api/audio-proxy?videoId=${song.videoId}`;
+    audioRef.current.src = proxyUrl;
+    audioRef.current.volume = volume;
 
-    try {
-      const res = await fetch(`${API_URL}/api/audio-stream?videoId=${song.videoId}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const streamUrl = data.audioUrl;
-
-      if (!streamUrl || !audioRef.current) return;
-
-      audioRef.current.src = streamUrl;
-      audioRef.current.volume = volume;
-      audioRef.current.load();
-
-      // play() here is safe — this async function was called from a user click
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            // Playback started — now update isPlaying so UI shows correctly
-            setIsPlaying(true);
-            if (data.duration) setDuration(data.duration);
-          })
-          .catch(err => {
-            console.warn('Audio play() rejected:', err);
-            setIsPlaying(false);
-          });
-      } else {
-        setIsPlaying(true);
-        if (data.duration) setDuration(data.duration);
-      }
-    } catch (err) {
-      console.warn('yt-dlp stream fetch failed:', err);
-      setIsPlaying(false);
-    }
+    audioRef.current.play()
+      .then(() => setIsPlaying(true))
+      .catch(err => {
+        console.warn('play() failed:', err);
+        setIsPlaying(false);
+      });
   };
 
 
