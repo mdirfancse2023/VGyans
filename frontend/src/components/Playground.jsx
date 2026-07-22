@@ -180,11 +180,36 @@ const reconstructFullCode = (userEditedCode, originalTemplate, lang) => {
       return userEditedCode;
     }
     
-    // Extract method name
     const match = userEditedCode.match(/public\s+static\s+[\w\[\]<>]+\s+(\w+)\s*\(/) || userEditedCode.match(/static\s+[\w\[\]<>]+\s+(\w+)\s*\(/) || userEditedCode.match(/[\w\[\]<>]+\s+(\w+)\s*\(/);
-    const funcName = match ? match[1] : 'maxSubarrayKadane';
+    const funcName = match ? match[1] : 'solution';
+
+    const isStringListParam = userEditedCode.includes('List<String>') || userEditedCode.includes('String[]');
+    const isIntListParam = userEditedCode.includes('List<Integer>') || userEditedCode.includes('int[]');
     
-    const javaDriver = `
+    const javaDriver = isStringListParam ? `
+    public static void main(String[] args) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String line = reader.readLine();
+        if (line == null) return;
+        String clean = line.replace("[", "").replace("]", "").replace("\"", "").trim();
+        String[] tokens = clean.isEmpty() ? new String[0] : clean.split(",");
+        List<String> words = new ArrayList<>();
+        for (String t : tokens) if (!t.trim().isEmpty()) words.add(t.trim());
+        Object res = ${funcName}(words);
+        System.out.println(res);
+    }` : isIntListParam ? `
+    public static void main(String[] args) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String line = reader.readLine();
+        if (line == null) return;
+        String clean = line.replace("[", "").replace("]", "").trim();
+        String[] tokens = clean.isEmpty() ? new String[0] : clean.split(",");
+        List<Integer> list = new ArrayList<>();
+        for (String t : tokens) if (!t.trim().isEmpty()) list.add(Integer.parseInt(t.trim()));
+        Object res = ${funcName}(list);
+        if (res instanceof int[]) System.out.println(Arrays.toString((int[])res));
+        else System.out.println(res);
+    }` : `
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line0 = reader.readLine();
@@ -933,8 +958,8 @@ export default function Playground({ questions, onGoHome }) {
     let firstFailedCase = null;
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
-      const fullCode = reconstructFullCode(code, activeProblem.templates[activeLang], activeLang);
+      const templateToUse = activeProblem?.templates?.[activeLang] || activeProblem?.templates?.java || '';
+      const fullCode = reconstructFullCode(code, templateToUse, activeLang);
 
       for (let i = 0; i < testCases.length; i++) {
         const tc = testCases[i];
