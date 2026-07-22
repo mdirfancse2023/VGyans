@@ -278,11 +278,14 @@ export default function App() {
     } else {
       setCurrentSong(song);
       setCurrentTime(0);
-      const srcUrl = song.audioUrl || song.url;
-      if (audioRef.current && srcUrl) {
-        audioRef.current.src = srcUrl;
-        audioRef.current.load();
-        audioRef.current.play().catch(e => console.warn("Audio playback issue:", e));
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        const srcUrl = song.audioUrl || song.url;
+        if (srcUrl) {
+          audioRef.current.src = srcUrl;
+          audioRef.current.load();
+          audioRef.current.play().catch(e => console.warn("Audio playback issue:", e));
+        }
       }
       setIsPlaying(true);
       setDuration(song.duration || 0);

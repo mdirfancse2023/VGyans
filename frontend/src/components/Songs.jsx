@@ -28,8 +28,14 @@ export default function Songs({
   const [musicSource, setMusicSource] = useState('jiosaavn'); // 'jiosaavn' | 'youtube'
 
   useEffect(() => {
-    setTrackProgress(currentTime || 0);
-  }, [currentTime, currentSong?.id]);
+    setTrackProgress(0);
+  }, [currentSong?.id]);
+
+  useEffect(() => {
+    if (typeof currentTime === 'number' && currentTime > 0) {
+      setTrackProgress(currentTime);
+    }
+  }, [currentTime]);
 
   useEffect(() => {
     let timer;
@@ -477,8 +483,9 @@ export default function Songs({
                   {/* Background Full Track Stream Engine */}
                   {currentSong.embedUrl && (
                     <iframe
+                      key={currentSong.id}
                       id="music-player-iframe"
-                      src={isPlaying ? currentSong.embedUrl : ''}
+                      src={isPlaying ? `${currentSong.embedUrl}&start=0&t=0` : ''}
                       title={currentSong.title}
                       allow="autoplay; encrypted-media"
                       style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
