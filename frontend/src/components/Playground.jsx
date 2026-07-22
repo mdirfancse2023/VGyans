@@ -657,20 +657,26 @@ export default function Playground({ questions, onGoHome }) {
     }
   }, [activeProblem, activeLang]);
 
-  // Determine if current question is SQL type (has mysql/postgres templates, not python/java/cpp)
+  // Determine if current question is SQL or Java 8 type
   const isSqlQuestion = activeProblem &&
     activeProblem.templates &&
     (activeProblem.templates.mysql !== undefined || activeProblem.templates.postgres !== undefined) &&
     activeProblem.templates.python === undefined;
 
+  const isJava8Question = activeProblem &&
+    (activeProblem.category === 'Java 8' || (activeProblem.category && activeProblem.category.includes('Java 8')));
+
   // Auto-switch language interface when active problem changes
   useEffect(() => {
     if (activeProblem) {
+      const isJava8 = activeProblem.category === 'Java 8' || (activeProblem.category && activeProblem.category.includes('Java 8'));
       const isSQL =
         activeProblem.templates &&
         (activeProblem.templates.mysql !== undefined || activeProblem.templates.postgres !== undefined) &&
         activeProblem.templates.python === undefined;
-      if (isSQL) {
+      if (isJava8) {
+        setActiveLang('java');
+      } else if (isSQL) {
         setActiveLang('mysql');
       } else if (activeLang === 'mysql' || activeLang === 'postgres') {
         setActiveLang('python');
@@ -1966,7 +1972,9 @@ export default function Playground({ questions, onGoHome }) {
                 value={activeLang}
                 onChange={(e) => setActiveLang(e.target.value)}
               >
-                {isSqlQuestion ? (
+                {isJava8Question ? (
+                  <option value="java">Java (JDK 17)</option>
+                ) : isSqlQuestion ? (
                   <>
                     <option value="mysql">MySQL</option>
                     <option value="postgres">PostgreSQL</option>

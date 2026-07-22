@@ -2098,5 +2098,305 @@
     "title": "100. SQL: Product Price Rank in Categories",
     "difficulty": "Hard",
     "category": "SQL - Window Functions"
+  },
+  {
+    "id": "java8-001",
+    "title": "1. Java 8: Filter Even Numbers with Streams",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-002",
+    "title": "2. Java 8: Convert List of Strings to Uppercase",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-003",
+    "title": "3. Java 8: Sum of All Elements using Stream Reduce",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-004",
+    "title": "4. Java 8: Count Strings Starting with Letter A",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-005",
+    "title": "5. Java 8: Find Maximum Element using Collectors / Max",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-006",
+    "title": "6. Java 8: Sort Strings Alphabetically",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-007",
+    "title": "7. Java 8: Remove Duplicates with Stream Distinct",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-008",
+    "title": "8. Java 8: Join Strings with Comma Delimiter",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-009",
+    "title": "9. Java 8: Check Any String Length > 5",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-010",
+    "title": "10. Java 8: Calculate Average of Double Values",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-011",
+    "title": "11. Java 8: Group Words by Length (Collectors.groupingBy)",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-012",
+    "title": "12. Java 8: Partition Numbers into Even and Odd",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-013",
+    "title": "13. Java 8: First Non-Repeated Character in String",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-014",
+    "title": "14. Java 8: Flatten List of Lists using flatMap",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-015",
+    "title": "15. Java 8: Find Second Highest Number in List",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-016",
+    "title": "16. Java 8: Frequency of Each Word in Sentence",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-017",
+    "title": "17. Java 8: Optional Value OrElse Default Handling",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-018",
+    "title": "18. Java 8: Custom Functional Interface Execution",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-019",
+    "title": "19. Java 8: Sort Employee Salaries Descending",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-020",
+    "title": "20. Java 8: Top 3 Highest Numbers in List",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-021",
+    "title": "21. Java 8: Product of All Prime Numbers",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-022",
+    "title": "22. Java 8: Custom Comparator with Lambda",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-023",
+    "title": "23. Java 8: Check Anagrams using Stream Sorting",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-024",
+    "title": "24. Java 8: Filter Non-Null and Non-Empty Strings",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-025",
+    "title": "25. Java 8: Find Longest String in a List",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-026",
+    "title": "26. Java 8: Map Key-Value Entry Format Stream",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-027",
+    "title": "27. Java 8: Calculate Days Between Two Dates",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-028",
+    "title": "28. Java 8: Parallel Stream Sum of Squares",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-029",
+    "title": "29. Java 8: Merge Two Lists without Duplicates",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-030",
+    "title": "30. Java 8: Find Duplicate Elements in List",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-031",
+    "title": "31. Java 8: Predicate Chaining for Range Filter",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-032",
+    "title": "32. Java 8: Function Composition (andThen & compose)",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-033",
+    "title": "33. Java 8: Consumer Chaining Execution",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-034",
+    "title": "34. Java 8: Supplier Pattern for Default Fallback",
+    "difficulty": "Easy",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-035",
+    "title": "35. Java 8: BinaryOperator for Factorial Calculation",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-036",
+    "title": "36. Java 8: Fibonacci Series via Stream.iterate",
+    "difficulty": "Hard",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-037",
+    "title": "37. Java 8: Stream.generate Random Integer Range",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-038",
+    "title": "38. Java 8: Collectors.toMap Duplicate Resolver",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-039",
+    "title": "39. Java 8: Collectors.summarizingInt Statistics",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-040",
+    "title": "40. Java 8: Most Frequent Character in String",
+    "difficulty": "Hard",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-041",
+    "title": "41. Java 8: CompletableFuture Async Supply",
+    "difficulty": "Hard",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-042",
+    "title": "42. Java 8: CompletableFuture Combining Results",
+    "difficulty": "Hard",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-043",
+    "title": "43. Java 8: Optional map and flatMap Chaining",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-044",
+    "title": "44. Java 8: Calculate Working Days in Month",
+    "difficulty": "Medium",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-045",
+    "title": "45. Java 8: Custom Prefix Collector",
+    "difficulty": "Hard",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-046",
+    "title": "46. Java 8: Group Employees by Dept Find Max Salary",
+    "difficulty": "Hard",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-047",
+    "title": "47. Java 8: Partition Palindromes and Non-Palindromes",
+    "difficulty": "Hard",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-048",
+    "title": "48. Java 8: Stream Running Max List",
+    "difficulty": "Hard",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-049",
+    "title": "49. Java 8: Pair Stream Zip Representation",
+    "difficulty": "Hard",
+    "category": "Java 8"
+  },
+  {
+    "id": "java8-050",
+    "title": "50. Java 8: Sliding Window Sum of Window Size 3",
+    "difficulty": "Hard",
+    "category": "Java 8"
   }
 ]
