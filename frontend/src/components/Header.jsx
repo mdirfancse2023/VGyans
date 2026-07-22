@@ -293,11 +293,11 @@ export default function Header({
           <li className="header-music-trigger-item" style={{ display: 'flex', alignItems: 'center' }}>
             <div
               onClick={() => setActiveTab('songs')}
-              className={`theme-toggle-btn header-music-morph-btn ${currentSong && isPlaying ? 'expanded active' : ''} ${activeTab === 'songs' ? 'active' : ''}`}
-              title={currentSong && isPlaying ? `Now Playing: ${currentSong.title} - ${currentSong.artist}` : 'Focus Music Player'}
+              className={`theme-toggle-btn header-music-morph-btn ${currentSong ? 'expanded active' : ''} ${activeTab === 'songs' ? 'active' : ''}`}
+              title={currentSong ? `${isPlaying ? 'Now Playing' : 'Paused'}: ${currentSong.title} - ${currentSong.artist}` : 'Focus Music Player'}
               style={{ cursor: 'pointer' }}
             >
-              {currentSong && isPlaying ? (
+              {currentSong ? (
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', animation: 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
                   {/* 1. Spinning Album Cover Art Logo */}
                   <img 
@@ -308,14 +308,14 @@ export default function Header({
                       height: '20px', 
                       borderRadius: '50%', 
                       objectFit: 'cover', 
-                      animation: 'spinRecord 12s linear infinite',
+                      animation: isPlaying ? 'spinRecord 12s linear infinite' : 'none',
                       boxShadow: '0 0 6px rgba(6, 182, 212, 0.5)',
                       flexShrink: 0
                     }}
                   />
 
                   {/* 2. Green Soundwave Equalizer Lines Animation */}
-                  <div className="soundwave-green" style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '12px', flexShrink: 0 }}>
+                  <div className="soundwave-green" style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '12px', flexShrink: 0, opacity: isPlaying ? 1 : 0.4 }}>
                     <span className="wave-bar bar-1"></span>
                     <span className="wave-bar bar-2"></span>
                     <span className="wave-bar bar-3"></span>
