@@ -247,17 +247,17 @@ export default function App() {
     }
   }, [volume]);
 
-  // Sync Play/Pause State
+  // Sync Play/Pause State — only fires on explicit isPlaying toggle (pause/resume)
   useEffect(() => {
     if (!audioRef.current) return;
     if (isPlaying) {
-      if (audioRef.current.src) {
-        audioRef.current.play().catch(e => console.warn("Playback failed:", e));
+      if (audioRef.current.src && audioRef.current.src !== window.location.href) {
+        audioRef.current.play().catch(e => console.warn('Playback failed:', e));
       }
     } else {
       audioRef.current.pause();
     }
-  }, [isPlaying, currentSong]);
+  }, [isPlaying]);
 
   // Cleanup Web Audio API nodes on unmount
   useEffect(() => {
@@ -278,33 +278,51 @@ export default function App() {
       return;
     }
 
+    // Update UI state immediately
     setCurrentSong(song);
     setCurrentTime(0);
-    setIsPlaying(true);
     setDuration(song.duration || 0);
 
-    // Resolve direct audio stream URL via yt-dlp on backend
-    if (song.videoId && audioRef.current) {
+    if (!song.videoId) return;
+
+    // Pause any current audio while we fetch the new stream
+    if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.src = '';
+    }
 
-      try {
-        const res = await fetch(`${API_URL}/api/audio-stream?videoId=${song.videoId}`);
-        if (res.ok) {
-          const data = await res.json();
-          const streamUrl = data.audioUrl;
-          if (streamUrl && audioRef.current) {
-            audioRef.current.src = streamUrl;
-            audioRef.current.volume = volume;
-            audioRef.current.load();
-            // play() from async function that was triggered by user click = allowed
-            audioRef.current.play().catch(e => console.warn('Audio play failed:', e));
+    try {
+      const res = await fetch(`${API_URL}/api/audio-stream?videoId=${song.videoId}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const streamUrl = data.audioUrl;
+
+      if (!streamUrl || !audioRef.current) return;
+
+      audioRef.current.src = streamUrl;
+      audioRef.current.volume = volume;
+      audioRef.current.load();
+
+      // play() here is safe — this async function was called from a user click
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            // Playback started — now update isPlaying so UI shows correctly
+            setIsPlaying(true);
             if (data.duration) setDuration(data.duration);
-          }
-        }
-      } catch (err) {
-        console.warn('yt-dlp stream fetch failed:', err);
+          })
+          .catch(err => {
+            console.warn('Audio play() rejected:', err);
+            setIsPlaying(false);
+          });
+      } else {
+        setIsPlaying(true);
+        if (data.duration) setDuration(data.duration);
       }
+    } catch (err) {
+      console.warn('yt-dlp stream fetch failed:', err);
+      setIsPlaying(false);
     }
   };
 
