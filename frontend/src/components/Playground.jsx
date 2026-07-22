@@ -88,27 +88,38 @@ const highlightCode = (codeText, lang) => {
 };
 
 
+const unescapeHtmlEntities = (str) => {
+  if (!str) return '';
+  return str
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+};
+
 const getVisibleCode = (fullCode) => {
   if (!fullCode) return '';
+  const cleanCode = unescapeHtmlEntities(fullCode);
   
   const startMarker = '# -- HIDE DRIVER CODE START --';
   const endMarker = '# -- HIDE DRIVER CODE END --';
   const javaCppStartMarker = '// -- HIDE DRIVER CODE START --';
   const javaCppEndMarker = '// -- HIDE DRIVER CODE END --';
   
-  if (fullCode.includes(startMarker) && fullCode.includes(endMarker)) {
-    const parts = fullCode.split(startMarker);
+  if (cleanCode.includes(startMarker) && cleanCode.includes(endMarker)) {
+    const parts = cleanCode.split(startMarker);
     const endParts = parts[1].split(endMarker);
     return (parts[0] + (endParts[1] || '')).trim();
   }
   
-  if (fullCode.includes(javaCppStartMarker) && fullCode.includes(javaCppEndMarker)) {
-    const parts = fullCode.split(javaCppStartMarker);
+  if (cleanCode.includes(javaCppStartMarker) && cleanCode.includes(javaCppEndMarker)) {
+    const parts = cleanCode.split(javaCppStartMarker);
     const endParts = parts[1].split(javaCppEndMarker);
     return (parts[0] + (endParts[1] || '')).trim();
   }
   
-  return fullCode;
+  return cleanCode;
 };
 
 const getHiddenDriverCode = (originalTemplate) => {
@@ -610,6 +621,20 @@ export default function Playground({ questions, onGoHome }) {
       const fetched = firebaseData || apiData;
 
       if (fetched && (fetched.description || (fetched.templates && Object.keys(fetched.templates).length > 0))) {
+        if (fetched.templates) {
+          const cleanTemplates = {};
+          for (const [l, c] of Object.entries(fetched.templates)) {
+            cleanTemplates[l] = unescapeHtmlEntities(c);
+          }
+          fetched.templates = cleanTemplates;
+        }
+        if (fetched.solutions) {
+          const cleanSolutions = {};
+          for (const [l, c] of Object.entries(fetched.solutions)) {
+            cleanSolutions[l] = unescapeHtmlEntities(c);
+          }
+          fetched.solutions = cleanSolutions;
+        }
         questionCacheRef.current.set(qId, fetched);
         setActiveProblem(fetched);
       } else {
