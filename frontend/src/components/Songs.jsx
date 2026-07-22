@@ -44,33 +44,33 @@ export default function Songs({
     let displayLabel = '';
 
     if (customSearch.trim()) {
-      queryTerm = customSearch.trim();
-      displayLabel = `"${queryTerm}"`;
+      queryTerm = `${customSearch.trim()} song audio`;
+      displayLabel = `"${customSearch.trim()}"`;
       setActivePreset(null);
     } else if (presetObj) {
-      if (presetObj.id === 'bollywood') queryTerm = 'bollywood top songs jukebox';
-      else if (presetObj.id === 'hollywood') queryTerm = 'hollywood pop hits billboard';
-      else if (presetObj.id === 'lofi') queryTerm = 'lofi study beats chillhop';
-      else if (presetObj.id === 'piano') queryTerm = 'piano classical music relaxation';
-      else if (presetObj.id === 'synthwave') queryTerm = 'synthwave ambient chillwave';
-      else if (presetObj.id === 'acoustic') queryTerm = 'unplugged acoustic guitar songs';
-      else queryTerm = presetObj.term || 'songs';
+      if (presetObj.id === 'bollywood') queryTerm = 'bollywood official audio song';
+      else if (presetObj.id === 'hollywood') queryTerm = 'hollywood pop official audio song';
+      else if (presetObj.id === 'lofi') queryTerm = 'lofi beats song audio';
+      else if (presetObj.id === 'piano') queryTerm = 'piano classical song audio';
+      else if (presetObj.id === 'synthwave') queryTerm = 'synthwave ambient track audio';
+      else if (presetObj.id === 'acoustic') queryTerm = 'unplugged acoustic guitar song';
+      else queryTerm = `${presetObj.term || 'music'} song audio`;
 
       displayLabel = presetObj.label.replace(/^[^\w\s]+\s*/, '');
       setActivePreset(presetObj.id);
     } else {
-      queryTerm = 'bollywood top songs jukebox';
+      queryTerm = 'bollywood official audio song';
       displayLabel = 'Top 50 Bollywood';
     }
 
-    setLoadingText(`Fetching YouTube songs for ${displayLabel}...`);
+    setLoadingText(`Fetching YouTube music tracks for ${displayLabel}...`);
 
     try {
       const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY || 'AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo';
       let tracks = [];
 
-      // Direct YouTube Data API v3 fetch
-      const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&q=${encodeURIComponent(queryTerm)}&key=${apiKey}`;
+      // Direct YouTube Data API v3 fetch targeting individual song tracks
+      const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoDuration=short&videoCategoryId=10&q=${encodeURIComponent(queryTerm)}&key=${apiKey}`;
       const res = await fetch(ytUrl);
       if (res.ok) {
         const data = await res.json();
@@ -82,8 +82,14 @@ export default function Songs({
           return txt.value;
         };
 
+        const excludeKeywords = ['jukebox', 'compilation', 'podcast', 'full album', 'non stop', '3 hours', '10 hours', 'shorts', 'full movie'];
+
         tracks = items
-          .filter(item => item.id && item.id.videoId)
+          .filter(item => {
+            if (!item.id || !item.id.videoId) return false;
+            const t = (item.snippet?.title || '').toLowerCase();
+            return !excludeKeywords.some(kw => t.includes(kw));
+          })
           .map((item) => {
             const vid = item.id.videoId;
             const snippet = item.snippet || {};
@@ -476,86 +482,45 @@ export default function Songs({
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
-                  {/* Mode Selector Toggle (Video Player vs Vinyl Artwork) */}
-                  <div style={{ display: 'flex', background: 'rgba(255, 255, 255, 0.04)', borderRadius: '20px', padding: '3px', marginBottom: '1rem', border: '1px solid var(--border-glass)' }}>
-                    <button
-                      onClick={() => setPlayerViewMode('video')}
-                      style={{
-                        padding: '0.25rem 0.75rem',
-                        fontSize: '0.75rem',
-                        borderRadius: '16px',
-                        border: 'none',
-                        background: playerViewMode === 'video' ? 'var(--primary)' : 'transparent',
-                        color: playerViewMode === 'video' ? '#fff' : 'var(--text-secondary)',
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                        transition: 'all 0.2s ease'
-                      }}
-                    >
-                      🎬 Video Player
-                    </button>
-                    <button
-                      onClick={() => setPlayerViewMode('vinyl')}
-                      style={{
-                        padding: '0.25rem 0.75rem',
-                        fontSize: '0.75rem',
-                        borderRadius: '16px',
-                        border: 'none',
-                        background: playerViewMode === 'vinyl' ? 'var(--primary)' : 'transparent',
-                        color: playerViewMode === 'vinyl' ? '#fff' : 'var(--text-secondary)',
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                        transition: 'all 0.2s ease'
-                      }}
-                    >
-                      🎵 Vinyl View
-                    </button>
-                  </div>
+                  {/* Off-screen YouTube Audio Streamer */}
+                  <iframe
+                    src={isPlaying ? (currentSong.embedUrl || `https://www.youtube.com/embed/${currentSong.videoId || currentSong.id.replace('yt-', '')}?autoplay=1&enablejsapi=1`) : ''}
+                    title={currentSong.title}
+                    allow="autoplay; encrypted-media"
+                    style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
+                  ></iframe>
 
-                  {playerViewMode === 'video' ? (
-                    /* YouTube Embed Player */
-                    <div style={{ width: '100%', aspectRatio: '16/9', maxHeight: '200px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: '#000', border: '1px solid var(--border-glass)', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
-                      <iframe
-                        src={currentSong.embedUrl || `https://www.youtube.com/embed/${currentSong.videoId || currentSong.id.replace('yt-', '')}?autoplay=1&enablejsapi=1`}
-                        title={currentSong.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        style={{ width: '100%', height: '100%', border: 'none' }}
-                      ></iframe>
+                  {/* Vinyl Record View */}
+                  <div style={{ position: 'relative', width: '160px', height: '160px', marginBottom: '1.2rem', marginTop: '0.5rem' }}>
+                    <div
+                      className={`vinyl-wrapper ${isPlaying ? 'spinning' : ''}`}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '50%',
+                        overflow: 'hidden',
+                        boxShadow: isPlaying 
+                          ? '0 0 30px 0 rgba(6, 182, 212, 0.4), 0 0 6px 1px rgba(255,255,255,0.1)' 
+                          : '0 8px 24px rgba(0,0,0,0.5)',
+                        border: '5px solid var(--bg-dark-secondary)',
+                        transition: 'box-shadow var(--transition-normal)'
+                      }}
+                    >
+                      <img
+                        src={currentSong.coverUrl}
+                        alt={currentSong.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      {/* Vinyl Center Hole */}
+                      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '26px', height: '26px', borderRadius: '50%', background: 'var(--bg-dark)', border: '3px solid var(--border-glass)' }}></div>
                     </div>
-                  ) : (
-                    /* Vinyl Record View */
-                    <div style={{ position: 'relative', width: '150px', height: '150px', marginBottom: '1rem' }}>
-                      <div
-                        className={`vinyl-wrapper ${isPlaying ? 'spinning' : ''}`}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: '50%',
-                          overflow: 'hidden',
-                          boxShadow: isPlaying 
-                            ? '0 0 25px 0 rgba(6, 182, 212, 0.3), 0 0 4px 1px rgba(255,255,255,0.05)' 
-                            : '0 8px 24px rgba(0,0,0,0.5)',
-                          border: '5px solid var(--bg-dark-secondary)',
-                          transition: 'box-shadow var(--transition-normal)'
-                        }}
-                      >
-                        <img
-                          src={currentSong.coverUrl}
-                          alt={currentSong.title}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                        {/* Vinyl Hole */}
-                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-dark)', border: '3px solid var(--border-glass)' }}></div>
-                      </div>
-                    </div>
-                  )}
+                  </div>
 
                   {/* Song Meta */}
                   <h3 style={{ fontSize: '1.05rem', color: 'var(--text-primary)', margin: '0 0 0.2rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>
                     {currentSong.title}
                   </h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', margin: '0 0 0.5rem' }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', margin: '0 0 0.8rem' }}>
                     {currentSong.artist}
                   </p>
 
