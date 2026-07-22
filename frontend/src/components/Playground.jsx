@@ -342,10 +342,33 @@ int main() {
   mysql: `-- Write your custom MySQL query here
 SELECT 'Hello, Virtual Gyans Playground!' AS message;`,
 
-  postgres: `-- Write your custom PostgreSQL query here
-SELECT 'Hello, Virtual Gyans Playground!' AS message;`
 };
 
+const globalQuestionCacheMap = new Map();
+
+const getCachedQuestion = (qId) => {
+  if (!qId) return null;
+  if (globalQuestionCacheMap.has(qId)) {
+    return globalQuestionCacheMap.get(qId);
+  }
+  try {
+    const sessionData = sessionStorage.getItem(`vgyans_q_cache_${qId}`);
+    if (sessionData) {
+      const parsed = JSON.parse(sessionData);
+      globalQuestionCacheMap.set(qId, parsed);
+      return parsed;
+    }
+  } catch (e) {}
+  return null;
+};
+
+const setCachedQuestion = (qId, questionObj) => {
+  if (!qId || !questionObj) return;
+  globalQuestionCacheMap.set(qId, questionObj);
+  try {
+    sessionStorage.setItem(`vgyans_q_cache_${qId}`, JSON.stringify(questionObj));
+  } catch (e) {}
+};
 
 export default function Playground({ questions, onGoHome }) {
   const [dbQuestions, setDbQuestions] = useState([]);
@@ -440,7 +463,6 @@ export default function Playground({ questions, onGoHome }) {
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
   const timerIntervalRef = useRef(null);
-  const questionCacheRef = useRef(new Map());
 
   useEffect(() => {
     // Prevent document body scrolling while in playground
@@ -568,9 +590,10 @@ export default function Playground({ questions, onGoHome }) {
 
     const qId = String(q.id || q.title || '');
 
-    // Check in-memory cache first if question details were already fetched
-    if (questionCacheRef.current.has(qId)) {
-      setActiveProblem(questionCacheRef.current.get(qId));
+    // Check in-memory and session cache first for instant 0ms load!
+    const cached = getCachedQuestion(qId);
+    if (cached) {
+      setActiveProblem(cached);
       return;
     }
 
@@ -628,19 +651,19 @@ export default function Playground({ questions, onGoHome }) {
           }
           fetched.solutions = cleanSolutions;
         }
-        questionCacheRef.current.set(qId, fetched);
+        setCachedQuestion(qId, fetched);
         setActiveProblem(fetched);
       } else {
         const staticMatch = PROBLEMS.find(p => String(p.id) === qId || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase()));
         const resolvedObj = staticMatch || generateFallbackProblem(q);
-        questionCacheRef.current.set(qId, resolvedObj);
+        setCachedQuestion(qId, resolvedObj);
         setActiveProblem(resolvedObj);
       }
     } catch (err) {
       console.warn("Database fetch error, using static problem:", err);
       const staticMatch = PROBLEMS.find(p => String(p.id) === qId || (p.title && q.title && p.title.toLowerCase() === q.title.toLowerCase()));
       const resolvedObj = staticMatch || generateFallbackProblem(q);
-      questionCacheRef.current.set(qId, resolvedObj);
+      setCachedQuestion(qId, resolvedObj);
       setActiveProblem(resolvedObj);
     }
   };
