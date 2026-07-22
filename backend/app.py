@@ -771,17 +771,88 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
         'Accept': 'application/json, text/plain, */*'
     }
 
-    # 1. Try YouTube Data API v3 for 100% Full-Length HQ Tracks (3-5 mins, No 15s Cutoffs)
+    def clean_title(t):
+        raw = re.sub(r'[\(\[\{].*?[\)\]\}]', '', t)
+        return re.sub(r'[^\w\s]', '', raw).strip().lower()
+
+    # 1. Primary Engine: JioSaavn Single Track Catalog for 100% Strict Single Songs (No "Top 20" or Jukeboxes)
+    try:
+        songs = []
+        seen_ids = set()
+        seen_titles = set()
+
+        for page in range(1, 10):
+            url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n=50&p={page}"
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+                data = json.loads(resp.read().decode('utf-8'))
+                results = data.get("results", [])
+                if not results:
+                    break
+                for item in results:
+                    song_id = item.get("id")
+                    if not song_id or song_id in seen_ids:
+                        continue
+
+                    raw_title = html.unescape(item.get("title") or item.get("song") or "")
+                    clean_t = re.sub(r'[\(\[\{].*?[\)\]\}]', '', raw_title).strip()
+                    normalized_t = clean_title(clean_t)
+                    
+                    if not normalized_t or normalized_t in seen_titles:
+                        continue
+
+                    more = item.get("more_info", {})
+                    artist_list = []
+                    artist_map = more.get("artistMap", {})
+                    if isinstance(artist_map, dict):
+                        primary = artist_map.get("primary_artists", [])
+                        if isinstance(primary, list):
+                            artist_list = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
+                    artist_str = ", ".join(artist_list) if artist_list else html.unescape(item.get("subtitle") or "Official Artist")
+                    album_name = html.unescape(more.get("album") or item.get("album") or "")
+                    cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
+
+                    seen_ids.add(song_id)
+                    seen_titles.add(normalized_t)
+                    dur = int(more.get("duration") or item.get("duration") or 240)
+                    
+                    # Direct YouTube Audio Stream Search Query for the single track
+                    yt_search_query = urllib.parse.quote(f"{clean_t} {artist_str} official audio")
+
+                    songs.append({
+                        "id": f"js-{song_id}",
+                        "title": clean_t,
+                        "artist": artist_str,
+                        "album": album_name or q_term.title(),
+                        "category": q_term.title(),
+                        "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
+                        "audioUrl": f"https://www.youtube.com/embed?listType=search&list={yt_search_query}&autoplay=1&enablejsapi=1",
+                        "url": f"https://www.youtube.com/embed?listType=search&list={yt_search_query}&autoplay=1&enablejsapi=1",
+                        "embedUrl": f"https://www.youtube.com/embed?listType=search&list={yt_search_query}&autoplay=1&enablejsapi=1",
+                        "duration": dur,
+                        "provider": "strict_single_song"
+                    })
+                    if len(songs) >= limit:
+                        break
+            if len(songs) >= limit:
+                break
+        
+        if songs:
+            return songs
+    except Exception as e:
+        print(f"Single song fetch error: {e}")
+
+    # Fallback to YouTube Data API v3 with strict single track filters
     yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY") or "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo"
     if yt_api_key:
         try:
-            yt_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoCategoryId=10&q={urllib.parse.quote(q_term + ' official audio')}&key={yt_api_key}"
+            yt_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoCategoryId=10&q={urllib.parse.quote(q_term + ' official song')}&key={yt_api_key}"
             req = urllib.request.Request(yt_url, headers=headers)
             with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
                 data = json.loads(resp.read().decode('utf-8'))
                 items = data.get("items", [])
                 
-                exclude_words = ['jukebox', 'compilation', 'podcast', 'full album', 'non stop', '3 hours', '10 hours', 'shorts', 'full movie']
+                exclude_words = ['top 10', 'top 20', 'top 50', 'top 100', 'jukebox', 'compilation', 'podcast', 'full album', 'non stop', 'nonstop', '3 hours', '10 hours', 'shorts', 'full movie', 'best of', 'collection', 'playlist', 'mashup']
                 tracks = []
                 seen_vids = set()
 
@@ -792,9 +863,8 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                     
                     snippet = item.get("snippet", {})
                     title = html.unescape(snippet.get("title", ""))
-                    
-                    # Filter compilations/podcasts
                     t_lower = title.lower()
+
                     if any(w in t_lower for w in exclude_words):
                         continue
 
@@ -814,7 +884,7 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                         "audioUrl": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
                         "url": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
                         "duration": 240,
-                        "provider": "youtube_hq"
+                        "provider": "youtube_single"
                     })
                     if len(tracks) >= limit:
                         break
@@ -823,77 +893,6 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                     return tracks
         except Exception as e:
             print(f"YouTube Data API error: {e}")
-
-    # Fallback to JioSaavn API if YouTube Data API quota exceeded
-    try:
-        def clean_title(t):
-            raw = re.sub(r'[\(\[\{].*?[\)\]\}]', '', t)
-            return re.sub(r'[^\w\s]', '', raw).strip().lower()
-
-        songs = []
-        seen_ids = set()
-        seen_titles = set()
-
-        for page in range(1, 10):
-            url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n=50&p={page}"
-            req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
-                data = json.loads(resp.read().decode('utf-8'))
-                results = data.get("results", [])
-                if not results:
-                    break
-                for item in results:
-                    song_id = item.get("id")
-                    if not song_id or song_id in seen_ids:
-                        continue
-
-                    title = html.unescape(item.get("title") or item.get("song") or "")
-                    normalized_t = clean_title(title)
-                    if not normalized_t or normalized_t in seen_titles:
-                        continue
-
-                    more = item.get("more_info", {})
-                    artist_list = []
-                    artist_map = more.get("artistMap", {})
-                    if isinstance(artist_map, dict):
-                        primary = artist_map.get("primary_artists", [])
-                        if isinstance(primary, list):
-                            artist_list = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
-                    artist_str = ", ".join(artist_list) if artist_list else html.unescape(item.get("subtitle") or "JioSaavn Artist")
-                    album_name = html.unescape(more.get("album") or item.get("album") or "")
-                    cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
-
-                    enc_media = more.get("encrypted_media_url")
-                    audio_url = decrypt_jiosaavn_url(enc_media) if enc_media else ""
-                    if not audio_url:
-                        audio_url = more.get("vlink") or item.get("media_preview_url") or ""
-
-                    if audio_url:
-                        seen_ids.add(song_id)
-                        seen_titles.add(normalized_t)
-                        dur = int(more.get("duration") or item.get("duration") or 240)
-                        yt_search_query = urllib.parse.quote(f"{title} {artist_str} official audio")
-
-                        songs.append({
-                            "id": f"js-{song_id}",
-                            "title": title,
-                            "artist": artist_str,
-                            "album": album_name or q_term.title(),
-                            "category": q_term.title(),
-                            "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
-                            "audioUrl": audio_url,
-                            "url": audio_url,
-                            "embedUrl": f"https://www.youtube.com/embed?listType=search&list={yt_search_query}&autoplay=1",
-                            "duration": dur,
-                            "provider": "jiosaavn"
-                        })
-                        if len(songs) >= limit:
-                            break
-            if len(songs) >= limit:
-                break
-        return songs
-    except Exception as e:
-        print(f"JioSaavn API search error: {e}")
 
     return []
 
