@@ -580,15 +580,15 @@ export default function Playground({ questions, onGoHome }) {
       description: `
         <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:280px;color:var(--text-secondary);">
           <div style="width:40px;height:40px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:1.25rem;"></div>
-          <h4 style="font-weight:700;font-size:1.05rem;color:var(--text-primary);margin-bottom:0.35rem;">Loading from Firebase Database...</h4>
-          <p style="font-size:0.85rem;color:var(--text-secondary);">Retrieving question details & starter code for ${q.title || 'problem'}...</p>
+          <h4 style="font-weight:700;font-size:1.05rem;color:var(--text-primary);margin-bottom:0.35rem;">Loading...</h4>
+          <p style="font-size:0.85rem;color:var(--text-secondary);">Retrieving details for ${q.title || 'question'}...</p>
         </div>
       `,
       templates: {
-        python: '# Loading question template from database...',
-        java: '// Loading question template from database...',
-        cpp: '// Loading question template from database...',
-        sql: '-- Loading question template from database...'
+        python: '# Loading...',
+        java: '// Loading...',
+        cpp: '// Loading...',
+        sql: '-- Loading...'
       }
     };
 
