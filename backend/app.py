@@ -825,62 +825,11 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                             break
             if len(songs) >= limit:
                 break
-        if songs:
-            return songs
+        return songs
     except Exception as e:
         print(f"JioSaavn API search error: {e}")
 
-    # Fallback dataset with valid, playable JioSaavn MP3 streams
-    return [
-        {
-            "id": "js-kesariya",
-            "title": "Kesariya - Brahmastra",
-            "artist": "Arijit Singh, Pritam, Amitabh Bhattacharya",
-            "album": "Brahmastra",
-            "category": "Bollywood Top 50",
-            "coverUrl": "https://c.saavncdn.com/871/Brahmastra-Original-Motion-Picture-Soundtrack-Hindi-2022-20221006155213-500x500.jpg",
-            "audioUrl": "https://jiotunepreview.jio.com/content/Converted/010910141580615.mp3",
-            "url": "https://jiotunepreview.jio.com/content/Converted/010910141580615.mp3",
-            "duration": 268,
-            "provider": "jiosaavn"
-        },
-        {
-            "id": "js-tum-hi-ho",
-            "title": "Tum Hi Ho - Aashiqui 2",
-            "artist": "Arijit Singh, Mithoon",
-            "album": "Aashiqui 2",
-            "category": "Bollywood Top 50",
-            "coverUrl": "https://c.saavncdn.com/430/Aashiqui-2-Hindi-2013-500x500.jpg",
-            "audioUrl": "https://jiotunepreview.jio.com/content/Converted/010910092419390.mp3",
-            "url": "https://jiotunepreview.jio.com/content/Converted/010910092419390.mp3",
-            "duration": 262,
-            "provider": "jiosaavn"
-        },
-        {
-            "id": "js-zaalima",
-            "title": "Zaalima - Raees",
-            "artist": "Arijit Singh, Harshdeep Kaur, JAM8",
-            "album": "Raees",
-            "category": "Bollywood Top 50",
-            "coverUrl": "https://c.saavncdn.com/341/Raees-Hindi-2016-500x500.jpg",
-            "audioUrl": "https://jiotunepreview.jio.com/content/Converted/010910440434611.mp3",
-            "url": "https://jiotunepreview.jio.com/content/Converted/010910440434611.mp3",
-            "duration": 299,
-            "provider": "jiosaavn"
-        },
-        {
-            "id": "js-gehra-hua",
-            "title": "Gehra Hua - Dhurandhar",
-            "artist": "Shashwat Sachdev, Arijit Singh, Irshad Kamil",
-            "album": "Dhurandhar",
-            "category": "Trending Hits",
-            "coverUrl": "https://c.saavncdn.com/815/Apna-Bana-Le-From-Bhediya-Hindi-2022-20221105035048-500x500.jpg",
-            "audioUrl": "https://jiotunepreview.jio.com/content/Converted/010912023403849.mp3",
-            "url": "https://jiotunepreview.jio.com/content/Converted/010912023403849.mp3",
-            "duration": 245,
-            "provider": "jiosaavn"
-        }
-    ]
+    return []
 
 @app.get("/api/songs")
 def get_songs(query: Optional[str] = "latest hindi songs", max_results: int = 50):
