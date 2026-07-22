@@ -894,7 +894,7 @@ export default function Playground({ questions, onGoHome }) {
     const activeInput = (activeCase && activeCase.input) ? activeCase.input : (stdin || '');
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
+      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
       const response = await fetch(`${API_URL}/api/run`, {
         method: 'POST',
         headers: {
@@ -958,6 +958,7 @@ export default function Playground({ questions, onGoHome }) {
     let firstFailedCase = null;
 
     try {
+      const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
       const templateToUse = activeProblem?.templates?.[activeLang] || activeProblem?.templates?.java || '';
       const fullCode = reconstructFullCode(code, templateToUse, activeLang);
 
