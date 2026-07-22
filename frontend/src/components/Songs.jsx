@@ -493,32 +493,34 @@ export default function Songs({
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
-                  {/* Off-screen Audio Stream Engine (No Video Box Visible) */}
-                  {currentSong.embedUrl && (
-                    <iframe
-                      key={currentSong.id}
-                      id="music-player-iframe"
-                      src={`${currentSong.embedUrl}&enablejsapi=1`}
-                      title={currentSong.title}
-                      allow="autoplay; encrypted-media"
-                      style={{
-                        position: 'fixed',
-                        top: '-9999px',
-                        left: '-9999px',
-                        width: '200px',
-                        height: '200px',
-                        opacity: 0.01,
-                        pointerEvents: 'none'
-                      }}
-                    ></iframe>
-                  )}
-
-
-                  {/* Vinyl Record View */}
+                  {/* Vinyl Record View with Embedded On-Screen Audio Stream Engine */}
                   <div style={{ position: 'relative', width: '160px', height: '160px', marginBottom: '1rem', marginTop: '0.25rem' }}>
+                    {/* On-Screen Stream Engine (Hidden under vinyl cover so Chrome plays 100% audio out loud without video showing!) */}
+                    {currentSong.embedUrl && (
+                      <iframe
+                        key={currentSong.id}
+                        id="music-player-iframe"
+                        src={`${currentSong.embedUrl}&enablejsapi=1`}
+                        title={currentSong.title}
+                        allow="autoplay; encrypted-media"
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          opacity: 0.001,
+                          pointerEvents: 'none',
+                          zIndex: 1
+                        }}
+                      ></iframe>
+                    )}
+
                     <div
                       className="vinyl-wrapper"
                       style={{
+                        position: 'relative',
+                        zIndex: 2,
                         width: '100%',
                         height: '100%',
                         borderRadius: '50%',
