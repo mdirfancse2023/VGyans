@@ -1719,12 +1719,7 @@ export default function Playground({ questions, onGoHome }) {
                     <div key={cat} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                       <button
                         className="category-card-btn"
-                        onClick={() => {
-                          toggleTopic(cat);
-                          if (items && items.length > 0) {
-                            selectQuestion(items[0]);
-                          }
-                        }}
+                        onClick={() => toggleTopic(cat)}
                         style={{
                           borderRadius: '10px',
                           padding: '0.85rem 1.1rem',
