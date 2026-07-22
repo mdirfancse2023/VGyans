@@ -6,10 +6,6 @@ import InterviewExperiences from './InterviewExperiences';
 
 const highlightCode = (codeText, lang) => {
   if (!codeText) return '';
-  let escaped = codeText
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
 
   let tokenRegex;
   if (lang === 'python') {
@@ -26,33 +22,33 @@ const highlightCode = (codeText, lang) => {
   const cppKeywords = new Set(['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'do', 'void', 'int', 'double', 'float', 'char', 'boolean', 'long', 'static', 'final', 'new', 'this', 'super', 'override', 'include', 'using', 'namespace', 'cout', 'cin', 'endl', 'vector', 'unordered_map', 'string', 'const', 'virtual']);
   const sqlKeywords = new Set(['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'ON', 'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'SUM', 'MAX', 'MIN', 'AVG', 'COUNT', 'AS', 'AND', 'OR', 'IN', 'INSERT', 'INTO', 'VALUES', 'CREATE', 'TABLE', 'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES']);
 
-  const tokens = escaped.match(tokenRegex) || [escaped];
+  const tokens = codeText.match(tokenRegex) || [codeText];
   
   return tokens.map(token => {
-    const rawToken = token
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&');
+    const escapedToken = token
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
 
-    if (rawToken.startsWith('#') || rawToken.startsWith('//') || rawToken.startsWith('--')) {
-      return `<span style="color: #64748b; font-style: italic;">${token}</span>`;
+    if (token.startsWith('#') || token.startsWith('//') || token.startsWith('--')) {
+      return `<span style="color: #64748b; font-style: italic;">${escapedToken}</span>`;
     }
-    if ((rawToken.startsWith('"') && rawToken.endsWith('"')) || (rawToken.startsWith("'") && rawToken.endsWith("'"))) {
-      return `<span style="color: #a7f3d0;">${token}</span>`;
+    if ((token.startsWith('"') && token.endsWith('"')) || (token.startsWith("'") && token.endsWith("'"))) {
+      return `<span style="color: #a7f3d0;">${escapedToken}</span>`;
     }
-    if (/^\d+$/.test(rawToken)) {
-      return `<span style="color: #f59e0b;">${token}</span>`;
+    if (/^\d+$/.test(token)) {
+      return `<span style="color: #f59e0b;">${escapedToken}</span>`;
     }
-    if (lang === 'python' && pythonKeywords.has(rawToken)) {
-      return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
+    if (lang === 'python' && pythonKeywords.has(token)) {
+      return `<span style="color: #60a5fa; font-weight: 700;">${escapedToken}</span>`;
     }
-    if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(rawToken)) {
-      return `<span style="color: #60a5fa; font-weight: 700;">${token}</span>`;
+    if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(token)) {
+      return `<span style="color: #60a5fa; font-weight: 700;">${escapedToken}</span>`;
     }
-    if (lang === 'sql' && sqlKeywords.has(rawToken.toUpperCase())) {
-      return `<span style="color: #38bdf8; font-weight: 700;">${token}</span>`;
+    if (lang === 'sql' && sqlKeywords.has(token.toUpperCase())) {
+      return `<span style="color: #38bdf8; font-weight: 700;">${escapedToken}</span>`;
     }
-    return token;
+    return escapedToken;
   }).join('');
 };
 

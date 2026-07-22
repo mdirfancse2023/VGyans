@@ -21,10 +21,6 @@ const PROBLEMS = [
 
 const highlightCode = (codeText, lang) => {
   if (!codeText) return '';
-  let escaped = codeText
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
 
   let tokenRegex;
   if (lang === 'python') {
@@ -45,45 +41,42 @@ const highlightCode = (codeText, lang) => {
   
   const sqlKeywords = new Set(['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'ON', 'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'SUM', 'MAX', 'MIN', 'AVG', 'COUNT', 'AS', 'AND', 'OR', 'IN', 'INSERT', 'INTO', 'VALUES', 'CREATE', 'TABLE', 'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES', 'UPDATE', 'DELETE', 'SET']);
 
-  const tokens = escaped.match(tokenRegex) || [escaped];
+  const tokens = codeText.match(tokenRegex) || [codeText];
   
   return tokens.map(token => {
-    const rawToken = token
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&');
+    const escapedToken = token
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
 
-    if (rawToken.startsWith('#') || rawToken.startsWith('//') || rawToken.startsWith('--')) {
-      return `<span class="code-token-comment">${token}</span>`;
+    if (token.startsWith('#') || token.startsWith('//') || token.startsWith('--')) {
+      return `<span class="code-token-comment">${escapedToken}</span>`;
     }
-    if ((rawToken.startsWith('"') && rawToken.endsWith('"')) || (rawToken.startsWith("'") && rawToken.endsWith("'"))) {
-      return `<span class="code-token-string">${token}</span>`;
+    if ((token.startsWith('"') && token.endsWith('"')) || (token.startsWith("'") && token.endsWith("'"))) {
+      return `<span class="code-token-string">${escapedToken}</span>`;
     }
-    if (/^\d+$/.test(rawToken)) {
-      return `<span class="code-token-number">${token}</span>`;
+    if (/^\d+$/.test(token)) {
+      return `<span class="code-token-number">${escapedToken}</span>`;
     }
-    if (lang === 'python' && pythonKeywords.has(rawToken)) {
-      return `<span class="code-token-keyword">${token}</span>`;
+    if (lang === 'python' && pythonKeywords.has(token)) {
+      return `<span class="code-token-keyword">${escapedToken}</span>`;
     }
-    if (lang === 'python' && pythonBuiltins.has(rawToken)) {
-      return `<span class="code-token-builtin">${token}</span>`;
+    if (lang === 'python' && pythonBuiltins.has(token)) {
+      return `<span class="code-token-builtin">${escapedToken}</span>`;
     }
-    if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(rawToken)) {
-      return `<span class="code-token-keyword">${token}</span>`;
+    if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(token)) {
+      return `<span class="code-token-keyword">${escapedToken}</span>`;
     }
-    if ((lang === 'java' || lang === 'cpp') && cppBuiltins.has(rawToken)) {
-      return `<span class="code-token-builtin">${token}</span>`;
+    if ((lang === 'java' || lang === 'cpp') && cppBuiltins.has(token)) {
+      return `<span class="code-token-builtin">${escapedToken}</span>`;
     }
-    if (lang === 'sql' || lang === 'mysql' || lang === 'postgres') {
-      const upperToken = rawToken.toUpperCase();
-      if (sqlKeywords.has(upperToken)) {
-        return `<span class="code-token-keyword">${token}</span>`;
-      }
+    if ((lang === 'sql' || lang === 'mysql' || lang === 'postgres') && sqlKeywords.has(token.toUpperCase())) {
+      return `<span class="code-token-keyword">${escapedToken}</span>`;
     }
-    if (/^[=+\-*/%<>&|!~:;(){}\[\]]+$/.test(rawToken)) {
-      return `<span class="code-token-operator">${token}</span>`;
+    if (/^[=+\-*/%<>&|!~:;(){}\[\]]+$/.test(token)) {
+      return `<span class="code-token-operator">${escapedToken}</span>`;
     }
-    return token;
+    return escapedToken;
   }).join('');
 };
 
