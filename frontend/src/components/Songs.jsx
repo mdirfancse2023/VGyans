@@ -54,6 +54,19 @@ export default function Songs({
     return () => clearInterval(timer);
   }, [isPlaying, duration, currentSong, nextSong]);
 
+  useEffect(() => {
+    try {
+      const iframe = document.getElementById('music-player-iframe');
+      if (iframe && iframe.contentWindow) {
+        if (isPlaying) {
+          iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
+        } else {
+          iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*');
+        }
+      }
+    } catch (e) {}
+  }, [isPlaying]);
+
   // Preset Categories
   const presets = [
     { id: 'bollywood', label: '🔥 Bollywood Hits', term: 'latest hindi songs', description: 'Trending Bollywood & Hindi songs' },
@@ -480,18 +493,24 @@ export default function Songs({
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
-                  {/* Live Official High-Quality Audio/Video Stream Engine */}
+                  {/* Off-screen Audio Stream Engine (No Video Box Visible) */}
                   {currentSong.embedUrl && (
-                    <div style={{ width: '100%', maxWidth: '240px', height: '135px', borderRadius: '14px', overflow: 'hidden', marginBottom: '0.75rem', border: '1px solid rgba(6, 182, 212, 0.3)', boxShadow: '0 0 20px rgba(6, 182, 212, 0.25)', background: '#000', flexShrink: 0 }}>
-                      <iframe
-                        key={currentSong.id}
-                        id="music-player-iframe"
-                        src={isPlaying ? `${currentSong.embedUrl}&start=0` : ''}
-                        title={currentSong.title}
-                        allow="autoplay; encrypted-media; picture-in-picture"
-                        style={{ width: '100%', height: '100%', border: 'none' }}
-                      ></iframe>
-                    </div>
+                    <iframe
+                      key={currentSong.id}
+                      id="music-player-iframe"
+                      src={`${currentSong.embedUrl}&enablejsapi=1`}
+                      title={currentSong.title}
+                      allow="autoplay; encrypted-media"
+                      style={{
+                        position: 'fixed',
+                        top: '-9999px',
+                        left: '-9999px',
+                        width: '200px',
+                        height: '200px',
+                        opacity: 0.01,
+                        pointerEvents: 'none'
+                      }}
+                    ></iframe>
                   )}
 
 
