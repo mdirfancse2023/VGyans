@@ -271,14 +271,18 @@ export default function App() {
   }, []);
 
   const playSong = (song) => {
-    if (!audioRef.current) return;
+    if (!song) return;
     const isSameSong = currentSong && currentSong.id === song.id;
     if (isSameSong) {
       togglePlay();
     } else {
       setCurrentSong(song);
-      audioRef.current.src = song.url;
-      audioRef.current.load();
+      const srcUrl = song.audioUrl || song.url;
+      if (audioRef.current && srcUrl) {
+        audioRef.current.src = srcUrl;
+        audioRef.current.load();
+        audioRef.current.play().catch(e => console.warn("Audio playback issue:", e));
+      }
       setIsPlaying(true);
       setDuration(song.duration || 0);
     }

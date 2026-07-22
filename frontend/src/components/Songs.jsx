@@ -25,6 +25,8 @@ export default function Songs({
   const [activePreset, setActivePreset] = useState(null);
   const [trackProgress, setTrackProgress] = useState(0);
 
+  const [musicSource, setMusicSource] = useState('jiosaavn'); // 'jiosaavn' | 'youtube'
+
   useEffect(() => {
     if (currentTime && currentTime > 0) {
       setTrackProgress(currentTime);
@@ -50,16 +52,17 @@ export default function Songs({
 
   // Quick Preset Categories
   const presets = [
-    { id: 'bollywood', label: '🔥 Top 50 Bollywood', term: 'bollywood', description: 'Top 50 full-length trending Bollywood & Hindi songs' },
-    { id: 'hollywood', label: '⭐ Top 50 Hollywood', term: 'pop', description: 'Top 50 full-length international Hollywood & Billboard pop hits' },
-    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'lofi', description: 'Relaxing full-length lo-fi & chillhop beats for study & coding' },
-    { id: 'piano', label: '🎹 Piano & Classical', term: 'piano', description: 'Calm acoustic & classical piano melodies for high memory retention' },
-    { id: 'synthwave', label: '🌌 Ambient & Synthwave', term: 'synthwave', description: 'Immersive chillwave & ambient tracks for late-night sessions' },
-    { id: 'acoustic', label: '🎸 Unplugged Acoustic', term: 'acoustic', description: 'Soft acoustic guitar & soothing instrumental chill tracks' }
+    { id: 'bollywood', label: '🔥 Top 50 Bollywood', term: 'bollywood top 50', description: 'Top 50 full-length trending Bollywood & Hindi songs' },
+    { id: 'hollywood', label: '⭐ Top 50 Hollywood', term: 'hollywood pop hits', description: 'Top 50 full-length international Hollywood & Billboard pop hits' },
+    { id: 'punjabi', label: '🌾 Top Punjabi Hits', term: 'punjabi top 50', description: 'Trending Punjabi beats & bhangra hits' },
+    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'hindi lofi chill', description: 'Relaxing full-length lo-fi & chillhop beats for study & coding' },
+    { id: 'romantic', label: '❤️ Romantic Hits', term: 'top romantic hindi songs', description: 'Calm acoustic & romantic love melodies' },
+    { id: 'party', label: '🎉 Party & Dance', term: 'bollywood party dance hits', description: 'High energy dance tracks' }
   ];
 
-  // Fetch real-time YouTube songs directly using YouTube Data API v3
-  const handleFetchSongs = async (presetObj, customSearch = '') => {
+  // Main Song Fetcher (Supports JioSaavn API & YouTube Data API)
+  const handleFetchSongs = async (presetObj, customSearch = '', sourceOverride = null) => {
+    const activeSource = sourceOverride || musicSource;
     setIsLoading(true);
     setErrorMsg(null);
 
@@ -67,103 +70,171 @@ export default function Songs({
     let displayLabel = '';
 
     if (customSearch.trim()) {
-      queryTerm = `${customSearch.trim()} song audio`;
+      queryTerm = customSearch.trim();
       displayLabel = `"${customSearch.trim()}"`;
       setActivePreset(null);
     } else if (presetObj) {
-      if (presetObj.id === 'bollywood') queryTerm = 'bollywood official audio song';
-      else if (presetObj.id === 'hollywood') queryTerm = 'hollywood pop official audio song';
-      else if (presetObj.id === 'lofi') queryTerm = 'lofi beats song audio';
-      else if (presetObj.id === 'piano') queryTerm = 'piano classical song audio';
-      else if (presetObj.id === 'synthwave') queryTerm = 'synthwave ambient track audio';
-      else if (presetObj.id === 'acoustic') queryTerm = 'unplugged acoustic guitar song';
-      else queryTerm = `${presetObj.term || 'music'} song audio`;
-
+      queryTerm = presetObj.term || 'bollywood top 50';
       displayLabel = presetObj.label.replace(/^[^\w\s]+\s*/, '');
       setActivePreset(presetObj.id);
     } else {
-      queryTerm = 'bollywood official audio song';
+      queryTerm = 'bollywood top 50';
       displayLabel = 'Top 50 Bollywood';
     }
 
-    setLoadingText(`Fetching YouTube music tracks for ${displayLabel}...`);
-
-    try {
-      const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY || 'AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo';
-      let tracks = [];
-
-      // Direct YouTube Data API v3 fetch targeting individual song tracks
-      const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoDuration=short&videoCategoryId=10&q=${encodeURIComponent(queryTerm)}&key=${apiKey}`;
-      const res = await fetch(ytUrl);
-      if (res.ok) {
-        const data = await res.json();
-        const items = data.items || [];
-        
-        const decodeHTML = (str) => {
-          const txt = document.createElement('textarea');
-          txt.innerHTML = str || '';
-          return txt.value;
-        };
-
-        const excludeKeywords = ['jukebox', 'compilation', 'podcast', 'full album', 'non stop', '3 hours', '10 hours', 'shorts', 'full movie'];
-
-        tracks = items
-          .filter(item => {
-            if (!item.id || !item.id.videoId) return false;
-            const t = (item.snippet?.title || '').toLowerCase();
-            return !excludeKeywords.some(kw => t.includes(kw));
-          })
-          .map((item) => {
-            const vid = item.id.videoId;
-            const snippet = item.snippet || {};
-            const title = decodeHTML(snippet.title);
-            const artist = decodeHTML(snippet.channelTitle || 'YouTube Music');
-            const cover = snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
-            const categoryLabel = presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : (customSearch ? 'Search Result' : 'YouTube Music');
-
-            return {
-              id: `yt-${vid}`,
-              videoId: vid,
-              title: title,
-              artist: artist,
-              album: categoryLabel,
-              category: categoryLabel,
-              coverUrl: cover,
-              url: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
-              videoUrl: `https://www.youtube.com/watch?v=${vid}`,
-              embedUrl: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
-              duration: 240
-            };
-          });
-      } else {
-        // Fallback to backend /api/songs
+    if (activeSource === 'jiosaavn') {
+      setLoadingText(`Fetching JioSaavn 320kbps HD audio tracks for ${displayLabel}...`);
+      try {
         const API_URL = import.meta.env.VITE_API_URL || (
           typeof window !== 'undefined' && window.location.hostname === 'localhost' 
             ? 'http://localhost:8000' 
             : 'https://v-gyans.vercel.app'
         );
-        const backendUrl = `${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`;
-        const bRes = await fetch(backendUrl);
-        if (bRes.ok) {
-          tracks = await bRes.json();
-        }
-      }
+        
+        let tracks = [];
 
-      if (!tracks || tracks.length === 0) {
-        setErrorMsg(`No YouTube songs found for "${queryTerm}". Try another search!`);
-      } else {
-        if (setSongs) {
-          setSongs(tracks);
+        // 1. Try Backend FastAPI JioSaavn Endpoint
+        try {
+          const bRes = await fetch(`${API_URL}/api/jiosaavn/search?query=${encodeURIComponent(queryTerm)}&limit=40`);
+          if (bRes.ok) {
+            tracks = await bRes.json();
+          }
+        } catch (e) {
+          console.warn("Backend JioSaavn API unreachable, using public JioSaavn fallback:", e);
         }
-        setSelectedCategory('All');
+
+        // 2. Fallback to Direct Public Saavn API
+        if (!tracks || tracks.length === 0) {
+          const saavnRes = await fetch(`https://saavn.dev/api/search/songs?query=${encodeURIComponent(queryTerm)}&limit=40`);
+          if (saavnRes.ok) {
+            const sData = await saavnRes.json();
+            const results = sData.data?.results || [];
+            tracks = results.map(item => {
+              const downloadUrls = item.downloadUrl || [];
+              let audioUrl = '';
+              if (Array.isArray(downloadUrls) && downloadUrls.length > 0) {
+                audioUrl = downloadUrls[downloadUrls.length - 1]?.url || downloadUrls[0]?.url;
+              }
+              if (!audioUrl && item.media_preview_url) {
+                audioUrl = item.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com').replace('_96_p.mp4', '_320.mp4');
+              }
+
+              const images = item.image || [];
+              let cover = typeof images === 'string' ? images : (images[images.length - 1]?.url || '');
+              cover = (cover || '').replace('150x150', '500x500').replace('50x50', '500x500');
+
+              return {
+                id: `js-${item.id}`,
+                title: item.name,
+                artist: Array.isArray(item.artists?.primary) ? item.artists.primary.map(a => a.name).join(', ') : (item.primaryArtists || 'JioSaavn Artist'),
+                album: (typeof item.album === 'object' ? item.album?.name : item.album) || 'JioSaavn Music',
+                category: presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : 'JioSaavn Music',
+                coverUrl: cover || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500',
+                audioUrl: audioUrl,
+                url: audioUrl,
+                duration: item.duration || 240,
+                provider: 'jiosaavn'
+              };
+            }).filter(t => t.audioUrl);
+          }
+        }
+
+        if (tracks && tracks.length > 0) {
+          setSongs(tracks);
+          setSelectedCategory('All');
+        } else {
+          setErrorMsg(`No JioSaavn tracks found for "${queryTerm}". Try another search!`);
+        }
+      } catch (err) {
+        console.error('JioSaavn fetch error:', err);
+        setErrorMsg('Could not fetch JioSaavn tracks. Check connection.');
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      console.error('YouTube song fetch error:', err);
-      setErrorMsg('Could not fetch YouTube songs. Please check your network connection.');
-    } finally {
-      setIsLoading(false);
+    } else {
+      // YouTube Data API v3 fetch
+      setLoadingText(`Fetching YouTube music tracks for ${displayLabel}...`);
+      try {
+        const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY || 'AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo';
+        let tracks = [];
+
+        const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoDuration=short&videoCategoryId=10&q=${encodeURIComponent(queryTerm + ' official audio')}&key=${apiKey}`;
+        const res = await fetch(ytUrl);
+        if (res.ok) {
+          const data = await res.json();
+          const items = data.items || [];
+          
+          const decodeHTML = (str) => {
+            const txt = document.createElement('textarea');
+            txt.innerHTML = str || '';
+            return txt.value;
+          };
+
+          const excludeKeywords = ['jukebox', 'compilation', 'podcast', 'full album', 'non stop', '3 hours', '10 hours', 'shorts', 'full movie'];
+
+          tracks = items
+            .filter(item => {
+              if (!item.id || !item.id.videoId) return false;
+              const t = (item.snippet?.title || '').toLowerCase();
+              return !excludeKeywords.some(kw => t.includes(kw));
+            })
+            .map((item) => {
+              const vid = item.id.videoId;
+              const snippet = item.snippet || {};
+              const title = decodeHTML(snippet.title);
+              const artist = decodeHTML(snippet.channelTitle || 'YouTube Music');
+              const cover = snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
+              const categoryLabel = presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : (customSearch ? 'Search Result' : 'YouTube Music');
+
+              return {
+                id: `yt-${vid}`,
+                videoId: vid,
+                title: title,
+                artist: artist,
+                album: categoryLabel,
+                category: categoryLabel,
+                coverUrl: cover,
+                url: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
+                videoUrl: `https://www.youtube.com/watch?v=${vid}`,
+                embedUrl: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
+                duration: 240,
+                provider: 'youtube'
+              };
+            });
+        } else {
+          const API_URL = import.meta.env.VITE_API_URL || (
+            typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+              ? 'http://localhost:8000' 
+              : 'https://v-gyans.vercel.app'
+          );
+          const backendUrl = `${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`;
+          const bRes = await fetch(backendUrl);
+          if (bRes.ok) {
+            tracks = await bRes.json();
+          }
+        }
+
+        if (!tracks || tracks.length === 0) {
+          setErrorMsg(`No YouTube songs found for "${queryTerm}". Try another search!`);
+        } else {
+          setSongs(tracks);
+          setSelectedCategory('All');
+        }
+      } catch (err) {
+        console.error('YouTube song fetch error:', err);
+        setErrorMsg('Could not fetch YouTube songs. Check network.');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
+
+  // Initial load JioSaavn tracks on mount if empty
+  useEffect(() => {
+    if (!songs || songs.length === 0) {
+      handleFetchSongs(presets[0], '', 'jiosaavn');
+    }
+  }, []);
 
   // Categories derived from loaded songs
   const categories = useMemo(() => {
@@ -208,10 +279,59 @@ export default function Songs({
       }}
     >
       
-      {/* Compact Top Action Bar: Category Pills + Search Box */}
+      {/* Top Action Bar: Provider Toggle + Category Pills + Search Box */}
       <div className="glass-panel" style={{ padding: '0.75rem 1.25rem', marginBottom: '0.5rem', borderRadius: '14px', flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           
+          {/* Provider Selector Switcher (JioSaavn vs YouTube) */}
+          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0, 0, 0, 0.25)', padding: '3px', borderRadius: '24px', border: '1px solid var(--border-glass)' }}>
+            <button
+              onClick={() => {
+                setMusicSource('jiosaavn');
+                handleFetchSongs(presets[0], '', 'jiosaavn');
+              }}
+              style={{
+                padding: '0.35rem 0.85rem',
+                borderRadius: '20px',
+                border: 'none',
+                background: musicSource === 'jiosaavn' ? 'linear-gradient(135deg, #06b6d4, #3b82f6)' : 'transparent',
+                color: musicSource === 'jiosaavn' ? '#fff' : 'var(--text-secondary)',
+                fontWeight: musicSource === 'jiosaavn' ? 600 : 400,
+                fontSize: '0.78rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem'
+              }}
+            >
+              🎵 JioSaavn HD Audio <span style={{ fontSize: '0.65rem', background: musicSource === 'jiosaavn' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.08)', padding: '1px 5px', borderRadius: '10px' }}>320kbps</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setMusicSource('youtube');
+                handleFetchSongs(presets[0], '', 'youtube');
+              }}
+              style={{
+                padding: '0.35rem 0.85rem',
+                borderRadius: '20px',
+                border: 'none',
+                background: musicSource === 'youtube' ? 'linear-gradient(135deg, #ef4444, #f97316)' : 'transparent',
+                color: musicSource === 'youtube' ? '#fff' : 'var(--text-secondary)',
+                fontWeight: musicSource === 'youtube' ? 600 : 400,
+                fontSize: '0.78rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem'
+              }}
+            >
+              📺 YouTube Videos
+            </button>
+          </div>
+
           {/* Quick Category Action Buttons */}
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
             {presets.map((p) => {
@@ -222,8 +342,8 @@ export default function Songs({
                   onClick={() => handleFetchSongs(p)}
                   disabled={isLoading}
                   style={{
-                    padding: '0.4rem 0.9rem',
-                    fontSize: '0.8rem',
+                    padding: '0.35rem 0.8rem',
+                    fontSize: '0.78rem',
                     borderRadius: '20px',
                     border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-glass)',
                     background: isActive ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 255, 255, 0.03)',
@@ -251,42 +371,42 @@ export default function Songs({
                 handleFetchSongs(null, searchQuery);
               }
             }}
-            style={{ display: 'flex', gap: '0.5rem', flexGrow: 1, maxWidth: '380px' }}
+            style={{ display: 'flex', gap: '0.5rem', flexGrow: 1, maxWidth: '340px' }}
           >
             <div style={{ position: 'relative', flexGrow: 1 }}>
               <input
                 type="text"
-                placeholder="Search artist, song, or genre..."
+                placeholder={musicSource === 'jiosaavn' ? "Search JioSaavn (Arijit, Kesariya...)" : "Search YouTube music..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '0.5rem 0.9rem 0.5rem 2.2rem',
+                  padding: '0.45rem 0.8rem 0.45rem 2rem',
                   background: 'rgba(255, 255, 255, 0.04)',
                   border: '1px solid var(--border-glass)',
                   borderRadius: '8px',
                   color: 'var(--text-primary)',
                   fontFamily: 'var(--font-body)',
-                  fontSize: '0.82rem',
+                  fontSize: '0.8rem',
                   outline: 'none'
                 }}
               />
-              <span style={{ position: 'absolute', left: '0.7rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '0.85rem' }}>🔍</span>
+              <span style={{ position: 'absolute', left: '0.6rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '0.8rem' }}>🔍</span>
             </div>
             <button
               type="submit"
               disabled={isLoading || !searchQuery.trim()}
               className="btn btn-primary"
               style={{
-                padding: '0.5rem 1rem',
-                fontSize: '0.8rem',
+                padding: '0.45rem 0.85rem',
+                fontSize: '0.78rem',
                 borderRadius: '8px',
                 whiteSpace: 'nowrap',
                 opacity: (isLoading || !searchQuery.trim()) ? 0.6 : 1,
                 cursor: (isLoading || !searchQuery.trim()) ? 'not-allowed' : 'pointer'
               }}
             >
-              Fetch Live
+              Fetch
             </button>
           </form>
 
@@ -505,16 +625,31 @@ export default function Songs({
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
-                  {/* Off-screen YouTube Audio Streamer */}
-                  <iframe
-                    src={isPlaying ? (currentSong.embedUrl || `https://www.youtube.com/embed/${currentSong.videoId || currentSong.id.replace('yt-', '')}?autoplay=1&enablejsapi=1`) : ''}
-                    title={currentSong.title}
-                    allow="autoplay; encrypted-media"
-                    style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
-                  ></iframe>
+                  {/* Provider Quality Badge */}
+                  <div style={{ marginBottom: '0.4rem' }}>
+                    {currentSong.provider === 'jiosaavn' || currentSong.id?.startsWith('js-') ? (
+                      <span style={{ background: 'rgba(6, 182, 212, 0.15)', border: '1px solid rgba(6, 182, 212, 0.4)', color: '#38bdf8', fontSize: '0.72rem', fontWeight: 600, padding: '0.25rem 0.75rem', borderRadius: '20px', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                        🎵 JioSaavn 320kbps HD Audio
+                      </span>
+                    ) : (
+                      <span style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#f87171', fontSize: '0.72rem', fontWeight: 600, padding: '0.25rem 0.75rem', borderRadius: '20px', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                        📺 YouTube Video Track
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Off-screen YouTube Audio Streamer (Only for YouTube tracks) */}
+                  {(currentSong.provider === 'youtube' || currentSong.id?.startsWith('yt-')) && (
+                    <iframe
+                      src={isPlaying ? (currentSong.embedUrl || `https://www.youtube.com/embed/${currentSong.videoId || currentSong.id.replace('yt-', '')}?autoplay=1&enablejsapi=1`) : ''}
+                      title={currentSong.title}
+                      allow="autoplay; encrypted-media"
+                      style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
+                    ></iframe>
+                  )}
 
                   {/* Vinyl Record View */}
-                  <div style={{ position: 'relative', width: '160px', height: '160px', marginBottom: '1.2rem', marginTop: '0.5rem' }}>
+                  <div style={{ position: 'relative', width: '160px', height: '160px', marginBottom: '1rem', marginTop: '0.25rem' }}>
                     <div
                       className={`vinyl-wrapper ${isPlaying ? 'spinning' : ''}`}
                       style={{
@@ -543,7 +678,7 @@ export default function Songs({
                   <h3 style={{ fontSize: '1.05rem', color: 'var(--text-primary)', margin: '0 0 0.2rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>
                     {currentSong.title}
                   </h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', margin: '0 0 1rem' }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', margin: '0 0 0.75rem' }}>
                     {currentSong.artist}
                   </p>
 

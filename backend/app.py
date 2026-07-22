@@ -796,6 +796,184 @@ def get_youtube_songs(query: Optional[str] = "bollywood songs", max_results: int
         {"id": "yt-RPxuhz02ITQ", "videoId": "RPxuhz02ITQ", "title": "The Best of Classical Piano | Chopin, Beethoven", "artist": "HALIDONMUSIC", "album": q_term.title(), "category": q_term.title(), "coverUrl": "https://i.ytimg.com/vi/RPxuhz02ITQ/hqdefault.jpg", "videoUrl": "https://www.youtube.com/watch?v=RPxuhz02ITQ", "embedUrl": "https://www.youtube.com/embed/RPxuhz02ITQ?autoplay=1&enablejsapi=1", "duration": 360}
     ]
 
+
+def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 30):
+    import urllib.request, urllib.parse, json, html, ssl
+    q_term = query or "bollywood top 50"
+    ctx = ssl._create_unverified_context()
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/json, text/plain, */*'
+    }
+
+    # API Provider 1: saavn.dev
+    try:
+        url = f"https://saavn.dev/api/search/songs?query={urllib.parse.quote(q_term)}&limit={min(limit, 50)}"
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            results = data.get("data", {}).get("results", [])
+            songs = []
+            for item in results:
+                song_id = item.get("id")
+                if not song_id:
+                    continue
+                title = html.unescape(item.get("name", ""))
+                album_name = html.unescape(item.get("album", {}).get("name", "") if isinstance(item.get("album"), dict) else "")
+                
+                # Artists
+                artists_obj = item.get("artists", {})
+                artist_names = []
+                if isinstance(artists_obj, dict):
+                    primary = artists_obj.get("primary", [])
+                    if isinstance(primary, list):
+                        artist_names = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
+                if not artist_names and item.get("primaryArtists"):
+                    artist_names = [item.get("primaryArtists")]
+                artist_str = ", ".join(artist_names) if artist_names else "JioSaavn Music"
+
+                # Images
+                images = item.get("image", [])
+                cover_url = ""
+                if isinstance(images, list) and images:
+                    cover_url = images[-1].get("url", "") if isinstance(images[-1], dict) else str(images[-1])
+                elif isinstance(images, str):
+                    cover_url = images
+                cover_url = cover_url.replace("150x150", "500x500").replace("50x50", "500x500")
+
+                # Download / Stream URLs
+                download_urls = item.get("downloadUrl", [])
+                audio_url = ""
+                if isinstance(download_urls, list) and download_urls:
+                    for d in reversed(download_urls):
+                        if isinstance(d, dict) and d.get("url"):
+                            audio_url = d.get("url")
+                            break
+                
+                if not audio_url and item.get("media_preview_url"):
+                    audio_url = item.get("media_preview_url").replace("preview.saavncdn.com", "aac.saavncdn.com").replace("_96_p.mp4", "_320.mp4")
+
+                if audio_url:
+                    songs.append({
+                        "id": f"js-{song_id}",
+                        "title": title,
+                        "artist": artist_str,
+                        "album": album_name or q_term.title(),
+                        "category": q_term.title(),
+                        "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
+                        "audioUrl": audio_url,
+                        "duration": int(item.get("duration") or 240),
+                        "provider": "jiosaavn"
+                    })
+            if songs:
+                return songs
+    except Exception as e:
+        print(f"JioSaavn saavn.dev API error: {e}")
+
+    # API Provider 2: Direct JioSaavn.com Public API
+    try:
+        url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n={limit}&p=1"
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            results = data.get("results", [])
+            songs = []
+            for item in results:
+                song_id = item.get("id")
+                if not song_id:
+                    continue
+                title = html.unescape(item.get("song", ""))
+                artist_str = html.unescape(item.get("singers") or item.get("primary_artists") or "JioSaavn Music")
+                album_name = html.unescape(item.get("album", ""))
+                
+                cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
+                
+                preview_url = item.get("media_preview_url") or ""
+                audio_url = preview_url.replace("preview.saavncdn.com", "aac.saavncdn.com").replace("_96_p.mp4", "_320.mp4").replace("_96.mp4", "_320.mp4")
+                
+                if audio_url:
+                    songs.append({
+                        "id": f"js-{song_id}",
+                        "title": title,
+                        "artist": artist_str,
+                        "album": album_name or q_term.title(),
+                        "category": q_term.title(),
+                        "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
+                        "audioUrl": audio_url,
+                        "duration": int(item.get("duration") or 240),
+                        "provider": "jiosaavn"
+                    })
+            if songs:
+                return songs
+    except Exception as e:
+        print(f"JioSaavn direct API error: {e}")
+
+    # Fallback curated JioSaavn response
+    return [
+        {
+            "id": "js-kesariya",
+            "title": "Kesariya - Brahmastra",
+            "artist": "Arijit Singh, Pritam, Amitabh Bhattacharya",
+            "album": "Brahmastra",
+            "category": "Bollywood Top 50",
+            "coverUrl": "https://c.saavncdn.com/191/Kesariya-From-Brahmastra-Hindi-2022-20220717092820-500x500.jpg",
+            "audioUrl": "https://aac.saavncdn.com/191/3c1d93d3bb7e7e6ec35b6dfaa7f2ab72_320.mp4",
+            "duration": 268,
+            "provider": "jiosaavn"
+        },
+        {
+            "id": "js-apna-bana-le",
+            "title": "Apna Bana Le - Bhediya",
+            "artist": "Arijit Singh, Sachin-Jigar",
+            "album": "Bhediya",
+            "category": "Bollywood Top 50",
+            "coverUrl": "https://c.saavncdn.com/815/Apna-Bana-Le-From-Bhediya-Hindi-2022-20221105035048-500x500.jpg",
+            "audioUrl": "https://aac.saavncdn.com/815/f9a8f4c2e68407eead9ef3f1cb28a5ff_320.mp4",
+            "duration": 261,
+            "provider": "jiosaavn"
+        },
+        {
+            "id": "js-tum-hi-ho",
+            "title": "Tum Hi Ho - Aashiqui 2",
+            "artist": "Arijit Singh, Mithoon",
+            "album": "Aashiqui 2",
+            "category": "Bollywood Top 50",
+            "coverUrl": "https://c.saavncdn.com/430/Aashiqui-2-Hindi-2013-500x500.jpg",
+            "audioUrl": "https://aac.saavncdn.com/430/08d888e28f328458bfb4fdf37c87c4dd_320.mp4",
+            "duration": 262,
+            "provider": "jiosaavn"
+        },
+        {
+            "id": "js-pasoori",
+            "title": "Pasoori - Coke Studio Season 14",
+            "artist": "Ali Sethi, Shae Gill",
+            "album": "Coke Studio Season 14",
+            "category": "Trending Indie",
+            "coverUrl": "https://c.saavncdn.com/514/Pasoori-Hindi-2022-20220207185038-500x500.jpg",
+            "audioUrl": "https://aac.saavncdn.com/514/199a5e4d2ea523554e2fec49f33b1e3e_320.mp4",
+            "duration": 224,
+            "provider": "jiosaavn"
+        }
+    ]
+
+@app.get("/api/jiosaavn/search")
+def get_jiosaavn_songs(query: Optional[str] = "bollywood top 50", limit: int = 30):
+    return fetch_jiosaavn_songs(query=query or "bollywood top 50", limit=limit)
+
+@app.get("/api/jiosaavn/trending")
+def get_jiosaavn_trending(category: Optional[str] = "bollywood"):
+    cat_queries = {
+        "bollywood": "bollywood top 50 trending songs",
+        "hollywood": "top billboard international pop hits",
+        "punjabi": "latest top punjabi hits",
+        "lofi": "hindi lofi acoustic chill beats",
+        "romantic": "top romantic hindi love songs",
+        "party": "bollywood party dance club hits"
+    }
+    q = cat_queries.get((category or "bollywood").lower(), "bollywood top 50 trending songs")
+    return fetch_jiosaavn_songs(query=q, limit=30)
+
+
 @app.get("/api/news")
 def get_live_news(category: Optional[str] = "technology", query: Optional[str] = None):
     gnews_api_key = os.getenv("GNEWS_API_KEY") or os.getenv("VITE_GNEWS_API_KEY")
