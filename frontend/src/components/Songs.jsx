@@ -517,12 +517,14 @@ export default function Songs({
                   {/* Vinyl Record View */}
                   <div style={{ position: 'relative', width: '160px', height: '160px', marginBottom: '1rem', marginTop: '0.25rem' }}>
                     <div
-                      className={`vinyl-wrapper ${isPlaying ? 'spinning' : ''}`}
+                      className="vinyl-wrapper"
                       style={{
                         width: '100%',
                         height: '100%',
                         borderRadius: '50%',
                         overflow: 'hidden',
+                        animation: 'spinRecord 12s linear infinite',
+                        animationPlayState: isPlaying ? 'running' : 'paused',
                         boxShadow: isPlaying 
                           ? '0 0 30px 0 rgba(6, 182, 212, 0.4), 0 0 6px 1px rgba(255,255,255,0.1)' 
                           : '0 8px 24px rgba(0,0,0,0.5)',

@@ -299,7 +299,7 @@ export default function Header({
             >
               {currentSong ? (
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', animation: 'fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
-                  {/* 1. Spinning Album Cover Art Logo */}
+                  {/* 1. Spinning Album Cover Art Logo (Pauses rotation when paused) */}
                   <img 
                     src={currentSong.coverUrl} 
                     alt={currentSong.title} 
@@ -308,17 +308,18 @@ export default function Header({
                       height: '20px', 
                       borderRadius: '50%', 
                       objectFit: 'cover', 
-                      animation: isPlaying ? 'spinRecord 12s linear infinite' : 'none',
+                      animation: 'spinRecord 12s linear infinite',
+                      animationPlayState: isPlaying ? 'running' : 'paused',
                       boxShadow: '0 0 6px rgba(6, 182, 212, 0.5)',
                       flexShrink: 0
                     }}
                   />
 
-                  {/* 2. Green Soundwave Equalizer Lines Animation */}
+                  {/* 2. Green Soundwave Equalizer Lines Animation (Pauses when paused) */}
                   <div className="soundwave-green" style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '12px', flexShrink: 0, opacity: isPlaying ? 1 : 0.4 }}>
-                    <span className="wave-bar bar-1"></span>
-                    <span className="wave-bar bar-2"></span>
-                    <span className="wave-bar bar-3"></span>
+                    <span className="wave-bar bar-1" style={{ animationPlayState: isPlaying ? 'running' : 'paused' }}></span>
+                    <span className="wave-bar bar-2" style={{ animationPlayState: isPlaying ? 'running' : 'paused' }}></span>
+                    <span className="wave-bar bar-3" style={{ animationPlayState: isPlaying ? 'running' : 'paused' }}></span>
                   </div>
 
                   {/* 3. Play / Pause Button */}
