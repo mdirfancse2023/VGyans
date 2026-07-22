@@ -762,9 +762,9 @@ def decrypt_jiosaavn_url(enc_url: str) -> str:
     except Exception:
         return ""
 
-def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 40):
+def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
     import urllib.request, urllib.parse, json, html, ssl
-    q_term = query or "bollywood top 50"
+    q_term = query or "latest hindi songs"
     ctx = ssl._create_unverified_context()
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -772,53 +772,61 @@ def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 40):
     }
 
     try:
-        url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n={min(limit, 50)}&p=1"
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
-            data = json.loads(resp.read().decode('utf-8'))
-            results = data.get("results", [])
-            songs = []
-            for item in results:
-                song_id = item.get("id")
-                if not song_id:
-                    continue
-                title = html.unescape(item.get("title") or item.get("song") or "")
-                more = item.get("more_info", {})
-                
-                # Artist String
-                artist_list = []
-                artist_map = more.get("artistMap", {})
-                if isinstance(artist_map, dict):
-                    primary = artist_map.get("primary_artists", [])
-                    if isinstance(primary, list):
-                        artist_list = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
-                artist_str = ", ".join(artist_list) if artist_list else html.unescape(item.get("subtitle") or "JioSaavn Artist")
-                album_name = html.unescape(more.get("album") or item.get("album") or "")
+        songs = []
+        seen_ids = set()
+        for page in [1, 2]:
+            url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n=50&p={page}"
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+                data = json.loads(resp.read().decode('utf-8'))
+                results = data.get("results", [])
+                for item in results:
+                    song_id = item.get("id")
+                    if not song_id or song_id in seen_ids:
+                        continue
+                    seen_ids.add(song_id)
 
-                # Image URL
-                cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
+                    title = html.unescape(item.get("title") or item.get("song") or "")
+                    more = item.get("more_info", {})
+                    
+                    # Artist String
+                    artist_list = []
+                    artist_map = more.get("artistMap", {})
+                    if isinstance(artist_map, dict):
+                        primary = artist_map.get("primary_artists", [])
+                        if isinstance(primary, list):
+                            artist_list = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
+                    artist_str = ", ".join(artist_list) if artist_list else html.unescape(item.get("subtitle") or "JioSaavn Artist")
+                    album_name = html.unescape(more.get("album") or item.get("album") or "")
 
-                # Audio Stream Link: Try decrypted media url first, fallback to vlink
-                enc_media = more.get("encrypted_media_url")
-                audio_url = decrypt_jiosaavn_url(enc_media) if enc_media else ""
-                if not audio_url:
-                    audio_url = more.get("vlink") or item.get("media_preview_url") or ""
+                    # Image URL
+                    cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
 
-                if audio_url:
-                    songs.append({
-                        "id": f"js-{song_id}",
-                        "title": title,
-                        "artist": artist_str,
-                        "album": album_name or q_term.title(),
-                        "category": q_term.title(),
-                        "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
-                        "audioUrl": audio_url,
-                        "url": audio_url,
-                        "duration": int(more.get("duration") or item.get("duration") or 240),
-                        "provider": "jiosaavn"
-                    })
-            if songs:
-                return songs
+                    # Audio Stream Link: Try decrypted media url first, fallback to vlink
+                    enc_media = more.get("encrypted_media_url")
+                    audio_url = decrypt_jiosaavn_url(enc_media) if enc_media else ""
+                    if not audio_url:
+                        audio_url = more.get("vlink") or item.get("media_preview_url") or ""
+
+                    if audio_url:
+                        songs.append({
+                            "id": f"js-{song_id}",
+                            "title": title,
+                            "artist": artist_str,
+                            "album": album_name or q_term.title(),
+                            "category": q_term.title(),
+                            "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
+                            "audioUrl": audio_url,
+                            "url": audio_url,
+                            "duration": int(more.get("duration") or item.get("duration") or 240),
+                            "provider": "jiosaavn"
+                        })
+                        if len(songs) >= limit:
+                            break
+            if len(songs) >= limit:
+                break
+        if songs:
+            return songs
     except Exception as e:
         print(f"JioSaavn API search error: {e}")
 
@@ -875,25 +883,25 @@ def fetch_jiosaavn_songs(query: str = "bollywood top 50", limit: int = 40):
     ]
 
 @app.get("/api/songs")
-def get_songs(query: Optional[str] = "bollywood top 50", max_results: int = 40):
-    return fetch_jiosaavn_songs(query=query or "bollywood top 50", limit=max_results)
+def get_songs(query: Optional[str] = "latest hindi songs", max_results: int = 50):
+    return fetch_jiosaavn_songs(query=query or "latest hindi songs", limit=max_results)
 
 @app.get("/api/jiosaavn/search")
-def get_jiosaavn_songs(query: Optional[str] = "bollywood top 50", limit: int = 40):
-    return fetch_jiosaavn_songs(query=query or "bollywood top 50", limit=limit)
+def get_jiosaavn_songs(query: Optional[str] = "latest hindi songs", limit: int = 50):
+    return fetch_jiosaavn_songs(query=query or "latest hindi songs", limit=limit)
 
 @app.get("/api/jiosaavn/trending")
 def get_jiosaavn_trending(category: Optional[str] = "bollywood"):
     cat_queries = {
-        "bollywood": "bollywood top 50 trending songs",
-        "hollywood": "top billboard international pop hits",
-        "punjabi": "latest top punjabi hits",
-        "lofi": "hindi lofi acoustic chill beats",
-        "romantic": "top romantic hindi love songs",
-        "party": "bollywood party dance club hits"
+        "bollywood": "latest hindi songs",
+        "hollywood": "pop hits",
+        "punjabi": "latest punjabi",
+        "lofi": "hindi lofi",
+        "romantic": "romantic hindi",
+        "party": "bollywood party"
     }
-    q = cat_queries.get((category or "bollywood").lower(), "bollywood top 50 trending songs")
-    return fetch_jiosaavn_songs(query=q, limit=40)
+    q = cat_queries.get((category or "bollywood").lower(), "latest hindi songs")
+    return fetch_jiosaavn_songs(query=q, limit=50)
 
 
 

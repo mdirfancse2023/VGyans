@@ -50,17 +50,17 @@ export default function Songs({
     return () => clearInterval(timer);
   }, [isPlaying, duration, currentSong, nextSong]);
 
-  // Quick Preset Categories
+  // Top 50 Chart Preset Categories
   const presets = [
-    { id: 'bollywood', label: '🔥 Top 50 Bollywood', term: 'bollywood top 50', description: 'Top 50 full-length trending Bollywood & Hindi songs' },
-    { id: 'hollywood', label: '⭐ Top 50 Hollywood', term: 'hollywood pop hits', description: 'Top 50 full-length international Hollywood & Billboard pop hits' },
-    { id: 'punjabi', label: '🌾 Top Punjabi Hits', term: 'punjabi top 50', description: 'Trending Punjabi beats & bhangra hits' },
-    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'hindi lofi chill', description: 'Relaxing full-length lo-fi & chillhop beats for study & coding' },
-    { id: 'romantic', label: '❤️ Romantic Hits', term: 'top romantic hindi songs', description: 'Calm acoustic & romantic love melodies' },
-    { id: 'party', label: '🎉 Party & Dance', term: 'bollywood party dance hits', description: 'High energy dance tracks' }
+    { id: 'bollywood', label: '🔥 Top 50 Bollywood Latest', term: 'latest hindi songs', description: 'Top 50 full-length trending Bollywood & Hindi songs' },
+    { id: 'hollywood', label: '⭐ Top 50 Hollywood Hits', term: 'pop hits', description: 'Top 50 full-length international Hollywood & Billboard pop hits' },
+    { id: 'punjabi', label: '🌾 Top 50 Punjabi Latest', term: 'latest punjabi', description: 'Top 50 latest Punjabi beats & hits' },
+    { id: 'lofi', label: '🎧 Top 50 Lo-Fi Focus', term: 'hindi lofi', description: 'Top 50 relaxing lo-fi & chillhop beats for study & coding' },
+    { id: 'romantic', label: '❤️ Top 50 Romantic Hits', term: 'romantic hindi', description: 'Top 50 acoustic & romantic love melodies' },
+    { id: 'party', label: '🎉 Top 50 Party & Dance', term: 'bollywood party', description: 'Top 50 high energy dance tracks' }
   ];
 
-  // JioSaavn Music Fetcher
+  // JioSaavn Top 50 Music Fetcher
   const handleFetchSongs = async (presetObj, customSearch = '') => {
     setIsLoading(true);
     setErrorMsg(null);
@@ -73,15 +73,15 @@ export default function Songs({
       displayLabel = `"${customSearch.trim()}"`;
       setActivePreset(null);
     } else if (presetObj) {
-      queryTerm = presetObj.term || 'bollywood top 50';
+      queryTerm = presetObj.term || 'latest hindi songs';
       displayLabel = presetObj.label.replace(/^[^\w\s]+\s*/, '');
       setActivePreset(presetObj.id);
     } else {
-      queryTerm = 'bollywood top 50';
-      displayLabel = 'Top 50 Bollywood';
+      queryTerm = 'latest hindi songs';
+      displayLabel = 'Top 50 Bollywood Latest';
     }
 
-    setLoadingText(`Fetching JioSaavn HD audio tracks for ${displayLabel}...`);
+    setLoadingText(`Fetching Top 50 HD audio tracks for ${displayLabel}...`);
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || (
@@ -92,9 +92,9 @@ export default function Songs({
       
       let tracks = [];
 
-      // 1. Try Backend FastAPI JioSaavn Endpoint
+      // 1. Try Backend FastAPI JioSaavn Endpoint (Limit 50)
       try {
-        const bRes = await fetch(`${API_URL}/api/jiosaavn/search?query=${encodeURIComponent(queryTerm)}&limit=40`);
+        const bRes = await fetch(`${API_URL}/api/jiosaavn/search?query=${encodeURIComponent(queryTerm)}&limit=50`);
         if (bRes.ok) {
           tracks = await bRes.json();
         }
@@ -104,7 +104,7 @@ export default function Songs({
 
       // 2. Direct Fallback if backend unreachable
       if (!tracks || tracks.length === 0) {
-        const fallbackRes = await fetch(`${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}`);
+        const fallbackRes = await fetch(`${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`);
         if (fallbackRes.ok) {
           tracks = await fallbackRes.json();
         }
@@ -114,17 +114,17 @@ export default function Songs({
         setSongs(tracks);
         setSelectedCategory('All');
       } else {
-        setErrorMsg(`No JioSaavn tracks found for "${queryTerm}". Try another search!`);
+        setErrorMsg(`No tracks found for "${queryTerm}". Try another search!`);
       }
     } catch (err) {
       console.error('JioSaavn fetch error:', err);
-      setErrorMsg('Could not fetch JioSaavn tracks. Please check connection.');
+      setErrorMsg('Could not fetch Top 50 tracks. Please check connection.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Initial load JioSaavn tracks on mount if empty
+  // Initial load Top 50 tracks on mount
   useEffect(() => {
     if (!songs || songs.length === 0) {
       handleFetchSongs(presets[0]);
