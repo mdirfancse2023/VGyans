@@ -598,6 +598,40 @@ def get_playlists():
     return load_firestore_collection("playlists")
 
 def fetch_live_youtube_videos():
+    yt_api_key = os.getenv("YOUTUBE_API_KEY")
+    channel_id = os.getenv("CHANNEL_ID", "UCkViZeUiDCEof_t9--OgZkA")
+
+    if yt_api_key and channel_id:
+        try:
+            import urllib.request, urllib.parse, json, html
+            url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&channelId={channel_id}&maxResults=30&type=video&key={yt_api_key}"
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            ctx = ssl._create_unverified_context()
+            with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+                data = json.loads(resp.read().decode('utf-8'))
+            
+            videos = []
+            for item in data.get("items", []):
+                vid_id = item.get("id", {}).get("videoId")
+                if not vid_id:
+                    continue
+                snippet = item.get("snippet", {})
+                title = html.unescape(snippet.get("title", ""))
+                cat = "Placement Prep" if any(k in title.lower() for k in ["interview", "cognizant", "tcs", "wipro", "infosys", "joining", "onboarding"]) else "Technical"
+                videos.append({
+                    "id": vid_id,
+                    "title": title,
+                    "description": html.unescape(snippet.get("description", title)),
+                    "thumbnailUrl": snippet.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{vid_id}/hqdefault.jpg",
+                    "publishedAt": snippet.get("publishedAt", ""),
+                    "category": cat,
+                    "videoUrl": f"https://www.youtube.com/watch?v={vid_id}"
+                })
+            if videos:
+                return videos
+        except Exception as e:
+            print(f"YouTube API fetch warning: {e}")
+
     try:
         import urllib.request, re, json
         from concurrent.futures import ThreadPoolExecutor
@@ -608,10 +642,10 @@ def fetch_live_youtube_videos():
         )
         ctx = ssl._create_unverified_context()
         with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
-            html = resp.read().decode('utf-8')
+            html_content = resp.read().decode('utf-8')
 
         v_ids = []
-        for m in re.finditer(r'\"videoId\":\"([a-zA-Z0-9_-]{11})\"', html):
+        for m in re.finditer(r'\"videoId\":\"([a-zA-Z0-9_-]{11})\"', html_content):
             vid = m.group(1)
             if vid not in v_ids:
                 v_ids.append(vid)
@@ -665,6 +699,45 @@ def get_videos(category: Optional[str] = None, search: Optional[str] = None):
             if search_lower in v.get("title", "").lower() or search_lower in v.get("description", "").lower()
         ]
     return videos
+
+@app.get("/api/songs")
+def get_youtube_songs(query: Optional[str] = "bollywood songs", max_results: int = 50):
+    yt_api_key = os.getenv("YOUTUBE_API_KEY")
+    if not yt_api_key:
+        return []
+    try:
+        import urllib.request, urllib.parse, json, html
+        q_term = query or "bollywood songs"
+        url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults={min(max_results, 50)}&type=video&videoCategoryId=10&q={urllib.parse.quote(q_term)}&key={yt_api_key}"
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        ctx = ssl._create_unverified_context()
+        with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+        
+        songs = []
+        for item in data.get("items", []):
+            vid_id = item.get("id", {}).get("videoId")
+            if not vid_id:
+                continue
+            snippet = item.get("snippet", {})
+            title = html.unescape(snippet.get("title", ""))
+            channel_title = html.unescape(snippet.get("channelTitle", "YouTube Music"))
+            songs.append({
+                "id": f"yt-{vid_id}",
+                "videoId": vid_id,
+                "title": title,
+                "artist": channel_title,
+                "album": q_term.title(),
+                "category": q_term.title(),
+                "coverUrl": snippet.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{vid_id}/hqdefault.jpg",
+                "videoUrl": f"https://www.youtube.com/watch?v={vid_id}",
+                "embedUrl": f"https://www.youtube.com/embed/{vid_id}?autoplay=1&enablejsapi=1",
+                "duration": 240
+            })
+        return songs
+    except Exception as e:
+        print(f"Error fetching YouTube songs API: {e}")
+        return []
 
 @app.get("/api/resources")
 def get_resources(company: Optional[str] = None):

@@ -23,6 +23,7 @@ export default function Songs({
   const [loadingText, setLoadingText] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
   const [activePreset, setActivePreset] = useState(null);
+  const [playerViewMode, setPlayerViewMode] = useState('video'); // 'video' | 'vinyl'
 
   // Quick Preset Categories
   const presets = [
@@ -34,7 +35,7 @@ export default function Songs({
     { id: 'acoustic', label: '🎸 Unplugged Acoustic', term: 'acoustic', description: 'Soft acoustic guitar & soothing instrumental chill tracks' }
   ];
 
-  // Fetch real-time full-length songs from Audius API
+  // Fetch real-time YouTube songs using YouTube Data API v3
   const handleFetchSongs = async (presetObj, customSearch = '') => {
     setIsLoading(true);
     setErrorMsg(null);
@@ -47,67 +48,97 @@ export default function Songs({
       displayLabel = `"${queryTerm}"`;
       setActivePreset(null);
     } else if (presetObj) {
-      queryTerm = presetObj.term;
-      displayLabel = presetObj.label.replace(/^[^\w\s]+\s*/, ''); // Strip leading emoji for display
+      if (presetObj.id === 'bollywood') queryTerm = 'bollywood top songs jukebox';
+      else if (presetObj.id === 'hollywood') queryTerm = 'hollywood pop hits billboard';
+      else if (presetObj.id === 'lofi') queryTerm = 'lofi study beats chillhop';
+      else if (presetObj.id === 'piano') queryTerm = 'piano classical music relaxation';
+      else if (presetObj.id === 'synthwave') queryTerm = 'synthwave ambient chillwave';
+      else if (presetObj.id === 'acoustic') queryTerm = 'unplugged acoustic guitar songs';
+      else queryTerm = presetObj.term || 'songs';
+
+      displayLabel = presetObj.label.replace(/^[^\w\s]+\s*/, '');
       setActivePreset(presetObj.id);
     } else {
-      queryTerm = 'bollywood';
+      queryTerm = 'bollywood top songs jukebox';
       displayLabel = 'Top 50 Bollywood';
     }
 
-    setLoadingText(`Fetching full-length songs for ${displayLabel}...`);
+    setLoadingText(`Fetching YouTube songs for ${displayLabel}...`);
 
     try {
-      // Fetch full-length tracks from Audius API with limit=100 to ensure full 50 tracks return
-      const audiusUrl = `https://api.audius.co/v1/tracks/search?query=${encodeURIComponent(queryTerm)}&limit=100&app_name=VGyans`;
-      const res = await fetch(audiusUrl);
-      if (!res.ok) throw new Error('Failed to fetch music stream');
+      const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+      let tracks = [];
 
-      const data = await res.json();
-      const rawTracks = data.data || [];
+      // 1. Try YouTube Data API v3 directly if frontend key is available
+      if (apiKey) {
+        const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoCategoryId=10&q=${encodeURIComponent(queryTerm)}&key=${apiKey}`;
+        const res = await fetch(ytUrl);
+        if (res.ok) {
+          const data = await res.json();
+          const items = data.items || [];
+          
+          const decodeHTML = (str) => {
+            const txt = document.createElement('textarea');
+            txt.innerHTML = str || '';
+            return txt.value;
+          };
 
-      if (!rawTracks || rawTracks.length === 0) {
-        setErrorMsg(`No playable full-length tracks found for "${queryTerm}". Try another search or category!`);
-        setIsLoading(false);
-        return;
+          tracks = items
+            .filter(item => item.id && item.id.videoId)
+            .map((item) => {
+              const vid = item.id.videoId;
+              const snippet = item.snippet || {};
+              const title = decodeHTML(snippet.title);
+              const artist = decodeHTML(snippet.channelTitle || 'YouTube Music');
+              const cover = snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
+              const categoryLabel = presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : (customSearch ? 'Search Result' : 'YouTube Music');
+
+              return {
+                id: `yt-${vid}`,
+                videoId: vid,
+                title: title,
+                artist: artist,
+                album: categoryLabel,
+                category: categoryLabel,
+                coverUrl: cover,
+                url: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
+                videoUrl: `https://www.youtube.com/watch?v=${vid}`,
+                embedUrl: `https://www.youtube.com/embed/${vid}?autoplay=1&enablejsapi=1`,
+                duration: 240
+              };
+            });
+        }
       }
 
-      // Filter tracks: strictly require title & duration > 45 seconds to exclude 30-sec previews
-      const fullLengthTracks = rawTracks
-        .filter(t => t.title && t.duration && t.duration > 45)
-        .slice(0, 50)
-        .map((t, index) => {
-          let cover = 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500';
-          if (t.artwork) {
-            cover = t.artwork['480x480'] || t.artwork['1000x1000'] || t.artwork['150x150'] || cover;
+      // 2. Fallback to backend API /api/songs if frontend key is omitted or empty
+      if (tracks.length === 0) {
+        try {
+          const API_URL = import.meta.env.VITE_API_URL || (
+            typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+              ? 'http://localhost:8000' 
+              : 'https://v-gyans.vercel.app'
+          );
+          const backendUrl = `${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`;
+          const res = await fetch(backendUrl);
+          if (res.ok) {
+            tracks = await res.json();
           }
+        } catch (e) {
+          console.warn("Backend songs fallback warning:", e);
+        }
+      }
 
-          // Full-length stream URL via Audius API
-          const streamUrl = `https://api.audius.co/v1/tracks/${t.id}/stream?app_name=VGyans`;
-
-          return {
-            id: `audius-${t.id || index}-${Date.now()}`,
-            title: t.title,
-            artist: (t.user && t.user.name) ? t.user.name : (t.user && t.user.handle) ? t.user.handle : 'Various Artists',
-            album: t.genre || (presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : 'Full Track'),
-            category: presetObj ? presetObj.label.replace(/^[^\w\s]+\s*/, '') : 'Live Search',
-            coverUrl: cover,
-            url: streamUrl,
-            duration: Math.round(t.duration) // Full track duration in seconds (e.g. 240 = 4:00)
-          };
-        });
-
-      if (fullLengthTracks.length === 0) {
-        setErrorMsg(`No full-length songs found for "${queryTerm}". Please try another search.`);
+      if (!tracks || tracks.length === 0) {
+        setErrorMsg(`No YouTube songs found for "${queryTerm}". Please try another search.`);
       } else {
         if (setSongs) {
-          setSongs(fullLengthTracks);
+          setSongs(tracks);
         }
         setSelectedCategory('All');
       }
     } catch (err) {
-      console.error('Full song fetch error:', err);
-      setErrorMsg('Could not fetch full-length music. Please check your internet connection.');
+      console.error('YouTube song fetch error:', err);
+      setErrorMsg('Could not fetch YouTube songs. Please check your network connection.');
     } finally {
       setIsLoading(false);
     }
@@ -448,79 +479,102 @@ export default function Songs({
             </div>
           </div>
 
-          {/* Right Panel: Playback & Vinyl Visualizer */}
+          {/* Right Panel: Playback & YouTube Player / Vinyl Visualizer */}
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
-                  {/* Vinyl Record */}
-                  <div style={{ position: 'relative', width: '150px', height: '150px', marginBottom: '1rem' }}>
-                    <div
-                      className={`vinyl-wrapper ${isPlaying ? 'spinning' : ''}`}
+                  {/* Mode Selector Toggle (Video Player vs Vinyl Artwork) */}
+                  <div style={{ display: 'flex', background: 'rgba(255, 255, 255, 0.04)', borderRadius: '20px', padding: '3px', marginBottom: '1rem', border: '1px solid var(--border-glass)' }}>
+                    <button
+                      onClick={() => setPlayerViewMode('video')}
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '50%',
-                        overflow: 'hidden',
-                        boxShadow: isPlaying 
-                          ? '0 0 25px 0 rgba(6, 182, 212, 0.3), 0 0 4px 1px rgba(255,255,255,0.05)' 
-                          : '0 8px 24px rgba(0,0,0,0.5)',
-                        border: '5px solid var(--bg-dark-secondary)',
-                        transition: 'box-shadow var(--transition-normal)'
+                        padding: '0.25rem 0.75rem',
+                        fontSize: '0.75rem',
+                        borderRadius: '16px',
+                        border: 'none',
+                        background: playerViewMode === 'video' ? 'var(--primary)' : 'transparent',
+                        color: playerViewMode === 'video' ? '#fff' : 'var(--text-secondary)',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        transition: 'all 0.2s ease'
                       }}
                     >
-                      <img
-                        src={currentSong.coverUrl}
-                        alt={currentSong.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                      {/* Vinyl Hole */}
-                      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-dark)', border: '3px solid var(--border-glass)' }}></div>
-                    </div>
+                      🎬 Video Player
+                    </button>
+                    <button
+                      onClick={() => setPlayerViewMode('vinyl')}
+                      style={{
+                        padding: '0.25rem 0.75rem',
+                        fontSize: '0.75rem',
+                        borderRadius: '16px',
+                        border: 'none',
+                        background: playerViewMode === 'vinyl' ? 'var(--primary)' : 'transparent',
+                        color: playerViewMode === 'vinyl' ? '#fff' : 'var(--text-secondary)',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      🎵 Vinyl View
+                    </button>
                   </div>
 
+                  {playerViewMode === 'video' ? (
+                    /* YouTube Embed Player */
+                    <div style={{ width: '100%', aspectRatio: '16/9', maxHeight: '200px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: '#000', border: '1px solid var(--border-glass)', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+                      <iframe
+                        src={currentSong.embedUrl || `https://www.youtube.com/embed/${currentSong.videoId || currentSong.id.replace('yt-', '')}?autoplay=1&enablejsapi=1`}
+                        title={currentSong.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        style={{ width: '100%', height: '100%', border: 'none' }}
+                      ></iframe>
+                    </div>
+                  ) : (
+                    /* Vinyl Record View */
+                    <div style={{ position: 'relative', width: '150px', height: '150px', marginBottom: '1rem' }}>
+                      <div
+                        className={`vinyl-wrapper ${isPlaying ? 'spinning' : ''}`}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: '50%',
+                          overflow: 'hidden',
+                          boxShadow: isPlaying 
+                            ? '0 0 25px 0 rgba(6, 182, 212, 0.3), 0 0 4px 1px rgba(255,255,255,0.05)' 
+                            : '0 8px 24px rgba(0,0,0,0.5)',
+                          border: '5px solid var(--bg-dark-secondary)',
+                          transition: 'box-shadow var(--transition-normal)'
+                        }}
+                      >
+                        <img
+                          src={currentSong.coverUrl}
+                          alt={currentSong.title}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                        {/* Vinyl Hole */}
+                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-dark)', border: '3px solid var(--border-glass)' }}></div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Song Meta */}
-                  <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', margin: '0 0 0.2rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>
+                  <h3 style={{ fontSize: '1.05rem', color: 'var(--text-primary)', margin: '0 0 0.2rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>
                     {currentSong.title}
                   </h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', margin: '0 0 1rem' }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', margin: '0 0 0.5rem' }}>
                     {currentSong.artist}
                   </p>
 
-                  {/* Progress Bar */}
-                  <div style={{ width: '100%', marginBottom: '1rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', fontSize: '0.72rem', marginBottom: '0.35rem' }}>
-                      <span>{formatTime(currentTime)}</span>
-                      <span>{formatTime(duration)}</span>
-                    </div>
-                    <div 
-                      style={{
-                        height: '6px',
-                        background: 'rgba(255,255,255,0.08)',
-                        borderRadius: '3px',
-                        position: 'relative',
-                        cursor: 'pointer'
-                      }}
-                      onClick={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const clickX = e.clientX - rect.left;
-                        const percent = clickX / rect.width;
-                        seek(percent * duration);
-                      }}
-                    >
-                      <div
-                        style={{
-                          position: 'absolute',
-                          left: 0,
-                          top: 0,
-                          height: '100%',
-                          width: `${currentProgressPercent}%`,
-                          background: 'linear-gradient(90deg, var(--primary), var(--secondary))',
-                          borderRadius: '3px'
-                        }}
-                      ></div>
-                    </div>
-                  </div>
+                  <a
+                    href={currentSong.videoUrl || `https://www.youtube.com/watch?v=${currentSong.videoId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ fontSize: '0.75rem', color: 'var(--primary)', textDecoration: 'none', marginBottom: '1rem', display: 'inline-flex', alignItems: 'center', gap: '0.3rem', fontWeight: 500 }}
+                  >
+                    <span>▶</span> Open on YouTube ↗
+                  </a>
 
                   {/* Player Controls */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1.1rem', marginBottom: '1rem' }}>
@@ -536,7 +590,7 @@ export default function Songs({
                     <button
                       onClick={prevSong}
                       className="control-btn"
-                      title="Previous"
+                      title="Previous Track"
                       style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '1.35rem', cursor: 'pointer' }}
                     >
                       ⏮
@@ -566,7 +620,7 @@ export default function Songs({
                     <button
                       onClick={nextSong}
                       className="control-btn"
-                      title="Next"
+                      title="Next Track"
                       style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '1.35rem', cursor: 'pointer' }}
                     >
                       ⏭
@@ -581,27 +635,12 @@ export default function Songs({
                       🔁
                     </button>
                   </div>
-
-                  {/* Volume Bar */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%', maxWidth: '200px', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-                    <span>🔊</span>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.01"
-                      value={volume}
-                      onChange={(e) => setVolume(parseFloat(e.target.value))}
-                      style={{ flexGrow: 1, accentColor: 'var(--primary)', cursor: 'pointer' }}
-                    />
-                    <span style={{ fontSize: '0.72rem', width: '30px', textAlign: 'right' }}>{Math.round(volume * 100)}%</span>
-                  </div>
                 </>
               ) : (
                 <div style={{ padding: '1.5rem 0', color: 'var(--text-secondary)' }}>
                   <div style={{ fontSize: '2.2rem', marginBottom: '0.5rem', opacity: 0.5 }}>🎵</div>
                   <p style={{ fontWeight: 500, margin: 0, fontSize: '0.9rem' }}>No song selected</p>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Click any track on the left to start streaming full audio.</p>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Click any track on the left to start streaming real YouTube music.</p>
                 </div>
               )}
             </div>
