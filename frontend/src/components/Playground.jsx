@@ -467,6 +467,61 @@ export default function Playground({ questions, onGoHome }) {
   const [submitResult, setSubmitResult] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // ── Resizer States (LeetCode Style Split-Panes) ──
+  const [sidebarWidth, setSidebarWidth] = useState(460);
+  const [consoleHeight, setConsoleHeight] = useState(230);
+  const [isResizingV, setIsResizingV] = useState(false);
+  const [isResizingH, setIsResizingH] = useState(false);
+
+  const handleMouseDownV = (e) => {
+    e.preventDefault();
+    setIsResizingV(true);
+
+    const containerEl = document.querySelector('.playground-container');
+    const containerLeft = containerEl ? containerEl.getBoundingClientRect().left : 0;
+
+    const handleMouseMove = (moveEvent) => {
+      const newWidth = moveEvent.clientX - containerLeft;
+      if (newWidth >= 260 && newWidth <= window.innerWidth - 340) {
+        setSidebarWidth(newWidth);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsResizingV(false);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
+
+  const handleMouseDownH = (e) => {
+    e.preventDefault();
+    setIsResizingH(true);
+
+    const handleMouseMove = (moveEvent) => {
+      const ideEl = document.querySelector('.playground-ide');
+      if (ideEl) {
+        const ideRect = ideEl.getBoundingClientRect();
+        const newHeight = ideRect.bottom - moveEvent.clientY;
+        if (newHeight >= 100 && newHeight <= ideRect.height - 140) {
+          setConsoleHeight(newHeight);
+        }
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsResizingH(false);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
+
   // ── Timer & Cache Refs ──
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
@@ -965,13 +1020,72 @@ export default function Playground({ questions, onGoHome }) {
           position: relative;
         }
         .playground-sidebar {
-          width: 320px;
           flex-shrink: 0;
           border-right: 1px solid var(--border-glass);
           display: flex;
           flex-direction: column;
           background: rgba(15, 22, 42, 0.4);
           overflow: hidden;
+        }
+        /* ── Resizer Handles (LeetCode Split-Pane Style) ── */
+        .playground-resizer-v {
+          width: 8px;
+          flex-shrink: 0;
+          background: rgba(255, 255, 255, 0.03);
+          cursor: col-resize;
+          position: relative;
+          z-index: 20;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.15s ease, box-shadow 0.15s ease;
+          user-select: none;
+        }
+        .playground-resizer-v:hover, .playground-resizer-v.resizing {
+          background: rgba(56, 189, 248, 0.45);
+          box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+        .resizer-handle-pill-v {
+          width: 4px;
+          height: 28px;
+          border-radius: 99px;
+          background: rgba(255, 255, 255, 0.3);
+          transition: background 0.15s ease, height 0.15s ease;
+        }
+        .playground-resizer-v:hover .resizer-handle-pill-v,
+        .playground-resizer-v.resizing .resizer-handle-pill-v {
+          background: #ffffff;
+          height: 36px;
+        }
+
+        .playground-resizer-h {
+          height: 8px;
+          flex-shrink: 0;
+          background: rgba(255, 255, 255, 0.03);
+          cursor: row-resize;
+          position: relative;
+          z-index: 20;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.15s ease, box-shadow 0.15s ease;
+          user-select: none;
+        }
+        .playground-resizer-h:hover, .playground-resizer-h.resizing {
+          background: rgba(56, 189, 248, 0.45);
+          box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+        .resizer-handle-pill-h {
+          width: 28px;
+          height: 4px;
+          border-radius: 99px;
+          background: rgba(255, 255, 255, 0.3);
+          transition: background 0.15s ease, width 0.15s ease;
+        }
+        .playground-resizer-h:hover .resizer-handle-pill-h,
+        .playground-resizer-h.resizing .resizer-handle-pill-h {
+          background: #ffffff;
+          width: 36px;
         }
         .sidebar-section {
           padding: 1.25rem;
@@ -1763,7 +1877,7 @@ export default function Playground({ questions, onGoHome }) {
         </button>
 
         {/* LEFT PANEL: Problem Description & Solutions OR Free Playground Hub */}
-        <div className="playground-sidebar">
+        <div className="playground-sidebar" style={{ width: `${sidebarWidth}px`, flexShrink: 0 }}>
           {!activeProblem ? (
             <div style={{ padding: '1rem 1.15rem', flex: 1, overflowY: 'auto' }}>
               <div style={{
@@ -2022,6 +2136,15 @@ export default function Playground({ questions, onGoHome }) {
           )}
         </div>
 
+        {/* VERTICAL DIVIDER / RESIZER HANDLE (LeetCode style) */}
+        <div 
+          className={`playground-resizer-v ${isResizingV ? 'resizing' : ''}`}
+          onMouseDown={handleMouseDownV}
+          title="Drag to resize Problem Description and Code Editor"
+        >
+          <div className="resizer-handle-pill-v" />
+        </div>
+
         <div className="playground-ide">
 
           <div className="ide-header">
@@ -2134,8 +2257,17 @@ export default function Playground({ questions, onGoHome }) {
             />
           </div>
 
+          {/* HORIZONTAL DIVIDER / RESIZER HANDLE (LeetCode style) */}
+          <div 
+            className={`playground-resizer-h ${isResizingH ? 'resizing' : ''}`}
+            onMouseDown={handleMouseDownH}
+            title="Drag to resize Code Editor and Console Terminal"
+          >
+            <div className="resizer-handle-pill-h" />
+          </div>
+
           {/* BOTTOM TERMINAL PANEL */}
-          <div className="console-panel" style={{ height: '230px', minHeight: '180px' }}>
+          <div className="console-panel" style={{ height: `${consoleHeight}px`, minHeight: '120px' }}>
             <div className="console-tabs" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', overflowX: 'auto' }}>
               {testCases.map((tc, idx) => {
                 const res = testResults[idx];
