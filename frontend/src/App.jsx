@@ -271,27 +271,27 @@ export default function App() {
   }, []);
 
   const playSong = (song) => {
+    console.log('[playSong] called', song?.title, song?.videoId);
     if (!song) return;
-    if (currentSong?.id === song.id) { togglePlay(); return; }
+    if (currentSong?.id === song.id) { console.log('[playSong] same song, toggling'); togglePlay(); return; }
 
     setCurrentSong(song);
     setCurrentTime(0);
     setDuration(song.duration || 0);
 
-    if (!song.videoId || !audioRef.current) return;
+    console.log('[playSong] audioRef.current:', audioRef.current);
+    if (!song.videoId) { console.warn('[playSong] NO videoId!'); return; }
+    if (!audioRef.current) { console.warn('[playSong] NO audioRef!'); return; }
 
-    // Point audio element at our backend proxy — no async, no timing issues.
-    // Backend runs yt-dlp, streams audio bytes; browser buffers & plays natively.
     const proxyUrl = `${API_URL}/api/audio-proxy?videoId=${song.videoId}`;
+    console.log('[playSong] setting src to:', proxyUrl);
     audioRef.current.src = proxyUrl;
     audioRef.current.volume = volume;
 
+    console.log('[playSong] calling play()...');
     audioRef.current.play()
-      .then(() => setIsPlaying(true))
-      .catch(err => {
-        console.warn('play() failed:', err);
-        setIsPlaying(false);
-      });
+      .then(() => { console.log('[playSong] ✅ play() resolved — audio is playing!'); setIsPlaying(true); })
+      .catch(err => { console.error('[playSong] ❌ play() REJECTED:', err.name, err.message); setIsPlaying(false); });
   };
 
 
