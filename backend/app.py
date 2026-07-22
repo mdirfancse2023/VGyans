@@ -813,7 +813,7 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
             if len(raw_items) >= limit:
                 break
         
-        # Parallel YouTube Video ID Resolver for crystal clear audio playback
+        # Build song objects with YouTube embed for audio playback
         def build_song_obj(entry):
             song_id, clean_t, item = entry
             more = item.get("more_info", {})
@@ -842,8 +842,6 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                 except Exception:
                     pass
 
-            embed_url = f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1&playsinline=1" if vid else f"https://www.youtube.com/embed?listType=search&list={urllib.parse.quote(clean_t + ' ' + artist_str + ' official audio')}&autoplay=1&enablejsapi=1"
-
             return {
                 "id": f"js-{song_id}",
                 "videoId": vid,
@@ -852,11 +850,11 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                 "album": album_name or q_term.title(),
                 "category": q_term.title(),
                 "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
-                "audioUrl": embed_url,
-                "url": embed_url,
-                "embedUrl": embed_url,
+                "audioUrl": f"https://www.youtube.com/embed/{vid}?enablejsapi=1&playsinline=1" if vid else "",
+                "url": f"https://www.youtube.com/embed/{vid}?enablejsapi=1&playsinline=1" if vid else "",
+                "embedUrl": f"https://www.youtube.com/embed/{vid}?enablejsapi=1&playsinline=1" if vid else "",
                 "duration": dur,
-                "provider": "strict_single_song"
+                "provider": "youtube_ iframe_api"
             }
 
         with ThreadPoolExecutor(max_workers=10) as executor:

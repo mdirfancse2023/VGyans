@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 
 export default function Songs({
   songs,
@@ -54,18 +54,78 @@ export default function Songs({
     return () => clearInterval(timer);
   }, [isPlaying, duration, currentSong, nextSong]);
 
+  // YouTube IFrame Player API — the only Chrome-approved hack to play YT audio
+  const ytPlayerRef = useRef(null);
+  const ytReadyRef = useRef(false);
+  const pendingVideoRef = useRef(null);
+
+  // Load YT IFrame API script once
   useEffect(() => {
-    try {
-      const iframe = document.getElementById('music-player-iframe');
-      if (iframe && iframe.contentWindow) {
-        if (isPlaying) {
-          iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
-        } else {
-          iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*');
-        }
+    if (window.YT && window.YT.Player) {
+      ytReadyRef.current = true;
+      return;
+    }
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    tag.async = true;
+    document.head.appendChild(tag);
+    window.onYouTubeIframeAPIReady = () => {
+      ytReadyRef.current = true;
+      // If a song was already selected before API was ready, init now
+      if (pendingVideoRef.current) {
+        initYTPlayer(pendingVideoRef.current, true);
+        pendingVideoRef.current = null;
       }
-    } catch (e) {}
+    };
+  }, []);
+
+  const initYTPlayer = (videoId, shouldPlay) => {
+    if (!videoId) return;
+    if (ytPlayerRef.current && typeof ytPlayerRef.current.loadVideoById === 'function') {
+      // Player already exists — just swap the video
+      ytPlayerRef.current.loadVideoById({ videoId, startSeconds: 0 });
+      if (!shouldPlay) setTimeout(() => ytPlayerRef.current?.pauseVideo(), 300);
+    } else {
+      // Create a brand-new player
+      ytPlayerRef.current = new window.YT.Player('yt-audio-player', {
+        videoId,
+        width: '1',
+        height: '1',
+        playerVars: { playsinline: 1, controls: 0, rel: 0, modestbranding: 1 },
+        events: {
+          onReady: (e) => {
+            if (shouldPlay) e.target.playVideo();
+          },
+          onStateChange: (e) => {
+            // YT.PlayerState.ENDED = 0
+            if (e.data === 0 && nextSong) nextSong();
+          }
+        }
+      });
+    }
+  };
+
+  // When song changes — load new video into the YT player
+  useEffect(() => {
+    if (!currentSong?.videoId) return;
+    if (ytReadyRef.current) {
+      initYTPlayer(currentSong.videoId, isPlaying);
+    } else {
+      pendingVideoRef.current = currentSong.videoId;
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentSong?.videoId]);
+
+  // Play / Pause the YT player in sync with isPlaying state
+  useEffect(() => {
+    if (!ytPlayerRef.current || typeof ytPlayerRef.current.playVideo !== 'function') return;
+    if (isPlaying) {
+      ytPlayerRef.current.playVideo();
+    } else {
+      ytPlayerRef.current.pauseVideo();
+    }
   }, [isPlaying]);
+
 
   // Preset Categories
   const presets = [
@@ -493,33 +553,28 @@ export default function Songs({
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
-                  {/* Vinyl Record View with Embedded On-Screen Audio Stream Engine */}
+                  {/* Vinyl Record View — YT IFrame API player sits as 1×1px behind vinyl */}
                   <div style={{ position: 'relative', width: '160px', height: '160px', marginBottom: '1rem', marginTop: '0.25rem' }}>
-                    {/* On-Screen Stream Engine (Hidden under vinyl cover so Chrome plays 100% audio out loud without video showing!) */}
-                    {currentSong.embedUrl && (
-                      <iframe
-                        key={currentSong.id}
-                        id="music-player-iframe"
-                        src={`${currentSong.embedUrl}&enablejsapi=1`}
-                        title={currentSong.title}
-                        allow="autoplay; encrypted-media"
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          width: '100%',
-                          height: '100%',
-                          opacity: 0.001,
-                          pointerEvents: 'none',
-                          zIndex: 1
-                        }}
-                      ></iframe>
-                    )}
+                    {/* Tiny YT player — on-screen but invisible behind vinyl cover */}
+                    <div
+                      id="yt-audio-player"
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        width: '1px',
+                        height: '1px',
+                        zIndex: 1,
+                        pointerEvents: 'none',
+                        opacity: 0.01
+                      }}
+                    />
 
                     <div
                       className="vinyl-wrapper"
                       style={{
-                        position: 'relative',
+                        position: 'absolute',
+                        top: 0, left: 0,
                         zIndex: 2,
                         width: '100%',
                         height: '100%',
@@ -527,8 +582,8 @@ export default function Songs({
                         overflow: 'hidden',
                         animation: 'spinRecord 12s linear infinite',
                         animationPlayState: isPlaying ? 'running' : 'paused',
-                        boxShadow: isPlaying 
-                          ? '0 0 30px 0 rgba(6, 182, 212, 0.4), 0 0 6px 1px rgba(255,255,255,0.1)' 
+                        boxShadow: isPlaying
+                          ? '0 0 30px 0 rgba(6, 182, 212, 0.4), 0 0 6px 1px rgba(255,255,255,0.1)'
                           : '0 8px 24px rgba(0,0,0,0.5)',
                         border: '5px solid var(--bg-dark-secondary)',
                         transition: 'box-shadow var(--transition-normal)'
@@ -543,6 +598,7 @@ export default function Songs({
                       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '26px', height: '26px', borderRadius: '50%', background: 'var(--bg-dark)', border: '3px solid var(--border-glass)' }}></div>
                     </div>
                   </div>
+
 
                   {/* Song Meta */}
                   <h3 style={{ fontSize: '1.05rem', color: 'var(--text-primary)', margin: '0 0 0.2rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>
