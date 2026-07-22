@@ -254,16 +254,16 @@ const parseTestCasesFromProblem = (problem) => {
   const desc = problem.description || '';
   const testCases = [];
 
-  const regex = /<strong>Input:<\/strong>\s*([\s\S]*?)<strong>Output:<\/strong>\s*([\s\S]*?)(?=<strong>Explanation:<\/strong>|<\/pre>|<h4|$)/gi;
+  const regex1 = /<strong>Input:<\/strong>\s*([\s\S]*?)<strong>Output:<\/strong>\s*([\s\S]*?)(?=<strong>Explanation:<\/strong>|<\/pre>|<h4|$)/gi;
   let match;
   let count = 1;
 
-  while ((match = regex.exec(desc)) !== null) {
+  while ((match = regex1.exec(desc)) !== null) {
     let rawInput = match[1].replace(/<[^>]+>/g, '').trim();
     let rawOutput = match[2].replace(/<[^>]+>/g, '').trim();
     
-    rawInput = rawInput.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"');
-    rawOutput = rawOutput.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+    rawInput = unescapeHtmlEntities(rawInput);
+    rawOutput = unescapeHtmlEntities(rawOutput);
 
     if (rawInput || rawOutput) {
       testCases.push({
@@ -276,13 +276,21 @@ const parseTestCasesFromProblem = (problem) => {
     }
   }
 
-  if (testCases.length === 0 && problem.input) {
-    testCases.push({
-      id: 1,
-      label: 'Case 1',
-      input: problem.input.trim(),
-      expectedOutput: ''
-    });
+  if (testCases.length === 0) {
+    const sampleInputMatch = desc.match(/Sample Input<\/h4>\s*<pre[^>]*>([\s\S]*?)<\/pre>/i);
+    const expectedOutputMatch = desc.match(/Expected Output<\/h4>\s*<pre[^>]*>([\s\S]*?)<\/pre>/i);
+
+    const parsedInput = sampleInputMatch ? unescapeHtmlEntities(sampleInputMatch[1].replace(/<[^>]+>/g, '').trim()) : (problem.input || '').trim();
+    const parsedOutput = expectedOutputMatch ? unescapeHtmlEntities(expectedOutputMatch[1].replace(/<[^>]+>/g, '').trim()) : '';
+
+    if (parsedInput || parsedOutput) {
+      testCases.push({
+        id: 1,
+        label: 'Case 1',
+        input: parsedInput,
+        expectedOutput: parsedOutput
+      });
+    }
   }
 
   return testCases;
@@ -2174,8 +2182,19 @@ export default function Playground({ questions, onGoHome }) {
               </button>
 
               <button 
-                className={`console-tab ${consoleTab === 'output' && selectedCaseIdx === -1 ? 'active' : ''}`}
+                className={`console-tab ${consoleTab === 'input' ? 'active' : ''}`}
                 onClick={() => {
+                  setSelectedCaseIdx(-1);
+                  setConsoleTab('input');
+                }}
+              >
+                Input
+              </button>
+
+              <button 
+                className={`console-tab ${consoleTab === 'output' ? 'active' : ''}`}
+                onClick={() => {
+                  setSelectedCaseIdx(-1);
                   setConsoleTab('output');
                 }}
               >
@@ -2215,14 +2234,12 @@ export default function Playground({ questions, onGoHome }) {
                           </div>
                         </div>
 
-                        {(testResults[selectedCaseIdx]?.stdout !== undefined ? testResults[selectedCaseIdx].stdout : stdout) !== '' && (
-                          <div>
-                            <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Your Output</div>
-                            <div className={`console-code-box ${testResults[selectedCaseIdx]?.passed === false ? 'console-code-fail' : 'console-code-pass'}`} style={{ padding: '0.35rem 0.55rem', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
-                              {testResults[selectedCaseIdx]?.stdout !== undefined ? testResults[selectedCaseIdx].stdout : stdout}
-                            </div>
+                        <div>
+                          <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.15rem' }}>Your Output</div>
+                          <div className={`console-code-box ${testResults[selectedCaseIdx]?.passed === false ? 'console-code-fail' : 'console-code-pass'}`} style={{ padding: '0.35rem 0.55rem', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
+                            {(testResults[selectedCaseIdx]?.stdout !== undefined ? testResults[selectedCaseIdx].stdout : stdout) || (isRunning ? 'Compiling & Running...' : 'Click "Run Code" to execute')}
                           </div>
-                        )}
+                        </div>
 
                         {testCases[selectedCaseIdx].expectedOutput && (
                           <div>
