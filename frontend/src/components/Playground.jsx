@@ -684,14 +684,29 @@ export default function Playground({ questions, onGoHome }) {
     }
   }, [activeProblem]);
 
-  // Group problems by category cleanly using curated categories
-  const groupedProblems = activeQuestions.reduce((acc, p) => {
+  // Group problems by category cleanly using curated categories with Java 8 first
+  const rawGrouped = activeQuestions.reduce((acc, p) => {
     if (p.id === 'custom') return acc;
     const cat = p.category || 'DSA - Arrays';
     if (!acc[cat]) acc[cat] = [];
     acc[cat].push(p);
     return acc;
   }, {});
+
+  const groupedProblems = Object.fromEntries(
+    Object.entries(rawGrouped).sort(([catA], [catB]) => {
+      const getRank = (cat) => {
+        if (cat === 'Java 8') return 0;
+        if (cat.startsWith('DSA')) return 1;
+        if (cat.startsWith('SQL')) return 2;
+        return 3;
+      };
+      const rankA = getRank(catA);
+      const rankB = getRank(catB);
+      if (rankA !== rankB) return rankA - rankB;
+      return catA.localeCompare(catB);
+    })
+  );
 
   // Synchronize Pre scroll position with Textarea scroll position
   const handleScroll = (e) => {
@@ -1710,7 +1725,7 @@ export default function Playground({ questions, onGoHome }) {
                 letterSpacing: '0.06em',
                 marginBottom: '0.85rem'
               }}>
-                Curated Problem Categories
+                Java 8, DSA and SQL
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                 {Object.entries(groupedProblems).map(([cat, items]) => {
