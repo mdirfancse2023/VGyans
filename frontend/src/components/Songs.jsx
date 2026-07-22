@@ -543,18 +543,9 @@ export default function Songs({
                   <h3 style={{ fontSize: '1.05rem', color: 'var(--text-primary)', margin: '0 0 0.2rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>
                     {currentSong.title}
                   </h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', margin: '0 0 0.8rem' }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', margin: '0 0 1rem' }}>
                     {currentSong.artist}
                   </p>
-
-                  <a
-                    href={currentSong.videoUrl || `https://www.youtube.com/watch?v=${currentSong.videoId}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ fontSize: '0.75rem', color: 'var(--primary)', textDecoration: 'none', marginBottom: '1rem', display: 'inline-flex', alignItems: 'center', gap: '0.3rem', fontWeight: 500 }}
-                  >
-                    <span>▶</span> Open on YouTube ↗
-                  </a>
 
                   {/* Progress Bar & Interactive Seek Slider */}
                   <div style={{ width: '100%', marginBottom: '1rem', padding: '0 0.5rem', boxSizing: 'border-box' }}>
