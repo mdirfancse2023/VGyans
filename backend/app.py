@@ -77,7 +77,9 @@ async def options_handler(full_path: str):
     )
 
 DATA_DIR = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "frontend",
+    "src",
     "data"
 )
 
@@ -1051,7 +1053,15 @@ def get_questions():
             return [doc.to_dict() for doc in docs]
         except Exception as e:
             print(f"Firestore get_questions error, falling back: {e}")
-    return load_data().get("playground_questions", [])
+            
+    q_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend", "src", "data", "questions.json")
+    if os.path.exists(q_path):
+        try:
+            with open(q_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Failed to read questions.json: {e}")
+    return []
 
 @app.get("/api/questions/{question_id}")
 def get_question_detail(question_id: str):
@@ -1063,19 +1073,7 @@ def get_question_detail(question_id: str):
         except Exception as e:
             print(f"Firestore get_question_detail error, falling back: {e}")
             
-    # Load from the detailed backup file if database is offline
-    backup_path = os.path.join(DATA_DIR, "backup", "playground_questions.json")
-    if os.path.exists(backup_path):
-        try:
-            with open(backup_path, "r", encoding="utf-8") as f:
-                questions = json.load(f)
-                for q in questions:
-                    if q.get("id") == question_id:
-                        return q
-        except Exception as e:
-            print(f"Failed to read detailed questions backup: {e}")
-            
-    raise HTTPException(status_code=404, detail="Question details not found")
+    raise HTTPException(status_code=404, detail="Question details not found in database")
 
 class RunRequest(BaseModel):
     language: str

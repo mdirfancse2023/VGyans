@@ -1,2102 +1,2102 @@
 [
   {
-    "id": "q-1-two-sum",
-    "title": "1. Two Sum",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-001",
+    "title": "1. Max Subarray (Kadane)",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-2-contains-duplicate",
-    "title": "2. Contains Duplicate",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-002",
+    "title": "2. Two Sum",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-3-valid-anagram",
-    "title": "3. Valid Anagram",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-003",
+    "title": "3. Container With Most Water",
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-4-group-anagrams",
-    "title": "4. Group Anagrams",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-004",
+    "title": "4. Find Peak Element",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-5-top-k-frequent-elements",
-    "title": "5. Top K Frequent Elements",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-005",
+    "title": "5. Sort Colors (0s 1s 2s)",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-6-product-of-array-except-self",
+    "id": "dsa-006",
     "title": "6. Product of Array Except Self",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-7-valid-sudoku",
-    "title": "7. Valid Sudoku",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-007",
+    "title": "7. Merge Intervals",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-8-encode-and-decode-strings",
-    "title": "8. Encode and Decode Strings",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-008",
+    "title": "8. Insert Interval",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-9-longest-consecutive-sequence",
-    "title": "9. Longest Consecutive Sequence",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-009",
+    "title": "9. 3Sum",
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-10-pascals-triangle",
-    "title": "10. Pascal's Triangle",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-010",
+    "title": "10. 4Sum",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-11-majority-element",
-    "title": "11. Majority Element",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-011",
+    "title": "11. Next Permutation",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-12-remove-element",
-    "title": "12. Remove Element",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-012",
+    "title": "12. Set Matrix Zeroes",
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-13-concatenation-of-array",
-    "title": "13. Concatenation of Array",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-013",
+    "title": "13. Spiral Matrix",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-14-replace-elements-with-greatest-on-right",
-    "title": "14. Replace Elements with Greatest on Right",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-014",
+    "title": "14. Rotate Image",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-15-is-subsequence",
-    "title": "15. Is Subsequence",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-015",
+    "title": "15. Search in Rotated Array",
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-16-length-of-last-word",
-    "title": "16. Length of Last Word",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-016",
+    "title": "16. Find Minimum in Rotated",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-17-longest-common-prefix",
-    "title": "17. Longest Common Prefix",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-017",
+    "title": "17. Max Product Subarray",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-18-subsets",
-    "title": "18. Subsets",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-018",
+    "title": "18. Majority Element",
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-19-find-pivot-index",
-    "title": "19. Find Pivot Index",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-019",
+    "title": "19. Move Zeroes",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-20-range-sum-query---immutable",
-    "title": "20. Range Sum Query - Immutable",
-    "category": "Arrays & Hashing",
-    "difficulty": "Easy"
+    "id": "dsa-020",
+    "title": "20. Subarray Sum Equals K",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-21-find-disappeared-numbers",
-    "title": "21. Find Disappeared Numbers",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-021",
+    "title": "21. Game of Life",
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-22-maximum-subarray",
-    "title": "22. Maximum Subarray",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-022",
+    "title": "22. Merge Sorted Arrays",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-23-subarray-sum-equals-k",
-    "title": "23. Subarray Sum Equals K",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-023",
+    "title": "23. First Missing Positive",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-24-unique-email-addresses",
-    "title": "24. Unique Email Addresses",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-024",
+    "title": "24. Trapping Rain Water",
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-25-isomorphic-strings",
-    "title": "25. Isomorphic Strings",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-025",
+    "title": "25. Best Time to Buy Sell Stock",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-26-can-place-flowers",
-    "title": "26. Can Place Flowers",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-026",
+    "title": "26. Best Time to Buy Sell Stock II",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-27-next-greater-element-i",
-    "title": "27. Next Greater Element I",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-027",
+    "title": "27. Contains Duplicate",
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-28-find-the-difference",
-    "title": "28. Find the Difference",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-028",
+    "title": "28. Single Number",
+    "difficulty": "Medium",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-29-word-pattern",
-    "title": "29. Word Pattern",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-029",
+    "title": "29. Intersection of Arrays",
+    "difficulty": "Easy",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-30-monotonic-array",
-    "title": "30. Monotonic Array",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-030",
+    "title": "30. Plus One",
+    "difficulty": "Hard",
+    "category": "DSA - Arrays"
   },
   {
-    "id": "q-31-sort-array-by-parity",
-    "title": "31. Sort Array By Parity",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-031",
+    "title": "31. Reverse String",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-32-non-decreasing-array",
-    "title": "32. Non-Decreasing Array",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-032",
+    "title": "32. Valid Anagram",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-33-first-missing-positive",
-    "title": "33. First Missing Positive",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-033",
+    "title": "33. Longest Substring Without Repeating",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-34-spiral-matrix",
-    "title": "34. Spiral Matrix",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-034",
+    "title": "34. Valid Palindrome",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-35-set-matrix-zeroes",
-    "title": "35. Set Matrix Zeroes",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-035",
+    "title": "35. String to Integer (atoi)",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-36-rotate-image",
-    "title": "36. Rotate Image",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-036",
+    "title": "36. Longest Common Prefix",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-37-word-search",
-    "title": "37. Word Search",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-037",
+    "title": "37. Group Anagrams",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-38-gas-station",
-    "title": "38. Gas Station",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-038",
+    "title": "38. Implement strStr",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-39-candy-distribution",
-    "title": "39. Candy Distribution",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-039",
+    "title": "39. Count and Say",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-40-insert-delete-getrandom-o1",
-    "title": "40. Insert Delete GetRandom O(1)",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-040",
+    "title": "40. Compare Version Numbers",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-41-grid-game",
-    "title": "41. Grid Game",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-041",
+    "title": "41. Multiply Strings",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-42-find-all-anagrams-in-string",
-    "title": "42. Find All Anagrams in String",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-042",
+    "title": "42. Valid Parentheses",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-43-continuous-subarray-sum",
-    "title": "43. Continuous Subarray Sum",
-    "category": "Arrays & Hashing",
-    "difficulty": "Medium"
+    "id": "dsa-043",
+    "title": "43. Reverse Words in String",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-44-push-dominoes",
-    "title": "44. Push Dominoes",
-    "category": "Arrays & Hashing",
-    "difficulty": "Hard"
+    "id": "dsa-044",
+    "title": "44. Longest Palindromic Substring",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-45-best-time-to-buy-and-sell-stock-ii",
-    "title": "45. Best Time to Buy & Sell Stock II",
-    "category": "Arrays & Hashing",
-    "difficulty": "Hard"
+    "id": "dsa-045",
+    "title": "45. Edit Distance",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-46-subarray-sums-divisible-by-k",
-    "title": "46. Subarray Sums Divisible by K",
-    "category": "Arrays & Hashing",
-    "difficulty": "Hard"
+    "id": "dsa-046",
+    "title": "46. Is Subsequence",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-47-find-winner-of-array-game",
-    "title": "47. Find Winner of Array Game",
-    "category": "Arrays & Hashing",
-    "difficulty": "Hard"
+    "id": "dsa-047",
+    "title": "47. Zigzag Conversion",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-48-max-increase-to-keep-city-skyline",
-    "title": "48. Max Increase to Keep City Skyline",
-    "category": "Arrays & Hashing",
-    "difficulty": "Hard"
+    "id": "dsa-048",
+    "title": "48. Palindromic Substrings",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-49-sort-matrix-diagonally",
-    "title": "49. Sort Matrix Diagonally",
-    "category": "Arrays & Hashing",
-    "difficulty": "Hard"
+    "id": "dsa-049",
+    "title": "49. Determine Color of Chessboard",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-50-max-chunks-to-make-sorted",
-    "title": "50. Max Chunks To Make Sorted",
-    "category": "Arrays & Hashing",
-    "difficulty": "Hard"
+    "id": "dsa-050",
+    "title": "50. Replace All Question Marks",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-51-valid-palindrome",
-    "title": "51. Valid Palindrome",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-051",
+    "title": "51. Decrypt String Alphabet",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-52-two-sum-ii---input-array-sorted",
-    "title": "52. Two Sum II - Input Array Sorted",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-052",
+    "title": "52. Merge Strings Alternately",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-53-3sum",
-    "title": "53. 3Sum",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-053",
+    "title": "53. Check Pangram",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-54-container-with-most-water",
-    "title": "54. Container With Most Water",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-054",
+    "title": "54. Sorting the Sentence",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-55-trapping-rain-water",
-    "title": "55. Trapping Rain Water",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-055",
+    "title": "55. Maximum Nesting Depth",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-56-valid-palindrome-ii",
-    "title": "56. Valid Palindrome II",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-056",
+    "title": "56. Truncate Sentence",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-57-min-difference-k-scores",
-    "title": "57. Min Difference K Scores",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-057",
+    "title": "57. Count Items Matching Rule",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-58-merge-strings-alternately",
-    "title": "58. Merge Strings Alternately",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-058",
+    "title": "58. Goal Parser Interpretation",
+    "difficulty": "Medium",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-59-reverse-string",
-    "title": "59. Reverse String",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-059",
+    "title": "59. Shuffle String",
+    "difficulty": "Easy",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-60-merge-sorted-array",
-    "title": "60. Merge Sorted Array",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-060",
+    "title": "60. Defanging IP Address",
+    "difficulty": "Hard",
+    "category": "DSA - Strings"
   },
   {
-    "id": "q-61-move-zeroes",
-    "title": "61. Move Zeroes",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-061",
+    "title": "61. Reverse Linked List",
+    "difficulty": "Easy",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-62-remove-duplicates-from-sorted-array",
-    "title": "62. Remove Duplicates from Sorted Array",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-062",
+    "title": "62. Merge Two Sorted Lists",
+    "difficulty": "Medium",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-63-sort-colors",
-    "title": "63. Sort Colors",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-063",
+    "title": "63. Remove Nth Node From End",
+    "difficulty": "Hard",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-64-4sum",
-    "title": "64. 4Sum",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-064",
+    "title": "64. Linked List Cycle",
+    "difficulty": "Medium",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-65-rotate-array",
-    "title": "65. Rotate Array",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-065",
+    "title": "65. Linked List Cycle II",
+    "difficulty": "Easy",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-66-squares-of-sorted-array",
-    "title": "66. Squares of Sorted Array",
-    "category": "Two Pointers",
-    "difficulty": "Easy"
+    "id": "dsa-066",
+    "title": "66. Intersection of Two Lists",
+    "difficulty": "Hard",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-67-3sum-closest",
-    "title": "67. 3Sum Closest",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-067",
+    "title": "67. Palindrome Linked List",
+    "difficulty": "Easy",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-68-backspace-string-compare",
-    "title": "68. Backspace String Compare",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-068",
+    "title": "68. Delete Node in Linked List",
+    "difficulty": "Medium",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-69-partition-labels",
-    "title": "69. Partition Labels",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-069",
+    "title": "69. Middle of Linked List",
+    "difficulty": "Hard",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-70-boats-to-save-people",
-    "title": "70. Boats to Save People",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-070",
+    "title": "70. Odd Even Linked List",
+    "difficulty": "Medium",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-71-shortest-unsorted-subarray",
-    "title": "71. Shortest Unsorted Subarray",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-071",
+    "title": "71. Swap Nodes in Pairs",
+    "difficulty": "Easy",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-72-array-elements-not-avg-of-neighbors",
-    "title": "72. Array Elements Not Avg of Neighbors",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-072",
+    "title": "72. Rotate List",
+    "difficulty": "Hard",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-73-assign-cookies",
-    "title": "73. Assign Cookies",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-073",
+    "title": "73. Partition List",
+    "difficulty": "Easy",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-74-first-and-last-position-in-sorted-array",
-    "title": "74. First and Last Position in Sorted Array",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-074",
+    "title": "74. Remove Duplicates",
+    "difficulty": "Medium",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-75-k-diff-pairs-in-array",
-    "title": "75. K-diff Pairs in Array",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-075",
+    "title": "75. Remove Duplicates II",
+    "difficulty": "Hard",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-76-bag-of-tokens",
-    "title": "76. Bag of Tokens",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-076",
+    "title": "76. Add Two Numbers",
+    "difficulty": "Medium",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-77-two-sum-iv---input-bst",
-    "title": "77. Two Sum IV - Input BST",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-077",
+    "title": "77. Add Two Numbers II",
+    "difficulty": "Easy",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-78-di-string-match",
-    "title": "78. DI String Match",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-078",
+    "title": "78. Copy List with Random Pointer",
+    "difficulty": "Hard",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-79-flip-string-monotone-increasing",
-    "title": "79. Flip String Monotone Increasing",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-079",
+    "title": "79. Sort List",
+    "difficulty": "Easy",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-80-reverse-words-in-string",
-    "title": "80. Reverse Words in String",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-080",
+    "title": "80. Reorder List",
+    "difficulty": "Medium",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-81-reverse-vowels-of-string",
-    "title": "81. Reverse Vowels of String",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-081",
+    "title": "81. Reverse Linked List II",
+    "difficulty": "Hard",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-82-valid-triangle-number",
-    "title": "82. Valid Triangle Number",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-082",
+    "title": "82. Merge K Sorted Lists",
+    "difficulty": "Medium",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-83-heaters-radius",
-    "title": "83. Heaters Radius",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-083",
+    "title": "83. Reverse Nodes in K-Group",
+    "difficulty": "Easy",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-84-subsequences-satisfy-sum-condition",
-    "title": "84. Subsequences Satisfy Sum Condition",
-    "category": "Two Pointers",
-    "difficulty": "Medium"
+    "id": "dsa-084",
+    "title": "84. LFU Cache",
+    "difficulty": "Hard",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-85-max-distance-between-pair",
-    "title": "85. Max Distance Between Pair",
-    "category": "Two Pointers",
-    "difficulty": "Hard"
+    "id": "dsa-085",
+    "title": "85. LRU Cache",
+    "difficulty": "Easy",
+    "category": "DSA - Linked Lists"
   },
   {
-    "id": "q-86-interval-list-intersections",
-    "title": "86. Interval List Intersections",
-    "category": "Two Pointers",
-    "difficulty": "Hard"
+    "id": "dsa-086",
+    "title": "86. Min Stack",
+    "difficulty": "Easy",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-87-4sum-ii",
-    "title": "87. 4Sum II",
-    "category": "Two Pointers",
-    "difficulty": "Hard"
+    "id": "dsa-087",
+    "title": "87. Implement Queue using Stacks",
+    "difficulty": "Medium",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-88-minimum-length-after-deleting-similar-ends",
-    "title": "88. Minimum Length After Deleting Similar Ends",
-    "category": "Two Pointers",
-    "difficulty": "Hard"
+    "id": "dsa-088",
+    "title": "88. Implement Stack using Queues",
+    "difficulty": "Hard",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-89-sentence-similarity-iii",
-    "title": "89. Sentence Similarity III",
-    "category": "Two Pointers",
-    "difficulty": "Hard"
+    "id": "dsa-089",
+    "title": "89. Evaluate Reverse Polish",
+    "difficulty": "Medium",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-90-find-the-duplicate-number",
-    "title": "90. Find the Duplicate Number",
-    "category": "Two Pointers",
-    "difficulty": "Hard"
+    "id": "dsa-090",
+    "title": "90. Daily Temperatures",
+    "difficulty": "Easy",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-91-best-time-to-buy-and-sell-stock",
-    "title": "91. Best Time to Buy and Sell Stock",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-091",
+    "title": "91. Next Greater Element I",
+    "difficulty": "Hard",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-92-longest-substring-without-repeating",
-    "title": "92. Longest Substring Without Repeating",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-092",
+    "title": "92. Next Greater Element II",
+    "difficulty": "Easy",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-93-longest-repeating-character-replacement",
-    "title": "93. Longest Repeating Character Replacement",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-093",
+    "title": "93. Valid Parentheses Stack",
+    "difficulty": "Medium",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-94-permutation-in-string",
-    "title": "94. Permutation in String",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-094",
+    "title": "94. Simplify Path",
+    "difficulty": "Hard",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-95-minimum-window-substring",
-    "title": "95. Minimum Window Substring",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-095",
+    "title": "95. Generate Parentheses",
+    "difficulty": "Medium",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-96-sliding-window-maximum",
-    "title": "96. Sliding Window Maximum",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-096",
+    "title": "96. Decode String",
+    "difficulty": "Easy",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-97-contains-duplicate-ii",
-    "title": "97. Contains Duplicate II",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-097",
+    "title": "97. Asteroid Collision",
+    "difficulty": "Hard",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-98-sub-arrays-size-k-avg-threshold",
-    "title": "98. Sub-arrays Size K Avg Threshold",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-098",
+    "title": "98. Online Stock Span",
+    "difficulty": "Easy",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-99-fruit-into-baskets",
-    "title": "99. Fruit Into Baskets",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-099",
+    "title": "99. Score of Parentheses",
+    "difficulty": "Medium",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-100-max-consecutive-ones-iii",
-    "title": "100. Max Consecutive Ones III",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-100",
+    "title": "100. Design Circular Queue",
+    "difficulty": "Hard",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-101-minimum-size-subarray-sum",
-    "title": "101. Minimum Size Subarray Sum",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-101",
+    "title": "101. Design Circular Deque",
+    "difficulty": "Medium",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-102-subarrays-with-k-different-integers",
-    "title": "102. Subarrays with K Different Integers",
-    "category": "Sliding Window",
-    "difficulty": "Easy"
+    "id": "dsa-102",
+    "title": "102. Trapping Rain Water Stack",
+    "difficulty": "Easy",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-103-grumpy-bookstore-owner",
-    "title": "103. Grumpy Bookstore Owner",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-103",
+    "title": "103. Largest Rectangle in Histogram",
+    "difficulty": "Hard",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-104-max-vowels-in-substring-k",
-    "title": "104. Max Vowels in Substring K",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-104",
+    "title": "104. Maximal Rectangle",
+    "difficulty": "Easy",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-105-frequency-of-most-frequent-element",
-    "title": "105. Frequency of Most Frequent Element",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-105",
+    "title": "105. Sliding Window Maximum",
+    "difficulty": "Medium",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-106-maximum-erasure-value",
-    "title": "106. Maximum Erasure Value",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-106",
+    "title": "106. Remove Duplicate Letters",
+    "difficulty": "Hard",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-107-equal-substrings-within-budget",
-    "title": "107. Equal Substrings Within Budget",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-107",
+    "title": "107. Basic Calculator",
+    "difficulty": "Medium",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-108-substrings-containing-abc",
-    "title": "108. Substrings Containing ABC",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-108",
+    "title": "108. Basic Calculator II",
+    "difficulty": "Easy",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-109-count-nice-subarrays",
-    "title": "109. Count Nice Subarrays",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-109",
+    "title": "109. Build Array with Stack Operations",
+    "difficulty": "Hard",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-110-find-k-closest-elements",
-    "title": "110. Find K Closest Elements",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-110",
+    "title": "110. Crawler Log Folder",
+    "difficulty": "Easy",
+    "category": "DSA - Stacks & Queues"
   },
   {
-    "id": "q-111-max-consecutive-ones",
-    "title": "111. Max Consecutive Ones",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-111",
+    "title": "111. Inorder Traversal",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-112-flips-make-binary-string-alternating",
-    "title": "112. Flips Make Binary String Alternating",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-112",
+    "title": "112. Preorder Traversal",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-113-max-points-obtainable-from-cards",
-    "title": "113. Max Points Obtainable From Cards",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-113",
+    "title": "113. Postorder Traversal",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-114-longest-1s-subarray-delete-one",
-    "title": "114. Longest 1s Subarray Delete One",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-114",
+    "title": "114. Binary Tree Level Order",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-115-operations-reduce-x-to-zero",
-    "title": "115. Operations Reduce X to Zero",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-115",
+    "title": "115. Maximum Depth of Binary Tree",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-116-maximum-average-subarray-i",
-    "title": "116. Maximum Average Subarray I",
-    "category": "Sliding Window",
-    "difficulty": "Medium"
+    "id": "dsa-116",
+    "title": "116. Same Tree",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-117-diet-plan-performance",
-    "title": "117. Diet Plan Performance",
-    "category": "Sliding Window",
-    "difficulty": "Hard"
+    "id": "dsa-117",
+    "title": "117. Symmetric Tree",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-118-maximum-number-of-occurrences-of-substring",
-    "title": "118. Maximum Number of Occurrences of Substring",
-    "category": "Sliding Window",
-    "difficulty": "Hard"
+    "id": "dsa-118",
+    "title": "118. Invert Binary Tree",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-119-number-of-substrings-with-all-1s",
-    "title": "119. Number of Substrings With All 1s",
-    "category": "Sliding Window",
-    "difficulty": "Hard"
+    "id": "dsa-119",
+    "title": "119. Path Sum",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-120-longest-subarray-with-absolute-diff-<=-limit",
-    "title": "120. Longest Subarray With Absolute Diff <= Limit",
-    "category": "Sliding Window",
-    "difficulty": "Hard"
+    "id": "dsa-120",
+    "title": "120. Path Sum II",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-121-valid-parentheses",
-    "title": "121. Valid Parentheses",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-121",
+    "title": "121. Path Sum III",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-122-min-stack",
-    "title": "122. Min Stack",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-122",
+    "title": "122. Lowest Common Ancestor BST",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-123-evaluate-reverse-polish-notation",
-    "title": "123. Evaluate Reverse Polish Notation",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-123",
+    "title": "123. Lowest Common Ancestor BT",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-124-generate-parentheses",
-    "title": "124. Generate Parentheses",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-124",
+    "title": "124. Validate BST",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-125-daily-temperatures",
-    "title": "125. Daily Temperatures",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-125",
+    "title": "125. Insert into BST",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-126-car-fleet",
-    "title": "126. Car Fleet",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-126",
+    "title": "126. Delete Node BST",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-127-largest-rectangle-in-histogram",
-    "title": "127. Largest Rectangle in Histogram",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-127",
+    "title": "127. Kth Smallest in BST",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-128-implement-queue-using-stacks",
-    "title": "128. Implement Queue using Stacks",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-128",
+    "title": "128. Binary Tree Right Side View",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-129-implement-stack-using-queues",
-    "title": "129. Implement Stack using Queues",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-129",
+    "title": "129. Diameter of Binary Tree",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-130-baseball-game",
-    "title": "130. Baseball Game",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-130",
+    "title": "130. Balanced Binary Tree",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-131-next-greater-element-ii",
-    "title": "131. Next Greater Element II",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-131",
+    "title": "131. Convert Sorted Array to BST",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-132-online-stock-span",
-    "title": "132. Online Stock Span",
-    "category": "Stack & Queue",
-    "difficulty": "Easy"
+    "id": "dsa-132",
+    "title": "132. Merge Two Binary Trees",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-133-asteroid-collision",
-    "title": "133. Asteroid Collision",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-133",
+    "title": "133. Construct BT from Preorder Inorder",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-134-remove-adjacent-duplicates-in-string",
-    "title": "134. Remove Adjacent Duplicates in String",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-134",
+    "title": "134. Binary Tree Maximum Path Sum",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-135-decode-string",
-    "title": "135. Decode String",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-135",
+    "title": "135. Serialize Deserialize Binary Tree",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-136-remove-k-digits",
-    "title": "136. Remove K Digits",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-136",
+    "title": "136. Populating Next Right Pointers",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-137-132-pattern",
-    "title": "137. 132 Pattern",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-137",
+    "title": "137. Flatten Binary Tree to List",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-138-sum-of-subarray-minimums",
-    "title": "138. Sum of Subarray Minimums",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-138",
+    "title": "138. Sum Root to Leaf Numbers",
+    "difficulty": "Medium",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-139-maximal-rectangle",
-    "title": "139. Maximal Rectangle",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-139",
+    "title": "139. Binary Tree Zigzag",
+    "difficulty": "Easy",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-140-trapping-rain-water-stack-solution",
-    "title": "140. Trapping Rain Water (Stack Solution)",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-140",
+    "title": "140. Count Complete Tree Nodes",
+    "difficulty": "Hard",
+    "category": "DSA - Trees & BST"
   },
   {
-    "id": "q-141-basic-calculator",
-    "title": "141. Basic Calculator",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-141",
+    "title": "141. Number of Islands",
+    "difficulty": "Easy",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-142-basic-calculator-ii",
-    "title": "142. Basic Calculator II",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-142",
+    "title": "142. Clone Graph",
+    "difficulty": "Medium",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-143-simplify-path",
-    "title": "143. Simplify Path",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-143",
+    "title": "143. Course Schedule",
+    "difficulty": "Hard",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-144-validate-stack-sequences",
-    "title": "144. Validate Stack Sequences",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-144",
+    "title": "144. Course Schedule II",
+    "difficulty": "Medium",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-145-minimum-add-to-make-parentheses-valid",
-    "title": "145. Minimum Add to Make Parentheses Valid",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-145",
+    "title": "145. Pacific Atlantic Water Flow",
+    "difficulty": "Easy",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-146-score-of-parentheses",
-    "title": "146. Score of Parentheses",
-    "category": "Stack & Queue",
-    "difficulty": "Medium"
+    "id": "dsa-146",
+    "title": "146. Redundant Connection",
+    "difficulty": "Hard",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-147-minimum-remove-to-make-valid-parentheses",
-    "title": "147. Minimum Remove to Make Valid Parentheses",
-    "category": "Stack & Queue",
-    "difficulty": "Hard"
+    "id": "dsa-147",
+    "title": "147. Number of Connected Components",
+    "difficulty": "Easy",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-148-build-array-with-stack-operations",
-    "title": "148. Build Array With Stack Operations",
-    "category": "Stack & Queue",
-    "difficulty": "Hard"
+    "id": "dsa-148",
+    "title": "148. Graph Valid Tree",
+    "difficulty": "Medium",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-149-crawler-log-folder",
-    "title": "149. Crawler Log Folder",
-    "category": "Stack & Queue",
-    "difficulty": "Hard"
+    "id": "dsa-149",
+    "title": "149. Word Ladder",
+    "difficulty": "Hard",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-150-maximum-frequency-stack",
-    "title": "150. Maximum Frequency Stack",
-    "category": "Stack & Queue",
-    "difficulty": "Hard"
+    "id": "dsa-150",
+    "title": "150. Dijkstra Algorithm",
+    "difficulty": "Medium",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-151-binary-search",
-    "title": "151. Binary Search",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-151",
+    "title": "151. Bellman Ford",
+    "difficulty": "Easy",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-152-search-a-2d-matrix",
-    "title": "152. Search a 2D Matrix",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-152",
+    "title": "152. Floyd Warshall",
+    "difficulty": "Hard",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-153-koko-eating-bananas",
-    "title": "153. Koko Eating Bananas",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-153",
+    "title": "153. Kruskal Algorithm",
+    "difficulty": "Easy",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-154-find-minimum-in-rotated-sorted-array",
-    "title": "154. Find Minimum in Rotated Sorted Array",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-154",
+    "title": "154. Prim Algorithm",
+    "difficulty": "Medium",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-155-search-in-rotated-sorted-array",
-    "title": "155. Search in Rotated Sorted Array",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-155",
+    "title": "155. Reconstruct Itinerary",
+    "difficulty": "Hard",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-156-time-based-key-value-store",
-    "title": "156. Time Based Key-Value Store",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-156",
+    "title": "156. Network Delay Time",
+    "difficulty": "Medium",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-157-median-of-two-sorted-arrays",
-    "title": "157. Median of Two Sorted Arrays",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-157",
+    "title": "157. Cheapest Flights Within K Stops",
+    "difficulty": "Easy",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-158-first-bad-version",
-    "title": "158. First Bad Version",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-158",
+    "title": "158. Is Graph Bipartite",
+    "difficulty": "Hard",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-159-guess-number-higher-or-lower",
-    "title": "159. Guess Number Higher or Lower",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-159",
+    "title": "159. All Paths From Source to Target",
+    "difficulty": "Easy",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-160-search-insert-position",
-    "title": "160. Search Insert Position",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-160",
+    "title": "160. Rotting Oranges",
+    "difficulty": "Medium",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-161-peak-index-in-mountain-array",
-    "title": "161. Peak Index in Mountain Array",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-161",
+    "title": "161. Find Eventual Safe States",
+    "difficulty": "Hard",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-162-find-peak-element",
-    "title": "162. Find Peak Element",
-    "category": "Binary Search",
-    "difficulty": "Easy"
+    "id": "dsa-162",
+    "title": "162. Keys and Rooms",
+    "difficulty": "Medium",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-163-capacity-to-ship-packages-in-d-days",
-    "title": "163. Capacity To Ship Packages In D Days",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-163",
+    "title": "163. Shortest Path in Binary Matrix",
+    "difficulty": "Easy",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-164-split-array-largest-sum",
-    "title": "164. Split Array Largest Sum",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-164",
+    "title": "164. Number of Provinces",
+    "difficulty": "Hard",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-165-single-element-in-sorted-array",
-    "title": "165. Single Element in Sorted Array",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-165",
+    "title": "165. Evaluate Division",
+    "difficulty": "Easy",
+    "category": "DSA - Graphs"
   },
   {
-    "id": "q-166-search-a-2d-matrix-ii",
-    "title": "166. Search a 2D Matrix II",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-166",
+    "title": "166. Subsets",
+    "difficulty": "Easy",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-167-find-smallest-letter-greater-than-target",
-    "title": "167. Find Smallest Letter Greater Than Target",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-167",
+    "title": "167. Subsets II",
+    "difficulty": "Medium",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-168-arranging-coins",
-    "title": "168. Arranging Coins",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-168",
+    "title": "168. Permutations",
+    "difficulty": "Hard",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-169-find-distance-value-between-two-arrays",
-    "title": "169. Find Distance Value Between Two Arrays",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-169",
+    "title": "169. Permutations II",
+    "difficulty": "Medium",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-170-valid-perfect-square",
-    "title": "170. Valid Perfect Square",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-170",
+    "title": "170. Combinations",
+    "difficulty": "Easy",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-171-sqrtx",
-    "title": "171. Sqrt(x)",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-171",
+    "title": "171. Combination Sum",
+    "difficulty": "Hard",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-172-peak-index-in-mountain-array-ii",
-    "title": "172. Peak Index in Mountain Array II",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-172",
+    "title": "172. Combination Sum II",
+    "difficulty": "Easy",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-173-find-right-interval",
-    "title": "173. Find Right Interval",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-173",
+    "title": "173. Combination Sum III",
+    "difficulty": "Medium",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-174-random-pick-with-weight",
-    "title": "174. Random Pick with Weight",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-174",
+    "title": "174. N-Queens",
+    "difficulty": "Hard",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-175-minimum-limit-of-balls-in-bag",
-    "title": "175. Minimum Limit of Balls in Bag",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-175",
+    "title": "175. N-Queens II",
+    "difficulty": "Medium",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-176-find-kth-smallest-pair-distance",
-    "title": "176. Find Kth Smallest Pair Distance",
-    "category": "Binary Search",
-    "difficulty": "Medium"
+    "id": "dsa-176",
+    "title": "176. Sudoku Solver",
+    "difficulty": "Easy",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-177-kth-smallest-element-in-sorted-matrix",
-    "title": "177. Kth Smallest Element in Sorted Matrix",
-    "category": "Binary Search",
-    "difficulty": "Hard"
+    "id": "dsa-177",
+    "title": "177. Word Search",
+    "difficulty": "Hard",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-178-search-in-rotated-sorted-array-ii",
-    "title": "178. Search in Rotated Sorted Array II",
-    "category": "Binary Search",
-    "difficulty": "Hard"
+    "id": "dsa-178",
+    "title": "178. Word Search II",
+    "difficulty": "Easy",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-179-find-minimum-in-rotated-sorted-array-ii",
-    "title": "179. Find Minimum in Rotated Sorted Array II",
-    "category": "Binary Search",
-    "difficulty": "Hard"
+    "id": "dsa-179",
+    "title": "179. Palindrome Partitioning",
+    "difficulty": "Medium",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-180-h-index-ii",
-    "title": "180. H-Index II",
-    "category": "Binary Search",
-    "difficulty": "Hard"
+    "id": "dsa-180",
+    "title": "180. Generate Parentheses Recursion",
+    "difficulty": "Hard",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-181-invert-binary-tree",
-    "title": "181. Invert Binary Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-181",
+    "title": "181. Letter Combinations",
+    "difficulty": "Medium",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-182-maximum-depth-of-binary-tree",
-    "title": "182. Maximum Depth of Binary Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-182",
+    "title": "182. Beautiful Arrangement",
+    "difficulty": "Easy",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-183-diameter-of-binary-tree",
-    "title": "183. Diameter of Binary Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-183",
+    "title": "183. Factor Combinations",
+    "difficulty": "Hard",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-184-balanced-binary-tree",
-    "title": "184. Balanced Binary Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-184",
+    "title": "184. Target Sum",
+    "difficulty": "Easy",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-185-same-tree",
-    "title": "185. Same Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-185",
+    "title": "185. Recursion Power",
+    "difficulty": "Medium",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-186-subtree-of-another-tree",
-    "title": "186. Subtree of Another Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-186",
+    "title": "186. Tower of Hanoi",
+    "difficulty": "Hard",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-187-lowest-common-ancestor-of-a-bst",
-    "title": "187. Lowest Common Ancestor of a BST",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-187",
+    "title": "187. Josephus Problem",
+    "difficulty": "Medium",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-188-binary-tree-level-order-traversal",
-    "title": "188. Binary Tree Level Order Traversal",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-188",
+    "title": "188. Generate Power Set",
+    "difficulty": "Easy",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-189-binary-tree-right-side-view",
-    "title": "189. Binary Tree Right Side View",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-189",
+    "title": "189. Matchsticks to Square",
+    "difficulty": "Hard",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-190-count-good-nodes-in-binary-tree",
-    "title": "190. Count Good Nodes in Binary Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-190",
+    "title": "190. IP Address Restoration",
+    "difficulty": "Easy",
+    "category": "DSA - Recursion & Backtracking"
   },
   {
-    "id": "q-191-validate-binary-search-tree",
-    "title": "191. Validate Binary Search Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-191",
+    "title": "191. Climbing Stairs",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-192-kth-smallest-element-in-a-bst",
-    "title": "192. Kth Smallest Element in a BST",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-192",
+    "title": "192. Fibonacci Number",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-193-construct-tree-from-preorder-and-inorder",
-    "title": "193. Construct Tree from Preorder & Inorder",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-193",
+    "title": "193. House Robber",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-194-binary-tree-maximum-path-sum",
-    "title": "194. Binary Tree Maximum Path Sum",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-194",
+    "title": "194. House Robber II",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-195-serialize-and-deserialize-binary-tree",
-    "title": "195. Serialize & Deserialize Binary Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-195",
+    "title": "195. Longest Palindromic Substring DP",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-196-number-of-islands",
-    "title": "196. Number of Islands",
-    "category": "Trees & Graphs",
-    "difficulty": "Easy"
+    "id": "dsa-196",
+    "title": "196. Min Cost Climbing Stairs",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-197-max-area-of-island",
-    "title": "197. Max Area of Island",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-197",
+    "title": "197. Unique Paths",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-198-clone-graph",
-    "title": "198. Clone Graph",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-198",
+    "title": "198. Unique Paths II",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-199-pacific-atlantic-water-flow",
-    "title": "199. Pacific Atlantic Water Flow",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-199",
+    "title": "199. Minimum Path Sum",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-200-surrounded-regions",
-    "title": "200. Surrounded Regions",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-200",
+    "title": "200. Integer Break",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-201-rotting-oranges",
-    "title": "201. Rotting Oranges",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-201",
+    "title": "201. Decode Ways",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-202-course-schedule",
-    "title": "202. Course Schedule",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-202",
+    "title": "202. Coin Change",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-203-course-schedule-ii",
-    "title": "203. Course Schedule II",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-203",
+    "title": "203. Coin Change II",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-204-graph-valid-tree",
-    "title": "204. Graph Valid Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-204",
+    "title": "204. Longest Common Subsequence",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-205-connected-components-in-undirected-graph",
-    "title": "205. Connected Components in Undirected Graph",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-205",
+    "title": "205. Longest Increasing Subsequence",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-206-path-sum",
-    "title": "206. Path Sum",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-206",
+    "title": "206. Word Break",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-207-path-sum-ii",
-    "title": "207. Path Sum II",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-207",
+    "title": "207. Partition Equal Subset Sum",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-208-path-sum-iii",
-    "title": "208. Path Sum III",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-208",
+    "title": "208. Edit Distance DP",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-209-binary-tree-zigzag-level-order-traversal",
-    "title": "209. Binary Tree Zigzag Level Order Traversal",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-209",
+    "title": "209. Maximum Product Subarray DP",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-210-populating-next-right-pointers-in-each-node",
-    "title": "210. Populating Next Right Pointers in Each Node",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-210",
+    "title": "210. Best Time to Buy Sell Stock III",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-211-flatten-binary-tree-to-linked-list",
-    "title": "211. Flatten Binary Tree to Linked List",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-211",
+    "title": "211. Best Time to Buy Sell Stock IV",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-212-construct-bst-from-preorder-traversal",
-    "title": "212. Construct BST from Preorder Traversal",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-212",
+    "title": "212. Maximal Square",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-213-all-nodes-distance-k-in-binary-tree",
-    "title": "213. All Nodes Distance K in Binary Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-213",
+    "title": "213. One and Zeroes",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-214-binary-tree-cameras",
-    "title": "214. Binary Tree Cameras",
-    "category": "Trees & Graphs",
-    "difficulty": "Medium"
+    "id": "dsa-214",
+    "title": "214. Combination Sum IV",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-215-lowest-common-ancestor-of-binary-tree",
-    "title": "215. Lowest Common Ancestor of Binary Tree",
-    "category": "Trees & Graphs",
-    "difficulty": "Hard"
+    "id": "dsa-215",
+    "title": "215. Target Sum DP",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-216-word-ladder",
-    "title": "216. Word Ladder",
-    "category": "Trees & Graphs",
-    "difficulty": "Hard"
+    "id": "dsa-216",
+    "title": "216. Wiggle Subsequence",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-217-word-ladder-ii",
-    "title": "217. Word Ladder II",
-    "category": "Trees & Graphs",
-    "difficulty": "Hard"
+    "id": "dsa-217",
+    "title": "217. Burst Balloons",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-218-redundant-connection",
-    "title": "218. Redundant Connection",
-    "category": "Trees & Graphs",
-    "difficulty": "Hard"
+    "id": "dsa-218",
+    "title": "218. Super Egg Drop",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-219-is-graph-bipartite",
-    "title": "219. Is Graph Bipartite?",
-    "category": "Trees & Graphs",
-    "difficulty": "Hard"
+    "id": "dsa-219",
+    "title": "219. Distinct Subsequences",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-220-network-delay-time",
-    "title": "220. Network Delay Time",
-    "category": "Trees & Graphs",
-    "difficulty": "Hard"
+    "id": "dsa-220",
+    "title": "220. Scramble String",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-221-climbing-stairs",
-    "title": "221. Climbing Stairs",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-221",
+    "title": "221. Palindrome Partitioning II",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-222-min-cost-climbing-stairs",
-    "title": "222. Min Cost Climbing Stairs",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-222",
+    "title": "222. Interleaving String",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-223-house-robber",
-    "title": "223. House Robber",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-223",
+    "title": "223. Wildcard Matching",
+    "difficulty": "Hard",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-224-house-robber-ii",
-    "title": "224. House Robber II",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-224",
+    "title": "224. Regular Expression Matching",
+    "difficulty": "Medium",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-225-longest-palindromic-substring",
-    "title": "225. Longest Palindromic Substring",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-225",
+    "title": "225. Triangle",
+    "difficulty": "Easy",
+    "category": "DSA - Dynamic Programming"
   },
   {
-    "id": "q-226-palindromic-substrings",
-    "title": "226. Palindromic Substrings",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-226",
+    "title": "226. Binary Search",
+    "difficulty": "Easy",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-227-decode-ways",
-    "title": "227. Decode Ways",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-227",
+    "title": "227. Search 2D Matrix",
+    "difficulty": "Medium",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-228-coin-change",
-    "title": "228. Coin Change",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-228",
+    "title": "228. Search 2D Matrix II",
+    "difficulty": "Hard",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-229-maximum-product-subarray",
-    "title": "229. Maximum Product Subarray",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-229",
+    "title": "229. Kth Largest Element",
+    "difficulty": "Medium",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-230-word-break",
-    "title": "230. Word Break",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-230",
+    "title": "230. Top K Frequent Elements",
+    "difficulty": "Easy",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-231-longest-increasing-subsequence",
-    "title": "231. Longest Increasing Subsequence",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-231",
+    "title": "231. Merge Sort",
+    "difficulty": "Hard",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-232-partition-equal-subset-sum",
-    "title": "232. Partition Equal Subset Sum",
-    "category": "Dynamic Programming",
-    "difficulty": "Easy"
+    "id": "dsa-232",
+    "title": "232. Quick Sort",
+    "difficulty": "Easy",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-233-target-sum",
-    "title": "233. Target Sum",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-233",
+    "title": "233. Find First Last Position",
+    "difficulty": "Medium",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-234-interleaving-string",
-    "title": "234. Interleaving String",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-234",
+    "title": "234. Search Insert Position",
+    "difficulty": "Hard",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-235-edit-distance",
-    "title": "235. Edit Distance",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-235",
+    "title": "235. Sqrt(x)",
+    "difficulty": "Medium",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-236-coin-change-ii",
-    "title": "236. Coin Change II",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-236",
+    "title": "236. Guess Number Higher Lower",
+    "difficulty": "Easy",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-237-combination-sum-iv",
-    "title": "237. Combination Sum IV",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-237",
+    "title": "237. First Bad Version",
+    "difficulty": "Hard",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-238-perfect-squares",
-    "title": "238. Perfect Squares",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-238",
+    "title": "238. Peak Index Mountain Array",
+    "difficulty": "Easy",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-239-unique-paths",
-    "title": "239. Unique Paths",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-239",
+    "title": "239. Find Peak Element BS",
+    "difficulty": "Medium",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-240-unique-paths-ii",
-    "title": "240. Unique Paths II",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-240",
+    "title": "240. Search Rotated Array",
+    "difficulty": "Hard",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-241-minimum-path-sum",
-    "title": "241. Minimum Path Sum",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-241",
+    "title": "241. Search Rotated Array II",
+    "difficulty": "Medium",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-242-longest-common-subsequence",
-    "title": "242. Longest Common Subsequence",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-242",
+    "title": "242. Find Min Rotated",
+    "difficulty": "Easy",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-243-best-time-to-buy-and-sell-stock-with-cooldown",
-    "title": "243. Best Time to Buy & Sell Stock with Cooldown",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-243",
+    "title": "243. Find Min Rotated II",
+    "difficulty": "Hard",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-244-coin-change-2",
-    "title": "244. Coin Change 2",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-244",
+    "title": "244. Koko Eating Bananas",
+    "difficulty": "Easy",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-245-uncrossed-lines",
-    "title": "245. Uncrossed Lines",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-245",
+    "title": "245. Capacity to Ship Packages",
+    "difficulty": "Medium",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-246-last-stone-weight-ii",
-    "title": "246. Last Stone Weight II",
-    "category": "Dynamic Programming",
-    "difficulty": "Medium"
+    "id": "dsa-246",
+    "title": "246. Median of Two Sorted Arrays",
+    "difficulty": "Hard",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-247-best-time-to-buy-and-sell-stock-iii",
-    "title": "247. Best Time to Buy & Sell Stock III",
-    "category": "Dynamic Programming",
-    "difficulty": "Hard"
+    "id": "dsa-247",
+    "title": "247. Sort Array",
+    "difficulty": "Medium",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-248-best-time-to-buy-and-sell-stock-iv",
-    "title": "248. Best Time to Buy & Sell Stock IV",
-    "category": "Dynamic Programming",
-    "difficulty": "Hard"
+    "id": "dsa-248",
+    "title": "248. Sort Characters By Frequency",
+    "difficulty": "Easy",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-249-burst-balloons",
-    "title": "249. Burst Balloons",
-    "category": "Dynamic Programming",
-    "difficulty": "Hard"
+    "id": "dsa-249",
+    "title": "249. K Closest Points to Origin",
+    "difficulty": "Hard",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-250-longest-increasing-path-in-matrix",
-    "title": "250. Longest Increasing Path in Matrix",
-    "category": "Dynamic Programming",
-    "difficulty": "Hard"
+    "id": "dsa-250",
+    "title": "250. Intersection of Arrays II",
+    "difficulty": "Easy",
+    "category": "DSA - Sorting & Searching"
   },
   {
-    "id": "q-251-recyclable-and-low-fat-products",
-    "title": "251. Recyclable and Low Fat Products",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-001",
+    "title": "1. SQL: All Employees",
+    "difficulty": "Easy",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-252-find-customer-referee",
-    "title": "252. Find Customer Referee",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-002",
+    "title": "2. SQL: High Earners",
+    "difficulty": "Easy",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-253-big-countries",
-    "title": "253. Big Countries",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-003",
+    "title": "3. SQL: IT Department Staff",
+    "difficulty": "Easy",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-254-article-views-i",
-    "title": "254. Article Views I",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-004",
+    "title": "4. SQL: Employees Hired in 2023",
+    "difficulty": "Easy",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-255-invalid-tweets",
-    "title": "255. Invalid Tweets",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-005",
+    "title": "5. SQL: Unique Employee Names",
+    "difficulty": "Easy",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-256-calculate-special-bonus",
-    "title": "256. Calculate Special Bonus",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-006",
+    "title": "6. SQL: Employees with No Manager",
+    "difficulty": "Easy",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-257-fix-names-in-a-table",
-    "title": "257. Fix Names in a Table",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-007",
+    "title": "7. SQL: Sort Employees by Salary",
+    "difficulty": "Easy",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-258-patients-with-a-condition",
-    "title": "258. Patients With a Condition",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-008",
+    "title": "8. SQL: Select Top 5 Budgets",
+    "difficulty": "Medium",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-259-employees-whose-manager-left-company",
-    "title": "259. Employees Whose Manager Left Company",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-009",
+    "title": "9. SQL: Find Specific Project",
+    "difficulty": "Medium",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-260-customer-placing-largest-orders",
-    "title": "260. Customer Placing Largest Orders",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Easy"
+    "id": "sql-010",
+    "title": "10. SQL: Custom Columns Employees",
+    "difficulty": "Medium",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-261-classes-more-than-5-students",
-    "title": "261. Classes More Than 5 Students",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-011",
+    "title": "11. SQL: Salary Greater than 80000",
+    "difficulty": "Medium",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-262-group-sold-products-by-date",
-    "title": "262. Group Sold Products By Date",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-012",
+    "title": "12. SQL: Employees under Manager 3",
+    "difficulty": "Medium",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-263-daily-leads-and-partners",
-    "title": "263. Daily Leads and Partners",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-013",
+    "title": "13. SQL: Project Budget Range",
+    "difficulty": "Medium",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-264-find-followers-count",
-    "title": "264. Find Followers Count",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-014",
+    "title": "14. SQL: Location of Departments",
+    "difficulty": "Medium",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-265-find-total-time-spent-by-each-employee",
-    "title": "265. Find Total Time Spent by Each Employee",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-015",
+    "title": "15. SQL: Employees starting with A",
+    "difficulty": "Medium",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-266-rearrange-products-table",
-    "title": "266. Rearrange Products Table",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-016",
+    "title": "16. SQL: Employees with High ID",
+    "difficulty": "Hard",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-267-primary-department-for-each-employee",
-    "title": "267. Primary Department for Each Employee",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-017",
+    "title": "17. SQL: Project Budgets Descending",
+    "difficulty": "Hard",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-268-employees-earning-more-than-managers",
-    "title": "268. Employees Earning More Than Managers",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-018",
+    "title": "18. SQL: Department Names list",
+    "difficulty": "Hard",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-269-duplicate-emails",
-    "title": "269. Duplicate Emails",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-019",
+    "title": "19. SQL: Distinct Job Locations",
+    "difficulty": "Hard",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-270-customers-who-never-order",
-    "title": "270. Customers Who Never Order",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-020",
+    "title": "20. SQL: Hired After Jan 2021",
+    "difficulty": "Hard",
+    "category": "SQL - Basic Select"
   },
   {
-    "id": "q-271-delete-duplicate-emails",
-    "title": "271. Delete Duplicate Emails",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-021",
+    "title": "21. SQL: Employee Department Names",
+    "difficulty": "Easy",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-272-rising-temperature",
-    "title": "272. Rising Temperature",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Medium"
+    "id": "sql-022",
+    "title": "22. SQL: Department Managers",
+    "difficulty": "Easy",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-273-game-play-analysis-i",
-    "title": "273. Game Play Analysis I",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Hard"
+    "id": "sql-023",
+    "title": "23. SQL: Employees on Projects",
+    "difficulty": "Easy",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-274-employee-bonus",
-    "title": "274. Employee Bonus",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Hard"
+    "id": "sql-024",
+    "title": "24. SQL: Department Spending Joins",
+    "difficulty": "Easy",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-275-sales-analysis-iii",
-    "title": "275. Sales Analysis III",
-    "category": "SQL - Select & Filtering",
-    "difficulty": "Hard"
+    "id": "sql-025",
+    "title": "25. SQL: Unassigned Projects",
+    "difficulty": "Easy",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-276-replace-employee-id-with-unique-identifier",
-    "title": "276. Replace Employee ID With Unique Identifier",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-026",
+    "title": "26. SQL: Employees without Departments",
+    "difficulty": "Easy",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-277-product-sales-analysis-i",
-    "title": "277. Product Sales Analysis I",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-027",
+    "title": "27. SQL: All Managers and Subordinates",
+    "difficulty": "Easy",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-278-customer-who-visited-but-did-not-make-transactions",
-    "title": "278. Customer Who Visited but Did Not Make Transactions",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-028",
+    "title": "28. SQL: Project Hours per Employee",
+    "difficulty": "Medium",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-279-average-time-of-process-per-machine",
-    "title": "279. Average Time of Process per Machine",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-029",
+    "title": "29. SQL: High Budget Project Assignments",
+    "difficulty": "Medium",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-280-employee-bonus-join",
-    "title": "280. Employee Bonus Join",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-030",
+    "title": "30. SQL: Department Cities List",
+    "difficulty": "Medium",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-281-students-and-examinations",
-    "title": "281. Students and Examinations",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-031",
+    "title": "31. SQL: Cross Join Teams",
+    "difficulty": "Medium",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-282-managers-with-at-least-5-direct-reports",
-    "title": "282. Managers with at Least 5 Direct Reports",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-032",
+    "title": "32. SQL: Join Multi-Tables",
+    "difficulty": "Medium",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-283-confirmation-rate",
-    "title": "283. Confirmation Rate",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-033",
+    "title": "33. SQL: Self Join Bosses",
+    "difficulty": "Medium",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-284-not-boring-movies",
-    "title": "284. Not Boring Movies",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-034",
+    "title": "34. SQL: Department Budget Allotment",
+    "difficulty": "Medium",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-285-average-selling-price",
-    "title": "285. Average Selling Price",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Easy"
+    "id": "sql-035",
+    "title": "35. SQL: Employees working > 40 Hours",
+    "difficulty": "Medium",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-286-project-employees-i",
-    "title": "286. Project Employees I",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-036",
+    "title": "36. SQL: Subcontractor Project Hours",
+    "difficulty": "Hard",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-287-percentage-of-users-attended-contest",
-    "title": "287. Percentage of Users Attended Contest",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-037",
+    "title": "37. SQL: Employees and Project Budgets",
+    "difficulty": "Hard",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-288-queries-quality-and-percentage",
-    "title": "288. Queries Quality and Percentage",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-038",
+    "title": "38. SQL: Missing Department Logs",
+    "difficulty": "Hard",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-289-monthly-transactions-i",
-    "title": "289. Monthly Transactions I",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-039",
+    "title": "39. SQL: Project and Departments Joined",
+    "difficulty": "Hard",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-290-immediate-food-delivery-ii",
-    "title": "290. Immediate Food Delivery II",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-040",
+    "title": "40. SQL: Location Wise Employees List",
+    "difficulty": "Hard",
+    "category": "SQL - Joins"
   },
   {
-    "id": "q-291-game-play-analysis-iv",
-    "title": "291. Game Play Analysis IV",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-041",
+    "title": "41. SQL: Average Salary per Department",
+    "difficulty": "Easy",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-292-number-of-unique-subjects-taught-by-each-teacher",
-    "title": "292. Number of Unique Subjects Taught by Each Teacher",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-042",
+    "title": "42. SQL: Total Budget of All Projects",
+    "difficulty": "Easy",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-293-user-activity-for-past-30-days-i",
-    "title": "293. User Activity for Past 30 Days I",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-043",
+    "title": "43. SQL: Count of Employees in IT",
+    "difficulty": "Easy",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-294-product-sales-analysis-iii",
-    "title": "294. Product Sales Analysis III",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-044",
+    "title": "44. SQL: Maximum Salary in Company",
+    "difficulty": "Easy",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-295-classes-more-than-5-students-agg",
-    "title": "295. Classes More Than 5 Students Agg",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-045",
+    "title": "45. SQL: Total Hours Spent on Project 1",
+    "difficulty": "Easy",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-296-find-followers-count-agg",
-    "title": "296. Find Followers Count Agg",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-046",
+    "title": "46. SQL: Average Project Budget",
+    "difficulty": "Easy",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-297-biggest-single-number",
-    "title": "297. Biggest Single Number",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Medium"
+    "id": "sql-047",
+    "title": "47. SQL: Total Salary Expense",
+    "difficulty": "Easy",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-298-customers-who-bought-all-products",
-    "title": "298. Customers Who Bought All Products",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Hard"
+    "id": "sql-048",
+    "title": "48. SQL: Count Departments in USA",
+    "difficulty": "Medium",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-299-the-number-of-employees-which-report-to-each-employee",
-    "title": "299. The Number of Employees Which Report to Each Employee",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Hard"
+    "id": "sql-049",
+    "title": "49. SQL: Min Max Salary per Dept",
+    "difficulty": "Medium",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-300-primary-department-for-each-employee-agg",
-    "title": "300. Primary Department for Each Employee Agg",
-    "category": "SQL - Joins & Aggregations",
-    "difficulty": "Hard"
+    "id": "sql-050",
+    "title": "50. SQL: Department Headcount",
+    "difficulty": "Medium",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-301-second-highest-salary",
-    "title": "301. Second Highest Salary",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-051",
+    "title": "51. SQL: Average Hours Worked",
+    "difficulty": "Medium",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-302-department-highest-salary",
-    "title": "302. Department Highest Salary",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-052",
+    "title": "52. SQL: Sum Hours Worked per Project",
+    "difficulty": "Medium",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-303-rank-scores",
-    "title": "303. Rank Scores",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-053",
+    "title": "53. SQL: Salary Stats overall",
+    "difficulty": "Medium",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-304-consecutive-numbers",
-    "title": "304. Consecutive Numbers",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-054",
+    "title": "54. SQL: Employee Count per Location",
+    "difficulty": "Medium",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-305-nth-highest-salary",
-    "title": "305. Nth Highest Salary",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-055",
+    "title": "55. SQL: Projects Count per Budget",
+    "difficulty": "Medium",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-306-department-top-three-salaries",
-    "title": "306. Department Top Three Salaries",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-056",
+    "title": "56. SQL: Average Department Salaries > 50000",
+    "difficulty": "Hard",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-307-tree-node",
-    "title": "307. Tree Node",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-057",
+    "title": "57. SQL: Maximum Project Hours Worked",
+    "difficulty": "Hard",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-308-trips-and-users",
-    "title": "308. Trips and Users",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-058",
+    "title": "58. SQL: Count Employees under Manager 1",
+    "difficulty": "Hard",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-309-human-traffic-of-stadium",
-    "title": "309. Human Traffic of Stadium",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-059",
+    "title": "59. SQL: Sum Budgets > 1000000",
+    "difficulty": "Hard",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-310-product-price-at-given-date",
-    "title": "310. Product Price at Given Date",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Easy"
+    "id": "sql-060",
+    "title": "60. SQL: Count Distinct Project Members",
+    "difficulty": "Hard",
+    "category": "SQL - Aggregations"
   },
   {
-    "id": "q-311-last-person-to-fit-in-bus",
-    "title": "311. Last Person to Fit in Bus",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-061",
+    "title": "61. SQL: Second Highest Salary",
+    "difficulty": "Easy",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-312-count-salary-categories",
-    "title": "312. Count Salary Categories",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-062",
+    "title": "62. SQL: Employees with Above Average Salary",
+    "difficulty": "Easy",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-313-movie-rating",
-    "title": "313. Movie Rating",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-063",
+    "title": "63. SQL: Highest Paid in Department",
+    "difficulty": "Easy",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-314-restaurant-growth",
-    "title": "314. Restaurant Growth",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-064",
+    "title": "64. SQL: Departments with No Employees Subquery",
+    "difficulty": "Easy",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-315-friend-requests-ii:-most-friends",
-    "title": "315. Friend Requests II: Most Friends",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-065",
+    "title": "65. SQL: CTE Department Headcount",
+    "difficulty": "Easy",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-316-investments-in-2016",
-    "title": "316. Investments in 2016",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-066",
+    "title": "66. SQL: CTE Project Budget Ranking",
+    "difficulty": "Easy",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-317-capital-gain-loss",
-    "title": "317. Capital Gain/Loss",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-067",
+    "title": "67. SQL: Subquery Manager Details",
+    "difficulty": "Easy",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-318-top-travellers",
-    "title": "318. Top Travellers",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-068",
+    "title": "68. SQL: Find Employees Hired Before Manager",
+    "difficulty": "Medium",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-319-market-analysis-i",
-    "title": "319. Market Analysis I",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-069",
+    "title": "69. SQL: CTEs for Project Hour Sums",
+    "difficulty": "Medium",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-320-reformat-department-table",
-    "title": "320. Reformat Department Table",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-070",
+    "title": "70. SQL: CTE Employee Projects Info",
+    "difficulty": "Medium",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-321-swap-salary",
-    "title": "321. Swap Salary",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-071",
+    "title": "71. SQL: Subquery High Hours Worked",
+    "difficulty": "Medium",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-322-actors-and-directors-who-cooperated",
-    "title": "322. Actors and Directors Who Cooperated",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Medium"
+    "id": "sql-072",
+    "title": "72. SQL: Departments with Sum Salary > Average",
+    "difficulty": "Medium",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-323-game-play-analysis-iii",
-    "title": "323. Game Play Analysis III",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Hard"
+    "id": "sql-073",
+    "title": "73. SQL: Project Budgets > Department Salaries",
+    "difficulty": "Medium",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-324-game-play-analysis-ii",
-    "title": "324. Game Play Analysis II",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Hard"
+    "id": "sql-074",
+    "title": "74. SQL: Manager Salary Greater than Employee",
+    "difficulty": "Medium",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-325-median-employee-salary",
-    "title": "325. Median Employee Salary",
-    "category": "SQL - Window Functions & CTEs",
-    "difficulty": "Hard"
+    "id": "sql-075",
+    "title": "75. SQL: Double Nested Salary Subquery",
+    "difficulty": "Medium",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-326-employees-with-missing-information",
-    "title": "326. Employees With Missing Information",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-076",
+    "title": "76. SQL: Department Name of Max Salary Employee",
+    "difficulty": "Hard",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-327-low-quality-problems",
-    "title": "327. Low Quality Problems",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-077",
+    "title": "77. SQL: CTE Highest Budget Projects Only",
+    "difficulty": "Hard",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-328-the-latest-login-in-2020",
-    "title": "328. The Latest Login in 2020",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-078",
+    "title": "78. SQL: Subquery Hired After Boss",
+    "difficulty": "Hard",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-329-calculate-special-bonus-ii",
-    "title": "329. Calculate Special Bonus II",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-079",
+    "title": "79. SQL: Employees not in Project 1",
+    "difficulty": "Hard",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-330-find-users-with-valid-e-mails",
-    "title": "330. Find Users With Valid E-Mails",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-080",
+    "title": "80. SQL: Department Managers Average Salary",
+    "difficulty": "Hard",
+    "category": "SQL - Subqueries & CTEs"
   },
   {
-    "id": "q-331-all-people-report-to-the-given-manager",
-    "title": "331. All People Report to the Given Manager",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-081",
+    "title": "81. SQL: Rank Employees by Salary",
+    "difficulty": "Easy",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-332-find-candidate-for-data-analyst",
-    "title": "332. Find Candidate for Data Analyst",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-082",
+    "title": "82. SQL: Department Wise Salary Rank",
+    "difficulty": "Easy",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-333-page-recommendations",
-    "title": "333. Page Recommendations",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-083",
+    "title": "83. SQL: Dense Rank Project Budgets",
+    "difficulty": "Easy",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-334-evaluated-boolean-expression",
-    "title": "334. Evaluated Boolean Expression",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-084",
+    "title": "84. SQL: Row Number per Department Hired",
+    "difficulty": "Easy",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-335-team-scores-in-football-tournament",
-    "title": "335. Team Scores in Football Tournament",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Easy"
+    "id": "sql-085",
+    "title": "85. SQL: Lead Lag Salaries Comparison",
+    "difficulty": "Easy",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-336-apples-and-oranges",
-    "title": "336. Apples & Oranges",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-086",
+    "title": "86. SQL: Moving Average Employee Salaries",
+    "difficulty": "Easy",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-337-sales-analysis-ii",
-    "title": "337. Sales Analysis II",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-087",
+    "title": "87. SQL: Running Total of Project Hours",
+    "difficulty": "Easy",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-338-sales-analysis-iv",
-    "title": "338. Sales Analysis IV",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-088",
+    "title": "88. SQL: Percent Rank Salaries",
+    "difficulty": "Medium",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-339-npv-queries",
-    "title": "339. NPV Queries",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-089",
+    "title": "89. SQL: NTILE Salary Quartiles",
+    "difficulty": "Medium",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-340-customer-order-frequency",
-    "title": "340. Customer Order Frequency",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-090",
+    "title": "90. SQL: First Value Hire Date per Dept",
+    "difficulty": "Medium",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-341-rectangles-area",
-    "title": "341. Rectangles Area",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-091",
+    "title": "91. SQL: Last Value Budgets",
+    "difficulty": "Medium",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-342-create-a-session-bar-chart",
-    "title": "342. Create a Session Bar Chart",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-092",
+    "title": "92. SQL: Lag Project Budget Differences",
+    "difficulty": "Medium",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-343-activity-participants",
-    "title": "343. Activity Participants",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-093",
+    "title": "93. SQL: Rank Projects by Hours Worked",
+    "difficulty": "Medium",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-344-number-of-trusted-contacts-of-customer",
-    "title": "344. Number of Trusted Contacts of Customer",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-094",
+    "title": "94. SQL: Window Sum Salaries per Location",
+    "difficulty": "Medium",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-345-find-the-quiet-students-in-all-exams",
-    "title": "345. Find the Quiet Students in All Exams",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-095",
+    "title": "95. SQL: Row Number for Orders",
+    "difficulty": "Medium",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-346-report-contiguous-dates",
-    "title": "346. Report Contiguous Dates",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-096",
+    "title": "96. SQL: Running Total Order Amounts",
+    "difficulty": "Hard",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-347-find-the-missing-ids",
-    "title": "347. Find the Missing IDs",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Medium"
+    "id": "sql-097",
+    "title": "97. SQL: Order Item Counts Windowed",
+    "difficulty": "Hard",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-348-all-valid-triplets-that-can-represent-a-country",
-    "title": "348. All Valid Triplets That Can Represent a Country",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Hard"
+    "id": "sql-098",
+    "title": "98. SQL: Customer Order Frequency Rank",
+    "difficulty": "Hard",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-349-warehouse-manager",
-    "title": "349. Warehouse Manager",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Hard"
+    "id": "sql-099",
+    "title": "99. SQL: Average Order Value Windowed",
+    "difficulty": "Hard",
+    "category": "SQL - Window Functions"
   },
   {
-    "id": "q-350-bank-account-summary-ii",
-    "title": "350. Bank Account Summary II",
-    "category": "SQL - Subqueries & Advanced",
-    "difficulty": "Hard"
+    "id": "sql-100",
+    "title": "100. SQL: Product Price Rank in Categories",
+    "difficulty": "Hard",
+    "category": "SQL - Window Functions"
   }
 ]
