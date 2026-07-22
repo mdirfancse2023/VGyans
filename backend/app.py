@@ -1031,17 +1031,17 @@ def get_note_content(note_id: str):
         except Exception as e:
             print(f"Firestore get_note_content error, falling back: {e}")
             
-    # Load from the detailed backup file if database is offline
-    backup_path = os.path.join(DATA_DIR, "backup", "notes.json")
-    if os.path.exists(backup_path):
+    # Load from local notes.json if database is offline
+    notes_path = os.path.join(DATA_DIR, "notes.json")
+    if os.path.exists(notes_path):
         try:
-            with open(backup_path, "r", encoding="utf-8") as f:
+            with open(notes_path, "r", encoding="utf-8") as f:
                 notes = json.load(f)
                 for note in notes:
                     if note.get("id") == note_id:
                         return note
         except Exception as e:
-            print(f"Failed to read detailed notes backup: {e}")
+            print(f"Failed to read notes.json: {e}")
             
     raise HTTPException(status_code=404, detail="Study note not found")
 

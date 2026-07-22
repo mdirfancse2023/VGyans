@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { doc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
+import notesData from '../data/notes.json';
 import PDFViewer from './PDFViewer';
 import InterviewExperiences from './InterviewExperiences';
 
@@ -115,7 +116,8 @@ function BlogReader({ note, onClose }) {
 
     Promise.all([apiFetch, firebaseFetch]).then(([apiData, fbData]) => {
       if (!isMounted) return;
-      const finalData = apiData || fbData;
+      const localFallback = Array.isArray(notesData) ? notesData.find(n => n.id === noteId) : null;
+      const finalData = apiData || fbData || localFallback;
       if (finalData) {
         const merged = { ...note, ...finalData };
         noteCacheMap.set(noteId, merged);
