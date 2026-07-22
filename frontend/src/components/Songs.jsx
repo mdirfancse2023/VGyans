@@ -473,6 +473,15 @@ export default function Songs({
             <div className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', boxSizing: 'border-box', justifyContent: 'center', overflowY: 'auto', borderRadius: '16px' }}>
               {currentSong ? (
                 <>
+                  {/* Background Full Track Stream Engine */}
+                  {currentSong.embedUrl && (
+                    <iframe
+                      src={isPlaying ? currentSong.embedUrl : ''}
+                      title={currentSong.title}
+                      allow="autoplay; encrypted-media"
+                      style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
+                    ></iframe>
+                  )}
 
 
                   {/* Vinyl Record View */}

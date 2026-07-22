@@ -763,7 +763,7 @@ def decrypt_jiosaavn_url(enc_url: str) -> str:
         return ""
 
 def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
-    import urllib.request, urllib.parse, json, html, ssl
+    import urllib.request, urllib.parse, json, html, ssl, re
     q_term = query or "latest hindi songs"
     ctx = ssl._create_unverified_context()
     headers = {
@@ -771,9 +771,15 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
         'Accept': 'application/json, text/plain, */*'
     }
 
+    def clean_title(t):
+        raw = re.sub(r'[\(\[\{].*?[\)\]\}]', '', t)
+        return re.sub(r'[^\w\s]', '', raw).strip().lower()
+
     try:
         songs = []
         seen_ids = set()
+        seen_titles = set()
+
         for page in [1, 2]:
             url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n=50&p={page}"
             req = urllib.request.Request(url, headers=headers)
@@ -784,9 +790,14 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                     song_id = item.get("id")
                     if not song_id or song_id in seen_ids:
                         continue
-                    seen_ids.add(song_id)
 
                     title = html.unescape(item.get("title") or item.get("song") or "")
+                    normalized_t = clean_title(title)
+                    
+                    # Prevent duplicate titles/versions of the same song!
+                    if not normalized_t or normalized_t in seen_titles:
+                        continue
+
                     more = item.get("more_info", {})
                     
                     # Artist String
@@ -809,6 +820,12 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                         audio_url = more.get("vlink") or item.get("media_preview_url") or ""
 
                     if audio_url:
+                        seen_ids.add(song_id)
+                        seen_titles.add(normalized_t)
+
+                        dur = int(more.get("duration") or item.get("duration") or 240)
+                        yt_search_query = urllib.parse.quote(f"{title} {artist_str} official audio")
+
                         songs.append({
                             "id": f"js-{song_id}",
                             "title": title,
@@ -818,7 +835,8 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
                             "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
                             "audioUrl": audio_url,
                             "url": audio_url,
-                            "duration": int(more.get("duration") or item.get("duration") or 240),
+                            "embedUrl": f"https://www.youtube.com/embed?listType=search&list={yt_search_query}&autoplay=1",
+                            "duration": dur,
                             "provider": "jiosaavn"
                         })
                         if len(songs) >= limit:
