@@ -28,14 +28,8 @@ export default function Songs({
   const [musicSource, setMusicSource] = useState('jiosaavn'); // 'jiosaavn' | 'youtube'
 
   useEffect(() => {
-    setTrackProgress(0);
-  }, [currentSong?.id]);
-
-  useEffect(() => {
-    if (currentTime && currentTime > 0) {
-      setTrackProgress(currentTime);
-    }
-  }, [currentTime]);
+    setTrackProgress(currentTime || 0);
+  }, [currentTime, currentSong?.id]);
 
   useEffect(() => {
     let timer;

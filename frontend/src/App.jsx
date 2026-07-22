@@ -299,6 +299,7 @@ export default function App() {
 
   const nextSong = () => {
     if (songs.length === 0) return;
+    setCurrentTime(0);
     if (playbackMode === 'loop') {
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
@@ -319,10 +320,10 @@ export default function App() {
 
   const prevSong = () => {
     if (songs.length === 0) return;
+    setCurrentTime(0);
     
     if (audioRef.current && audioRef.current.currentTime > 3) {
       audioRef.current.currentTime = 0;
-      setCurrentTime(0);
       return;
     }
 
