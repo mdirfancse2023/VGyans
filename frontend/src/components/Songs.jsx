@@ -174,11 +174,16 @@ export default function Songs({
       }}
     >
       
-      {/* Top Action Bar: JioSaavn Header + Category Pills + Search Box */}
+      {/* Top Action Bar: Top 50 Indicator + Category Pills + Search Box */}
       <div className="glass-panel" style={{ padding: '0.75rem 1.25rem', marginBottom: '0.5rem', borderRadius: '14px', flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           
-
+          {/* Top 50 Live Indicator Badge */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--primary)', background: 'rgba(6, 182, 212, 0.12)', padding: '0.35rem 0.8rem', borderRadius: '20px', border: '1px solid rgba(6, 182, 212, 0.3)' }}>
+              🔥 Top 50 Chart (50 Unique Songs)
+            </span>
+          </div>
 
           {/* Quick Category Action Buttons */}
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
@@ -211,52 +216,55 @@ export default function Songs({
             })}
           </div>
 
-          {/* Search Box */}
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (searchQuery.trim()) {
-                handleFetchSongs(null, searchQuery);
-              }
-            }}
-            style={{ display: 'flex', gap: '0.5rem', flexGrow: 1, maxWidth: '340px' }}
-          >
-            <div style={{ position: 'relative', flexGrow: 1 }}>
-              <input
-                type="text"
-                placeholder={musicSource === 'jiosaavn' ? "Search JioSaavn (Arijit, Kesariya...)" : "Search YouTube music..."}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '0.45rem 0.8rem 0.45rem 2rem',
-                  background: 'rgba(255, 255, 255, 0.04)',
-                  border: '1px solid var(--border-glass)',
-                  borderRadius: '8px',
-                  color: 'var(--text-primary)',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.8rem',
-                  outline: 'none'
-                }}
-              />
-              <span style={{ position: 'absolute', left: '0.6rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '0.8rem' }}>🔍</span>
-            </div>
-            <button
-              type="submit"
-              disabled={isLoading || !searchQuery.trim()}
-              className="btn btn-primary"
-              style={{
-                padding: '0.45rem 0.85rem',
-                fontSize: '0.78rem',
-                borderRadius: '8px',
-                whiteSpace: 'nowrap',
-                opacity: (isLoading || !searchQuery.trim()) ? 0.6 : 1,
-                cursor: (isLoading || !searchQuery.trim()) ? 'not-allowed' : 'pointer'
+          {/* Search Box + Custom API Key Config button */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery.trim()) {
+                  handleFetchSongs(null, searchQuery);
+                }
               }}
+              style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}
             >
-              Fetch
-            </button>
-          </form>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type="text"
+                  placeholder="Search song or artist..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{
+                    padding: '0.45rem 0.85rem 0.45rem 2rem',
+                    fontSize: '0.8rem',
+                    borderRadius: '20px',
+                    border: '1px solid var(--border-glass)',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    color: 'var(--text-primary)',
+                    outline: 'none',
+                    width: '180px'
+                  }}
+                />
+                <span style={{ position: 'absolute', left: '0.65rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '0.8rem' }}>🔍</span>
+              </div>
+              <button
+                type="submit"
+                disabled={isLoading || !searchQuery.trim()}
+                style={{
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.8rem',
+                  borderRadius: '20px',
+                  border: 'none',
+                  background: 'var(--primary)',
+                  color: '#000',
+                  fontWeight: 600,
+                  cursor: (isLoading || !searchQuery.trim()) ? 'not-allowed' : 'pointer',
+                  opacity: (isLoading || !searchQuery.trim()) ? 0.6 : 1
+                }}
+              >
+                Search
+              </button>
+            </form>
+          </div>
 
         </div>
       </div>

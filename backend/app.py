@@ -780,12 +780,14 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
         seen_ids = set()
         seen_titles = set()
 
-        for page in [1, 2]:
+        for page in range(1, 10):
             url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n=50&p={page}"
             req = urllib.request.Request(url, headers=headers)
             with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
                 data = json.loads(resp.read().decode('utf-8'))
                 results = data.get("results", [])
+                if not results:
+                    break
                 for item in results:
                     song_id = item.get("id")
                     if not song_id or song_id in seen_ids:
