@@ -2274,7 +2274,7 @@ export default function Playground({ questions, onGoHome }) {
                 return (
                   <button
                     key={idx}
-                    className={`console-tab ${selectedCaseIdx === idx ? 'active' : ''}`}
+                    className={`console-tab ${consoleTab === 'output' && selectedCaseIdx === idx ? 'active' : ''}`}
                     onClick={() => {
                       setSelectedCaseIdx(idx);
                       setStdin(tc.input);
@@ -2314,17 +2314,7 @@ export default function Playground({ questions, onGoHome }) {
               </button>
 
               <button 
-                className={`console-tab ${consoleTab === 'input' ? 'active' : ''}`}
-                onClick={() => {
-                  setSelectedCaseIdx(-1);
-                  setConsoleTab('input');
-                }}
-              >
-                Input
-              </button>
-
-              <button 
-                className={`console-tab ${consoleTab === 'output' ? 'active' : ''}`}
+                className={`console-tab ${consoleTab === 'output' && selectedCaseIdx === -1 ? 'active' : ''}`}
                 onClick={() => {
                   setSelectedCaseIdx(-1);
                   setConsoleTab('output');
