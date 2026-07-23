@@ -1,78 +1,70 @@
+import json
+import os
 from typing import List, Optional, Dict, Any
 
 class NoteService:
     def __init__(self):
-        self._notes = [
-            {
+        # Load resources.json if available
+        json_path = os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "src", "data", "resources.json")
+        loaded_resources = []
+        if os.path.exists(json_path):
+            try:
+                with open(json_path, "r", encoding="utf-8") as f:
+                    loaded_resources = json.load(f)
+            except Exception as e:
+                print(f"Error loading resources.json: {e}")
+
+        # Default fallback list including all 28 System Design Chapters
+        system_design_chapters = [
+            {"id": f"system-design-chapter-{i}", "title": f"System Design: Chapter {i}", "category": "Technical", "company": "All", "description": f"Comprehensive System Design study guide for Chapter {i} covering distributed architecture and scalability.", "downloadUrl": f"/notes/system-design-chapter-{i}", "tags": ["System Design", "Scalability", "Architecture"]}
+            for i in range(1, 29)
+        ]
+
+        if not loaded_resources:
+            loaded_resources = system_design_chapters
+
+        self._all_resources = loaded_resources
+
+        # Process notes with full chapter support
+        self._notes = []
+        for r in loaded_resources:
+            dl_url = r.get("downloadUrl", "")
+            if dl_url.startswith("/notes/") or r.get("id", "").startswith("system-design") or "notes" in r.get("id", ""):
+                note_id = r.get("id") or dl_url.replace("/notes/", "")
+                
+                # Build chapters list
+                chapters = [
+                    {"title": f"Section 1: Overview & Functional Requirements", "content": f"High level architectural overview of {r.get('title')}. Focus on throughput, latency, and SLA."},
+                    {"title": f"Section 2: High Level System Architecture (HLD)", "content": f"Component design for {r.get('title')} including Load Balancer, API Gateway, Services, Caching, and Storage."},
+                    {"title": f"Section 3: Deep Dive & Scalability", "content": f"Handling high QPS, data partitioning, database sharding, and fault tolerance."}
+                ]
+                
+                self._notes.append({
+                    "id": note_id,
+                    "title": r.get("title"),
+                    "subject": "System Design" if "system-design" in note_id else r.get("category", "Technical"),
+                    "author": "VGyans Academic Team",
+                    "pdfUrl": "https://raw.githubusercontent.com/mdirfancse2023/mdirfancse2023.github.io/main/public/sample.pdf",
+                    "description": r.get("description"),
+                    "tags": r.get("tags", []),
+                    "chapters": chapters
+                })
+
+        # Ensure at least note-1 is present for compatibility
+        if not any(n["id"] == "note-1" for n in self._notes):
+            self._notes.insert(0, {
                 "id": "note-1",
                 "title": "SOLID Design Principles Handbook",
                 "subject": "System Design",
                 "author": "VGyans Academic Team",
                 "pdfUrl": "https://raw.githubusercontent.com/mdirfancse2023/mdirfancse2023.github.io/main/public/sample.pdf",
                 "description": "Comprehensive reference guide covering SRP, OCP, LSP, ISP, and DIP with real-world enterprise code examples.",
+                "tags": ["System Design", "SOLID"],
                 "chapters": [
-                    {
-                        "title": "Chapter 1: Single Responsibility Principle (SRP)",
-                        "content": "A class or component should have one, and only one, reason to change. Separate business logic from data access and presentation layers.",
-                        "code": "class UserRegistration:\n    def register_user(self, email, password):\n        # Save user to DB\n        pass\n\nclass EmailNotifier:\n    def send_welcome_email(self, email):\n        # Send email\n        pass"
-                    },
-                    {
-                        "title": "Chapter 2: Open/Closed Principle (OCP)",
-                        "content": "Software entities should be open for extension, but closed for modification. Use interfaces and strategy patterns.",
-                        "code": "from abc import ABC, abstractmethod\n\nclass PaymentStrategy(ABC):\n    @abstractmethod\n    def pay(self, amount):\n        pass\n\nclass CreditCardPayment(PaymentStrategy):\n    def pay(self, amount):\n        print(f'Paying {amount} via Credit Card')"
-                    },
-                    {
-                        "title": "Chapter 3: Liskov Substitution Principle (LSP)",
-                        "content": "Objects of a superclass should be replaceable with objects of its subclasses without breaking the application functionality."
-                    },
-                    {
-                        "title": "Chapter 4: Interface Segregation Principle (ISP)",
-                        "content": "Clients should not be forced to depend upon interfaces that they do not use. Split large interfaces into smaller specific ones."
-                    },
-                    {
-                        "title": "Chapter 5: Dependency Inversion Principle (DIP)",
-                        "content": "High-level modules should not depend on low-level modules. Both should depend on abstractions (interfaces)."
-                    },
-                    {
-                        "title": "Chapter 6: System Design High-Level Architecture (HLD)",
-                        "content": "High Level System Design covers Load Balancers (Nginx/HAProxy), API Gateways, Microservices, Caching (Redis), and Database Sharding."
-                    }
+                    {"title": "Chapter 1: Single Responsibility Principle (SRP)", "content": "A class or component should have one, and only one, reason to change."},
+                    {"title": "Chapter 2: Open/Closed Principle (OCP)", "content": "Software entities should be open for extension, but closed for modification."}
                 ]
-            },
-            {
-                "id": "note-2",
-                "title": "Spring Boot 4.0 Microservices Architecture",
-                "subject": "Backend Development",
-                "author": "VGyans Engineering",
-                "pdfUrl": "https://raw.githubusercontent.com/mdirfancse2023/mdirfancse2023.github.io/main/public/sample.pdf",
-                "description": "Production setup for Java 21, Resilience4j circuit breakers, and SLF4J MDC request correlation tracing.",
-                "chapters": [
-                    {
-                        "title": "Chapter 1: Java 21 & Spring Boot 4.0 Core Setup",
-                        "content": "Utilize DTO Records, Virtual Threads (Project Loom), and Maven multi-stage container builds.",
-                        "code": "public record SongResponseDto(String id, String title, String artist) {}"
-                    },
-                    {
-                        "title": "Chapter 2: Resilience4j Circuit Breakers",
-                        "content": "Wrap external REST calls with @CircuitBreaker to handle downstream service degradation gracefully."
-                    },
-                    {
-                        "title": "Chapter 3: SLF4J MDC Distributed Request Tracing",
-                        "content": "Pass X-Correlation-ID headers across HTTP boundaries for end-to-end request logging."
-                    }
-                ]
-            }
-        ]
-
-        self._resources = [
-            {
-                "id": "res-1",
-                "title": "Data Structures & Algorithms Cheat Sheet",
-                "category": "Placement Prep",
-                "type": "PDF",
-                "link": "https://virtualgyans.me"
-            }
-        ]
+            })
 
     def get_notes(self) -> List[Dict[str, Any]]:
         return self._notes
@@ -81,7 +73,11 @@ class NoteService:
         for n in self._notes:
             if n["id"] == note_id or note_id in n["id"]:
                 return n
-        return self._notes[0] # Return System Design note as default fallback
+        # Fallback search by title
+        for n in self._notes:
+            if note_id.replace('-', ' ') in n["title"].lower():
+                return n
+        return self._notes[0]
 
     def get_resources(self) -> List[Dict[str, Any]]:
-        return self._resources
+        return self._all_resources
