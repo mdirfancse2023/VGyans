@@ -1,9 +1,5 @@
 from typing import List, Optional
-
-try:
-    from backend.schemas.question import QuestionDTO, FlashcardDTO
-except ModuleNotFoundError:
-    from schemas.question import QuestionDTO, FlashcardDTO
+from backend.schemas.question import QuestionDTO, FlashcardDTO
 
 class QuestionService:
     def __init__(self):

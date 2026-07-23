@@ -3,15 +3,9 @@ import base64
 import requests
 import urllib.parse
 from typing import List
-
-try:
-    from .base import MusicProviderStrategy
-    from ...schemas.song import SongDTO
-    from ...core.config import settings
-except ModuleNotFoundError:
-    from backend.providers.music.base import MusicProviderStrategy
-    from backend.schemas.song import SongDTO
-    from backend.core.config import settings
+from backend.providers.music.base import MusicProviderStrategy
+from backend.schemas.song import SongDTO
+from backend.core.config import settings
 
 class SpotifyMusicProvider(MusicProviderStrategy):
     def __init__(self):

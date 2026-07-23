@@ -1,10 +1,6 @@
 import requests
 from typing import List, Optional, Dict, Any
-
-try:
-    from core.config import settings
-except ModuleNotFoundError:
-    from backend.core.config import settings
+from backend.core.config import settings
 
 class NewsService:
     def get_news(self, category: Optional[str] = "technology") -> List[Dict[str, Any]]:

@@ -1,12 +1,7 @@
 from fastapi import APIRouter, Query
 from typing import List, Optional
-
-try:
-    from schemas.song import SongDTO
-    from services.song_service import SongService
-except ModuleNotFoundError:
-    from backend.schemas.song import SongDTO
-    from backend.services.song_service import SongService
+from backend.schemas.song import SongDTO
+from backend.services.song_service import SongService
 
 router = APIRouter(prefix="/songs", tags=["Songs"])
 song_service = SongService()

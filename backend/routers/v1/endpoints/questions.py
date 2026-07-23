@@ -1,12 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from typing import List, Optional
-
-try:
-    from schemas.question import QuestionDTO, FlashcardDTO
-    from services.question_service import QuestionService
-except ModuleNotFoundError:
-    from backend.schemas.question import QuestionDTO, FlashcardDTO
-    from backend.services.question_service import QuestionService
+from backend.schemas.question import QuestionDTO, FlashcardDTO
+from backend.services.question_service import QuestionService
 
 router = APIRouter(tags=["Placement Questions & Flashcards"])
 question_service = QuestionService()

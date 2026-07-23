@@ -1,10 +1,6 @@
 import requests
 from typing import List, Optional
-
-try:
-    from backend.schemas.job import JobDTO
-except ModuleNotFoundError:
-    from schemas.job import JobDTO
+from backend.schemas.job import JobDTO
 
 class JobService:
     def get_jobs(self, category: Optional[str] = None, location: Optional[str] = None) -> List[JobDTO]:

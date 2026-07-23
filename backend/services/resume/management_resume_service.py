@@ -1,9 +1,5 @@
 from typing import List, Dict, Any
-
-try:
-    from backend.schemas.resume import ResumeAnalysisResponseDTO
-except ModuleNotFoundError:
-    from ...schemas.resume import ResumeAnalysisResponseDTO
+from backend.schemas.resume import ResumeAnalysisResponseDTO
 
 class ManagementResumeService:
     def __init__(self):

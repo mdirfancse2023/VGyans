@@ -1,12 +1,7 @@
 from fastapi import APIRouter
 from typing import Dict, Any
-
-try:
-    from schemas.copilot import CopilotChatRequestDTO
-    from services.copilot_service import CopilotService
-except ModuleNotFoundError:
-    from backend.schemas.copilot import CopilotChatRequestDTO
-    from backend.services.copilot_service import CopilotService
+from backend.schemas.copilot import CopilotChatRequestDTO
+from backend.services.copilot_service import CopilotService
 
 router = APIRouter(prefix="/copilot", tags=["Gyans Copilot AI"])
 copilot_service = CopilotService()
