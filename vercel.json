@@ -1,7 +1,11 @@
 {
   "version": 2,
   "functions": {
-    "**/*.py": {
+    "api/index.py": {
+      "includeFiles": "backend/**",
+      "maxDuration": 15
+    },
+    "app.py": {
       "includeFiles": "backend/**",
       "maxDuration": 15
     }
