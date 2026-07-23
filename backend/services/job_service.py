@@ -40,7 +40,7 @@ class JobService:
                 location="Remote / India",
                 type="Full Time",
                 category="Software Engineering",
-                salary="₹18,00,000 - ₹28,00,000 P.A.",
+                salary="INR 18,00,000 - 28,00,000 P.A.",
                 tags=["Python", "FastAPI", "React", "SOLID"],
                 logo="",
                 url="https://virtualgyans.me",

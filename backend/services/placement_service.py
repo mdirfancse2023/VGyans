@@ -38,7 +38,7 @@ class PlacementService:
                 "id": "exp-1",
                 "company": "Google",
                 "role": "Software Development Engineer (SDE-1)",
-                "package": "₹32,00,000 P.A.",
+                "package": "INR 32,00,000 P.A.",
                 "rounds": ["Online Assessment", "Technical Round 1 (Trees & Graphs)", "Technical Round 2 (DP)", "Googliness HR Round"],
                 "tips": ["Focus on clean code, edge case handling, and explaining your thought process out loud."],
                 "date": "2026-07-20"
@@ -47,7 +47,7 @@ class PlacementService:
                 "id": "exp-2",
                 "company": "Amazon",
                 "role": "Software Development Engineer-I",
-                "package": "₹28,00,000 P.A.",
+                "package": "INR 28,00,000 P.A.",
                 "rounds": ["OA Coding & Work Simulation", "Technical Round 1 (System Design & LLD)", "Technical Round 2 (Bar Raiser)"],
                 "tips": ["Memorize Amazon Leadership Principles and prepare STAR format behavioral stories."],
                 "date": "2026-07-18"
