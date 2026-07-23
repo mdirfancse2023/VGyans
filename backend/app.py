@@ -807,7 +807,7 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
         'Accept': 'application/json'
     }
 
-    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY") or "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo"
+    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY")
 
     tracks = []
     try:
