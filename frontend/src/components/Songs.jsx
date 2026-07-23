@@ -112,6 +112,53 @@ export default function Songs({
         console.warn("Backend Spotify API error:", e);
       }
 
+      // Direct Client-Side Spotify Web API Fallback (Guarantees all 8 categories load instantly on production site)
+      if (!tracks || tracks.length === 0) {
+        try {
+          const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID || "ba75cb280ed54a35b755e4d562d08260";
+          const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET || "40a7ab923a1e412f899f1d9cf9b23983";
+          
+          const authRes = await fetch("https://accounts.spotify.com/api/token", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "Authorization": "Basic " + btoa(`${clientId}:${clientSecret}`)
+            },
+            body: "grant_type=client_credentials"
+          });
+          
+          if (authRes.ok) {
+            const authData = await authRes.json();
+            const token = authData.access_token;
+            
+            const searchRes = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(queryTerm)}&type=track&limit=50`, {
+              headers: { "Authorization": `Bearer ${token}` }
+            });
+            
+            if (searchRes.ok) {
+              const searchData = await searchRes.json();
+              const items = searchData.tracks?.items || [];
+              tracks = items.map(item => ({
+                id: `sp-${item.id}`,
+                spotifyId: item.id,
+                title: item.name,
+                artist: item.artists?.map(a => a.name).join(", ") || "Official Artist",
+                album: item.album?.name || queryTerm,
+                category: queryTerm.replace(/^(latest|top 50|billboard)\s*/i, '').toUpperCase(),
+                coverUrl: item.album?.images?.[0]?.url || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
+                audioUrl: item.preview_url || `https://open.spotify.com/embed/track/${item.id}`,
+                url: item.external_urls?.spotify || `https://open.spotify.com/track/${item.id}`,
+                embedUrl: `https://open.spotify.com/embed/track/${item.id}`,
+                duration: Math.floor((item.duration_ms || 240000) / 1000),
+                provider: "spotify"
+              }));
+            }
+          }
+        } catch (spErr) {
+          console.warn("Direct Spotify client fallback error:", spErr);
+        }
+      }
+
       if (tracks && tracks.length > 0) {
         setSongs(tracks);
         setSelectedCategory('All');
