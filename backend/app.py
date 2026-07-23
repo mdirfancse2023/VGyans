@@ -792,21 +792,19 @@ def get_spotify_token() -> str:
 
 def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
     import urllib.request, urllib.parse, json, html, ssl, os, re
-    from concurrent.futures import ThreadPoolExecutor
 
     q_term = query or "latest hindi songs"
     token = get_spotify_token()
     
     if not token:
-        return fetch_youtube_songs(query=q_term, limit=limit)
+        print("Warning: Spotify Client Token unavailable.")
+        return []
 
     ctx = ssl._create_unverified_context()
     headers = {
         'Authorization': f'Bearer {token}',
         'Accept': 'application/json'
     }
-
-    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY") or "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo"
 
     tracks = []
     try:
@@ -816,7 +814,7 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
             data = json.loads(resp.read().decode('utf-8'))
             items = data.get("tracks", {}).get("items", [])
 
-            def resolve_spotify_track(item):
+            for item in items:
                 s_id = item.get("id", "")
                 title = item.get("name", "")
                 artists = [a.get("name", "") for a in item.get("artists", []) if a.get("name")]
@@ -827,111 +825,26 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
                 cover_url = images[0].get("url") if images else "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500"
                 dur_ms = item.get("duration_ms", 240000)
                 dur_sec = int(dur_ms / 1000)
+                preview_url = item.get("preview_url") or ""
+                spotify_link = item.get("external_urls", {}).get("spotify", f"https://open.spotify.com/track/{s_id}")
 
-                vid = ""
-                if yt_api_key:
-                    try:
-                        search_q = f"{title} {artist_str} official audio"
-                        y_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q={urllib.parse.quote(search_q)}&key={yt_api_key}"
-                        y_req = urllib.request.Request(y_url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-                        with urllib.request.urlopen(y_req, timeout=3, context=ctx) as y_resp:
-                            y_data = json.loads(y_resp.read().decode('utf-8'))
-                            y_items = y_data.get("items", [])
-                            if y_items:
-                                vid = y_items[0].get("id", {}).get("videoId") or ""
-                    except Exception:
-                        pass
-
-                audio_src = f"/api/audio-proxy?videoId={vid}" if vid else ""
-
-                return {
+                tracks.append({
                     "id": f"sp-{s_id}",
-                    "videoId": vid,
+                    "spotifyId": s_id,
                     "title": title,
                     "artist": artist_str,
                     "album": album_name,
                     "category": q_term.title(),
                     "coverUrl": cover_url,
-                    "audioUrl": audio_src,
-                    "url": audio_src,
+                    "audioUrl": preview_url or f"https://open.spotify.com/embed/track/{s_id}",
+                    "url": spotify_link,
                     "embedUrl": f"https://open.spotify.com/embed/track/{s_id}",
                     "duration": dur_sec,
                     "provider": "spotify"
-                }
-
-            with ThreadPoolExecutor(max_workers=8) as executor:
-                raw_tracks = list(executor.map(resolve_spotify_track, items))
-                tracks = [t for t in raw_tracks if t]
+                })
 
     except Exception as e:
         print(f"Spotify search error: {e}")
-
-    if not tracks:
-        return fetch_youtube_songs(query=q_term, limit=limit)
-
-    return tracks
-
-def fetch_youtube_songs(query: str = "latest hindi songs", limit: int = 50):
-    import urllib.request, urllib.parse, json, html, ssl, os, re
-
-    q_term = query or "latest hindi songs"
-    ctx = ssl._create_unverified_context()
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'application/json, text/plain, */*'
-    }
-
-    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY") or "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo"
-
-    tracks = []
-    seen_vids = set()
-    exclude_words = ['top 10', 'top 20', 'top 50', 'top 100', 'jukebox', 'compilation', 'podcast', 'full album', 'non stop', 'nonstop', '3 hours', '10 hours', 'shorts', 'full movie', 'best of', 'collection', 'playlist', 'mashup']
-
-    if yt_api_key:
-        try:
-            search_query = f"{q_term} official audio song"
-            yt_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoCategoryId=10&q={urllib.parse.quote(search_query)}&key={yt_api_key}"
-            req = urllib.request.Request(yt_url, headers=headers)
-            with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
-                data = json.loads(resp.read().decode('utf-8'))
-                items = data.get("items", [])
-
-                for item in items:
-                    vid = item.get("id", {}).get("videoId")
-                    if not vid or vid in seen_vids:
-                        continue
-
-                    snippet = item.get("snippet", {})
-                    raw_title = html.unescape(snippet.get("title", ""))
-                    t_lower = raw_title.lower()
-
-                    if any(w in t_lower for w in exclude_words):
-                        continue
-
-                    seen_vids.add(vid)
-                    clean_t = re.sub(r'[\(\[\{].*?[\)\]\}]', '', raw_title).strip()
-                    artist = html.unescape(snippet.get("channelTitle", "Official Music")).replace(" - Topic", "").replace("VEVO", "").strip()
-                    cover = snippet.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg"
-
-                    tracks.append({
-                        "id": f"yt-{vid}",
-                        "videoId": vid,
-                        "title": clean_t or raw_title,
-                        "artist": artist or "Official Artist",
-                        "album": q_term.title(),
-                        "category": q_term.title(),
-                        "coverUrl": cover,
-                        "embedUrl": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
-                        "audioUrl": f"/api/audio-proxy?videoId={vid}",
-                        "url": f"/api/audio-proxy?videoId={vid}",
-                        "duration": 240,
-                        "provider": "youtube"
-                    })
-                    if len(tracks) >= limit:
-                        break
-
-        except Exception as e:
-            print(f"YouTube Data API error: {e}")
 
     return tracks
 
