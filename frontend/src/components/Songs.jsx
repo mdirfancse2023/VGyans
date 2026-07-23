@@ -59,15 +59,15 @@ export default function Songs({
   // Preset Categories (First 3 for Songs, Next 5 for Music)
   const presets = [
     // --- SONGS (First 3) ---
-    { id: 'hindi', label: '🇮🇳 Hindi Songs', term: 'latest bollywood hindi top 50 hits', type: 'song', description: 'Trending Bollywood & Hindi tracks' },
-    { id: 'english', label: '🌐 English Songs', term: 'billboard top 50 english pop hits', type: 'song', description: 'International pop & English hits' },
-    { id: 'punjabi', label: '🌾 Punjabi Songs', term: 'latest punjabi top 50 hit songs', type: 'song', description: 'Popular Punjabi vocal hits' },
+    { id: 'hindi', label: '🇮🇳 Hindi', term: 'latest bollywood hindi top 50 hits', type: 'song', description: 'Trending Bollywood & Hindi tracks' },
+    { id: 'english', label: '🌐 English', term: 'billboard top 50 english pop hits', type: 'song', description: 'International pop & English hits' },
+    { id: 'punjabi', label: '🌾 Punjabi', term: 'latest punjabi top 50 hit songs', type: 'song', description: 'Popular Punjabi vocal hits' },
     // --- MUSIC (Next 5) ---
-    { id: 'lofi', label: '🎧 Lo-Fi & Study Music', term: 'lofi study focus beats', type: 'music', description: 'Relaxing lo-fi beats for coding & focus' },
-    { id: 'ambient', label: '🌿 Chill & Ambient Music', term: 'chill ambient relaxing soundscapes', type: 'music', description: 'Calm ambient background soundscapes' },
-    { id: 'instrumental', label: '🎻 Classical & Instrumental', term: 'violin piano classical instrumental masterpieces', type: 'music', description: 'Pure instrumental & classical tracks' },
-    { id: 'romantic', label: '❤️ Romantic Melodies', term: 'romantic hindi love melodies', type: 'music', description: 'Peaceful acoustic & romantic tunes' },
-    { id: 'electronic', label: '⚡ Focus & EDM Beats', term: 'edm synthwave focus beats', type: 'music', description: 'Upbeat electronic beats for productivity' }
+    { id: 'lofi', label: '🎧 Lo-Fi', term: 'lofi study focus beats', type: 'music', description: 'Relaxing lo-fi beats for coding & focus' },
+    { id: 'ambient', label: '🌿 Ambient', term: 'chill ambient relaxing soundscapes', type: 'music', description: 'Calm ambient background soundscapes' },
+    { id: 'instrumental', label: '🎻 Classical', term: 'violin piano classical instrumental masterpieces', type: 'music', description: 'Pure instrumental & classical tracks' },
+    { id: 'romantic', label: '❤️ Romantic', term: 'romantic hindi love melodies', type: 'music', description: 'Peaceful acoustic & romantic tunes' },
+    { id: 'electronic', label: '⚡ EDM', term: 'edm synthwave focus beats', type: 'music', description: 'Upbeat electronic beats for productivity' }
   ];
 
   // YouTube Audio Catalog Fetcher
