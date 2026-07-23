@@ -3,11 +3,11 @@ from typing import Optional, List, Dict, Any
 import requests
 
 try:
-    from backend.services.resume_service import ResumeService
-    from backend.schemas.resume import ResumeAnalysisResponseDTO
-except ModuleNotFoundError:
     from services.resume_service import ResumeService
     from schemas.resume import ResumeAnalysisResponseDTO
+except ModuleNotFoundError:
+    from backend.services.resume_service import ResumeService
+    from backend.schemas.resume import ResumeAnalysisResponseDTO
 
 router = APIRouter(tags=["Resume & Placement"])
 resume_service = ResumeService()
