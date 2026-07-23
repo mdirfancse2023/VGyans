@@ -25,7 +25,7 @@ export default function Songs({
   const [activePreset, setActivePreset] = useState(null);
   const [trackProgress, setTrackProgress] = useState(0);
 
-  const [musicSource, setMusicSource] = useState('jiosaavn'); // 'jiosaavn' | 'youtube'
+  const [musicSource, setMusicSource] = useState('spotify'); // 'spotify'
 
   useEffect(() => {
     setTrackProgress(0);
