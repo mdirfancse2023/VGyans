@@ -1,20 +1,14 @@
 from fastapi import APIRouter
 from typing import Dict, Any
 from backend.schemas.feedback import FeedbackCreateDTO
+from backend.services.system_service import SystemService
 
 router = APIRouter(tags=["System"])
+system_service = SystemService()
 
 @router.get("/stats")
 def get_stats() -> Dict[str, Any]:
-    return {
-        "status": "online",
-        "framework": "FastAPI (SOLID Modular Architecture)",
-        "version": "4.0.0",
-        "totalResources": 250,
-        "totalQuestions": 180,
-        "totalNotes": 95,
-        "totalJobs": 45
-    }
+    return system_service.get_stats()
 
 @router.post("/feedback")
 def submit_feedback(fb: FeedbackCreateDTO):
