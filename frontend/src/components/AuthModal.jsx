@@ -77,11 +77,14 @@ export default function AuthModal({
 
     try {
       // Hash entered password via SHA-256 with salt
-      const hashedInputPassword = await hashPassword(inputPassword);
-      const expectedPasswordHash = await hashPassword('0177Cs191094@');
+      const adminPass = import.meta.env.VITE_ADMIN_PASSWORD || '0177Cs191094@';
+      const adminEmail = (import.meta.env.VITE_ADMIN_EMAIL || 'mdirfancse2023@gamil.com').toLowerCase();
 
-      const isAuthorizedEmail = (inputEmail === 'mdirfancse2023@gamil.com' || inputEmail === 'mdirfancse2023@gmail.com');
-      const isAuthorizedPassword = (hashedInputPassword === expectedPasswordHash || inputPassword === '0177Cs191094@');
+      const hashedInputPassword = await hashPassword(inputPassword);
+      const expectedPasswordHash = await hashPassword(adminPass);
+
+      const isAuthorizedEmail = (inputEmail === adminEmail || inputEmail === 'mdirfancse2023@gmail.com');
+      const isAuthorizedPassword = (hashedInputPassword === expectedPasswordHash || inputPassword === adminPass);
 
       if (!isAuthorizedEmail || !isAuthorizedPassword) {
         setLoading(false);
