@@ -1,5 +1,5 @@
-from fastapi import APIRouter, File, UploadFile, Form, HTTPException, Response
-from typing import Optional
+from fastapi import APIRouter, File, UploadFile, Form, HTTPException, Response, Query
+from typing import Optional, List, Dict, Any
 from backend.services.resume_service import ResumeService
 from backend.schemas.resume import ResumeAnalysisResponseDTO
 import requests
@@ -7,10 +7,15 @@ import requests
 router = APIRouter(tags=["Resume & Placement"])
 resume_service = ResumeService()
 
+@router.get("/resume/categories", response_model=List[Dict[str, Any]])
+def get_resume_categories():
+    return resume_service.get_categories()
+
 @router.post("/analyze-resume", response_model=ResumeAnalysisResponseDTO)
 async def analyze_resume(
     file: Optional[UploadFile] = File(None),
     resume_text: Optional[str] = Form(None),
+    category: Optional[str] = Form("technical", description="Resume category: technical or management"),
     target_role: Optional[str] = Form("Software Engineer")
 ):
     extracted_text = resume_text or ""
@@ -19,9 +24,9 @@ async def analyze_resume(
         extracted_text += " " + content.decode("utf-8", errors="ignore")
 
     if not extracted_text.strip():
-        extracted_text = "Python Java React JavaScript SQL Data Structures Algorithms REST API Docker AWS"
+        extracted_text = "Python Java React JavaScript SQL Data Structures Algorithms REST API Docker AWS Agile Scrum Product Strategy"
 
-    return resume_service.analyze(extracted_text, target_role=target_role or "Software Engineer")
+    return resume_service.analyze(extracted_text, category=category or "technical", target_role=target_role or "Software Engineer")
 
 @router.get("/pdf-proxy")
 def pdf_proxy(url: str):
