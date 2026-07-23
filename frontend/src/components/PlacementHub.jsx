@@ -1,67 +1,890 @@
-import React from 'react';
-import { usePlacement } from '../hooks/usePlacement';
-import DSACard from './placement/DSACard';
-import CSFundamentalsCard from './placement/CSFundamentalsCard';
-import JobPlacementCard from './placement/JobPlacementCard';
-import InterviewCard from './placement/InterviewCard';
+import React, { useState, useEffect } from 'react';
+import { doc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../firebase';
+import PDFViewer from './PDFViewer';
+import InterviewExperiences from './InterviewExperiences';
 
-export default function PlacementHub() {
-  const { activeCategory, setActiveCategory, categories, categoryData, loading } = usePlacement('dsa');
+const highlightCode = (codeText, lang) => {
+  if (!codeText) return '';
+
+  let tokenRegex;
+  if (lang === 'python') {
+    tokenRegex = /(#.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
+  } else if (lang === 'java' || lang === 'cpp') {
+    tokenRegex = /(\/\/.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
+  } else if (lang === 'sql') {
+    tokenRegex = /(--.*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\w+\b|[^\s\w]+|\s+)/g;
+  } else {
+    tokenRegex = /(\b\w+\b|[^\s\w]+|\s+)/g;
+  }
+
+  const pythonKeywords = new Set(['def', 'class', 'import', 'from', 'as', 'return', 'if', 'elif', 'else', 'for', 'in', 'while', 'try', 'except', 'pass', 'print', 'and', 'or', 'not', 'is', 'lambda', 'with', 'yield', 'None', 'True', 'False']);
+  const cppKeywords = new Set(['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'do', 'void', 'int', 'double', 'float', 'char', 'boolean', 'long', 'static', 'final', 'new', 'this', 'super', 'override', 'include', 'using', 'namespace', 'cout', 'cin', 'endl', 'vector', 'unordered_map', 'string', 'const', 'virtual']);
+  const sqlKeywords = new Set(['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'ON', 'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'SUM', 'MAX', 'MIN', 'AVG', 'COUNT', 'AS', 'AND', 'OR', 'IN', 'INSERT', 'INTO', 'VALUES', 'CREATE', 'TABLE', 'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES']);
+
+  const tokens = codeText.match(tokenRegex) || [codeText];
+  
+  return tokens.map(token => {
+    const escapedToken = token
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
+    if (token.startsWith('#') || token.startsWith('//') || token.startsWith('--')) {
+      return `<span style="color: #64748b; font-style: italic;">${escapedToken}</span>`;
+    }
+    if ((token.startsWith('"') && token.endsWith('"')) || (token.startsWith("'") && token.endsWith("'"))) {
+      return `<span style="color: #a7f3d0;">${escapedToken}</span>`;
+    }
+    if (/^\d+$/.test(token)) {
+      return `<span style="color: #f59e0b;">${escapedToken}</span>`;
+    }
+    if (lang === 'python' && pythonKeywords.has(token)) {
+      return `<span style="color: #60a5fa; font-weight: 700;">${escapedToken}</span>`;
+    }
+    if ((lang === 'java' || lang === 'cpp') && cppKeywords.has(token)) {
+      return `<span style="color: #60a5fa; font-weight: 700;">${escapedToken}</span>`;
+    }
+    if (lang === 'sql' && sqlKeywords.has(token.toUpperCase())) {
+      return `<span style="color: #38bdf8; font-weight: 700;">${escapedToken}</span>`;
+    }
+    return escapedToken;
+  }).join('');
+};
+
+const detectLanguage = (title) => {
+  const t = (title || '').toLowerCase();
+  if (t.includes('python')) return 'python';
+  if (t.includes('sql')) return 'sql';
+  if (t.includes('c++') || t.includes('cpp')) return 'cpp';
+  return 'java'; // general C/C++/Java highlighting
+};
+
+const noteCacheMap = new Map();
+
+function BlogReader({ note, onClose }) {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState(null);
+  const [activeChapterIndex, setActiveChapterIndex] = useState(0);
+  const noteId = note.id || (note.downloadUrl ? note.downloadUrl.replace('/notes/', '') : '');
+  
+  const [noteData, setNoteData] = useState(() => {
+    return noteCacheMap.get(noteId) || note;
+  });
+
+  const [isLoadingContent, setIsLoadingContent] = useState(() => {
+    const cached = noteCacheMap.get(noteId);
+    return !(cached && ((cached.content && cached.content.length > 0) || (cached.chapters && cached.chapters.length > 0)));
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    if (!noteId) {
+      setIsLoadingContent(false);
+      return;
+    }
+
+    if (noteCacheMap.has(noteId)) {
+      const cached = noteCacheMap.get(noteId);
+      if (cached && ((cached.content && cached.content.length > 0) || (cached.chapters && cached.chapters.length > 0))) {
+        setNoteData(cached);
+        setIsLoadingContent(false);
+        return;
+      }
+    }
+
+    setIsLoadingContent(true);
+
+    const API_URL = import.meta.env.VITE_API_URL || (
+      typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+        ? 'http://localhost:8000' 
+        : 'https://v-gyans.vercel.app'
+    );
+
+    const apiFetch = fetch(`${API_URL}/api/notes/${noteId}`)
+      .then(res => res.ok ? res.json() : null)
+      .catch(() => null);
+
+    const firebaseFetch = getDoc(doc(db, 'notes', noteId))
+      .then(snap => (snap && snap.exists()) ? snap.data() : null)
+      .catch(() => null);
+
+    Promise.all([apiFetch, firebaseFetch]).then(([apiData, fbData]) => {
+      if (!isMounted) return;
+      const finalData = fbData || apiData;
+      if (finalData) {
+        const merged = { ...note, ...finalData };
+        noteCacheMap.set(noteId, merged);
+        setNoteData(merged);
+      }
+      setIsLoadingContent(false);
+    });
+
+    return () => { isMounted = false; };
+  }, [noteId]);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
+  const handleCopyCode = (text, index) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const isBook = noteData.chapters && noteData.chapters.length > 0;
+  const activeChapter = isBook ? noteData.chapters[activeChapterIndex] : null;
+
+  const fallbackContent = [
+    { type: 'h1', text: `1. Overview & Core Principles: ${noteData.title || 'System Design'}` },
+    { type: 'body', text: noteData.description || 'Comprehensive technical notes and architectural principles for system design and software engineering interviews.' },
+    { type: 'h1', text: '2. Key Architecture Concepts & Design Trade-offs' },
+    { type: 'body', text: 'When designing large-scale distributed systems, consider key metrics: <b>Scalability</b> (Horizontal vs Vertical), <b>Availability</b> (SLA percentages), <b>Consistency</b> (Strong vs Eventual), and <b>Latency</b>.' },
+    { type: 'code', text: `// Key System Design Architecture Components:\n1. Load Balancers (NGINX, HAProxy, AWS ALB)\n2. Caching Tier (Redis, Memcached)\n3. Database (PostgreSQL / MongoDB / DynamoDB)\n4. Message Queue (Kafka, RabbitMQ)\n5. CDN (Cloudflare, AWS CloudFront)` },
+    { type: 'h1', text: '3. Best Practices & Interview Preparation' },
+    { type: 'body', text: 'Always start with Requirement Clarification (Functional & Non-functional), followed by High-Level Design (HLD), Data Schema, API Contracts, and Deep Dive into Bottlenecks.' }
+  ];
+
+  const contentToRender = isBook 
+    ? (activeChapter ? activeChapter.content : []) 
+    : (noteData.content && noteData.content.length > 0 ? noteData.content : fallbackContent);
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 16px', fontFamily: 'Inter, sans-serif' }}>
-      <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 900, background: 'linear-gradient(135deg, #38bdf8 0%, #818cf8 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: '0 0 10px 0' }}>
-          🎓 Campus Placement Operating System
-        </h1>
-        <p style={{ color: '#94a3b8', fontSize: '1.05rem', margin: 0 }}>
-          Structured roadmaps, CS fundamentals, off-campus jobs, and verified student interview experiences.
-        </p>
-      </div>
-
-      {/* Category Tab Selector (4 Categories) */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px', marginBottom: '32px' }}>
-        {categories.map((cat) => {
-          const isActive = activeCategory === cat.id;
-          return (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '16px 20px',
-                borderRadius: '14px',
-                background: isActive ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%)' : 'rgba(30, 41, 59, 0.5)',
-                border: isActive ? '2px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.08)',
-                color: isActive ? '#38bdf8' : '#94a3b8',
-                fontWeight: isActive ? 800 : 600,
-                fontSize: '0.95rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease-in-out'
-              }}
-            >
-              <span style={{ fontSize: '1.5rem' }}>{cat.icon}</span>
-              <span>{cat.name}</span>
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(15, 23, 42, 0.85)',
+      backdropFilter: 'blur(12px)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000,
+      padding: isFullscreen ? '0' : '2rem',
+      transition: 'all 0.3s ease'
+    }}>
+      <style>{`
+        .blog-modal-container {
+          background: rgba(30, 41, 59, 0.95);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 16px;
+          width: 100%;
+          max-width: 900px;
+          height: 100%;
+          max-height: 85vh;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+          overflow: hidden;
+          transition: all 0.3s ease;
+        }
+        .blog-modal-container.book-mode {
+          max-width: 1250px;
+        }
+        .blog-modal-container.fullscreen {
+          max-width: 100vw;
+          max-height: 100vh;
+          height: 100vh;
+          border-radius: 0;
+          border: none;
+        }
+        .blog-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.25rem 2rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(15, 23, 42, 0.4);
+        }
+        .blog-title {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #f8fafc;
+          margin: 0;
+        }
+        .blog-controls {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+        .blog-control-btn {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          color: #94a3b8;
+          border-radius: 8px;
+          padding: 0.5rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+        }
+        .blog-control-btn:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: #f8fafc;
+        }
+        .blog-body-wrapper {
+          display: flex;
+          flex: 1;
+          overflow: hidden;
+        }
+        .blog-sidebar {
+          width: 320px;
+          border-right: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(15, 23, 42, 0.25);
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+        }
+        .blog-sidebar-title {
+          padding: 1.25rem 1.5rem 0.75rem;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #64748b;
+          font-weight: 700;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .blog-sidebar-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+        }
+        .blog-sidebar-item {
+          padding: 1rem 1.5rem;
+          cursor: pointer;
+          font-size: 0.9rem;
+          color: #94a3b8;
+          border-left: 3px solid transparent;
+          transition: all 0.2s ease;
+          text-align: left;
+          background: transparent;
+          border-top: none;
+          border-right: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+          width: 100%;
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .blog-sidebar-item:hover {
+          background: rgba(255, 255, 255, 0.02);
+          color: #f8fafc;
+        }
+        .blog-sidebar-item.active {
+          background: rgba(6, 182, 212, 0.08);
+          color: var(--primary);
+          border-left-color: var(--primary);
+          font-weight: 600;
+        }
+        .blog-content-area {
+          flex: 1;
+          overflow-y: auto;
+          padding: 2.5rem 3rem;
+          background: rgba(15, 23, 42, 0.1);
+        }
+        .blog-h1 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #0284c7;
+          margin-top: 1.5rem;
+          margin-bottom: 1rem;
+          border-left: 4px solid #0284c7;
+          padding-left: 0.75rem;
+        }
+        .blog-p {
+          font-size: 1.05rem;
+          line-height: 1.7;
+          color: #cbd5e1;
+          margin-bottom: 1.25rem;
+        }
+        body.light-theme .blog-p {
+          color: #1e293b !important;
+        }
+        body.light-theme .blog-p b {
+          color: #0f172a !important;
+        }
+        body.light-theme .blog-p code {
+          background: #e2e8f0 !important;
+          color: #0369a1 !important;
+          border: 1px solid #cbd5e1 !important;
+          padding: 0.15rem 0.4rem !important;
+          border-radius: 4px !important;
+        }
+        body.light-theme .blog-modal-container {
+          background: #ffffff !important;
+          border-color: rgba(15, 23, 42, 0.12) !important;
+          box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15) !important;
+        }
+        body.light-theme .blog-header {
+          background: #f8fafc !important;
+          border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+        }
+        body.light-theme .blog-title {
+          color: #0f172a !important;
+        }
+        body.light-theme .blog-sidebar {
+          background: #f8fafc !important;
+          border-right-color: rgba(15, 23, 42, 0.08) !important;
+        }
+        body.light-theme .blog-sidebar-title {
+          color: #64748b !important;
+          border-bottom-color: rgba(15, 23, 42, 0.06) !important;
+        }
+        body.light-theme .blog-sidebar-item {
+          color: #475569 !important;
+          border-bottom-color: rgba(15, 23, 42, 0.04) !important;
+        }
+        body.light-theme .blog-sidebar-item:hover {
+          background: rgba(15, 23, 42, 0.04) !important;
+          color: #0f172a !important;
+        }
+        body.light-theme .blog-sidebar-item.active {
+          background: #e0f2fe !important;
+          color: #0369a1 !important;
+          border-left-color: #0284c7 !important;
+        }
+        body.light-theme .blog-content-area {
+          background: #ffffff !important;
+          color: #1e293b !important;
+        }
+        body.light-theme .blog-h1 {
+          color: #0369a1 !important;
+          border-left-color: #0284c7 !important;
+        }
+        body.light-theme .blog-image-container {
+          background: #f8fafc !important;
+          border-color: rgba(15, 23, 42, 0.08) !important;
+        }
+        .blog-image-container {
+          text-align: center;
+          margin: 2rem 0;
+          padding: 1.5rem;
+          background: rgba(15, 23, 42, 0.4);
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .blog-image {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+        .blog-code-container {
+          position: relative;
+          margin-bottom: 1.5rem;
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: #0f172a;
+        }
+        .blog-code-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.5rem 1rem;
+          background: rgba(255, 255, 255, 0.03);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          font-family: monospace;
+          font-size: 0.8rem;
+          color: #64748b;
+        }
+        .blog-code-pre {
+          margin: 0;
+          padding: 1.25rem;
+          overflow-x: auto;
+          font-family: 'Courier New', Courier, monospace;
+          font-size: 0.9rem;
+          line-height: 1.5;
+          color: #e2e8f0;
+        }
+        .blog-copy-btn {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          color: #94a3b8;
+          border-radius: 4px;
+          padding: 0.25rem 0.5rem;
+          font-size: 0.75rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .blog-copy-btn:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: #f8fafc;
+        }
+        @media (max-width: 900px) {
+          .blog-body-wrapper {
+            flex-direction: column !important;
+          }
+          .blog-sidebar {
+            width: 100% !important;
+            max-height: 180px !important;
+            border-right: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+          }
+        }
+      `}</style>
+      <div className={`blog-modal-container ${isBook ? 'book-mode' : ''} ${isFullscreen ? 'fullscreen' : ''}`}>
+        <div className="blog-header">
+          <h3 className="blog-title">{note.title}</h3>
+          <div className="blog-controls">
+            <button className="blog-control-btn" onClick={() => setIsFullscreen(!isFullscreen)} title="Toggle Fullscreen">
+              {isFullscreen ? (
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M10 14l-7 7"></path>
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"></path>
+                </svg>
+              )}
             </button>
-          );
-        })}
+            <button className="blog-control-btn" onClick={onClose} title="Close Notes">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div className="blog-body-wrapper">
+          {isBook && (
+            <div className="blog-sidebar">
+              <div className="blog-sidebar-title">Book Chapters</div>
+              <div className="blog-sidebar-list">
+                {noteData.chapters.map((ch, idx) => (
+                  <button
+                    key={idx}
+                    className={`blog-sidebar-item ${activeChapterIndex === idx ? 'active' : ''}`}
+                    onClick={() => setActiveChapterIndex(idx)}
+                    title={ch.title}
+                  >
+                    {ch.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="blog-content-area">
+            {isLoadingContent ? (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '300px', padding: '3rem 2rem', textAlign: 'center' }}>
+                <div style={{
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '50%',
+                  border: '3px solid rgba(6, 182, 212, 0.15)',
+                  borderTopColor: 'var(--primary)',
+                  animation: 'spin 0.9s linear infinite',
+                  marginBottom: '1rem'
+                }}></div>
+                <h4 style={{ color: '#f8fafc', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Chapter...</h4>
+                <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>Loading chapter content...</p>
+              </div>
+            ) : contentToRender.map((block, index) => {
+              if (block.type === 'h1') {
+                return <h2 key={index} className="blog-h1">{block.text}</h2>;
+              } else if (block.type === 'body') {
+                return <p key={index} className="blog-p" dangerouslySetInnerHTML={{ __html: block.text }} />;
+              } else if (block.type === 'image') {
+                return (
+                  <div key={index} className="blog-image-container">
+                    <img src={block.text} alt="Diagram" className="blog-image" />
+                  </div>
+                );
+              } else if (block.type === 'code') {
+                const lang = detectLanguage(noteData.title);
+                return (
+                  <div key={index} className="blog-code-container">
+                    <div className="blog-code-header">
+                      <span style={{ textTransform: 'uppercase', fontWeight: 600 }}>{lang} Snippet</span>
+                      <button className="blog-copy-btn" onClick={() => handleCopyCode(block.text, index)}>
+                        {copiedIndex === index ? 'Copied!' : 'Copy'}
+                      </button>
+                    </div>
+                    <pre className="blog-code-pre"><code dangerouslySetInnerHTML={{ __html: highlightCode(block.text, lang) }} /></pre>
+                  </div>
+                );
+              }
+              return null;
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const DEFAULT_FLASHCARDS = [
+  { id: 'fc-1', category: 'Spring Boot', question: 'What is @SpringBootApplication annotation?', answer: '@SpringBootApplication is a convenience annotation that combines @Configuration, @EnableAutoConfiguration, and @ComponentScan with default attributes.' },
+  { id: 'fc-2', category: 'Spring Boot', question: 'What is Dependency Injection in Spring?', answer: 'Dependency Injection (DI) is a core pattern in Spring where the IoC container injects dependent objects into a class rather than the class constructing them manually.' },
+  { id: 'fc-3', category: 'System Design', question: 'What is Horizontal vs Vertical Scaling?', answer: 'Vertical Scaling (Scale Up) means adding more RAM/CPU to an existing machine. Horizontal Scaling (Scale Out) means adding more server instances to distribute load.' },
+  { id: 'fc-4', category: 'System Design', question: 'What is CAP Theorem?', answer: 'CAP Theorem states that a distributed system can only provide two of three guarantees simultaneously: Consistency, Availability, and Partition Tolerance.' },
+  { id: 'fc-5', category: 'Java', question: 'Difference between String, StringBuilder, and StringBuffer?', answer: 'String is immutable. StringBuilder is mutable and non-thread-safe (faster). StringBuffer is mutable and thread-safe (synchronized).' },
+  { id: 'fc-6', category: 'Java', question: 'How does HashMap work internally in Java 8+?', answer: 'HashMap uses an array of Nodes (LinkedList). In Java 8+, if a bucket collision bin exceeds 8 entries, the LinkedList transforms into a balanced Red-Black Tree for O(log n) lookup.' },
+  { id: 'fc-7', category: 'SQL', question: 'Difference between WHERE and HAVING in SQL?', answer: 'WHERE filters rows before grouping occurs. HAVING filters aggregated groups after GROUP BY is applied.' },
+  { id: 'fc-8', category: 'SQL', question: 'What is the difference between RANK() and DENSE_RANK()?', answer: 'RANK() leaves gaps in rank numbering when there are duplicate values (e.g. 1, 2, 2, 4). DENSE_RANK() does not leave gaps (e.g. 1, 2, 2, 3).' },
+  { id: 'fc-9', category: 'Microservices', question: 'What is an API Gateway pattern?', answer: 'An API Gateway acts as a single entry point for clients, handling routing, rate limiting, authentication, SSL termination, and protocol translation.' },
+  { id: 'fc-10', category: 'Rest API', question: 'What are the main HTTP methods and their idempotency?', answer: 'GET, PUT, and DELETE are idempotent (multiple identical requests yield same state). POST and PATCH are non-idempotent.' },
+  { id: 'fc-11', category: 'React', question: 'What is the Virtual DOM in React?', answer: 'The Virtual DOM is an in-memory lightweight representation of the real DOM. React calculates differences (reconciliation) and updates only changed nodes in the real DOM.' },
+  { id: 'fc-12', category: 'Angular', question: 'What is Dependency Injection in Angular?', answer: 'Angular DI supplies required services/dependencies to components via constructor parameters configured in @Injectable providers.' }
+];
+
+export default function PlacementHub({ resources, notes, onboardingStages = {}, flashcards = [], experiences = [], onSubmitExperience }) {
+  const [activeSection, setActiveSection] = useState('resources');
+  const [activePdf, setActivePdf] = useState(null);
+  const [activeNote, setActiveNote] = useState(null);
+
+  // Tracker state
+  const [trackerCompany, setTrackerCompany] = useState('');
+  const [currentStageIndex, setCurrentStageIndex] = useState(0);
+
+  // Flashcard state
+  const [selectedCategory, setSelectedCategory] = useState('Spring Boot');
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [liveFlashcards, setLiveFlashcards] = useState([]);
+  const [isLoadingFlashcards, setIsLoadingFlashcards] = useState(false);
+
+  useEffect(() => {
+    if (activeSection === 'flashcards') {
+      let isMounted = true;
+      const fetchCategoryFlashcards = async () => {
+        setIsLoadingFlashcards(true);
+        try {
+          const colRef = collection(db, 'flashcards');
+          const qRef = query(colRef, where('category', '==', selectedCategory));
+          const snapshot = await getDocs(qRef);
+          if (!snapshot.empty && isMounted) {
+            const cards = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+            setLiveFlashcards(cards);
+            setIsLoadingFlashcards(false);
+            return;
+          }
+        } catch (e) {
+          console.warn('Firebase direct SDK category flashcards notice:', e);
+        }
+
+        try {
+          const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://v-gyans.vercel.app');
+          const res = await fetch(`${API_URL}/api/flashcards?category=${encodeURIComponent(selectedCategory)}`);
+          if (res.ok && isMounted) {
+            const cards = await res.json();
+            if (cards && Array.isArray(cards) && cards.length > 0) {
+              setLiveFlashcards(cards);
+            }
+          }
+        } catch (err) {
+          console.warn('API category flashcards fetch notice:', err);
+        } finally {
+          if (isMounted) setIsLoadingFlashcards(false);
+        }
+      };
+
+      fetchCategoryFlashcards();
+      return () => { isMounted = false; };
+    }
+  }, [activeSection, selectedCategory]);
+
+  const fcCategories = [
+    'Spring Boot',
+    'System Design',
+    'Java',
+    'SQL',
+    'Microservices',
+    'Rest API',
+    'React',
+    'Angular'
+  ];
+  const cardsToUse = (liveFlashcards && liveFlashcards.length > 0) ? liveFlashcards : DEFAULT_FLASHCARDS;
+  const filteredCards = cardsToUse.filter(c => {
+    const catStr = (c.category || '').toLowerCase();
+    const targetStr = selectedCategory.toLowerCase();
+    return catStr === targetStr || catStr.includes(targetStr) || targetStr.includes(catStr);
+  });
+  const currentCard = filteredCards[currentCardIndex] || filteredCards[0];
+
+  const handleNextCard = () => { setIsFlipped(false); setTimeout(() => setCurrentCardIndex(p => (p + 1) % filteredCards.length), 150); };
+  const handlePrevCard = () => { setIsFlipped(false); setTimeout(() => setCurrentCardIndex(p => (p - 1 + filteredCards.length) % filteredCards.length), 150); };
+  const handleCatChange = (cat) => { setSelectedCategory(cat); setCurrentCardIndex(0); setIsFlipped(false); };
+
+  const companyKeys = Object.keys(onboardingStages);
+  const activeTrackerCompany = trackerCompany || companyKeys[0] || '';
+  const activeStages = onboardingStages[activeTrackerCompany] || [];
+
+  const handleAction = (res) => {
+    const targetUrl = res.downloadUrl || '#';
+    if (targetUrl.startsWith('/notes/')) {
+      const noteId = targetUrl.split('/').pop();
+      const foundNote = notes?.find(n => n.id === noteId);
+      setActiveNote(foundNote || {
+        id: noteId,
+        title: res.title,
+        downloadUrl: res.downloadUrl,
+        category: res.category,
+        description: res.description
+      });
+      return;
+    }
+    let pdfUrl = targetUrl;
+    if (!pdfUrl || pdfUrl === '#') pdfUrl = '/pdfs/placeholder.pdf';
+    const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : '');
+    const proxyUrl = (pdfUrl.startsWith('/') || pdfUrl.startsWith('./')) ? pdfUrl : `${API_URL}/api/pdf-proxy?url=${encodeURIComponent(pdfUrl)}`;
+    setActivePdf({ url: proxyUrl, title: res.title });
+  };
+
+  const [selectedResourceTab, setSelectedResourceTab] = useState('Spring Boot');
+  const resourceCategories = [
+    'Spring Boot',
+    'System Design',
+    'Java',
+    'SQL',
+    'Microservices',
+    'Rest API',
+    'React',
+    'Angular'
+  ];
+
+  const filteredResources = resources
+    .filter(res => res && res.downloadUrl && res.downloadUrl !== '#')
+    .filter(res => {
+      const query = selectedResourceTab.toLowerCase();
+      
+      // Check if tags match exactly or as substring
+      if (res.tags && res.tags.some(tag => tag.toLowerCase().includes(query) || query.includes(tag.toLowerCase()))) return true;
+
+      // Check if title or description contains the query
+      if (res.title && res.title.toLowerCase().includes(query)) return true;
+      if (res.description && res.description.toLowerCase().includes(query)) return true;
+
+      // Check if category matches
+      if (res.category && res.category.toLowerCase().includes(query)) return true;
+
+      // Special matching rules for Rest API
+      if (query === 'rest api') {
+        const isRest = res.tags && res.tags.some(tag => {
+          const t = tag.toLowerCase();
+          return t === 'rest' || t === 'api' || t === 'rest api' || t === 'rest-api';
+        });
+        if (isRest) return true;
+        if (res.title && (res.title.toLowerCase().includes('rest') || res.title.toLowerCase().includes('api'))) return true;
+      }
+      
+      return false;
+    });
+
+  return (
+    <div style={{ marginBottom: '3rem' }}>
+      {/* Section Tab Switcher */}
+      <div className="filters-wrapper" style={{ marginBottom: '0.5rem' }}>
+        <div className="filter-tabs" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
+          <button
+            className={`filter-tab ${activeSection === 'resources' ? 'active' : ''}`}
+            onClick={() => setActiveSection('resources')}
+            style={{ fontSize: '0.9rem', fontWeight: 600 }}
+          >
+            📚 Resources
+          </button>
+          <button
+            className={`filter-tab ${activeSection === 'flashcards' ? 'active' : ''}`}
+            onClick={() => setActiveSection('flashcards')}
+            style={{ fontSize: '0.9rem', fontWeight: 600 }}
+          >
+            ❓ Questions
+          </button>
+          <button
+            className={`filter-tab ${activeSection === 'tracker' ? 'active' : ''}`}
+            onClick={() => setActiveSection('tracker')}
+            style={{ fontSize: '0.9rem', fontWeight: 600 }}
+          >
+            🗺️ Onboarding
+          </button>
+          <button
+            className={`filter-tab ${activeSection === 'experiences' ? 'active' : ''}`}
+            onClick={() => setActiveSection('experiences')}
+            style={{ fontSize: '0.9rem', fontWeight: 600 }}
+          >
+            📝 Interviews
+          </button>
+        </div>
       </div>
 
-      {/* Render Sub-Component based on Active Category Strategy */}
-      {loading ? (
-        <div style={{ textAlign: 'center', padding: '48px', color: '#94a3b8', fontSize: '1rem' }}>
-          ⚡ Loading placement module data...
-        </div>
-      ) : (
-        <div>
-          {activeCategory === 'dsa' && <DSACard data={categoryData} />}
-          {activeCategory === 'cs-fundamentals' && <CSFundamentalsCard data={categoryData} />}
-          {activeCategory === 'jobs' && <JobPlacementCard data={categoryData} />}
-          {activeCategory === 'interviews' && <InterviewCard data={categoryData} />}
-        </div>
+      {/* ── RESOURCES ── */}
+      {activeSection === 'resources' && (
+        <>
+          <div className="sub-filter-tabs" style={{ flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.5rem', justifyContent: 'flex-start' }}>
+            {resourceCategories.map((cat) => (
+              <button
+                key={cat}
+                className={`sub-filter-tab ${selectedResourceTab === cat ? 'active' : ''}`}
+                onClick={() => setSelectedResourceTab(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid-container">
+            {filteredResources.map((res) => {
+              const isBlog = res.downloadUrl && res.downloadUrl.startsWith('/notes/');
+              return (
+                <div key={res.id} className="glass-card resource-card">
+                  <div className="resource-header">
+                    <span className="badge badge-primary">{res.company}</span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{res.category}</span>
+                  </div>
+                  <h3 className="resource-title">{res.title}</h3>
+                  <p className="resource-desc">{res.description}</p>
+                  <div className="resource-tags">
+                    {res.tags.map((tag) => (
+                      <span key={tag} className="badge badge-secondary" style={{ fontSize: '0.65rem' }}>#{tag}</span>
+                    ))}
+                  </div>
+                  <div className="resource-action">
+                    <button className="btn btn-secondary" style={{ width: '100%', gap: '0.5rem', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); handleAction(res); }}>
+                      {isBlog ? (
+                        <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Read Study Blog</>
+                      ) : (
+                        <><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View PDF Resource</>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
       )}
+
+      {/* ── ONBOARDING TRACKER ── */}
+
+      {activeSection === 'tracker' && (
+        <>
+          <div className="sub-filter-tabs" style={{ flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.5rem', justifyContent: 'flex-start' }}>
+            {companyKeys.map((comp) => (
+              <button
+                key={comp}
+                className={`sub-filter-tab ${activeTrackerCompany === comp ? 'active' : ''}`}
+                onClick={() => { setTrackerCompany(comp); setCurrentStageIndex(0); }}
+              >
+                {comp}
+              </button>
+            ))}
+          </div>
+
+          <div className="glass-panel tracker-container">
+            {companyKeys.length === 0 ? (
+              <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '2rem' }}>No onboarding data available.</p>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem' }}>
+                <div className="timeline">
+                  {activeStages.map((stage, idx) => (
+                    <div key={idx} className="timeline-item" style={{ cursor: 'pointer', opacity: currentStageIndex === idx ? 1 : 0.6 }} onClick={() => setCurrentStageIndex(idx)}>
+                      <div className="timeline-dot" style={{ borderColor: currentStageIndex === idx ? 'var(--primary)' : 'var(--border-glass)', background: currentStageIndex === idx ? 'var(--primary)' : 'rgba(255,255,255,0.1)' }}></div>
+                      <div className="timeline-title">{stage.stage}<span className="badge badge-success" style={{ fontSize: '0.65rem' }}>{stage.duration}</span></div>
+                      <div className="timeline-desc">{stage.desc.substring(0, 80)}...</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="glass-card" style={{ background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', height: 'fit-content' }}>
+                  <div className="badge badge-primary" style={{ marginBottom: '1rem', width: 'fit-content' }}>Stage Details & Advice</div>
+                  {activeStages[currentStageIndex] && (
+                    <>
+                      <h3 style={{ color: 'var(--text-primary)', fontSize: '1.2rem', marginBottom: '0.5rem' }}>{activeStages[currentStageIndex].stage}</h3>
+                      <div style={{ color: 'var(--primary)', fontSize: '0.9rem', fontWeight: '600', marginBottom: '1rem' }}>Duration: {activeStages[currentStageIndex].duration}</div>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>{activeStages[currentStageIndex].desc}</p>
+                      <div style={{ background: 'rgba(6,182,212,0.05)', borderLeft: '3px solid var(--primary)', padding: '1rem', borderRadius: '0 8px 8px 0', fontSize: '0.85rem' }}>
+                        <strong>Pro Gyan Tip:</strong> If your files have been in verification for more than {activeStages[currentStageIndex].duration}, reach out to support or check your onboarding dashboard for action items.
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )
+          }
+        </div>
+      </>
+      )}
+
+      {/* ── FLASHCARDS ── */}
+      {activeSection === 'flashcards' && (
+        <>
+          <div className="sub-filter-tabs" style={{ flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.5rem', justifyContent: 'flex-start' }}>
+            {fcCategories.map((cat) => (
+              <button
+                key={cat}
+                className={`sub-filter-tab ${selectedCategory === cat ? 'active' : ''}`}
+                onClick={() => handleCatChange(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="glass-panel flashcards-container">
+            {isLoadingFlashcards ? (
+              <div style={{ padding: '3.5rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '50%',
+                  border: '3px solid rgba(6, 182, 212, 0.15)',
+                  borderTopColor: 'var(--primary)',
+                  animation: 'spin 0.9s linear infinite',
+                  marginBottom: '1rem'
+                }}></div>
+                <h4 style={{ color: 'var(--text-primary)', margin: '0 0 0.4rem 0', fontSize: '1.1rem' }}>Fetching Flashcards...</h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: 0 }}>Loading question cards...</p>
+              </div>
+            ) : filteredCards.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>No flashcards found for this category.</div>
+          ) : (
+            <>
+              <div className={`flashcard-stage ${isFlipped ? 'flipped' : ''}`} onClick={() => setIsFlipped(!isFlipped)}>
+                <div className="flashcard-inner">
+                  <div className="flashcard-front">
+                    <span className="flashcard-tag">{currentCard.category}</span>
+                    <h3 className="flashcard-question">{currentCard.question}</h3>
+                    <div className="flashcard-hint">Click card to reveal answer</div>
+                  </div>
+                  <div className="flashcard-back">
+                    <span className="flashcard-tag" style={{ color: 'var(--secondary)' }}>Answer</span>
+                    <p className="flashcard-answer">{currentCard.answer}</p>
+                    <div className="flashcard-hint" style={{ color: 'var(--secondary)' }}>Click card to see question</div>
+                  </div>
+                </div>
+              </div>
+              <div className="flashcard-controls">
+                <button className="btn btn-secondary" onClick={handlePrevCard}>← Previous</button>
+                <span className="flashcard-progress">Question {currentCardIndex + 1} of {filteredCards.length}</span>
+                <button className="btn btn-secondary" onClick={handleNextCard}>Next →</button>
+              </div>
+            </>
+          )}
+        </div>
+      </>
+      )}
+
+      {/* ── INTERVIEW EXPERIENCES ── */}
+      {activeSection === 'experiences' && (
+        <InterviewExperiences 
+          initialExperiences={experiences} 
+          onSubmitExperience={onSubmitExperience} 
+        />
+      )}
+
+      {activePdf && <PDFViewer url={activePdf.url} title={activePdf.title} onClose={() => setActivePdf(null)} />}
+      {activeNote && <BlogReader note={activeNote} onClose={() => setActiveNote(null)} />}
     </div>
   );
 }
