@@ -70,7 +70,7 @@ export default function Songs({
     { id: 'electronic', label: '⚡ EDM', term: 'edm synthwave focus beats', type: 'music', description: 'Upbeat electronic beats for productivity' }
   ];
 
-  // YouTube Audio Catalog Fetcher
+  // Spotify Music Catalog Fetcher
   const handleFetchSongs = async (presetObj, customSearch = '') => {
     setIsLoading(true);
     setErrorMsg(null);
@@ -91,7 +91,7 @@ export default function Songs({
       displayLabel = 'Top 50 Bollywood Latest';
     }
 
-    setLoadingText(`Fetching Top 50 YouTube audio tracks for ${displayLabel}...`);
+    setLoadingText(`Fetching Top 50 Spotify audio tracks for ${displayLabel}...`);
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || (
@@ -102,14 +102,14 @@ export default function Songs({
       
       let tracks = [];
 
-      // Fetch from Backend YouTube API Endpoint
+      // Fetch from Backend Spotify API Endpoint
       try {
         const bRes = await fetch(`${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`);
         if (bRes.ok) {
           tracks = await bRes.json();
         }
       } catch (e) {
-        console.warn("Backend YouTube API error, fetching fallback:", e);
+        console.warn("Backend Spotify API error:", e);
       }
 
       if (tracks && tracks.length > 0) {
@@ -119,7 +119,7 @@ export default function Songs({
         setErrorMsg(`No tracks found for "${queryTerm}". Try another search!`);
       }
     } catch (err) {
-      console.error('YouTube music fetch error:', err);
+      console.error('Spotify music fetch error:', err);
       setErrorMsg('Could not fetch Top 50 tracks. Please check connection.');
     } finally {
       setIsLoading(false);
