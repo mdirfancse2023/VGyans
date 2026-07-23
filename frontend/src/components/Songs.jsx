@@ -88,10 +88,10 @@ export default function Songs({
       setActivePreset(presetObj.id);
     } else {
       queryTerm = 'latest hindi songs';
-      displayLabel = 'Top 50 Bollywood Latest';
+      displayLabel = 'Top 10 Bollywood Latest';
     }
 
-    setLoadingText(`Fetching Top 50 Spotify audio tracks for ${displayLabel}...`);
+    setLoadingText(`Fetching Top 10 Spotify audio tracks for ${displayLabel}...`);
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || (
@@ -104,7 +104,7 @@ export default function Songs({
 
       // Fetch from Backend Spotify API Endpoint
       try {
-        const bRes = await fetch(`${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`);
+        const bRes = await fetch(`${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=10`);
         if (bRes.ok) {
           tracks = await bRes.json();
         }
@@ -131,7 +131,7 @@ export default function Songs({
             const authData = await authRes.json();
             const token = authData.access_token;
             
-            const searchRes = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(queryTerm)}&type=track&limit=50`, {
+            const searchRes = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(queryTerm)}&type=track&limit=10`, {
               headers: { "Authorization": `Bearer ${token}` }
             });
             

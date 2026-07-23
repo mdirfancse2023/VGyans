@@ -790,7 +790,7 @@ def get_spotify_token() -> str:
         print(f"Spotify authentication error: {e}")
         return ""
 
-def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
+def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 10):
     import urllib.request, urllib.parse, json, html, ssl, os, re
 
     q_term = query or "latest hindi songs"
@@ -800,6 +800,7 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
         print("Warning: Spotify Client Token unavailable.")
         return []
 
+    safe_limit = min(max(1, limit), 10)
     ctx = ssl._create_unverified_context()
     headers = {
         'Authorization': f'Bearer {token}',
@@ -808,11 +809,24 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
 
     tracks = []
     try:
-        spotify_url = f"https://api.spotify.com/v1/search?q={urllib.parse.quote(q_term)}&type=track&limit={limit}"
+        spotify_url = f"https://api.spotify.com/v1/search?q={urllib.parse.quote(q_term)}&type=track&limit={safe_limit}"
         req = urllib.request.Request(spotify_url, headers=headers)
-        with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
-            data = json.loads(resp.read().decode('utf-8'))
-            items = data.get("tracks", {}).get("items", [])
+        items = []
+        try:
+            with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+                data = json.loads(resp.read().decode('utf-8'))
+                items = data.get("tracks", {}).get("items", [])
+        except Exception:
+            items = []
+
+        if not items:
+            clean_words = [w for w in q_term.split() if w.lower() not in ("latest", "top", "50", "hit", "hits", "songs", "music", "beats")]
+            short_q = clean_words[0] if clean_words else q_term.split()[0]
+            fallback_url = f"https://api.spotify.com/v1/search?q={urllib.parse.quote(short_q)}&type=track&limit={safe_limit}"
+            f_req = urllib.request.Request(fallback_url, headers=headers)
+            with urllib.request.urlopen(f_req, timeout=6, context=ctx) as f_resp:
+                f_data = json.loads(f_resp.read().decode('utf-8'))
+                items = f_data.get("tracks", {}).get("items", [])
 
             for item in items:
                 s_id = item.get("id", "")
@@ -848,15 +862,15 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
 
     return tracks
 
-def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
+def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 10):
     return fetch_spotify_songs(query=query, limit=limit)
 
 @app.get("/api/songs")
-def get_songs(query: Optional[str] = "latest hindi songs", max_results: int = 50):
+def get_songs(query: Optional[str] = "latest hindi songs", max_results: int = 10):
     return fetch_spotify_songs(query=query or "latest hindi songs", limit=max_results)
 
 @app.get("/api/jiosaavn/search")
-def get_jiosaavn_songs(query: Optional[str] = "latest hindi songs", limit: int = 50):
+def get_jiosaavn_songs(query: Optional[str] = "latest hindi songs", limit: int = 10):
     return fetch_spotify_songs(query=query or "latest hindi songs", limit=limit)
 
 
