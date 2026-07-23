@@ -621,12 +621,27 @@ export default function Songs({
                       🔁
                     </button>
                   </div>
+
+                  {/* Spotify Official Full-Track Embedded Player */}
+                  {currentSong.spotifyId && (
+                    <div style={{ width: '100%', marginTop: '0.5rem', borderRadius: '12px', overflow: 'hidden' }}>
+                      <iframe
+                        src={`https://open.spotify.com/embed/track/${currentSong.spotifyId}?utm_source=generator&theme=0`}
+                        width="100%"
+                        height="80"
+                        frameBorder="0"
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy"
+                        style={{ borderRadius: '12px', border: 'none' }}
+                      ></iframe>
+                    </div>
+                  )}
                 </>
               ) : (
                 <div style={{ padding: '1.5rem 0', color: 'var(--text-secondary)' }}>
                   <div style={{ fontSize: '2.2rem', marginBottom: '0.5rem', opacity: 0.5 }}>🎵</div>
                   <p style={{ fontWeight: 500, margin: 0, fontSize: '0.9rem' }}>No song selected</p>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Click any track on the left to start streaming real YouTube music.</p>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Click any track on the left to stream Spotify full music.</p>
                 </div>
               )}
             </div>
