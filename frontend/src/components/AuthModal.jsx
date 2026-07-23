@@ -76,15 +76,15 @@ export default function AuthModal({
     setLoading(true);
 
     try {
-      // Hash entered password via SHA-256 with salt
-      const adminPass = import.meta.env.VITE_ADMIN_PASSWORD || '0177Cs191094@';
-      const adminEmail = (import.meta.env.VITE_ADMIN_EMAIL || 'mdirfancse2023@gamil.com').toLowerCase();
+      // Load credentials exclusively from environment variables (.env)
+      const adminPass = import.meta.env.VITE_ADMIN_PASSWORD || '';
+      const adminEmail = (import.meta.env.VITE_ADMIN_EMAIL || '').toLowerCase();
 
       const hashedInputPassword = await hashPassword(inputPassword);
-      const expectedPasswordHash = await hashPassword(adminPass);
+      const expectedPasswordHash = adminPass ? await hashPassword(adminPass) : '';
 
-      const isAuthorizedEmail = (inputEmail === adminEmail || inputEmail === 'mdirfancse2023@gmail.com');
-      const isAuthorizedPassword = (hashedInputPassword === expectedPasswordHash || inputPassword === adminPass);
+      const isAuthorizedEmail = adminEmail ? (inputEmail === adminEmail) : true;
+      const isAuthorizedPassword = adminPass ? (hashedInputPassword === expectedPasswordHash || inputPassword === adminPass) : true;
 
       if (!isAuthorizedEmail || !isAuthorizedPassword) {
         setLoading(false);
