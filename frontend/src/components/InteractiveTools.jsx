@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ResumeBuilder from './ResumeBuilder';
 import ResumeAnalyzer from './ResumeAnalyzer';
+import WeatherWidget from './tools/WeatherWidget';
 
 export default function InteractiveTools({ apiUrl }) {
   const [activeTool, setActiveTool] = useState('builder');
@@ -21,9 +22,14 @@ export default function InteractiveTools({ apiUrl }) {
           >
             🔍 Resume Analyzer
           </button>
+          <button 
+            className={`filter-tab ${activeTool === 'weather' ? 'active' : ''}`}
+            onClick={() => setActiveTool('weather')}
+          >
+            🌤️ Campus Weather & Focus Widget
+          </button>
         </div>
       </div>
-
 
       {activeTool === 'builder' && (
         <div className="glass-panel" style={{ padding: '2rem' }}>
@@ -34,6 +40,12 @@ export default function InteractiveTools({ apiUrl }) {
       {activeTool === 'analyzer' && (
         <div className="glass-panel" style={{ padding: '2rem' }}>
           <ResumeAnalyzer apiUrl={apiUrl} />
+        </div>
+      )}
+
+      {activeTool === 'weather' && (
+        <div className="glass-panel" style={{ padding: '2rem' }}>
+          <WeatherWidget />
         </div>
       )}
     </div>
