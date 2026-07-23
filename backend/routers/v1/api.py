@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from backend.api.v1.endpoints import songs, jobs, news, resume, questions, notes, placement, runner, system
+from backend.routers.v1.endpoints import songs, jobs, news, resume, questions, notes, placement, runner, system
 
 api_router = APIRouter()
 api_router.include_router(songs.router)
