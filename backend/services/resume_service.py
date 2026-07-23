@@ -1,8 +1,13 @@
 from typing import Dict, Any, List
 from backend.schemas.resume import ResumeAnalysisResponseDTO
+from backend.services.resume.tech_resume_service import TechResumeService
+from backend.services.resume.management_resume_service import ManagementResumeService
 
 class ResumeService:
     def __init__(self):
+        self.tech_service = TechResumeService()
+        self.management_service = ManagementResumeService()
+
         self._categories = [
             {
                 "id": "technical",
@@ -26,40 +31,6 @@ class ResumeService:
         cat = (category or "technical").lower()
         
         if cat == "management":
-            keywords = [
-                "product management", "agile", "scrum", "stakeholder management", "roadmap",
-                "kpis", "analytics", "jira", "business analysis", "sql", "user stories",
-                "market research", "a/b testing", "leadership", "budgeting"
-            ]
-            default_skills = ["Product Strategy", "Agile / Scrum", "Stakeholder Management"]
-            default_missing = ["A/B Testing Frameworks", "SQL Data Analytics", "Jira Backlog Refinement"]
-            role_name = target_role if target_role != "Software Engineer" else "Product Manager"
-        else:
-            keywords = [
-                "python", "java", "javascript", "react", "node", "fastapi", "spring boot",
-                "sql", "postgresql", "docker", "kubernetes", "aws", "git", "data structures",
-                "algorithms", "rest api", "system design", "microservices"
-            ]
-            default_skills = ["Python", "Java", "REST APIs"]
-            default_missing = ["Docker Containerization", "Kubernetes", "System Architecture"]
-            role_name = target_role
-
-        found_skills = [kw.title() for kw in keywords if kw in clean_text]
-        missing_skills = [kw.title() for kw in keywords if kw not in clean_text][:5]
+            return self.management_service.analyze(clean_text, target_role=target_role)
         
-        score = min(100, max(45, len(found_skills) * 7 + 40))
-        match_rate = min(98, max(50, score - 4))
-        
-        return ResumeAnalysisResponseDTO(
-            score=score,
-            matchRate=match_rate,
-            skills=found_skills if found_skills else default_skills,
-            missingSkills=missing_skills if missing_skills else default_missing,
-            summary=f"Resume analyzed under '{cat.upper()}' category for role '{role_name}'. High ATS alignment detected.",
-            recommendations=[
-                f"Incorporate specific keywords relevant to {cat} roles.",
-                "Highlight quantifiable metrics (e.g. boosted performance by 35%).",
-                "Ensure standard ATS formatting without double-column tables."
-            ],
-            atsPassed=score >= 70
-        )
+        return self.tech_service.analyze(clean_text, target_role=target_role)
