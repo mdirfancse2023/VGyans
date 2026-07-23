@@ -751,21 +751,8 @@ def get_videos(category: Optional[str] = None, search: Optional[str] = None):
         ]
     return videos
 
-def decrypt_jiosaavn_url(enc_url: str) -> str:
-    try:
-        import base64
-        from Crypto.Cipher import DES
-        key = b'38586139'
-        cipher = DES.new(key, DES.MODE_ECB)
-        dec = cipher.decrypt(base64.b64decode(enc_url))
-        pad = dec[-1]
-        return dec[:-pad].decode('utf-8')
-    except Exception:
-        return ""
-
-def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
+def fetch_youtube_songs(query: str = "latest hindi songs", limit: int = 50):
     import urllib.request, urllib.parse, json, html, ssl, os, re
-    from concurrent.futures import ThreadPoolExecutor
 
     q_term = query or "latest hindi songs"
     ctx = ssl._create_unverified_context()
@@ -776,149 +763,91 @@ def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
 
     yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY") or "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo"
 
-    def clean_title(t):
-        raw = re.sub(r'[\(\[\{].*?[\)\]\}]', '', t)
-        return re.sub(r'[^\w\s]', '', raw).strip().lower()
+    tracks = []
+    seen_vids = set()
+    exclude_words = ['top 10', 'top 20', 'top 50', 'top 100', 'jukebox', 'compilation', 'podcast', 'full album', 'non stop', 'nonstop', '3 hours', '10 hours', 'shorts', 'full movie', 'best of', 'collection', 'playlist', 'mashup']
 
-    # 1. Primary Engine: JioSaavn Single Track Catalog for 100% Strict Single Songs
-    try:
-        raw_items = []
-        seen_ids = set()
-        seen_titles = set()
-
-        for page in range(1, 10):
-            url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q={urllib.parse.quote(q_term)}&n=50&p={page}"
-            req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
-                data = json.loads(resp.read().decode('utf-8'))
-                results = data.get("results", [])
-                if not results:
-                    break
-                for item in results:
-                    song_id = item.get("id")
-                    if not song_id or song_id in seen_ids:
-                        continue
-
-                    raw_title = html.unescape(item.get("title") or item.get("song") or "")
-                    clean_t = re.sub(r'[\(\[\{].*?[\)\]\}]', '', raw_title).strip()
-                    normalized_t = clean_title(clean_t)
-                    
-                    if not normalized_t or normalized_t in seen_titles:
-                        continue
-
-                    seen_ids.add(song_id)
-                    seen_titles.add(normalized_t)
-                    raw_items.append((song_id, clean_t, item))
-                    if len(raw_items) >= limit:
-                        break
-            if len(raw_items) >= limit:
-                break
-        
-        # Build song objects with YouTube embed for audio playback
-        def build_song_obj(entry):
-            song_id, clean_t, item = entry
-            more = item.get("more_info", {})
-            artist_list = []
-            artist_map = more.get("artistMap", {})
-            if isinstance(artist_map, dict):
-                primary = artist_map.get("primary_artists", [])
-                if isinstance(primary, list):
-                    artist_list = [a.get("name") for a in primary if isinstance(a, dict) and a.get("name")]
-            artist_str = ", ".join(artist_list) if artist_list else html.unescape(item.get("subtitle") or "Official Artist")
-            album_name = html.unescape(more.get("album") or item.get("album") or "")
-            cover_url = (item.get("image") or "").replace("150x150", "500x500").replace("50x50", "500x500")
-            dur = int(more.get("duration") or item.get("duration") or 240)
-
-            vid = ""
-            if yt_api_key:
-                try:
-                    q_str = f"{clean_t} {artist_str} official audio"
-                    y_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q={urllib.parse.quote(q_str)}&key={yt_api_key}"
-                    y_req = urllib.request.Request(y_url, headers=headers)
-                    with urllib.request.urlopen(y_req, timeout=3, context=ctx) as y_resp:
-                        y_data = json.loads(y_resp.read().decode('utf-8'))
-                        y_items = y_data.get("items", [])
-                        if y_items:
-                            vid = y_items[0].get("id", {}).get("videoId") or ""
-                except Exception:
-                    pass
-
-            return {
-                "id": f"js-{song_id}",
-                "videoId": vid,
-                "title": clean_t,
-                "artist": artist_str,
-                "album": album_name or q_term.title(),
-                "category": q_term.title(),
-                "coverUrl": cover_url or "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500",
-                "audioUrl": f"https://www.youtube.com/embed/{vid}?enablejsapi=1&playsinline=1" if vid else "",
-                "url": f"https://www.youtube.com/embed/{vid}?enablejsapi=1&playsinline=1" if vid else "",
-                "embedUrl": f"https://www.youtube.com/embed/{vid}?enablejsapi=1&playsinline=1" if vid else "",
-                "duration": dur,
-                "provider": "youtube_ iframe_api"
-            }
-
-        with ThreadPoolExecutor(max_workers=10) as executor:
-            songs = list(executor.map(build_song_obj, raw_items))
-
-        if songs:
-            return songs
-    except Exception as e:
-        print(f"Single song fetch error: {e}")
-
-    # Fallback to YouTube Data API v3 with strict single track filters
-    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY") or "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo"
     if yt_api_key:
         try:
-            yt_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoCategoryId=10&q={urllib.parse.quote(q_term + ' official song')}&key={yt_api_key}"
+            search_query = f"{q_term} official audio song"
+            yt_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&videoCategoryId=10&q={urllib.parse.quote(search_query)}&key={yt_api_key}"
             req = urllib.request.Request(yt_url, headers=headers)
             with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
                 data = json.loads(resp.read().decode('utf-8'))
                 items = data.get("items", [])
-                
-                exclude_words = ['top 10', 'top 20', 'top 50', 'top 100', 'jukebox', 'compilation', 'podcast', 'full album', 'non stop', 'nonstop', '3 hours', '10 hours', 'shorts', 'full movie', 'best of', 'collection', 'playlist', 'mashup']
-                tracks = []
-                seen_vids = set()
 
                 for item in items:
                     vid = item.get("id", {}).get("videoId")
                     if not vid or vid in seen_vids:
                         continue
-                    
+
                     snippet = item.get("snippet", {})
-                    title = html.unescape(snippet.get("title", ""))
-                    t_lower = title.lower()
+                    raw_title = html.unescape(snippet.get("title", ""))
+                    t_lower = raw_title.lower()
 
                     if any(w in t_lower for w in exclude_words):
                         continue
 
                     seen_vids.add(vid)
-                    artist = html.unescape(snippet.get("channelTitle", "Official Music"))
+                    clean_t = re.sub(r'[\(\[\{].*?[\)\]\}]', '', raw_title).strip()
+                    artist = html.unescape(snippet.get("channelTitle", "Official Music")).replace(" - Topic", "").replace("VEVO", "").strip()
                     cover = snippet.get("thumbnails", {}).get("high", {}).get("url") or f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg"
 
                     tracks.append({
                         "id": f"yt-{vid}",
                         "videoId": vid,
-                        "title": title,
-                        "artist": artist,
+                        "title": clean_t or raw_title,
+                        "artist": artist or "Official Artist",
                         "album": q_term.title(),
                         "category": q_term.title(),
                         "coverUrl": cover,
                         "embedUrl": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
-                        "audioUrl": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
-                        "url": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
+                        "audioUrl": f"/api/audio-proxy?videoId={vid}",
+                        "url": f"/api/audio-proxy?videoId={vid}",
                         "duration": 240,
-                        "provider": "youtube_single"
+                        "provider": "youtube"
                     })
                     if len(tracks) >= limit:
                         break
 
-                if tracks:
-                    return tracks
         except Exception as e:
             print(f"YouTube Data API error: {e}")
 
-    return []
+    # Fallback to Invidious API if YouTube API key encounters quota limits
+    if not tracks:
+        try:
+            inv_url = f"https://invidious.io.lol/api/v1/search?q={urllib.parse.quote(q_term)}&type=video"
+            req = urllib.request.Request(inv_url, headers=headers)
+            with urllib.request.urlopen(req, timeout=5, context=ctx) as resp:
+                items = json.loads(resp.read().decode('utf-8'))
+                for item in items:
+                    vid = item.get("videoId")
+                    if not vid or vid in seen_vids:
+                        continue
+                    seen_vids.add(vid)
+                    tracks.append({
+                        "id": f"yt-{vid}",
+                        "videoId": vid,
+                        "title": item.get("title", ""),
+                        "artist": item.get("author", "Official Artist"),
+                        "album": q_term.title(),
+                        "category": q_term.title(),
+                        "coverUrl": f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg",
+                        "embedUrl": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
+                        "audioUrl": f"/api/audio-proxy?videoId={vid}",
+                        "url": f"/api/audio-proxy?videoId={vid}",
+                        "duration": item.get("lengthSeconds", 240),
+                        "provider": "youtube"
+                    })
+                    if len(tracks) >= limit:
+                        break
+        except Exception as e:
+            print(f"YouTube Invidious fallback error: {e}")
+
+    return tracks
+
+def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
+    return fetch_youtube_songs(query=query, limit=limit)
 
 @app.get("/api/songs")
 def get_songs(query: Optional[str] = "latest hindi songs", max_results: int = 50):

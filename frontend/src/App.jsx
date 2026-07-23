@@ -271,27 +271,52 @@ export default function App() {
   }, []);
 
   const playSong = (song) => {
-    console.log('[playSong] called', song?.title, song?.videoId);
+    console.log('[playSong] called:', song?.title, 'audioUrl:', song?.audioUrl, 'videoId:', song?.videoId);
     if (!song) return;
-    if (currentSong?.id === song.id) { console.log('[playSong] same song, toggling'); togglePlay(); return; }
+    if (currentSong?.id === song.id) { togglePlay(); return; }
 
     setCurrentSong(song);
     setCurrentTime(0);
     setDuration(song.duration || 0);
 
-    console.log('[playSong] audioRef.current:', audioRef.current);
-    if (!song.videoId) { console.warn('[playSong] NO videoId!'); return; }
-    if (!audioRef.current) { console.warn('[playSong] NO audioRef!'); return; }
+    if (!audioRef.current) { console.warn('[playSong] NO audioRef element available'); return; }
 
-    const proxyUrl = `${API_URL}/api/audio-proxy?videoId=${song.videoId}`;
-    console.log('[playSong] setting src to:', proxyUrl);
-    audioRef.current.src = proxyUrl;
+    // Direct CDN audio URL (JioSaavn MP3/M4A) or YouTube Audio-Proxy Stream
+    let src = song.audioUrl || song.url || '';
+    if (!src || src.includes('youtube.com/embed') || src.includes('iframe')) {
+      if (song.videoId) {
+        src = `${API_URL}/api/audio-proxy?videoId=${song.videoId}`;
+      }
+    }
+
+    if (!src) {
+      console.warn('[playSong] No playable audio source found for track:', song.title);
+      return;
+    }
+
+    console.log('[playSong] Setting HTML5 audio src to:', src);
+    audioRef.current.src = src;
     audioRef.current.volume = volume;
 
-    console.log('[playSong] calling play()...');
     audioRef.current.play()
-      .then(() => { console.log('[playSong] ✅ play() resolved — audio is playing!'); setIsPlaying(true); })
-      .catch(err => { console.error('[playSong] ❌ play() REJECTED:', err.name, err.message); setIsPlaying(false); });
+      .then(() => {
+        console.log('[playSong] ✅ Audio playing successfully!');
+        setIsPlaying(true);
+      })
+      .catch(err => {
+        console.error('[playSong] Primary audio play error:', err.name, err.message);
+        // Fallback to audio-proxy if direct CDN playback was blocked or failed
+        if (song.videoId && !src.includes('audio-proxy')) {
+          const proxySrc = `${API_URL}/api/audio-proxy?videoId=${song.videoId}`;
+          console.log('[playSong] Trying audio-proxy fallback:', proxySrc);
+          audioRef.current.src = proxySrc;
+          audioRef.current.play()
+            .then(() => setIsPlaying(true))
+            .catch(e => console.error('[playSong] Fallback play failed:', e));
+        } else {
+          setIsPlaying(false);
+        }
+      });
   };
 
 

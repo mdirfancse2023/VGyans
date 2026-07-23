@@ -56,17 +56,21 @@ export default function Songs({
 
 
 
-  // Preset Categories
+  // Preset Categories (First 3 for Songs, Next 5 for Music)
   const presets = [
-    { id: 'bollywood', label: '🔥 Bollywood Hits', term: 'latest hindi songs', description: 'Trending Bollywood & Hindi songs' },
-    { id: 'hollywood', label: '⭐ Hollywood Hits', term: 'pop hits', description: 'International Hollywood & Billboard pop hits' },
-    { id: 'punjabi', label: '🌾 Punjabi Hits', term: 'latest punjabi', description: 'Trending Punjabi beats & hits' },
-    { id: 'lofi', label: '🎧 Lo-Fi Focus', term: 'hindi lofi', description: 'Relaxing lo-fi & chillhop beats for study & coding' },
-    { id: 'romantic', label: '❤️ Romantic Hits', term: 'romantic hindi', description: 'Calm acoustic & romantic love melodies' },
-    { id: 'party', label: '🎉 Party & Dance', term: 'bollywood party', description: 'High energy dance tracks' }
+    // --- SONGS (First 3) ---
+    { id: 'hindi', label: '🇮🇳 Hindi Songs', term: 'latest bollywood hindi top 50 hits', type: 'song', description: 'Trending Bollywood & Hindi tracks' },
+    { id: 'english', label: '🌐 English Songs', term: 'billboard top 50 english pop hits', type: 'song', description: 'International pop & English hits' },
+    { id: 'punjabi', label: '🌾 Punjabi Songs', term: 'latest punjabi top 50 hit songs', type: 'song', description: 'Popular Punjabi vocal hits' },
+    // --- MUSIC (Next 5) ---
+    { id: 'lofi', label: '🎧 Lo-Fi & Study Music', term: 'lofi study focus beats', type: 'music', description: 'Relaxing lo-fi beats for coding & focus' },
+    { id: 'ambient', label: '🌿 Chill & Ambient Music', term: 'chill ambient relaxing soundscapes', type: 'music', description: 'Calm ambient background soundscapes' },
+    { id: 'instrumental', label: '🎻 Classical & Instrumental', term: 'violin piano classical instrumental masterpieces', type: 'music', description: 'Pure instrumental & classical tracks' },
+    { id: 'romantic', label: '❤️ Romantic Melodies', term: 'romantic hindi love melodies', type: 'music', description: 'Peaceful acoustic & romantic tunes' },
+    { id: 'electronic', label: '⚡ Focus & EDM Beats', term: 'edm synthwave focus beats', type: 'music', description: 'Upbeat electronic beats for productivity' }
   ];
 
-  // JioSaavn Top 50 Music Fetcher
+  // YouTube Audio Catalog Fetcher
   const handleFetchSongs = async (presetObj, customSearch = '') => {
     setIsLoading(true);
     setErrorMsg(null);
@@ -87,7 +91,7 @@ export default function Songs({
       displayLabel = 'Top 50 Bollywood Latest';
     }
 
-    setLoadingText(`Fetching Top 50 HD audio tracks for ${displayLabel}...`);
+    setLoadingText(`Fetching Top 50 YouTube audio tracks for ${displayLabel}...`);
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || (
@@ -98,22 +102,14 @@ export default function Songs({
       
       let tracks = [];
 
-      // 1. Try Backend FastAPI JioSaavn Endpoint (Limit 50)
+      // Fetch from Backend YouTube API Endpoint
       try {
-        const bRes = await fetch(`${API_URL}/api/jiosaavn/search?query=${encodeURIComponent(queryTerm)}&limit=50`);
+        const bRes = await fetch(`${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`);
         if (bRes.ok) {
           tracks = await bRes.json();
         }
       } catch (e) {
-        console.warn("Backend API error, fetching fallback:", e);
-      }
-
-      // 2. Direct Fallback if backend unreachable
-      if (!tracks || tracks.length === 0) {
-        const fallbackRes = await fetch(`${API_URL}/api/songs?query=${encodeURIComponent(queryTerm)}&max_results=50`);
-        if (fallbackRes.ok) {
-          tracks = await fallbackRes.json();
-        }
+        console.warn("Backend YouTube API error, fetching fallback:", e);
       }
 
       if (tracks && tracks.length > 0) {
@@ -123,7 +119,7 @@ export default function Songs({
         setErrorMsg(`No tracks found for "${queryTerm}". Try another search!`);
       }
     } catch (err) {
-      console.error('JioSaavn fetch error:', err);
+      console.error('YouTube music fetch error:', err);
       setErrorMsg('Could not fetch Top 50 tracks. Please check connection.');
     } finally {
       setIsLoading(false);
@@ -186,35 +182,73 @@ export default function Songs({
           
 
 
-          {/* Quick Category Action Buttons */}
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-            {presets.map((p) => {
-              const isActive = activePreset === p.id && songs.length > 0;
-              return (
-                <button
-                  key={p.id}
-                  onClick={() => handleFetchSongs(p)}
-                  disabled={isLoading}
-                  style={{
-                    padding: '0.35rem 0.8rem',
-                    fontSize: '0.78rem',
-                    borderRadius: '20px',
-                    border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-glass)',
-                    background: isActive ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                    color: isActive ? 'var(--primary)' : 'var(--text-primary)',
-                    cursor: isLoading ? 'wait' : 'pointer',
-                    fontWeight: isActive ? 600 : 400,
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.35rem'
-                  }}
-                  className="preset-btn"
-                >
-                  {p.label}
-                </button>
-              );
-            })}
+          {/* Quick Category Action Buttons grouped by Songs (3) and Music (5) */}
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            {/* Songs Group */}
+            <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#f43f5e', textTransform: 'uppercase', letterSpacing: '0.5px' }}>🎤 Songs:</span>
+              {presets.slice(0, 3).map((p) => {
+                const isActive = activePreset === p.id && songs.length > 0;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => handleFetchSongs(p)}
+                    disabled={isLoading}
+                    style={{
+                      padding: '0.35rem 0.75rem',
+                      fontSize: '0.78rem',
+                      borderRadius: '20px',
+                      border: isActive ? '1px solid #f43f5e' : '1px solid var(--border-glass)',
+                      background: isActive ? 'rgba(244, 63, 94, 0.15)' : 'rgba(255, 255, 255, 0.03)',
+                      color: isActive ? '#f43f5e' : 'var(--text-primary)',
+                      cursor: isLoading ? 'wait' : 'pointer',
+                      fontWeight: isActive ? 600 : 400,
+                      transition: 'all 0.2s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.35rem'
+                    }}
+                    className="preset-btn"
+                  >
+                    {p.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div style={{ width: '1px', height: '20px', background: 'var(--border-glass)' }} />
+
+            {/* Music Group */}
+            <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>🎧 Music:</span>
+              {presets.slice(3).map((p) => {
+                const isActive = activePreset === p.id && songs.length > 0;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => handleFetchSongs(p)}
+                    disabled={isLoading}
+                    style={{
+                      padding: '0.35rem 0.75rem',
+                      fontSize: '0.78rem',
+                      borderRadius: '20px',
+                      border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-glass)',
+                      background: isActive ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 255, 255, 0.03)',
+                      color: isActive ? 'var(--primary)' : 'var(--text-primary)',
+                      cursor: isLoading ? 'wait' : 'pointer',
+                      fontWeight: isActive ? 600 : 400,
+                      transition: 'all 0.2s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.35rem'
+                    }}
+                    className="preset-btn"
+                  >
+                    {p.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Search Box + Custom API Key Config button */}
