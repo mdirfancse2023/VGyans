@@ -669,19 +669,33 @@ export default function Songs({
                     </button>
                   </div>
 
-                  {/* Spotify Official Full-Track Embedded Player */}
-                  {currentSong.spotifyId && (
-                    <div style={{ width: '100%', marginTop: '0.5rem', borderRadius: '12px', overflow: 'hidden' }}>
-                      <iframe
-                        src={`https://open.spotify.com/embed/track/${currentSong.spotifyId}?utm_source=generator&theme=0`}
-                        width="100%"
-                        height="80"
-                        frameBorder="0"
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy"
-                        style={{ borderRadius: '12px', border: 'none' }}
-                      ></iframe>
-                    </div>
+                  {/* Clean Spotify Track Link Badge */}
+                  {currentSong.url && (
+                    <a
+                      href={currentSong.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        marginTop: '0.5rem',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.4rem',
+                        fontSize: '0.75rem',
+                        padding: '0.35rem 0.85rem',
+                        borderRadius: '20px',
+                        background: 'rgba(30, 215, 96, 0.12)',
+                        border: '1px solid rgba(30, 215, 96, 0.3)',
+                        color: '#1db954',
+                        textDecoration: 'none',
+                        fontWeight: 600,
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm5.521 17.341c-.218.358-.687.472-1.045.253-2.863-1.749-6.464-2.146-10.709-1.176-.407.094-.817-.156-.911-.563-.094-.406.156-.816.563-.911 4.654-1.063 8.631-.61 11.849 1.353.358.218.472.688.253 1.044zm1.472-3.275c-.274.446-.86.588-1.306.314-3.276-2.013-8.271-2.599-12.147-1.423-.503.153-1.037-.133-1.19-.636-.153-.503.133-1.037.636-1.19 4.427-1.344 9.923-.689 13.693 1.63.446.274.588.86.314 1.305zm.135-3.398C15.228 8.441 8.798 8.228 5.12 9.345c-.615.187-1.266-.168-1.453-.784-.188-.615.168-1.266.784-1.453 4.237-1.286 11.339-1.036 15.82 1.625.554.329.74 1.045.412 1.599-.329.554-1.045.74-1.599.412z"/>
+                      </svg>
+                      Listen on Spotify
+                    </a>
                   )}
                 </>
               ) : (

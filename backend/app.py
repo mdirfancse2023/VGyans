@@ -840,8 +840,16 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 10):
         cover_url = images[0].get("url") if images else "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500"
         dur_ms = item.get("duration_ms", 240000)
         dur_sec = int(dur_ms / 1000)
-        preview_url = item.get("preview_url") or ""
-        spotify_link = item.get("external_urls", {}).get("spotify", f"https://open.spotify.com/track/{s_id}")
+        audio_src = preview_url
+        if not audio_src:
+            try:
+                a_req = requests.get(f"https://www.jiosaavn.com/api.php?__call=autocomplete.get&_format=json&_marker=0&query={urllib.parse.quote(title + ' ' + artist_str)}", headers={'User-Agent': 'Mozilla/5.0'}, timeout=2.5)
+                if a_req.status_code == 200:
+                    a_songs = a_req.json().get('songs', {}).get('data', [])
+                    if a_songs:
+                        audio_src = a_songs[0].get('more_info', {}).get('vlink') or ''
+            except Exception:
+                pass
 
         tracks.append({
             "id": f"sp-{s_id}",
@@ -851,7 +859,7 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 10):
             "album": album_name,
             "category": q_term.title(),
             "coverUrl": cover_url,
-            "audioUrl": preview_url or f"https://open.spotify.com/embed/track/{s_id}",
+            "audioUrl": audio_src or preview_url,
             "url": spotify_link,
             "embedUrl": f"https://open.spotify.com/embed/track/{s_id}",
             "duration": dur_sec,
