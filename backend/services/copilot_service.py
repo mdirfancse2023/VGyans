@@ -1,5 +1,4 @@
 from typing import List, Dict, Any, Optional
-from backend.schemas.copilot import CopilotChatResponseDTO
 
 class CopilotService:
     def __init__(self):
@@ -10,7 +9,7 @@ class CopilotService:
             "system_design": "Focus on High Level Architecture (HLD), Low Level Class Diagrams (LLD), and SOLID principles."
         }
 
-    def process_query(self, message: str, topic: Optional[str] = "placement") -> CopilotChatResponseDTO:
+    def process_query(self, message: str, topic: Optional[str] = "placement") -> Dict[str, Any]:
         clean_msg = (message or "").lower()
         t = (topic or "placement").lower()
 
@@ -27,9 +26,9 @@ class CopilotService:
             reply = f"Gyans Copilot Guidance ({t.title()}): To crack top technical campus placements, maintain a disciplined 5-month roadmap combining LeetCode DSA patterns, CS core fundamentals (OS/DBMS/CN), and production-grade Spring Boot & React projects."
             actions = ["View Placement Roadmap", "Explore Mock Interviews", "Browse Off-Campus Jobs"]
 
-        return CopilotChatResponseDTO(
-            reply=reply,
-            suggested_actions=actions,
-            topic=t,
-            status="success"
-        )
+        return {
+            "reply": reply,
+            "suggested_actions": actions,
+            "topic": t,
+            "status": "success"
+        }
