@@ -867,7 +867,7 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 10):
                 "album": album_name,
                 "category": q_term.title(),
                 "coverUrl": cover_url,
-                "audioUrl": audio_src or "https://jiotunepreview.jio.com/content/Converted/010910141580615.mp3",
+                "audioUrl": audio_src or (preview_url if preview_url.startswith("http") else "https://jiotunepreview.jio.com/content/Converted/010910141580615.mp3"),
                 "url": spotify_link,
                 "embedUrl": f"https://open.spotify.com/embed/track/{s_id}",
                 "duration": dur_sec,
