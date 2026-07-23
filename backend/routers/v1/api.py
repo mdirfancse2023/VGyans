@@ -1,5 +1,9 @@
 from fastapi import APIRouter
-from backend.routers.v1.endpoints import songs, jobs, news, resume, questions, notes, placement, copilot, runner, system
+
+try:
+    from backend.routers.v1.endpoints import songs, jobs, news, resume, questions, notes, placement, copilot, runner, system
+except ModuleNotFoundError:
+    from .endpoints import songs, jobs, news, resume, questions, notes, placement, copilot, runner, system
 
 api_router = APIRouter()
 api_router.include_router(songs.router)

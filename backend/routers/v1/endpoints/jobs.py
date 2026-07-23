@@ -1,7 +1,12 @@
 from fastapi import APIRouter, Query
 from typing import List, Optional
-from backend.schemas.job import JobDTO
-from backend.services.job_service import JobService
+
+try:
+    from backend.schemas.job import JobDTO
+    from backend.services.job_service import JobService
+except ModuleNotFoundError:
+    from schemas.job import JobDTO
+    from services.job_service import JobService
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
 job_service = JobService()

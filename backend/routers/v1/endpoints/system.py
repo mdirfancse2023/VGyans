@@ -1,7 +1,12 @@
 from fastapi import APIRouter
 from typing import Dict, Any
-from backend.schemas.feedback import FeedbackCreateDTO
-from backend.services.system_service import SystemService
+
+try:
+    from backend.schemas.feedback import FeedbackCreateDTO
+    from backend.services.system_service import SystemService
+except ModuleNotFoundError:
+    from schemas.feedback import FeedbackCreateDTO
+    from services.system_service import SystemService
 
 router = APIRouter(tags=["System"])
 system_service = SystemService()

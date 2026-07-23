@@ -1,8 +1,13 @@
 from fastapi import APIRouter, File, UploadFile, Form, HTTPException, Response, Query
 from typing import Optional, List, Dict, Any
-from backend.services.resume_service import ResumeService
-from backend.schemas.resume import ResumeAnalysisResponseDTO
 import requests
+
+try:
+    from backend.services.resume_service import ResumeService
+    from backend.schemas.resume import ResumeAnalysisResponseDTO
+except ModuleNotFoundError:
+    from services.resume_service import ResumeService
+    from schemas.resume import ResumeAnalysisResponseDTO
 
 router = APIRouter(tags=["Resume & Placement"])
 resume_service = ResumeService()

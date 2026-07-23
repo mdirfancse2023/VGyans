@@ -1,7 +1,13 @@
 from typing import List
-from backend.providers.music.base import MusicProviderStrategy
-from backend.providers.music.spotify import SpotifyMusicProvider
-from backend.schemas.song import SongDTO
+
+try:
+    from backend.providers.music.base import MusicProviderStrategy
+    from backend.providers.music.spotify import SpotifyMusicProvider
+    from backend.schemas.song import SongDTO
+except ModuleNotFoundError:
+    from providers.music.base import MusicProviderStrategy
+    from providers.music.spotify import SpotifyMusicProvider
+    from schemas.song import SongDTO
 
 class SongService:
     def __init__(self, provider: MusicProviderStrategy = None):

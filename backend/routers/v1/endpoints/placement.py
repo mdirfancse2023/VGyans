@@ -1,6 +1,10 @@
 from fastapi import APIRouter, Query
 from typing import List, Dict, Any, Optional
-from backend.services.placement_service import PlacementService
+
+try:
+    from backend.services.placement_service import PlacementService
+except ModuleNotFoundError:
+    from services.placement_service import PlacementService
 
 router = APIRouter(tags=["Placement Core"])
 placement_service = PlacementService()

@@ -1,6 +1,10 @@
 from fastapi import APIRouter
 from typing import List, Optional
-from backend.services.news_service import NewsService
+
+try:
+    from backend.services.news_service import NewsService
+except ModuleNotFoundError:
+    from services.news_service import NewsService
 
 router = APIRouter(prefix="/news", tags=["News"])
 news_service = NewsService()

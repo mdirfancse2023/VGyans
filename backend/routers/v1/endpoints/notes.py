@@ -1,6 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from typing import List, Optional
-from backend.services.note_service import NoteService
+
+try:
+    from backend.services.note_service import NoteService
+except ModuleNotFoundError:
+    from services.note_service import NoteService
 
 router = APIRouter(tags=["Study Notes & Resources"])
 note_service = NoteService()
