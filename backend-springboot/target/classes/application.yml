@@ -1,0 +1,46 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: vgyans-springboot-backend
+  jackson:
+    default-property-inclusion: ALWAYS
+    serialization:
+      write-dates-as-timestamps: false
+
+spotify:
+  client-id: ${SPOTIFY_CLIENT_ID:ba75cb280ed54a35b755e4d562d08260}
+  client-secret: ${SPOTIFY_CLIENT_SECRET:40a7ab923a1e412f899f1d9cf9b23983}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,circuitbreakers
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      spotifyService:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+logging:
+  level:
+    root: INFO
+    com.vgyans.backend: DEBUG
+    org.springframework.web: INFO
+    io.github.resilience4j: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [X-Correlation-ID: %X{correlationId}] %-5level %logger{36} - %msg%n"
