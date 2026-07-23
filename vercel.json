@@ -4,10 +4,6 @@
     "api/index.py": {
       "includeFiles": "backend/**",
       "maxDuration": 15
-    },
-    "app.py": {
-      "includeFiles": "backend/**",
-      "maxDuration": 15
     }
   },
   "headers": [

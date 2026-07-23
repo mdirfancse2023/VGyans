@@ -11,7 +11,8 @@ if backend_dir not in sys.path:
 
 try:
     from backend.main import app
-except ModuleNotFoundError:
-    from main import app
+except Exception:
+    import main
+    app = main.app
 
 __all__ = ["app"]
