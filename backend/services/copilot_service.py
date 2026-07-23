@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any, Optional
 
 class CopilotService:
     def __init__(self):
