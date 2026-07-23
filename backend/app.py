@@ -755,30 +755,27 @@ _spotify_token_cache = {"token": "", "expires_at": 0}
 
 def get_spotify_token() -> str:
     global _spotify_token_cache
-    import datetime, base64, urllib.request, urllib.parse, json, ssl
-    now = datetime.datetime.now().timestamp()
+    import time, base64, requests
+    now = time.time()
     if _spotify_token_cache["token"] and _spotify_token_cache["expires_at"] > now:
         return _spotify_token_cache["token"]
 
-    client_id = os.getenv("SPOTIFY_CLIENT_ID") or "ba75cb280ed54a35b755e4d562d08260"
-    client_secret = os.getenv("SPOTIFY_CLIENT_SECRET") or "40a7ab923a1e412f899f1d9cf9b23983"
-
-    if not client_id or not client_secret:
-        return ""
+    client_id = os.getenv("SPOTIFY_CLIENT_ID") or os.getenv("VITE_SPOTIFY_CLIENT_ID") or "ba75cb280ed54a35b755e4d562d08260"
+    client_secret = os.getenv("SPOTIFY_CLIENT_SECRET") or os.getenv("VITE_SPOTIFY_CLIENT_SECRET") or "40a7ab923a1e412f899f1d9cf9b23983"
 
     try:
-        ctx = ssl._create_unverified_context()
         auth_header = base64.b64encode(f"{client_id}:{client_secret}".encode('utf-8')).decode('utf-8')
-        req = urllib.request.Request(
+        resp = requests.post(
             "https://accounts.spotify.com/api/token",
-            data=urllib.parse.urlencode({"grant_type": "client_credentials"}).encode('utf-8'),
+            data={"grant_type": "client_credentials"},
             headers={
                 "Authorization": f"Basic {auth_header}",
                 "Content-Type": "application/x-www-form-urlencoded"
-            }
+            },
+            timeout=8
         )
-        with urllib.request.urlopen(req, timeout=5, context=ctx) as resp:
-            data = json.loads(resp.read().decode('utf-8'))
+        if resp.status_code == 200:
+            data = resp.json()
             token = data.get("access_token", "")
             expires_in = data.get("expires_in", 3600)
             _spotify_token_cache = {
@@ -786,14 +783,17 @@ def get_spotify_token() -> str:
                 "expires_at": now + expires_in - 60
             }
             return token
+        else:
+            print(f"Spotify token error {resp.status_code}: {resp.text}")
     except Exception as e:
-        print(f"Spotify authentication error: {e}")
-        return ""
+        print(f"Spotify token exception: {e}")
+
+    return ""
 
 def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 10):
-    import urllib.request, urllib.parse, json, html, ssl, os, re
+    import requests, urllib.parse
 
-    q_term = query or "latest hindi songs"
+    q_term = (query or "latest hindi songs").strip()
     token = get_spotify_token()
     
     if not token:
@@ -801,64 +801,62 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 10):
         return []
 
     safe_limit = min(max(1, limit), 10)
-    ctx = ssl._create_unverified_context()
     headers = {
         'Authorization': f'Bearer {token}',
         'Accept': 'application/json'
     }
 
-    tracks = []
+    items = []
+    # 1. Primary search
     try:
-        spotify_url = f"https://api.spotify.com/v1/search?q={urllib.parse.quote(q_term)}&type=track&limit={safe_limit}"
-        req = urllib.request.Request(spotify_url, headers=headers)
-        items = []
-        try:
-            with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
-                data = json.loads(resp.read().decode('utf-8'))
-                items = data.get("tracks", {}).get("items", [])
-        except Exception:
-            items = []
-
-        if not items:
-            clean_words = [w for w in q_term.split() if w.lower() not in ("latest", "top", "50", "hit", "hits", "songs", "music", "beats")]
-            short_q = clean_words[0] if clean_words else q_term.split()[0]
-            fallback_url = f"https://api.spotify.com/v1/search?q={urllib.parse.quote(short_q)}&type=track&limit={safe_limit}"
-            f_req = urllib.request.Request(fallback_url, headers=headers)
-            with urllib.request.urlopen(f_req, timeout=6, context=ctx) as f_resp:
-                f_data = json.loads(f_resp.read().decode('utf-8'))
-                items = f_data.get("tracks", {}).get("items", [])
-
-            for item in items:
-                s_id = item.get("id", "")
-                title = item.get("name", "")
-                artists = [a.get("name", "") for a in item.get("artists", []) if a.get("name")]
-                artist_str = ", ".join(artists) if artists else "Official Artist"
-                album_obj = item.get("album", {})
-                album_name = album_obj.get("name", q_term.title())
-                images = album_obj.get("images", [])
-                cover_url = images[0].get("url") if images else "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500"
-                dur_ms = item.get("duration_ms", 240000)
-                dur_sec = int(dur_ms / 1000)
-                preview_url = item.get("preview_url") or ""
-                spotify_link = item.get("external_urls", {}).get("spotify", f"https://open.spotify.com/track/{s_id}")
-
-                tracks.append({
-                    "id": f"sp-{s_id}",
-                    "spotifyId": s_id,
-                    "title": title,
-                    "artist": artist_str,
-                    "album": album_name,
-                    "category": q_term.title(),
-                    "coverUrl": cover_url,
-                    "audioUrl": preview_url or f"https://open.spotify.com/embed/track/{s_id}",
-                    "url": spotify_link,
-                    "embedUrl": f"https://open.spotify.com/embed/track/{s_id}",
-                    "duration": dur_sec,
-                    "provider": "spotify"
-                })
-
+        url = f"https://api.spotify.com/v1/search?q={urllib.parse.quote(q_term)}&type=track&limit={safe_limit}"
+        r = requests.get(url, headers=headers, timeout=8)
+        if r.status_code == 200:
+            items = r.json().get("tracks", {}).get("items", [])
     except Exception as e:
-        print(f"Spotify search error: {e}")
+        print(f"Primary Spotify search error: {e}")
+
+    # 2. Fallback search if primary query returns 0 items
+    if not items:
+        try:
+            words = [w for w in q_term.split() if w.lower() not in ("latest", "top", "50", "hit", "hits", "songs", "music", "beats")]
+            short_q = words[0] if words else (q_term.split()[0] if q_term.split() else "hindi")
+            fb_url = f"https://api.spotify.com/v1/search?q={urllib.parse.quote(short_q)}&type=track&limit={safe_limit}"
+            r_fb = requests.get(fb_url, headers=headers, timeout=8)
+            if r_fb.status_code == 200:
+                items = r_fb.json().get("tracks", {}).get("items", [])
+        except Exception as e:
+            print(f"Fallback Spotify search error: {e}")
+
+    tracks = []
+    for item in items:
+        s_id = item.get("id", "")
+        title = item.get("name", "")
+        artists = [a.get("name", "") for a in item.get("artists", []) if a.get("name")]
+        artist_str = ", ".join(artists) if artists else "Official Artist"
+        album_obj = item.get("album", {})
+        album_name = album_obj.get("name", q_term.title())
+        images = album_obj.get("images", [])
+        cover_url = images[0].get("url") if images else "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500"
+        dur_ms = item.get("duration_ms", 240000)
+        dur_sec = int(dur_ms / 1000)
+        preview_url = item.get("preview_url") or ""
+        spotify_link = item.get("external_urls", {}).get("spotify", f"https://open.spotify.com/track/{s_id}")
+
+        tracks.append({
+            "id": f"sp-{s_id}",
+            "spotifyId": s_id,
+            "title": title,
+            "artist": artist_str,
+            "album": album_name,
+            "category": q_term.title(),
+            "coverUrl": cover_url,
+            "audioUrl": preview_url or f"https://open.spotify.com/embed/track/{s_id}",
+            "url": spotify_link,
+            "embedUrl": f"https://open.spotify.com/embed/track/{s_id}",
+            "duration": dur_sec,
+            "provider": "spotify"
+        })
 
     return tracks
 
