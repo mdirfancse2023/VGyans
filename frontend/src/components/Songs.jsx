@@ -182,73 +182,35 @@ export default function Songs({
           
 
 
-          {/* Quick Category Action Buttons grouped by Songs (3) and Music (5) */}
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-            {/* Songs Group */}
-            <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#f43f5e', textTransform: 'uppercase', letterSpacing: '0.5px' }}>🎤 Songs:</span>
-              {presets.slice(0, 3).map((p) => {
-                const isActive = activePreset === p.id && songs.length > 0;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => handleFetchSongs(p)}
-                    disabled={isLoading}
-                    style={{
-                      padding: '0.35rem 0.75rem',
-                      fontSize: '0.78rem',
-                      borderRadius: '20px',
-                      border: isActive ? '1px solid #f43f5e' : '1px solid var(--border-glass)',
-                      background: isActive ? 'rgba(244, 63, 94, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                      color: isActive ? '#f43f5e' : 'var(--text-primary)',
-                      cursor: isLoading ? 'wait' : 'pointer',
-                      fontWeight: isActive ? 600 : 400,
-                      transition: 'all 0.2s ease',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem'
-                    }}
-                    className="preset-btn"
-                  >
-                    {p.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div style={{ width: '1px', height: '20px', background: 'var(--border-glass)' }} />
-
-            {/* Music Group */}
-            <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>🎧 Music:</span>
-              {presets.slice(3).map((p) => {
-                const isActive = activePreset === p.id && songs.length > 0;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => handleFetchSongs(p)}
-                    disabled={isLoading}
-                    style={{
-                      padding: '0.35rem 0.75rem',
-                      fontSize: '0.78rem',
-                      borderRadius: '20px',
-                      border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-glass)',
-                      background: isActive ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                      color: isActive ? 'var(--primary)' : 'var(--text-primary)',
-                      cursor: isLoading ? 'wait' : 'pointer',
-                      fontWeight: isActive ? 600 : 400,
-                      transition: 'all 0.2s ease',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem'
-                    }}
-                    className="preset-btn"
-                  >
-                    {p.label}
-                  </button>
-                );
-              })}
-            </div>
+          {/* Quick Category Action Buttons in One Single Line */}
+          <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            {presets.map((p) => {
+              const isActive = activePreset === p.id && songs.length > 0;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => handleFetchSongs(p)}
+                  disabled={isLoading}
+                  style={{
+                    padding: '0.35rem 0.75rem',
+                    fontSize: '0.78rem',
+                    borderRadius: '20px',
+                    border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-glass)',
+                    background: isActive ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 255, 255, 0.03)',
+                    color: isActive ? 'var(--primary)' : 'var(--text-primary)',
+                    cursor: isLoading ? 'wait' : 'pointer',
+                    fontWeight: isActive ? 600 : 400,
+                    transition: 'all 0.2s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.35rem'
+                  }}
+                  className="preset-btn"
+                >
+                  {p.label}
+                </button>
+              );
+            })}
           </div>
 
           {/* Search Box + Custom API Key Config button */}
