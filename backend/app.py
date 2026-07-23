@@ -751,6 +751,126 @@ def get_videos(category: Optional[str] = None, search: Optional[str] = None):
         ]
     return videos
 
+_spotify_token_cache = {"token": "", "expires_at": 0}
+
+def get_spotify_token() -> str:
+    global _spotify_token_cache
+    import datetime, base64, urllib.request, urllib.parse, json, ssl
+    now = datetime.datetime.now().timestamp()
+    if _spotify_token_cache["token"] and _spotify_token_cache["expires_at"] > now:
+        return _spotify_token_cache["token"]
+
+    client_id = os.getenv("SPOTIFY_CLIENT_ID") or "ba75cb280ed54a35b755e4d562d08260"
+    client_secret = os.getenv("SPOTIFY_CLIENT_SECRET") or "40a7ab923a1e412f899f1d9cf9b23983"
+
+    if not client_id or not client_secret:
+        return ""
+
+    try:
+        ctx = ssl._create_unverified_context()
+        auth_header = base64.b64encode(f"{client_id}:{client_secret}".encode('utf-8')).decode('utf-8')
+        req = urllib.request.Request(
+            "https://accounts.spotify.com/api/token",
+            data=urllib.parse.urlencode({"grant_type": "client_credentials"}).encode('utf-8'),
+            headers={
+                "Authorization": f"Basic {auth_header}",
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        )
+        with urllib.request.urlopen(req, timeout=5, context=ctx) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            token = data.get("access_token", "")
+            expires_in = data.get("expires_in", 3600)
+            _spotify_token_cache = {
+                "token": token,
+                "expires_at": now + expires_in - 60
+            }
+            return token
+    except Exception as e:
+        print(f"Spotify authentication error: {e}")
+        return ""
+
+def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
+    import urllib.request, urllib.parse, json, html, ssl, os, re
+    from concurrent.futures import ThreadPoolExecutor
+
+    q_term = query or "latest hindi songs"
+    token = get_spotify_token()
+    
+    if not token:
+        return fetch_youtube_songs(query=q_term, limit=limit)
+
+    ctx = ssl._create_unverified_context()
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'Accept': 'application/json'
+    }
+
+    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY") or "AIzaSyBNZPnkq1QEJkNMM5PPyFSitVZqZ0lPxGo"
+
+    tracks = []
+    try:
+        spotify_url = f"https://api.spotify.com/v1/search?q={urllib.parse.quote(q_term)}&type=track&limit={limit}"
+        req = urllib.request.Request(spotify_url, headers=headers)
+        with urllib.request.urlopen(req, timeout=6, context=ctx) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            items = data.get("tracks", {}).get("items", [])
+
+            def resolve_spotify_track(item):
+                s_id = item.get("id", "")
+                title = item.get("name", "")
+                artists = [a.get("name", "") for a in item.get("artists", []) if a.get("name")]
+                artist_str = ", ".join(artists) if artists else "Official Artist"
+                album_obj = item.get("album", {})
+                album_name = album_obj.get("name", q_term.title())
+                images = album_obj.get("images", [])
+                cover_url = images[0].get("url") if images else "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500"
+                dur_ms = item.get("duration_ms", 240000)
+                dur_sec = int(dur_ms / 1000)
+
+                vid = ""
+                if yt_api_key:
+                    try:
+                        search_q = f"{title} {artist_str} official audio"
+                        y_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q={urllib.parse.quote(search_q)}&key={yt_api_key}"
+                        y_req = urllib.request.Request(y_url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+                        with urllib.request.urlopen(y_req, timeout=3, context=ctx) as y_resp:
+                            y_data = json.loads(y_resp.read().decode('utf-8'))
+                            y_items = y_data.get("items", [])
+                            if y_items:
+                                vid = y_items[0].get("id", {}).get("videoId") or ""
+                    except Exception:
+                        pass
+
+                audio_src = f"/api/audio-proxy?videoId={vid}" if vid else ""
+
+                return {
+                    "id": f"sp-{s_id}",
+                    "videoId": vid,
+                    "title": title,
+                    "artist": artist_str,
+                    "album": album_name,
+                    "category": q_term.title(),
+                    "coverUrl": cover_url,
+                    "audioUrl": audio_src,
+                    "url": audio_src,
+                    "embedUrl": f"https://open.spotify.com/embed/track/{s_id}",
+                    "duration": dur_sec,
+                    "provider": "spotify"
+                }
+
+            with ThreadPoolExecutor(max_workers=8) as executor:
+                raw_tracks = list(executor.map(resolve_spotify_track, items))
+                tracks = [t for t in raw_tracks if t]
+
+    except Exception as e:
+        print(f"Spotify search error: {e}")
+
+    if not tracks:
+        return fetch_youtube_songs(query=q_term, limit=limit)
+
+    return tracks
+
 def fetch_youtube_songs(query: str = "latest hindi songs", limit: int = 50):
     import urllib.request, urllib.parse, json, html, ssl, os, re
 
@@ -813,49 +933,18 @@ def fetch_youtube_songs(query: str = "latest hindi songs", limit: int = 50):
         except Exception as e:
             print(f"YouTube Data API error: {e}")
 
-    # Fallback to Invidious API if YouTube API key encounters quota limits
-    if not tracks:
-        try:
-            inv_url = f"https://invidious.io.lol/api/v1/search?q={urllib.parse.quote(q_term)}&type=video"
-            req = urllib.request.Request(inv_url, headers=headers)
-            with urllib.request.urlopen(req, timeout=5, context=ctx) as resp:
-                items = json.loads(resp.read().decode('utf-8'))
-                for item in items:
-                    vid = item.get("videoId")
-                    if not vid or vid in seen_vids:
-                        continue
-                    seen_vids.add(vid)
-                    tracks.append({
-                        "id": f"yt-{vid}",
-                        "videoId": vid,
-                        "title": item.get("title", ""),
-                        "artist": item.get("author", "Official Artist"),
-                        "album": q_term.title(),
-                        "category": q_term.title(),
-                        "coverUrl": f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg",
-                        "embedUrl": f"https://www.youtube.com/embed/{vid}?autoplay=1&enablejsapi=1",
-                        "audioUrl": f"/api/audio-proxy?videoId={vid}",
-                        "url": f"/api/audio-proxy?videoId={vid}",
-                        "duration": item.get("lengthSeconds", 240),
-                        "provider": "youtube"
-                    })
-                    if len(tracks) >= limit:
-                        break
-        except Exception as e:
-            print(f"YouTube Invidious fallback error: {e}")
-
     return tracks
 
 def fetch_jiosaavn_songs(query: str = "latest hindi songs", limit: int = 50):
-    return fetch_youtube_songs(query=query, limit=limit)
+    return fetch_spotify_songs(query=query, limit=limit)
 
 @app.get("/api/songs")
 def get_songs(query: Optional[str] = "latest hindi songs", max_results: int = 50):
-    return fetch_jiosaavn_songs(query=query or "latest hindi songs", limit=max_results)
+    return fetch_spotify_songs(query=query or "latest hindi songs", limit=max_results)
 
 @app.get("/api/jiosaavn/search")
 def get_jiosaavn_songs(query: Optional[str] = "latest hindi songs", limit: int = 50):
-    return fetch_jiosaavn_songs(query=query or "latest hindi songs", limit=limit)
+    return fetch_spotify_songs(query=query or "latest hindi songs", limit=limit)
 
 @app.get("/api/audio-stream")
 def get_audio_stream(videoId: str):
