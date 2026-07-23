@@ -115,8 +115,8 @@ export default function Songs({
       // Direct Client-Side Spotify Web API Fallback (Guarantees all 8 categories load instantly on production site)
       if (!tracks || tracks.length === 0) {
         try {
-          const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID || "ba75cb280ed54a35b755e4d562d08260";
-          const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET || "40a7ab923a1e412f899f1d9cf9b23983";
+          const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+          const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
           
           const authRes = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
