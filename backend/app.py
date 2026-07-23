@@ -792,7 +792,6 @@ def get_spotify_token() -> str:
 
 def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
     import urllib.request, urllib.parse, json, html, ssl, os, re
-    from concurrent.futures import ThreadPoolExecutor
 
     q_term = query or "latest hindi songs"
     token = get_spotify_token()
@@ -807,8 +806,6 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
         'Accept': 'application/json'
     }
 
-    yt_api_key = os.getenv("YOUTUBE_API_KEY") or os.getenv("VITE_YOUTUBE_API_KEY")
-
     tracks = []
     try:
         spotify_url = f"https://api.spotify.com/v1/search?q={urllib.parse.quote(q_term)}&type=track&limit={limit}"
@@ -817,7 +814,7 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
             data = json.loads(resp.read().decode('utf-8'))
             items = data.get("tracks", {}).get("items", [])
 
-            def resolve_spotify_track(item):
+            for item in items:
                 s_id = item.get("id", "")
                 title = item.get("name", "")
                 artists = [a.get("name", "") for a in item.get("artists", []) if a.get("name")]
@@ -831,41 +828,20 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 50):
                 preview_url = item.get("preview_url") or ""
                 spotify_link = item.get("external_urls", {}).get("spotify", f"https://open.spotify.com/track/{s_id}")
 
-                vid = ""
-                if yt_api_key:
-                    try:
-                        search_q = f"{title} {artist_str} official audio"
-                        y_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q={urllib.parse.quote(search_q)}&key={yt_api_key}"
-                        y_req = urllib.request.Request(y_url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-                        with urllib.request.urlopen(y_req, timeout=3, context=ctx) as y_resp:
-                            y_data = json.loads(y_resp.read().decode('utf-8'))
-                            y_items = y_data.get("items", [])
-                            if y_items:
-                                vid = y_items[0].get("id", {}).get("videoId") or ""
-                    except Exception:
-                        pass
-
-                audio_src = f"/api/audio-proxy?videoId={vid}" if vid else (preview_url or f"https://open.spotify.com/embed/track/{s_id}")
-
-                return {
+                tracks.append({
                     "id": f"sp-{s_id}",
                     "spotifyId": s_id,
-                    "videoId": vid,
                     "title": title,
                     "artist": artist_str,
                     "album": album_name,
                     "category": q_term.title(),
                     "coverUrl": cover_url,
-                    "audioUrl": audio_src,
-                    "url": audio_src,
+                    "audioUrl": preview_url or f"https://open.spotify.com/embed/track/{s_id}",
+                    "url": spotify_link,
                     "embedUrl": f"https://open.spotify.com/embed/track/{s_id}",
                     "duration": dur_sec,
                     "provider": "spotify"
-                }
-
-            with ThreadPoolExecutor(max_workers=8) as executor:
-                raw_tracks = list(executor.map(resolve_spotify_track, items))
-                tracks = [t for t in raw_tracks if t]
+                })
 
     except Exception as e:
         print(f"Spotify search error: {e}")
