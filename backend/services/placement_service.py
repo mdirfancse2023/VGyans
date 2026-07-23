@@ -1,8 +1,8 @@
 from typing import List, Dict, Any, Optional
-from backend.services.placement.dsa_service import DSAService
-from backend.services.placement.cs_fundamentals_service import CSFundamentalsService
-from backend.services.placement.job_placement_service import JobPlacementService
-from backend.services.placement.interview_service import InterviewService
+from .placement.dsa_service import DSAService
+from .placement.cs_fundamentals_service import CSFundamentalsService
+from .placement.job_placement_service import JobPlacementService
+from .placement.interview_service import InterviewService
 
 class PlacementService:
     def __init__(self):

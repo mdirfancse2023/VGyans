@@ -1,5 +1,5 @@
 from typing import List, Optional, Dict, Any
-from backend.services.resources_data import SYSTEM_DESIGN_CHAPTERS
+from .resources_data import SYSTEM_DESIGN_CHAPTERS
 
 class NoteService:
     def __init__(self):

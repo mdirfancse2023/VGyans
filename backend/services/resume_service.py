@@ -1,7 +1,7 @@
 from typing import Dict, Any, List
-from backend.schemas.resume import ResumeAnalysisResponseDTO
-from backend.services.resume.tech_resume_service import TechResumeService
-from backend.services.resume.management_resume_service import ManagementResumeService
+from ..schemas.resume import ResumeAnalysisResponseDTO
+from .resume.tech_resume_service import TechResumeService
+from .resume.management_resume_service import ManagementResumeService
 
 class ResumeService:
     def __init__(self):
