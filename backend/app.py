@@ -830,47 +830,51 @@ def fetch_spotify_songs(query: str = "latest hindi songs", limit: int = 10):
 
     tracks = []
     for item in items:
-        s_id = item.get("id", "")
-        title = item.get("name", "")
-        artists = [a.get("name", "") for a in item.get("artists", []) if a.get("name")]
-        artist_str = ", ".join(artists) if artists else "Official Artist"
-        album_obj = item.get("album", {})
-        album_name = album_obj.get("name", q_term.title())
-        images = album_obj.get("images", [])
-        cover_url = images[0].get("url") if images else "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500"
-        dur_ms = item.get("duration_ms", 240000)
-        dur_sec = int(dur_ms / 1000)
-        preview_url = item.get("preview_url") or ""
-        spotify_link = item.get("external_urls", {}).get("spotify", f"https://open.spotify.com/track/{s_id}")
+        try:
+            s_id = str(item.get("id", ""))
+            title = str(item.get("name", ""))
+            artists = [str(a.get("name", "")) for a in item.get("artists", []) if a.get("name")]
+            artist_str = ", ".join(artists) if artists else "Official Artist"
+            album_obj = item.get("album", {})
+            album_name = str(album_obj.get("name", q_term.title()))
+            images = album_obj.get("images", [])
+            cover_url = images[0].get("url") if images else "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500"
+            dur_ms = item.get("duration_ms", 240000)
+            dur_sec = int(dur_ms / 1000)
+            preview_url = str(item.get("preview_url") or "")
+            spotify_link = str(item.get("external_urls", {}).get("spotify", f"https://open.spotify.com/track/{s_id}"))
 
-        audio_src = preview_url
-        if not audio_src:
-            try:
-                a_url = f"https://www.jiosaavn.com/api.php?__call=autocomplete.get&_format=json&_marker=0&query={urllib.parse.quote(title + ' ' + artist_str)}"
-                a_req = requests.get(a_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=2.5)
-                if a_req.status_code == 200:
-                    a_songs = a_req.json().get('songs', {}).get('data', [])
-                    if a_songs:
-                        vlink = a_songs[0].get('more_info', {}).get('vlink') or ''
-                        if vlink and vlink.startswith('http'):
-                            audio_src = vlink
-            except Exception:
-                pass
+            audio_src = preview_url if (preview_url and preview_url.startswith("http")) else ""
+            if not audio_src:
+                try:
+                    q_str = urllib.parse.quote(f"{title} {artist_str}".strip())
+                    a_url = f"https://www.jiosaavn.com/api.php?__call=autocomplete.get&_format=json&_marker=0&query={q_str}"
+                    a_req = requests.get(a_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=2)
+                    if a_req.status_code == 200:
+                        a_songs = a_req.json().get('songs', {}).get('data', [])
+                        if a_songs:
+                            vlink = str(a_songs[0].get('more_info', {}).get('vlink') or '')
+                            if vlink and vlink.startswith('http'):
+                                audio_src = vlink
+                except Exception:
+                    pass
 
-        tracks.append({
-            "id": f"sp-{s_id}",
-            "spotifyId": s_id,
-            "title": title,
-            "artist": artist_str,
-            "album": album_name,
-            "category": q_term.title(),
-            "coverUrl": cover_url,
-            "audioUrl": audio_src or preview_url or "https://jiotunepreview.jio.com/content/Converted/010910141580615.mp3",
-            "url": spotify_link,
-            "embedUrl": f"https://open.spotify.com/embed/track/{s_id}",
-            "duration": dur_sec,
-            "provider": "spotify"
-        })
+            tracks.append({
+                "id": f"sp-{s_id}",
+                "spotifyId": s_id,
+                "title": title,
+                "artist": artist_str,
+                "album": album_name,
+                "category": q_term.title(),
+                "coverUrl": cover_url,
+                "audioUrl": audio_src or "https://jiotunepreview.jio.com/content/Converted/010910141580615.mp3",
+                "url": spotify_link,
+                "embedUrl": f"https://open.spotify.com/embed/track/{s_id}",
+                "duration": dur_sec,
+                "provider": "spotify"
+            })
+        except Exception as item_err:
+            print(f"Error parsing track item: {item_err}")
 
     if not tracks:
         # High quality fallback catalog with 100% playable direct MP3 audio URLs
